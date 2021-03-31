@@ -208,6 +208,14 @@ for(f in koppen_geiger_shapes){
 }
 ```
 
+```{r overlay_stats, eval=FALSE}
+n_distinct(data_overlay_future_10km$species)
+unique(data_overlay_future_10km$Classification)
+
+n_distinct(data_overlay_present_10km$species)
+unique(data_overlay_present_10km$Classification)
+```
+
 ```{r test koppen_geiger, eval=FALSE}
 temp_shape_1 <- get(koppen_geiger_shapes[1])
 temp_shape_2 <- get(koppen_geiger_shapes[2])
