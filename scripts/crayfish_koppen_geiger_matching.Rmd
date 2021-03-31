@@ -182,7 +182,7 @@ for(f in koppen_geiger_shapes){
   bel_girdcode_intersect <- raster::intersect(shape,bel_regions)
   bel_gridcode <- bel_girdcode_intersect@data %>% 
     distinct(GRIDCODE, Classification) %>% 
-    filter(!is.na(GRIDCODE))
+    filter(!is.na(Classification))
   
   data_sp_over <- over(data_sp, shape)
   data_overlay <- bind_cols(data_redux, data_sp_over) 
