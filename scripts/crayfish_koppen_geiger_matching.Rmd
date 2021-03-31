@@ -157,19 +157,32 @@ leaflet(bel_regions) %>%
 
 
 ```{r overlay with koppen_geiger shapes}
-koppen_geiger_shapes <- dir(path = "./data/spatial/koppen-geiger", pattern = ".tif")
+legend <- read_delim("./data/spatial/koppen-geiger/KG_Beck_Legend.csv", ";")
+
+koppen_geiger_shapes <- dir(path = "./data/spatial/koppen-geiger", 
+                            pattern = ".shp")
+koppen_geiger_shapes <- subset(koppen_geiger_shapes, 
+                               !grepl(pattern = ".xml", 
+                                      koppen_geiger_shapes))
 koppen_geiger_shapes <- unique(koppen_geiger_shapes)
+koppen_geiger_shapes <- gsub(pattern = ".shp", 
+                             replacement = "", 
+                             koppen_geiger_shapes)
 
 for(f in koppen_geiger_shapes){
-  shape <- raster(paste0("./data/spatial/koppen-geiger/", f))
-  shape2 <- sp::as.SpatialPolygons.GridTopology(shape)
-  test <- getValues(shape)
-
-  shape <- fix_geo_problems(shape, tries = 5)
+  shape <- readOGR(dsn = "./data/spatial/koppen-geiger", 
+                   layer = f,
+                   stringsAsFactors = FALSE)
   shape <- spTransform(shape, crs_wgs)
+  shape <- fix_geo_problems(shape, tries = 5)
+  shape@data <- shape@data %>% 
+    mutate(GRIDCODE = as.double(gridcode)) %>% 
+    left_join(legend)
   
   bel_girdcode_intersect <- raster::intersect(shape,bel_regions)
-  bel_gridcode <- unique(bel_girdcode_intersect$GRIDCODE)
+  bel_gridcode <- bel_girdcode_intersect@data %>% 
+    distinct(GRIDCODE, Classification) %>% 
+    filter(!is.na(GRIDCODE))
   
   data_sp_over <- over(data_sp, shape)
   data_overlay <- bind_cols(data_redux, data_sp_over) 
@@ -181,12 +194,12 @@ for(f in koppen_geiger_shapes){
     add_tally(name = "n_totaal") %>% 
     ungroup() %>% 
     mutate(perc_climate = n_climate/n_totaal) %>% 
-    filter(GRIDCODE == bel_gridcode) %>% 
+    filter(GRIDCODE %in% bel_gridcode$GRIDCODE) %>% 
     distinct(taxonKey, species, .keep_all = TRUE) %>% 
-    select(-decimalLatitude, -decimalLongitude, -ID)
+    select(-decimalLatitude, -decimalLongitude, -gridcode, -Id)
   
   fn <- paste("data_overlay", f, sep="_")
-  fn <- paste0("./Data/Output/Final/", fn, ".csv")
+  fn <- paste0("./data/output/", fn, ".csv")
   
   assign(f, shape)
   assign(paste("data_overlay", f, sep="_"), data_overlay)
