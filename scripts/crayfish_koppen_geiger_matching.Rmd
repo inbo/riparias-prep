@@ -1,0 +1,258 @@
+
+Get Crayfish data from gbif
+
+```{r setup}
+library(rgbif)
+library(readxl)
+library(sp)
+library(rgdal)
+library(leaflet)
+library(leaflet.extras)
+library(raster)
+library(ows4R)
+library(httr)
+library(rgeos)
+library(bcmaps)
+library(tiff)
+library(tidyverse)
+check <- function(x){tryCatch(if(class(x) == 'logical') 1 else 1, error=function(e) 0)} 
+```
+
+```{r read species list}
+White_list <- read_excel("data/raw/White list proposal for aquarium crayfish GBIF 22092020.xlsx", 
+                         skip = 1)
+
+White_list_redux <- White_list %>% 
+  filter(!grepl("Cambarellus sp", Species),
+         !grepl("Cherax sp", Species),
+         !is.na(key))
+
+table(White_list_redux$rank)
+n_distinct(White_list_redux$key)
+```
+
+```{r download data, eval=FALSE}
+get_cred <- function(x){
+  library(svDialogs)
+  
+  cred <- Sys.getenv(x)
+  
+  if(cred == ""){
+    input <- dlgInput(paste0("What is your ", x, "?"))
+    cred <- input$res
+    Sys.setenv(x = cred)
+  }
+  return(cred)
+}
+
+gbif_user <- get_cred("gbif_user")
+gbif_pwd <- get_cred("gbif_pwd")
+gbif_email <- get_cred("gbif_email")
+  
+keys <- unique(White_list_redux$key)
+keys2 <- subset(keys, !is.na(keys))
+taxonkey_set1 <- pred_in("taxonKey", keys2)
+
+set1 <- occ_download(taxonkey_set1, 
+                     pred("hasCoordinate", TRUE),
+                     user = gbif_user, 
+                     pwd = gbif_pwd, 
+                     email = gbif_email)
+
+repeat{
+  Sys.sleep(time = 5)
+  test_set1 <- occ_download_meta(set1)
+  if(test_set1$status == "SUCCEEDED"){
+    rawdata_set1_imported <- occ_download_get(set1, overwrite = TRUE) %>% 
+      occ_download_import()
+    break()
+  }
+  print(test_set1$status)
+}
+```
+
+```{r read data}
+if(check(test_set1)==1){
+  zipfn <- paste0("./", test_set1$key, ".zip")
+}else{
+  zipfn <- "./data/raw/0234706-200613084148143.zip"
+}
+
+data <- read_tsv(unz(zipfn, "occurrence.txt"), 
+                 col_types = c(decimalLatitude = col_number(),
+                               decimalLongitude = col_number()))
+```
+
+```{r subset data}
+introduced_species <- data %>% 
+  filter(countryCode == "BE") %>% 
+  distinct(taxonKey, species) %>% 
+  mutate(introduced = TRUE)
+
+data_redux <- data %>% 
+  filter(!is.na(eventDate), 
+         !is.na(decimalLatitude),
+         eventDate >= "1950-01-01",
+         basisOfRecord %in% c("HUMAN_OBSERVATION",
+                              "PRESERVED_SPECIMEN",
+                              "UNKNOWN"),
+         occurrenceStatus == "PRESENT") %>% 
+  dplyr::select(gbifID, eventDate, year, month, day, taxonKey, acceptedTaxonKey, 
+         species, decimalLatitude, decimalLongitude, coordinateUncertaintyInMeters,
+         countryCode) %>% 
+  left_join(introduced_species) %>% 
+  filter(is.na(introduced)) %>% 
+  distinct(taxonKey, species, decimalLongitude, decimalLatitude) %>% 
+  mutate(decimalLongitude = as.numeric(decimalLongitude))
+
+not_introduced <- data_redux %>% 
+  distinct(taxonKey, species)
+
+crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
+
+coord <- data_redux %>%
+  dplyr::select(decimalLongitude, decimalLatitude) #dplyr hiervoor is nodig om de functie select te laten lopen. Werkt anders niet door package raster.
+data_sp <- SpatialPointsDataFrame(coord,
+                                      data = data_redux,
+                                      proj4string = crs_wgs)
+```
+
+```{r test spatial, eval=FALSE}
+library(rworldmap)
+# get map
+worldmap <- getMap(resolution = "coarse")
+
+plot(worldmap) 
+points(data_sp, col = "red")
+```
+
+&service=wfs&version=1.1.0.
+
+```{r get belgian borders}
+wfs_regions <- "https://eservices.minfin.fgov.be/arcgis/services/R2C/Regions/MapServer/WFSServer"
+regions_client <- WFSClient$new(wfs_regions, 
+                            serviceVersion = "2.0.0")
+regions_client$getFeatureTypes(pretty = TRUE)
+
+url <- parse_url(wfs_regions)
+url$query <- list(service = "wfs",
+                  #version = "2.0.0", # optional
+                  request = "GetFeature",
+                  typename = "regions",
+                  srsName = "EPSG:4326"
+                  )
+request <- build_url(url)
+
+bel_regions <- readOGR(request) #Lambert2008
+
+bel_regions <- spTransform(bel_regions, crs_wgs)
+bel_regions <- fix_geo_problems(bel_regions, tries = 5)
+```
+
+```{r test bel_regions, eval=FALSE}
+leaflet(bel_regions) %>% 
+  addTiles() %>% 
+  addPolygons()
+```
+
+
+```{r overlay with koppen_geiger shapes}
+legend <- read_delim("./data/spatial/koppen-geiger/KG_Beck_Legend.csv", ";")
+
+koppen_geiger_shapes <- dir(path = "./data/spatial/koppen-geiger", 
+                            pattern = ".shp")
+koppen_geiger_shapes <- subset(koppen_geiger_shapes, 
+                               !grepl(pattern = ".xml", 
+                                      koppen_geiger_shapes))
+koppen_geiger_shapes <- unique(koppen_geiger_shapes)
+koppen_geiger_shapes <- gsub(pattern = ".shp", 
+                             replacement = "", 
+                             koppen_geiger_shapes)
+
+for(f in koppen_geiger_shapes){
+  shape <- readOGR(dsn = "./data/spatial/koppen-geiger", 
+                   layer = f,
+                   stringsAsFactors = FALSE)
+  shape <- spTransform(shape, crs_wgs)
+  shape <- fix_geo_problems(shape, tries = 5)
+  shape@data <- shape@data %>% 
+    mutate(GRIDCODE = as.double(gridcode)) %>% 
+    left_join(legend)
+  
+  bel_girdcode_intersect <- raster::intersect(shape,bel_regions)
+  bel_gridcode <- bel_girdcode_intersect@data %>% 
+    distinct(GRIDCODE, Classification) %>% 
+    filter(!is.na(Classification))
+  
+  data_sp_over <- over(data_sp, shape)
+  data_overlay <- bind_cols(data_redux, data_sp_over) 
+  data_overlay <- data_overlay %>% 
+    group_by(taxonKey, species, GRIDCODE) %>% 
+    add_tally(name = "n_climate") %>% 
+    ungroup() %>% 
+    group_by(taxonKey, species) %>% 
+    add_tally(name = "n_totaal") %>% 
+    ungroup() %>% 
+    mutate(perc_climate = n_climate/n_totaal) %>% 
+    filter(GRIDCODE %in% bel_gridcode$GRIDCODE) %>% 
+    distinct(taxonKey, species, .keep_all = TRUE) %>% 
+    select(-decimalLatitude, -decimalLongitude, -gridcode, -Id) %>% 
+    filter(n_totaal >= 90,
+           perc_climate >= 0.2)
+  
+  fn <- paste("data_overlay", f, sep="_")
+  fn <- paste0("./data/output/", fn, ".csv")
+  
+  assign(f, shape)
+  assign(paste("data_overlay", f, sep="_"), data_overlay)
+  
+  write_csv(data_overlay, file = fn)
+}
+```
+
+```{r overlay_stats, eval=FALSE}
+n_distinct(data_overlay_future_10km$species)
+unique(data_overlay_future_10km$Classification)
+
+n_distinct(data_overlay_present_10km$species)
+unique(data_overlay_present_10km$Classification)
+```
+
+```{r test koppen_geiger, eval=FALSE}
+temp_shape_1 <- get(koppen_geiger_shapes[1])
+temp_shape_2 <- get(koppen_geiger_shapes[2])
+
+pal_1 <- colorBin(palette = "RdYlGn", domain = as.numeric(temp_shape_1$GRIDCODE))
+pal_2 <- colorBin(palette = "RdYlGn", domain = as.numeric(temp_shape_2$GRIDCODE))
+
+map <- leaflet() %>% 
+  addTiles() %>% 
+  addPolygons(data = temp_shape_1,
+              group = koppen_geiger_shapes[1],
+              fillColor = ~pal_1(as.numeric(GRIDCODE)),
+              popup = ~GRIDCODE) %>% 
+  addPolygons(data = temp_shape_2,
+              group = koppen_geiger_shapes[2],
+              fillColor = ~pal_2(as.numeric(GRIDCODE)),
+              popup = ~GRIDCODE) %>% 
+  addLayersControl(overlayGroups = koppen_geiger_shapes)
+
+map2a <- leaflet() %>% 
+  addTiles() %>% 
+  addPolygons(data = temp_shape_1,
+              group = ~GRIDCODE,
+              fillColor = ~pal_2(as.numeric(GRIDCODE))) %>% 
+  addLayersControl(overlayGroups = temp_shape_1@data$GRIDCODE) %>% 
+  hideGroup(temp_shape_1@data$GRIDCODE)
+
+map2b <- leaflet() %>% 
+  addTiles() %>% 
+  addPolygons(data = temp_shape_2,
+              group = ~GRIDCODE,
+              fillColor = ~pal_2(as.numeric(GRIDCODE))) %>% 
+  addLayersControl(overlayGroups = temp_shape_2@data$GRIDCODE) %>% 
+  hideGroup(temp_shape_2@data$GRIDCODE)
+```
+
+
+
