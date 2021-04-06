@@ -1,0 +1,25 @@
+---
+title: "Riparias - Baseline"
+author: "Sander Devisscher"
+date: "`r Sys.time()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r libraries, include=FALSE}
+library(rgdal)
+library(rgeos)
+library(sp)
+library(raster)
+library(leaflet)
+library(tidyverse)
+library(knitr)
+```
+
+```{r get perimeter shape, include = FALSE}
+
+```
+
