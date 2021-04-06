@@ -1,0 +1,13 @@
+name: scripts
+title: scripts
+username:
+account: iasspeciesdashboard
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3917388
+bundleId: 4437672
+url: https://iasspeciesdashboard.shinyapps.io/scripts/
+when: 1617719430.56454
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: baseline_maps_flexdb.Rmd|baseline_maps_prep.Rmd|crayfish_koppen_geiger_matching.Rmd
