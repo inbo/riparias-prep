@@ -1,0 +1,125 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r libraries, include=FALSE}
+library(flexdashboard)
+library(shiny)
+library(rgdal)
+library(rgeos)
+library(sp)
+library(raster)
+library(leaflet)
+library(tidyverse)
+library(knitr)
+
+crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
+```
+
+```{r get perimeter shape, include = FALSE}
+perimeter_shape <- readOGR("./data/spatial/perimeter", "Riparias_Official_StudyArea", stringsAsFactors = FALSE)
+
+perimeter_shape <- spTransform(perimeter_shape, crs_wgs)
+
+bbox <- as.data.frame(perimeter_shape@bbox)
+```
+
+```{r test perimeter, eval = FALSE}
+leaflet(perimeter_shape) %>% 
+  addTiles() %>% 
+  addPolylines()
+```
+
+```{r get pointdata, include = FALSE}
+pointdata <- readOGR("./data/spatial/baseline", "t2_ALL_points_Batch2_1_3", stringsAsFactors = FALSE)
+```
+
+```{r test points, eval = FALSE}
+leaflet(pointdata) %>% 
+  addTiles() %>% 
+  addCircleMarkers()
+```
+
+```{r intersect with perimeter, include = FALSE}
+points_in_perimeter <- raster::intersect(pointdata, perimeter_shape)
+
+points_in_perimeter@data <- points_in_perimeter@data %>% 
+  mutate(popup = paste0("Species: ", gbfp_SN, "<br>",
+                        "Year: ", year))
+```
+
+```{r map prep, include = FALSE}
+pal <- colorBin("RdGy", points_in_perimeter$year, bins = 10, reverse = TRUE)
+```
+
+
+
+Sidebar {.sidebar}
+=======================================================================
+```{r years slider}
+sliderInput(inputId = "Years", 
+            label = NULL, 
+            min = 2000,
+            max = max(points_in_perimeter$year),
+            value = c(2010, 2020),
+            step = 1,
+            sep = "",
+            dragRange = TRUE)
+```
+
+
+Row {data-height=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r create map,fig.width=10, fig.height=7.5}
+renderLeaflet({
+  
+  points_in_perimeter_sub <- subset(points_in_perimeter_sub, 
+                                    points_in_perimeter_sub$year %in% input$Years)
+  
+  
+  leaflet(points_in_perimeter_sub) %>% 
+  addTiles() %>% 
+  addPolylines(data = perimeter_shape) %>% 
+  addCircleMarkers(popup = ~popup,
+                   group = ~points_in_perimeter_sub$gbfp_SN,
+                   radius = 1,
+                   color = ~pal(points_in_perimeter_sub$year)) %>% 
+  addLegend(pal = pal, 
+            values = ~unique(points_in_perimeter_sub$year),
+            position = "bottomright",
+            title = "Year") %>% 
+  addLayersControl(overlayGroups = points_in_perimeter_sub$gbfp_SN) %>% 
+  hideGroup(points_in_perimeter_sub$gbfp_SN) %>% 
+  setMaxBounds(lng1 = bbox$min[1], 
+               lat1 = bbox$min[2], 
+               lng2 = bbox$max[1], 
+               lat2 = bbox$max[2])
+})
+```
+
+Row {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
