@@ -10,6 +10,8 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r libraries, include=FALSE}
+library(googlesheets4)
+library(googledrive)
 library(rgdal)
 library(rgeos)
 library(sp)
@@ -45,15 +47,30 @@ leaflet(pointdata) %>%
   addCircleMarkers()
 ```
 
+```{r get nameserver}
+bo_email <- Sys.getenv("bo_email")
+gs4_auth(email = bo_email)
+
+nameserver <- read_sheet("15f17hXE9ZyUxEe2xA0seKs0CSibgYJdkaWcnmVoI1yY")
+
+nameserver$taxonKey <- as.double(nameserver$taxonKey)
+```
+
 ```{r intersect with perimeter, include = FALSE}
 points_in_perimeter <- raster::intersect(pointdata, perimeter_shape)
 
 points_in_perimeter@data <- points_in_perimeter@data %>% 
-  mutate(popup = paste0("Species: ", gbfp_SN, "<br>",
+  left_join(nameserver, by = c("accptTK" = "taxonKey"))
+  mutate(popup = paste0("Species: ", vernacular_name_en, " <em>", scientific_name ,"</em><br>",
                         "Year: ", year, "<br>",
                         "Dataset: <a href=", datstID, ">", datstID, "</a><br>",
                         "Source: ", Source, "<br>",
                         recrdrl, "GBIF record</a>"))
+  
+NoEngName <- points_in_perimeter@data %>% 
+  filter(is.na(vernacular_name_en))
+
+table(NoEngName$accptTK)
 
 writeOGR(points_in_perimeter, dsn = "./data/spatial/baseline/points_in_perimeter.geojson", layer = "points_in_perimeter", driver = "GeoJSON", overwrite_layer = TRUE)
 ```
