@@ -51,7 +51,7 @@ points_in_perimeter <- raster::intersect(pointdata, perimeter_shape)
 points_in_perimeter@data <- points_in_perimeter@data %>% 
   mutate(popup = paste0("Species: ", gbfp_SN, "<br>",
                         "Year: ", year, "<br>",
-                        "Dataset: <a href=", datstID, "></a><br>",
+                        "Dataset: <a href=", datstID, ">", datstID, "</a><br>",
                         "Source: ", Source, "<br>",
                         recrdrl, "GBIF record</a>"))
 
