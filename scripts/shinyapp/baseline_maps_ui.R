@@ -20,7 +20,7 @@ ui <- dashboardPage(
                 dragRange = TRUE),
     checkboxGroupInput("species",
                        "Species",
-                       choices = unique(points_in_perimeter$gbfp_SN)
+                       choices = unique(points_in_perimeter$vernacular_name_en)
     )
   ),
   dashboardBody(
@@ -70,17 +70,15 @@ server <- function(input, output) {
                                       points_in_perimeter$year %in% jaren)
     
     points_in_perimeter_sub <- subset(points_in_perimeter_sub,
-                                      points_in_perimeter_sub$gbfp_SN %in%
+                                      points_in_perimeter_sub$vernacular_name_en %in%
                                         input$species)
     
     leaflet(points_in_perimeter_sub) %>% 
       addTiles() %>% 
       addPolylines(data = perimeter_shape) %>% 
       addCircleMarkers(popup = points_in_perimeter_sub$popup,
-                       group = ~points_in_perimeter_sub$gbfp_SN,
                        radius = 1,
                        color = "red") %>% 
-      addLayersControl(overlayGroups = points_in_perimeter_sub$gbfp_SN) %>% 
       setMaxBounds(lng1 = bbox$min[1], 
                    lat1 = bbox$min[2], 
                    lng2 = bbox$max[1], 
