@@ -8,7 +8,6 @@ perimeter_shape <- readOGR("https://github.com/inbo/riparias-prep/raw/9_Create_R
 
 bbox <- as.data.frame(perimeter_shape@bbox)
 
-
 ui <- dashboardPage(
   dashboardHeader(title = "Riparias maps"),
   dashboardSidebar(
@@ -77,7 +76,7 @@ server <- function(input, output) {
     leaflet(points_in_perimeter_sub) %>% 
       addTiles() %>% 
       addPolylines(data = perimeter_shape) %>% 
-      addCircleMarkers(popup = ~popup,
+      addCircleMarkers(popup = points_in_perimeter_sub$popup,
                        group = ~points_in_perimeter_sub$gbfp_SN,
                        radius = 1,
                        color = "red") %>% 
