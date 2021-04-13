@@ -1,0 +1,12 @@
+name: Riparias-baseline-maps
+title: Riparias-baseline-maps
+username:
+account: iasspeciesdashboard
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3917491
+bundleId: 4437931
+url: https://iasspeciesdashboard.shinyapps.io/Riparias-baseline-maps/
+when: 1617723184.87438
+asMultiple: FALSE
+asStatic: FALSE

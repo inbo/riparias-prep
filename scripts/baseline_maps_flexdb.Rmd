@@ -1,0 +1,97 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r libraries, include=FALSE}
+library(flexdashboard)
+library(shiny)
+library(rgdal)
+library(rgeos)
+library(sp)
+library(raster)
+library(leaflet)
+library(tidyverse)
+library(knitr)
+
+crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
+```
+
+```{r get perimeter shape, include = FALSE}
+perimeter_shape <- readOGR("https://github.com/inbo/riparias-prep/raw/9_Create_Riparias_Baseline/data/spatial/perimeter/Riparias_Official_StudyArea.geojson", stringsAsFactors = FALSE)
+
+perimeter_shape <- spTransform(perimeter_shape, crs_wgs)
+
+bbox <- as.data.frame(perimeter_shape@bbox)
+```
+
+```{r test perimeter, eval = FALSE}
+leaflet(perimeter_shape) %>% 
+  addTiles() %>% 
+  addPolylines()
+```
+
+```{r get pointdata, include = FALSE}
+points_in_perimeter <- readOGR("https://github.com/inbo/riparias-prep/raw/9_Create_Riparias_Baseline/data/spatial/baseline/points_in_perimeter.geojson", stringsAsFactors = FALSE)
+```
+
+```{r test points, eval = FALSE}
+leaflet(pointdata) %>% 
+  addTiles() %>% 
+  addCircleMarkers()
+```
+
+Sidebar {.sidebar}
+=========================================================================
+### Years
+
+```{r years slider}
+sliderInput(inputId = "Years", 
+            label = NULL, 
+            min = 2000,
+            max = max(points_in_perimeter$year),
+            value = c(2010, 2020),
+            step = 1,
+            sep = "",
+            dragRange = TRUE)
+```
+
+Map
+=======================================================================
+
+Row {data-height=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r create map,fig.width=10, fig.height=7.5}
+renderLeaflet({
+  
+  jaren <- seq(from = min(input$Years), 
+               to = max(input$Years),
+               by = 1)
+  
+  points_in_perimeter_sub <- subset(points_in_perimeter, 
+                                    points_in_perimeter$year %in% jaren)
+  
+  leaflet(points_in_perimeter_sub) %>% 
+  addTiles() %>% 
+  addPolylines(data = perimeter_shape) %>% 
+  addCircleMarkers(popup = ~popup,
+                   group = ~points_in_perimeter_sub$gbfp_SN,
+                   radius = 1,
+                   color = "red") %>% 
+  addLayersControl(overlayGroups = points_in_perimeter_sub$gbfp_SN) %>% 
+  setMaxBounds(lng1 = bbox$min[1], 
+               lat1 = bbox$min[2], 
+               lng2 = bbox$max[1], 
+               lat2 = bbox$max[2])
+})
+```
