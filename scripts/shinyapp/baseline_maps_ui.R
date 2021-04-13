@@ -3,8 +3,8 @@ library(shinydashboard)
 library(leaflet)
 library(rgdal)
 
-points_in_perimeter <- readOGR("https://github.com/inbo/riparias-prep/raw/9_Create_Riparias_Baseline/data/spatial/baseline/points_in_perimeter.geojson", stringsAsFactors = FALSE)
-perimeter_shape <- readOGR("https://github.com/inbo/riparias-prep/raw/9_Create_Riparias_Baseline/data/spatial/perimeter/Riparias_Official_StudyArea.geojson", stringsAsFactors = FALSE)
+points_in_perimeter <- readOGR("https://github.com/inbo/riparias-prep/raw/master/data/spatial/baseline/points_in_perimeter.geojson", stringsAsFactors = FALSE)
+perimeter_shape <- readOGR("https://github.com/inbo/riparias-prep/raw/master/data/spatial/perimeter/Riparias_Official_StudyArea.geojson", stringsAsFactors = FALSE)
 
 bbox <- as.data.frame(perimeter_shape@bbox)
 
