@@ -48,9 +48,24 @@ get_cred <- function(x){
 gbif_user <- get_cred("gbif_user")
 gbif_pwd <- get_cred("gbif_pwd")
 gbif_email <- get_cred("gbif_email")
-  
-keys <- unique(White_list_redux$key)
-keys2 <- subset(keys, !is.na(keys))
+
+taxonKeys_origin <- menu(choices = c("White - List", "All crayfish"), 
+                         title = "Which taxonkeys?",
+                         graphics = TRUE)
+
+if(taxonKeys_origin == 1){
+  keys <- unique(White_list_redux$key)
+  keys2 <- subset(keys, !is.na(keys))
+}
+
+if(taxonKeys_origin == 2){
+  keys2 <- c(8022, 4479, 8670)
+}
+
+if(taxonKeys_origin == 0){
+  stop("Canceled by userinput")
+}
+
 taxonkey_set1 <- pred_in("taxonKey", keys2)
 
 set1 <- occ_download(taxonkey_set1, 
