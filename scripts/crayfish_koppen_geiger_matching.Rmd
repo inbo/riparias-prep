@@ -57,11 +57,13 @@ if(taxonKeys_origin == 1){
   keys <- unique(White_list_redux$key)
   keys2 <- subset(keys, !is.na(keys))
   folder <- "./data/raw/crayfish-downloads/white-list/"
+  taxonKeys_origin_str <- "white-list"
 }
 
 if(taxonKeys_origin == 2){
   keys2 <- c(8022, 4479, 8670)
   folder <- "./data/raw/crayfish-downloads/all/"
+  taxonKeys_origin_str <- "all"
 }
 
 if(taxonKeys_origin == 0){
@@ -232,10 +234,10 @@ for(f in koppen_geiger_shapes){
   data_sp_over <- over(data_sp, shape)
   data_overlay <- bind_cols(data_redux, data_sp_over) 
   data_overlay <- data_overlay %>% 
-    group_by(taxonKey, species, GRIDCODE) %>% 
+    group_by(acceptedTaxonKey, acceptedScientificName, GRIDCODE) %>% 
     add_tally(name = "n_climate") %>% 
     ungroup() %>% 
-    group_by(taxonKey, species) %>% 
+    group_by(acceptedTaxonKey, acceptedScientificName) %>% 
     add_tally(name = "n_totaal") %>% 
     ungroup() %>% 
     mutate(perc_climate = n_climate/n_totaal) %>% 
@@ -245,7 +247,7 @@ for(f in koppen_geiger_shapes){
     filter(n_totaal >= 90,
            perc_climate >= 0.2)
   
-  fn <- paste("data_overlay", f, sep="_")
+  fn <- paste("data_overlay", f, taxonKeys_origin_str, sep="_")
   fn <- paste0("./data/output/", fn, ".csv")
   
   assign(f, shape)
@@ -256,10 +258,10 @@ for(f in koppen_geiger_shapes){
 ```
 
 ```{r overlay_stats, eval=FALSE}
-n_distinct(data_overlay_future_10km$species)
+n_distinct(data_overlay_future_10km$acceptedScientificName)
 unique(data_overlay_future_10km$Classification)
 
-n_distinct(data_overlay_present_10km$species)
+n_distinct(data_overlay_present_10km$acceptedScientificName)
 unique(data_overlay_present_10km$Classification)
 ```
 
