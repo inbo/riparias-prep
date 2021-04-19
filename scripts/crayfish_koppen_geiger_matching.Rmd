@@ -125,9 +125,13 @@ if(rerun == 2 & length(filelist) > 0){
 ```
 
 ```{r subset data}
+#Subset Non - species records
+data <- data %>% 
+  filter(species != "")
+
 introduced_species <- data %>% 
   filter(countryCode == "BE") %>% 
-  distinct(taxonKey, species) %>% 
+  distinct(acceptedTaxonKey, acceptedScientificName) %>% 
   mutate(introduced = TRUE)
 
 data_redux <- data %>% 
@@ -139,15 +143,15 @@ data_redux <- data %>%
                               "UNKNOWN"),
          occurrenceStatus == "PRESENT") %>% 
   dplyr::select(gbifID, eventDate, year, month, day, taxonKey, acceptedTaxonKey, 
-                species, decimalLatitude, decimalLongitude, coordinateUncertaintyInMeters,
+                acceptedScientificName, decimalLatitude, decimalLongitude, coordinateUncertaintyInMeters,
                 countryCode) %>% 
   left_join(introduced_species) %>% 
   filter(is.na(introduced)) %>% 
-  distinct(taxonKey, species, decimalLongitude, decimalLatitude) %>% 
+  distinct(acceptedTaxonKey, acceptedScientificName, decimalLongitude, decimalLatitude) %>% 
   mutate(decimalLongitude = as.numeric(decimalLongitude))
 
 not_introduced <- data_redux %>% 
-  distinct(taxonKey, species)
+  distinct(acceptedTaxonKey, acceptedScientificName)
 
 crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 
@@ -236,7 +240,7 @@ for(f in koppen_geiger_shapes){
     ungroup() %>% 
     mutate(perc_climate = n_climate/n_totaal) %>% 
     filter(GRIDCODE %in% bel_gridcode$GRIDCODE) %>% 
-    distinct(taxonKey, species, .keep_all = TRUE) %>% 
+    distinct(acceptedTaxonKey, acceptedScientificName, .keep_all = TRUE) %>% 
     select(-decimalLatitude, -decimalLongitude, -gridcode, -Id) %>% 
     filter(n_totaal >= 90,
            perc_climate >= 0.2)
