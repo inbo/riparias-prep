@@ -37,3 +37,8 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# GBIF downloads
+./data/raw/*.zip
+./data/raw/crayfish-downloads/all/*.zip
+./data/raw/crayfish-downloads/white-list/*.zip
