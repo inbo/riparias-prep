@@ -31,7 +31,7 @@ table(White_list_redux$rank)
 n_distinct(White_list_redux$key)
 ```
 
-```{r download data, eval=FALSE}
+```{r download data}
 get_cred <- function(x){
   library(svDialogs)
   
@@ -56,46 +56,72 @@ taxonKeys_origin <- menu(choices = c("White - List", "All crayfish"),
 if(taxonKeys_origin == 1){
   keys <- unique(White_list_redux$key)
   keys2 <- subset(keys, !is.na(keys))
+  folder <- "./data/raw/crayfish-downloads/white-list/"
 }
 
 if(taxonKeys_origin == 2){
   keys2 <- c(8022, 4479, 8670)
+  folder <- "./data/raw/crayfish-downloads/all/"
 }
 
 if(taxonKeys_origin == 0){
   stop("Canceled by userinput")
 }
 
-taxonkey_set1 <- pred_in("taxonKey", keys2)
+if(!dir.exists(folder)){
+  dir.create(folder, recursive = TRUE)
+}
 
-set1 <- occ_download(taxonkey_set1, 
-                     pred("hasCoordinate", TRUE),
-                     user = gbif_user, 
-                     pwd = gbif_pwd, 
-                     email = gbif_email)
+filelist <- dir(path = folder,
+                pattern = ".zip")
 
-repeat{
-  Sys.sleep(time = 5)
-  test_set1 <- occ_download_meta(set1)
-  if(test_set1$status == "SUCCEEDED"){
-    rawdata_set1_imported <- occ_download_get(set1, overwrite = TRUE) %>% 
-      occ_download_import()
-    break()
+rerun <- menu(choices = c("Yes", "No"), 
+              title = "Rerun download?",
+              graphics = TRUE)
+
+if(rerun == 1 || length(filelist) == 0){
+  taxonkey_set1 <- pred_in("taxonKey", keys2)
+  
+  set1 <- occ_download(taxonkey_set1, 
+                       pred("hasCoordinate", TRUE),
+                       user = gbif_user, 
+                       pwd = gbif_pwd, 
+                       email = gbif_email)
+  
+  repeat{
+    Sys.sleep(time = 5)
+    test_set1 <- occ_download_meta(set1)
+    if(test_set1$status == "SUCCEEDED"){
+      data <- occ_download_get(set1, overwrite = TRUE) %>% 
+        occ_download_import()
+      break()
+    }
+    print(test_set1$status)
   }
-  print(test_set1$status)
-}
-```
-
-```{r read data}
-if(check(test_set1)==1){
-  zipfn <- paste0("./", test_set1$key, ".zip")
-}else{
-  zipfn <- "./data/raw/0234706-200613084148143.zip"
+  
+  file.copy(from = paste0(test_set1$key, ".zip"),
+            to = paste0(folder, test_set1$key, ".zip"))
+  
+  file.remove(paste0(test_set1, ".zip"))
 }
 
-data <- read_tsv(unz(zipfn, "occurrence.txt"), 
-                 col_types = c(decimalLatitude = col_number(),
-                               decimalLongitude = col_number()))
+if(rerun == 2 & length(filelist) > 0){
+  filelist_info <- file.info(paste0(folder, filelist))
+  filelist_info <- filelist_info %>% 
+    filter(ctime == max(ctime, na.rm = TRUE)) 
+  
+  if(nrow(filelist_info) == 1){
+    old_data <- rownames(filelist_info)
+  }else{
+    warning(paste0("Multiple zip-files are the same age. downloading ", 
+                   filelist_info[1]))
+    old_data <- rownames(filelist_info[1])
+  }
+  
+  data <- read_tsv(unz(old_data, "occurrence.txt"), 
+                   col_types = c(decimalLatitude = col_number(),
+                                 decimalLongitude = col_number()))
+}
 ```
 
 ```{r subset data}
@@ -113,8 +139,8 @@ data_redux <- data %>%
                               "UNKNOWN"),
          occurrenceStatus == "PRESENT") %>% 
   dplyr::select(gbifID, eventDate, year, month, day, taxonKey, acceptedTaxonKey, 
-         species, decimalLatitude, decimalLongitude, coordinateUncertaintyInMeters,
-         countryCode) %>% 
+                species, decimalLatitude, decimalLongitude, coordinateUncertaintyInMeters,
+                countryCode) %>% 
   left_join(introduced_species) %>% 
   filter(is.na(introduced)) %>% 
   distinct(taxonKey, species, decimalLongitude, decimalLatitude) %>% 
@@ -128,8 +154,8 @@ crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 coord <- data_redux %>%
   dplyr::select(decimalLongitude, decimalLatitude) #dplyr hiervoor is nodig om de functie select te laten lopen. Werkt anders niet door package raster.
 data_sp <- SpatialPointsDataFrame(coord,
-                                      data = data_redux,
-                                      proj4string = crs_wgs)
+                                  data = data_redux,
+                                  proj4string = crs_wgs)
 ```
 
 ```{r test spatial, eval=FALSE}
@@ -146,7 +172,7 @@ points(data_sp, col = "red")
 ```{r get belgian borders}
 wfs_regions <- "https://eservices.minfin.fgov.be/arcgis/services/R2C/Regions/MapServer/WFSServer"
 regions_client <- WFSClient$new(wfs_regions, 
-                            serviceVersion = "2.0.0")
+                                serviceVersion = "2.0.0")
 regions_client$getFeatureTypes(pretty = TRUE)
 
 url <- parse_url(wfs_regions)
@@ -155,7 +181,7 @@ url$query <- list(service = "wfs",
                   request = "GetFeature",
                   typename = "regions",
                   srsName = "EPSG:4326"
-                  )
+)
 request <- build_url(url)
 
 bel_regions <- readOGR(request) #Lambert2008
