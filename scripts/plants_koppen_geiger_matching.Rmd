@@ -243,8 +243,13 @@ koppen_geiger_shapes <- gsub(pattern = ".shp",
                              replacement = "", 
                              koppen_geiger_shapes)
 
+gc(reset = TRUE)
+if(memory.limit() <= nrow(data_sp)){
+  memory.limit(size = as.numeric(nrow(data_sp)))
+}
+
 for(f in koppen_geiger_shapes){
-  gc(reset = TRUE)
+  
   shape <- readOGR(dsn = "./data/spatial/koppen-geiger", 
                    layer = f,
                    stringsAsFactors = FALSE)
