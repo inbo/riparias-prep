@@ -244,6 +244,7 @@ koppen_geiger_shapes <- gsub(pattern = ".shp",
                              koppen_geiger_shapes)
 
 for(f in koppen_geiger_shapes){
+  gc(reset = TRUE)
   shape <- readOGR(dsn = "./data/spatial/koppen-geiger", 
                    layer = f,
                    stringsAsFactors = FALSE)
