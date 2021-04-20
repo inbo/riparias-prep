@@ -278,7 +278,7 @@ for(f in koppen_geiger_shapes){
     distinct(acceptedTaxonKey, acceptedScientificName, .keep_all = TRUE) %>% 
     select(-decimalLatitude, -decimalLongitude, -gridcode, -Id) 
   
-  fn <- paste("data_overlay", f, taxonKeys_origin_str, sep="_")
+  fn <- paste("plants_data_overlay", f, taxonKeys_origin_str, sep="_")
   fn <- paste0("./data/output/", fn, ".csv")
   
   assign(f, shape)
