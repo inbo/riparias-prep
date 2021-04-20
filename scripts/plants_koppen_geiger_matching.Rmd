@@ -23,7 +23,6 @@ library(bcmaps)
 library(tiff)
 library(googlesheets4)
 library(tidyverse)
-
 ```
 
 ```{r FUN check}
@@ -271,9 +270,7 @@ for(f in koppen_geiger_shapes){
     mutate(perc_climate = n_climate/n_totaal) %>% 
     filter(GRIDCODE %in% bel_gridcode$GRIDCODE) %>% 
     distinct(acceptedTaxonKey, acceptedScientificName, .keep_all = TRUE) %>% 
-    select(-decimalLatitude, -decimalLongitude, -gridcode, -Id) %>% 
-    filter(n_totaal >= 90,
-           perc_climate >= 0.2)
+    select(-decimalLatitude, -decimalLongitude, -gridcode, -Id) 
   
   fn <- paste("data_overlay", f, taxonKeys_origin_str, sep="_")
   fn <- paste0("./data/output/", fn, ".csv")
