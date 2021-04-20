@@ -2,8 +2,8 @@
 This script downloads all occurences of a list plants commonly found in plantshops 
 in Belgium from gbif. Species who do not have occurences in Belgium yet are 
 linked to a climate zone defined by Koppen Geiger. Finally a specieslist 
-consisting of species that have at least 90 occurrences, which represent at least
-20% of the total number of species occurrences, in the climate zones of Belgium, 
+consisting of species that have at least x occurrences, which represent at least
+y% of the total number of species occurrences, in the climate zones of Belgium, 
 is created. 
 Climate matching is done for 2 scenarios. One representing the current climate
 and one the future climate according to Köppen Geiger. 
@@ -21,24 +21,18 @@ library(httr)
 library(rgeos)
 library(bcmaps)
 library(tiff)
+library(googlesheets4)
 library(tidyverse)
-check <- function(x){tryCatch(if(class(x) == 'logical') 1 else 1, error=function(e) 0)} 
+
 ```
 
-```{r read species list}
-White_list <- read_excel("data/raw/White list proposal for aquarium crayfish GBIF 22092020.xlsx", 
-                         skip = 1)
-
-White_list_redux <- White_list %>% 
-  filter(!grepl("Cambarellus sp", Species),
-         !grepl("Cherax sp", Species),
-         !is.na(key))
-
-table(White_list_redux$rank)
-n_distinct(White_list_redux$key)
+```{r FUN check}
+check <- function(x){
+  tryCatch(if(class(x) == 'logical') 1 else 1, error=function(e) 0)
+} 
 ```
 
-```{r download data}
+```{r FUN get_cred}
 get_cred <- function(x){
   library(svDialogs)
   
@@ -51,6 +45,23 @@ get_cred <- function(x){
   }
   return(cred)
 }
+```
+
+```{r read species list}
+gsheet_email <- get_cred("gsheet_email")
+
+gs4_auth(email = gsheet_email)
+
+White_list <- read_sheet("18HNS3HCNbhvTWIn-6iJHQXsPQbfBtOnNZHi7vZRyYDk", 
+                         sheet = "Feuille 1",
+                         col_types = "c")
+
+White_list_redux <- White_list %>%
+  filter(!is.na(taxonKey))
+
+table(White_list_redux$`Taxon category`)
+n_distinct(White_list_redux$taxonKey)
+```
 
 gbif_user <- get_cred("gbif_user")
 gbif_pwd <- get_cred("gbif_pwd")
