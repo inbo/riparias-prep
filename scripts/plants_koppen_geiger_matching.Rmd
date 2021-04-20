@@ -282,7 +282,7 @@ for(f in koppen_geiger_shapes){
   fn <- paste0("./data/output/", fn, ".csv")
   
   assign(f, shape)
-  assign(paste("data_overlay", f, sep="_"), data_overlay)
+  assign(paste("plants_data_overlay", f, sep="_"), data_overlay)
   
   write_csv(data_overlay, file = fn)
 }
