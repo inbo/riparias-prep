@@ -243,7 +243,7 @@ for(f in koppen_geiger_shapes){
     mutate(perc_climate = n_climate/n_totaal) %>% 
     filter(GRIDCODE %in% bel_gridcode$GRIDCODE) %>% 
     distinct(acceptedTaxonKey, acceptedScientificName, .keep_all = TRUE) %>% 
-    select(-decimalLatitude, -decimalLongitude, -gridcode, -Id) %>% 
+    select(-decimalLatitude, -decimalLongitude, -gridcode, -Id, -eventDate) %>% 
     filter(n_totaal >= 90,
            perc_climate >= 0.2)
   
