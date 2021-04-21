@@ -149,7 +149,7 @@ data_redux <- data %>%
                 countryCode) %>% 
   left_join(introduced_species) %>% 
   filter(is.na(introduced)) %>% 
-  distinct(acceptedTaxonKey, acceptedScientificName, decimalLongitude, decimalLatitude) %>% 
+  distinct(acceptedTaxonKey, acceptedScientificName, decimalLongitude, decimalLatitude, eventDate) %>% 
   mutate(decimalLongitude = as.numeric(decimalLongitude))
 
 not_introduced <- data_redux %>% 
