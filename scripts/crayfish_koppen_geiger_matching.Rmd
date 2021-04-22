@@ -243,17 +243,23 @@ for(f in koppen_geiger_shapes){
     mutate(perc_climate = n_climate/n_totaal) %>% 
     filter(GRIDCODE %in% bel_gridcode$GRIDCODE) %>% 
     distinct(acceptedTaxonKey, acceptedScientificName, .keep_all = TRUE) %>% 
-    select(-decimalLatitude, -decimalLongitude, -gridcode, -Id, -eventDate) %>% 
+    select(-decimalLatitude, -decimalLongitude, -gridcode, -Id, -eventDate) 
+  
+  data_overlay_sub <- data_overlay %>% 
     filter(n_totaal >= 90,
            perc_climate >= 0.2)
   
   fn <- paste("data_overlay", f, taxonKeys_origin_str, sep="_")
+  fn2 <- paste(fn, "allSpecies", sep = "_")
   fn <- paste0("./data/output/", fn, ".csv")
+  fn2 <- paste0("./data/interim/", fn2, ".csv")
   
   assign(f, shape)
-  assign(paste("data_overlay", f, sep="_"), data_overlay)
+  assign(paste("data_overlay", f, sep="_"), data_overlay_sub)
+  assign(paste("data_overlay", f, "allSpecies", sep="_"), data_overlay)
   
-  write_csv(data_overlay, file = fn)
+  write_csv(data_overlay_sub, file = fn)
+  write_csv(data_overlay, file = fn2)
 }
 ```
 
