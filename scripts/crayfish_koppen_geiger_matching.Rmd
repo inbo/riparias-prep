@@ -212,6 +212,12 @@ leaflet(bel_regions) %>%
   addPolygons()
 ```
 
+```{r Species without gbifdata}
+no_gbif_data <- anti_join(White_list_redux, 
+                          data_redux, by = c("key" = "acceptedTaxonKey"))
+
+write_csv(no_gbif_data, "./data/interim/crayfish_missing_from_gbif.csv")
+```
 
 ```{r overlay with koppen_geiger shapes}
 legend <- read_delim("./data/spatial/koppen-geiger/KG_Beck_Legend.csv", ";")
