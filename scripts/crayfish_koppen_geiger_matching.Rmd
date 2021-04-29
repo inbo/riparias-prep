@@ -213,8 +213,10 @@ leaflet(bel_regions) %>%
 ```
 
 ```{r Species without gbifdata}
-no_gbif_data <- anti_join(White_list_redux, 
-                          data_redux, by = c("key" = "acceptedTaxonKey"))
+no_gbif_data <- White_list_redux %>% 
+  anti_join(data_redux, 
+            by = c("key" = "acceptedTaxonKey")) %>% 
+  select(ID, key, species)
 
 write_csv(no_gbif_data, "./data/interim/crayfish_missing_from_gbif.csv")
 ```
