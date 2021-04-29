@@ -137,11 +137,14 @@ introduced_species <- data %>%
   mutate(introduced = TRUE)
 
 SPECIES <- data %>% 
-  filter(taxonRank == "SPECIES") %>% 
+  filter(taxonRank == "SPECIES", 
+         taxonomicStatus == "ACCEPTED") %>% 
   distinct(acceptedTaxonKey, genus, specificEpithet) %>% 
   mutate(ASN_2 = paste(genus, specificEpithet)) %>% 
   rename(TK_2 = acceptedTaxonKey) %>% 
-  select(TK_2, ASN_2)
+  distinct(TK_2, ASN_2) %>% 
+  group_by(TK_2) %>% 
+  add_tally()
 
 data_redux <- data %>% 
   mutate(acceptedScientificName= paste(genus, specificEpithet)) %>% 
