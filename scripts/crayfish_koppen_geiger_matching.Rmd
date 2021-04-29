@@ -136,7 +136,17 @@ introduced_species <- data %>%
   distinct(acceptedTaxonKey, acceptedScientificName) %>% 
   mutate(introduced = TRUE)
 
+SPECIES <- data %>% 
+  filter(taxonRank == "SPECIES") %>% 
+  distinct(acceptedTaxonKey, genus, specificEpithet) %>% 
+  mutate(ASN_2 = paste(genus, specificEpithet)) %>% 
+  rename(TK_2 = acceptedTaxonKey) %>% 
+  select(TK_2, ASN_2)
+
 data_redux <- data %>% 
+  mutate(acceptedScientificName= paste(genus, specificEpithet)) %>% 
+  left_join(SPECIES, by = c("acceptedScientificName" = "ASN_2")) %>% 
+  mutate(acceptedTaxonKey = TK_2) %>% 
   filter(!is.na(eventDate), 
          !is.na(decimalLatitude),
          eventDate >= "1950-01-01",
