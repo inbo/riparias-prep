@@ -257,11 +257,11 @@ for(f in koppen_geiger_shapes){
     add_tally(name = "n_totaal") %>% 
     ungroup() %>% 
     mutate(perc_climate = n_climate/n_totaal) %>% 
-    filter(GRIDCODE %in% bel_gridcode$GRIDCODE) %>% 
     distinct(acceptedTaxonKey, acceptedScientificName, .keep_all = TRUE) %>% 
     select(-decimalLatitude, -decimalLongitude, -gridcode, -Id, -eventDate) 
   
   data_overlay_sub <- data_overlay %>% 
+    filter(GRIDCODE %in% bel_gridcode$GRIDCODE) %>% 
     filter(n_totaal >= 90,
            perc_climate >= 0.2)
   
