@@ -262,7 +262,7 @@ for(f in koppen_geiger_shapes){
     add_tally(name = "n_totaal") %>% 
     ungroup() %>% 
     mutate(perc_climate = n_climate/n_totaal) %>% 
-    distinct(acceptedTaxonKey, acceptedScientificName, .keep_all = TRUE) %>% 
+    distinct(acceptedTaxonKey, acceptedScientificName, GRIDCODE, .keep_all = TRUE) %>% 
     select(-decimalLatitude, -decimalLongitude, -gridcode, -Id, -eventDate) 
   
   data_overlay_sub <- data_overlay %>% 
