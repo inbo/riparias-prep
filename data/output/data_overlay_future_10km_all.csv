@@ -1,50 +1,33 @@
 acceptedTaxonKey,acceptedScientificName,GRIDCODE,Classification,n_climate,n_totaal,perc_climate
-10047756,"Lacunicambarus ludovicianus (Faxon, 1884)",14,Cfa,130,130,1
-2227364,"Cambarus reduncus Hobbs, 1956",14,Cfa,214,214,1
-5178536,"Paranephrops planifrons White, 1842",15,Cfb,253,310,0.8161290322580645
-8971201,"Faxonius virilis (Hagen, 1870)",14,Cfa,1418,2796,0.5071530758226037
-2227381,"Cambarus bartonii (Fabricius, 1798)",14,Cfa,972,1119,0.868632707774799
-8979506,"Faxonius rusticus (Girard, 1852)",14,Cfa,794,3476,0.2284234752589183
-2227208,"Procambarus simulans (Faxon, 1884)",14,Cfa,112,150,0.7466666666666667
-9062851,"Creaserinus fodiens (Cottle, 1863)",14,Cfa,361,383,0.9425587467362925
-2227405,"Cambarus latimanus (Le Conte, 1856)",14,Cfa,1193,1193,1
-10391449,"Lacunicambarus diogenes (Girard, 1852)",14,Cfa,438,461,0.9501084598698482
-4648469,"Euastacus woiwuru Morgan, 1986",14,Cfa,103,396,0.2601010101010101
-4648498,"Euastacus spinifer (Heller, 1865)",14,Cfa,208,220,0.9454545454545454
-2227230,"Procambarus spiculifer (Le Conte, 1856)",14,Cfa,331,331,1
-4648501,"Euastacus sulcatus Riek, 1951",14,Cfa,139,141,0.9858156028368794
-2227262,"Procambarus gracilis (Bundy, 1876)",14,Cfa,78,128,0.609375
-4312658,"Austropotamobius pallipes (Lereboullet, 1858)",15,Cfb,12703,16733,0.7591585489750792
-4648476,"Euastacus australasiensis (H Milne Edwards, 1837)",14,Cfa,65,91,0.7142857142857143
-4648470,"Euastacus yanga Morgan, 1997",14,Cfa,76,99,0.7676767676767676
-5789956,"Astacopsis franklinii (Gray, 1845)",15,Cfb,157,167,0.9401197604790419
-2227375,"Cambarus robustus Girard, 1852",14,Cfa,350,418,0.8373205741626795
-4417555,"Austropotamobius torrentium (von Paula Schrank, 1803)",14,Cfa,442,482,0.91701244813278
-2227408,"Cambarus asperimanus Faxon, 1914",14,Cfa,196,196,1
-4648471,"Euastacus kershawi (Smith, 1912)",14,Cfa,115,256,0.44921875
-7194590,Cambarus bartonii bartonii,14,Cfa,64,113,0.5663716814159292
-2227318,"Cambarus acuminatus Faxon, 1884",14,Cfa,266,266,1
-2227387,"Cambarus tenebrosus Hay, 1902",14,Cfa,222,222,1
-2227166,"Procambarus troglodytes (Le Conte, 1856)",14,Cfa,344,344,1
-2227340,"Cambarus dubius Faxon, 1884",14,Cfa,105,105,1
-8806742,"Faxonius palmeri longimanus (Faxon, 1898)",14,Cfa,128,128,1
-2227338,"Cambarus striatus Hay, 1902",14,Cfa,562,562,1
-2227224,"Procambarus versutus (Hagen, 1870)",14,Cfa,206,206,1
-2227321,"Cambarus howardi Hobbs & Hall, 1969",14,Cfa,98,98,1
-2227378,"Cambarus halli Hobbs, 1968",14,Cfa,89,90,0.9888888888888889
-8930656,"Faxonius immunis (Hagen, 1870)",14,Cfa,129,219,0.589041095890411
-2227374,"Cambarus longulus Girard, 1852",14,Cfa,167,167,1
-2227280,"Procambarus blandingii (Harlan, 1830)",14,Cfa,205,208,0.9855769230769231
-4648497,"Euastacus armatus (von Martens, 1866)",14,Cfa,289,593,0.4873524451939292
-4648448,"Euastacus yarraensis (McCoy, 1888)",14,Cfa,109,209,0.5215311004784688
-5789955,"Astacopsis gouldi Clark, 1936",15,Cfb,754,931,0.8098818474758325
-4648518,"Ombrastacoides pulcher (Riek, 1967)",15,Cfb,291,295,0.9864406779661017
-4648505,"Spinastacoides inermis (Clark, 1939)",15,Cfb,220,220,1
-8879892,"Faxonius propinquus (Girard, 1852)",14,Cfa,192,549,0.34972677595628415
-8848320,"Faxonius neglectus (Faxon, 1885)",14,Cfa,64,111,0.5765765765765766
-2227391,"Cambarus longirostris Faxon, 1885",14,Cfa,110,110,1
-2227232,"Procambarus acutissimus (Girard, 1852)",14,Cfa,95,95,1
-9118774,"Faxonius carolinensis (Cooper & Cooper, 1995)",14,Cfa,126,126,1
-4648607,"Cherax depressus Riek, 1951",14,Cfa,39,127,0.30708661417322836
-5789991,"Cambarus johni Cooper, 2006",14,Cfa,107,107,1
-2227327,"Cambarus hobbsorum Cooper, 2001",14,Cfa,389,389,1
+10047756,Lacunicambarus ludovicianus,14,Cfa,112,112,1
+2227364,Cambarus reduncus,14,Cfa,170,170,1
+5178536,Paranephrops planifrons,15,Cfb,232,280,0.8285714285714286
+8971201,Faxonius virilis,14,Cfa,1325,2618,0.5061115355233002
+2227208,Procambarus simulans,14,Cfa,86,117,0.7350427350427351
+2227289,Procambarus acutus,14,Cfa,1835,1954,0.9390992835209826
+9062851,Creaserinus fodiens,14,Cfa,238,260,0.9153846153846154
+2227405,Cambarus latimanus,14,Cfa,1001,1001,1
+10391449,Lacunicambarus diogenes,14,Cfa,364,385,0.9454545454545454
+4648469,Euastacus woiwuru,14,Cfa,100,393,0.2544529262086514
+4648498,Euastacus spinifer,14,Cfa,199,211,0.943127962085308
+2227230,Procambarus spiculifer,14,Cfa,276,276,1
+4648501,Euastacus sulcatus,14,Cfa,113,115,0.9826086956521739
+2226998,Astacus astacus,15,Cfb,1753,4059,0.431879773343188
+4648470,Euastacus yanga,14,Cfa,69,91,0.7582417582417582
+5789956,Astacopsis franklinii,15,Cfb,141,148,0.9527027027027027
+2227408,Cambarus asperimanus,14,Cfa,147,147,1
+4648471,Euastacus kershawi,14,Cfa,113,254,0.4448818897637795
+2227318,Cambarus acuminatus,14,Cfa,211,211,1
+2227387,Cambarus tenebrosus,14,Cfa,166,166,1
+2227166,Procambarus troglodytes,14,Cfa,282,282,1
+8766234,Faxonius palmeri,14,Cfa,103,103,1
+2227338,Cambarus striatus,14,Cfa,495,495,1
+2227224,Procambarus versutus,14,Cfa,176,176,1
+2227374,Cambarus longulus,14,Cfa,138,138,1
+2227280,Procambarus blandingii,14,Cfa,170,173,0.9826589595375722
+4648497,Euastacus armatus,14,Cfa,289,593,0.4873524451939292
+5789955,Astacopsis gouldi,15,Cfb,751,925,0.8118918918918919
+4648518,Ombrastacoides pulcher,15,Cfb,291,295,0.9864406779661017
+4648505,Spinastacoides inermis,15,Cfb,220,220,1
+9118774,Faxonius carolinensis,14,Cfa,104,104,1
+2227327,Cambarus hobbsorum,14,Cfa,309,309,1
