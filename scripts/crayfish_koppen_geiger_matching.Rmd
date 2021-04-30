@@ -200,6 +200,8 @@ no_gbif_data <- White_list_redux %>%
 write_csv(no_gbif_data, "./data/interim/crayfish_missing_from_gbif.csv")
 ```
 
+# CLIMATE MATCHING
+
 ```{r get belgian borders}
 wfs_regions <- "https://eservices.minfin.fgov.be/arcgis/services/R2C/Regions/MapServer/WFSServer"
 regions_client <- WFSClient$new(wfs_regions, 
