@@ -1,5 +1,5 @@
 
-Get Crayfish data from gbif
+# SETUP
 
 ```{r setup}
 library(rgbif)
@@ -17,6 +17,8 @@ library(tiff)
 library(tidyverse)
 check <- function(x){tryCatch(if(class(x) == 'logical') 1 else 1, error=function(e) 0)} 
 ```
+
+# GET CRAYFISH DATA FROM GBIF
 
 ```{r read species list}
 White_list <- read_excel("data/raw/White list proposal for aquarium crayfish GBIF 22092020.xlsx", 
@@ -125,6 +127,8 @@ if(rerun == 2 & length(filelist) > 0){
                                  decimalLongitude = col_number()))
 }
 ```
+
+# DATA PREP
 
 ```{r subset data}
 #Subset Non - species records
