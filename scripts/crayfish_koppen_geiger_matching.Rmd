@@ -191,6 +191,14 @@ points(data_sp, col = "red")
 ```
 
 &service=wfs&version=1.1.0.
+```{r Species without gbifdata}
+no_gbif_data <- White_list_redux %>% 
+  anti_join(data_redux, 
+            by = c("key" = "acceptedTaxonKey")) %>% 
+  select(ID, key, species)
+
+write_csv(no_gbif_data, "./data/interim/crayfish_missing_from_gbif.csv")
+```
 
 ```{r get belgian borders}
 wfs_regions <- "https://eservices.minfin.fgov.be/arcgis/services/R2C/Regions/MapServer/WFSServer"
@@ -219,14 +227,6 @@ leaflet(bel_regions) %>%
   addPolygons()
 ```
 
-```{r Species without gbifdata}
-no_gbif_data <- White_list_redux %>% 
-  anti_join(data_redux, 
-            by = c("key" = "acceptedTaxonKey")) %>% 
-  select(ID, key, species)
-
-write_csv(no_gbif_data, "./data/interim/crayfish_missing_from_gbif.csv")
-```
 
 ```{r overlay with koppen_geiger shapes}
 legend <- read_delim("./data/spatial/koppen-geiger/KG_Beck_Legend.csv", ";")
