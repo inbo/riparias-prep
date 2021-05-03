@@ -138,7 +138,8 @@ data <- data %>%
 introduced_species <- data %>% 
   filter(countryCode == "BE") %>% 
   distinct(acceptedTaxonKey, acceptedScientificName) %>% 
-  mutate(introduced = TRUE)
+  mutate(introduced = TRUE) %>% 
+  rename(ScientificName = acceptedScientificName)
 
 SPECIES <- data %>% 
   filter(taxonRank == "SPECIES", 
@@ -164,7 +165,7 @@ data_redux <- data %>%
   dplyr::select(gbifID, eventDate, year, month, day, taxonKey, acceptedTaxonKey, 
                 acceptedScientificName, decimalLatitude, decimalLongitude, coordinateUncertaintyInMeters,
                 countryCode) %>% 
-  left_join(introduced_species) %>% 
+  left_join(introduced_species, by = c("acceptedTaxonKey")) %>% 
   filter(is.na(introduced)) %>% 
   distinct(acceptedTaxonKey, acceptedScientificName, decimalLongitude, decimalLatitude, eventDate) %>% 
   mutate(decimalLongitude = as.numeric(decimalLongitude))
