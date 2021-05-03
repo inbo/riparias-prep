@@ -56,7 +56,8 @@ White_list <- read_sheet("18HNS3HCNbhvTWIn-6iJHQXsPQbfBtOnNZHi7vZRyYDk",
                          col_types = "c")
 
 White_list_redux <- White_list %>%
-  filter(!is.na(taxonKey))
+  filter(!is.na(taxonKey)) %>% 
+  mutate(Key = as.integer(taxonKey))
 
 table(White_list_redux$`Taxon category`)
 n_distinct(White_list_redux$taxonKey)
@@ -220,9 +221,9 @@ points(data_sp, col = "red")
 ```{r Species without gbifdata}
 no_gbif_data <- White_list_redux %>% 
   anti_join(data, 
-            by = c("key" = "acceptedTaxonKey")) %>% 
-  select(ID, key, species)
-write_csv(no_gbif_data, "./data/interim/crayfish_missing_from_gbif.csv")
+            by = c("Key" = "acceptedTaxonKey")) %>% 
+  select(Key, species = `GBIF Name`)
+write_csv(no_gbif_data, "./data/interim/plants_missing_from_gbif.csv")
 ```
 
 # CLIMATE MATCHING
@@ -289,6 +290,11 @@ for(f in koppen_geiger_shapes){
 ```
 
 ```{r Intersect gbif data with present climate}
+gc(reset = TRUE)
+if(memory.limit() <= nrow(data_sp)){
+  memory.limit(size = as.numeric(nrow(data_sp)))
+}
+
 data_sp_over <- over(data_sp, get(present_shape))
 data_overlay <- bind_cols(data_redux, data_sp_over) 
 data_overlay <- data_overlay %>% 
