@@ -1,7 +1,5 @@
 ID,key,species
 1,5789948,Astacoides betsileoensis
-2,5789950,Astacoides caldwelli
-3,5789949,Astacoides crosnieri
 5,5789947,Astacoides madagascarensis
 9,5799523,Astacopsis franklini
 12,4417551,Pontastacus leptodactylus
@@ -11,12 +9,8 @@ ID,key,species
 34,5789970,Cambaroides schrenckii
 35,5789971,Cambaroides similis
 36,2227376,Cambarus acanthura
-38,7194590,Cambarus bartonii
-39,2227329,Cambarus batchi
-42,2227399,Cambarus carinirostris
 55,2227362,Cambarus diogenes
 58,2227406,Cambarus elkensis
-69,2227353,Cambarus hubrichti
 75,2227334,Cambarus ludovicianus
 81,5789986,Lacunicambarus polychromatus
 92,2227384,Cambarus thomai
@@ -27,11 +21,8 @@ ID,key,species
 104,5789934,Cherax lorentzi
 105,5789932,Cherax monticola
 106,5789933,Cherax papuanus
-107,5789930,Cherax peknyi
 153,4648570,Engaewa reducta
 154,4648572,Engaewa similis
-155,4648571,Engaewa subcoerulea
-156,4648573,Engaewa walpolea
 163,4648445,Euastacus spinifer
 178,5789939,Euastacus maccai
 195,2227113,Fallicambarus caesius
@@ -63,7 +54,6 @@ ID,key,species
 235,2227086,Orconectes leptogonopodus
 236,2227000,Orconectes limosus
 237,2227029,Orconectes luteus
-239,2227070,Orconectes maletae
 240,2227002,Orconectes marchandi
 241,2227065,Orconectes margorectus
 242,2227051,Orconectes meeki
@@ -85,7 +75,6 @@ ID,key,species
 258,2227068,Orconectes rafinesquei
 259,2227028,Orconectes ronaldi
 260,2227081,Orconectes rusticus
-261,7039998,Orconectes sanbornii
 263,2227058,Orconectes sloanii
 264,2227044,Orconectes spinosus
 265,2227027,Orconectes stannardi
@@ -94,14 +83,10 @@ ID,key,species
 268,2227094,Orconectes validus
 269,2227064,Orconectes virilis
 270,2227063,Orconectes williamsi
-277,2224026,Parastacus defossus
-279,2224025,Parastacus pilimanus
 283,7194602,Procambarus acutus
 289,5789996,Procambarus cavernicola
 293,2227212,Procambarus dupratzi
 296,8879526,Procambarus virginalis
-307,5790002,Procambarus machardyi
 308,2227256,Procambarus milleri
-332,2227268,Procambarus zihuateutlensis
 337,5789944,Virilastacus retamali
 338,5789946,Virilastacus rucapihuelensis
