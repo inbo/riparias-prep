@@ -91,9 +91,7 @@ acceptedTaxonKey,acceptedScientificName,GRIDCODE,Classification,n_climate,n_tota
 2227364,Cambarus reduncus,14,Cfa,214,214,1
 2227258,Procambarus vioscai,14,Cfa,67,67,1
 2227318,Cambarus acuminatus,14,Cfa,261,266,0.981203007518797
-NA,Faxonius iowaensis,25,Dfa,22,22,1
 2227325,Cambarus reburrus,14,Cfa,57,73,0.7808219178082192
-NA,Creaserinus oryktes,14,Cfa,1,1,1
 2227391,Cambarus longirostris,14,Cfa,78,110,0.7090909090909091
 2227217,Procambarus suttkusi,14,Cfa,18,18,1
 2227375,Cambarus robustus,25,Dfa,65,422,0.15402843601895735
@@ -121,8 +119,6 @@ NA,Creaserinus oryktes,14,Cfa,1,1,1
 9124482,Faxonius ozarkae,14,Cfa,38,42,0.9047619047619048
 2227280,Procambarus blandingii,14,Cfa,204,208,0.9807692307692307
 2227381,Cambarus bartonii,26,Dfb,348,1268,0.2744479495268139
-NA,Faxonius meeki,14,Cfa,33,33,1
-NA,Creaserinus hedgpethi,14,Cfa,97,97,1
 2227302,Procambarus ancylus,14,Cfa,72,72,1
 2227336,Cambarus hiwasseensis,14,Cfa,85,85,1
 2227309,Procambarus fallax,14,Cfa,33,41,0.8048780487804879
@@ -135,7 +131,6 @@ NA,Creaserinus hedgpethi,14,Cfa,97,97,1
 9059568,Faxonius validus,14,Cfa,78,78,1
 2227186,Procambarus enoplosternum,14,Cfa,60,60,1
 10146931,Lacunicambarus erythrodactylus,14,Cfa,25,25,1
-NA,Faxonius mississippiensis,14,Cfa,20,20,1
 8979506,Faxonius rusticus,14,Cfa,89,3476,0.025604142692750288
 2227155,Procambarus penni,14,Cfa,16,16,1
 2227380,Cambarus sphenoides,25,Dfa,2,62,0.03225806451612903
@@ -143,9 +138,7 @@ NA,Faxonius mississippiensis,14,Cfa,20,20,1
 2227401,Cambarus parrishi,14,Cfa,15,18,0.8333333333333334
 2227355,Cambarus unestami,14,Cfa,16,16,1
 8947142,Faxonius holti,14,Cfa,15,19,0.7894736842105263
-NA,Faxonius taylori,14,Cfa,4,4,1
 2227244,Procambarus hagenianus,14,Cfa,6,6,1
-NA,Faxonius cyanodigitus,14,Cfa,1,1,1
 2227352,Cambarus distans,14,Cfa,38,38,1
 2227253,Procambarus talpoides,14,Cfa,34,34,1
 2227264,Procambarus seminolae,14,Cfa,58,58,1
@@ -168,7 +161,6 @@ NA,Faxonius cyanodigitus,14,Cfa,1,1,1
 2227374,Cambarus longulus,14,Cfa,155,167,0.9281437125748503
 8979506,Faxonius rusticus,7,BSk,33,3476,0.00949367088607595
 2227249,Procambarus echinatus,14,Cfa,28,28,1
-NA,Faxonius chickasawae,14,Cfa,15,15,1
 2227325,Cambarus reburrus,15,Cfb,16,73,0.2191780821917808
 2227373,Cambarus catagius,14,Cfa,18,18,1
 2227006,Orconectes sanbornii,25,Dfa,20,27,0.7407407407407407
@@ -198,7 +190,6 @@ NA,Faxonius chickasawae,14,Cfa,15,15,1
 8756322,Cambarus magerae,14,Cfa,2,2,1
 2227335,Cambarus crinipes,14,Cfa,18,18,1
 2227011,Orconectes jeffersoni,14,Cfa,9,11,0.8181818181818182
-NA,Creaserinus caesius,14,Cfa,13,13,1
 2227393,Cambarus coosae,14,Cfa,79,79,1
 2227266,Procambarus parasimulans,14,Cfa,33,33,1
 2227312,Procambarus barbatus,14,Cfa,38,38,1
@@ -230,10 +221,8 @@ NA,Creaserinus caesius,14,Cfa,13,13,1
 2227435,Cambarellus texanus,14,Cfa,11,11,1
 2227295,Procambarus incilis,14,Cfa,20,21,0.9523809523809523
 2227404,Cambarus extraneus,14,Cfa,13,13,1
-NA,Procambarus cometes,14,Cfa,2,2,1
 8786158,Faxonius etnieri,14,Cfa,15,15,1
 2227299,Procambarus bivittatus,14,Cfa,10,10,1
-NA,Faxonius rhoadesi,14,Cfa,6,6,1
 2227379,Cambarus nodosus,14,Cfa,19,19,1
 9285505,Cambarus hazardi,14,Cfa,5,8,0.625
 2227375,Cambarus robustus,14,Cfa,123,422,0.2914691943127962
@@ -325,7 +314,6 @@ NA,Faxonius rhoadesi,14,Cfa,6,6,1
 2227280,Procambarus blandingii,26,Dfb,2,208,0.009615384615384616
 2227110,Fallicambarus jeanae,14,Cfa,9,9,1
 2227298,Procambarus verrucosus,14,Cfa,22,22,1
-NA,Cambarus floridanus,14,Cfa,3,3,1
 2227433,Cambarellus lesliei,14,Cfa,8,8,1
 9006690,Faxonius forceps,14,Cfa,26,26,1
 2227203,Procambarus alleni,1,Af,1,28,0.03571428571428571
@@ -339,8 +327,6 @@ NA,Cambarus floridanus,14,Cfa,3,3,1
 2227361,Cambarus rusticiformis,14,Cfa,74,74,1
 9164533,Faxonius spinosus,25,Dfa,3,56,0.05357142857142857
 8930656,Faxonius immunis,26,Dfb,112,219,0.5114155251141552
-NA,Faxonius quinebaugensis,26,Dfb,2,3,0.6666666666666666
-NA,Faxonius quinebaugensis,25,Dfa,1,3,0.3333333333333333
 8856342,Faxonius pardalotus,14,Cfa,6,6,1
 2227417,Hobbseus orconectoides,14,Cfa,21,21,1
 8971201,Faxonius virilis,15,Cfb,192,2814,0.06823027718550106
@@ -398,7 +384,6 @@ NA,Faxonius quinebaugensis,25,Dfa,1,3,0.3333333333333333
 2226997,Pacifastacus connectens,7,BSk,3,4,0.75
 5789973,Fallicambarus houstonensis,14,Cfa,16,16,1
 2227351,Cambarus bouchardi,14,Cfa,5,5,1
-NA,Faxonius bisectus,14,Cfa,2,2,1
 8840693,Faxonius nais,14,Cfa,47,56,0.8392857142857143
 2227173,Procambarus petersi,14,Cfa,5,5,1
 10506183,Cambarus loughmani,25,Dfa,2,3,0.6666666666666666
@@ -406,19 +391,16 @@ NA,Faxonius bisectus,14,Cfa,2,2,1
 8737918,Procambarus holifieldi,14,Cfa,5,5,1
 9483743,Cambarus appalachiensis,26,Dfb,7,31,0.22580645161290322
 9073955,Faxonius longidigitus,25,Dfa,2,19,0.10526315789473684
-NA,Procambarus pogum,14,Cfa,3,3,1
 2227085,Orconectes incomptus,14,Cfa,5,5,1
 2227119,Troglocambarus maclanei,14,Cfa,1,1,1
 2227314,Barbicambarus cornutus,14,Cfa,13,13,1
 5789987,Cambarus pecki,14,Cfa,5,5,1
 2227167,Procambarus litosternum,14,Cfa,15,15,1
-NA,Faxonius margorectus,14,Cfa,1,1,1
 2227269,Procambarus mancus,14,Cfa,4,4,1
 2227131,Procambarus lucifugus,14,Cfa,5,5,1
 2227422,Faxonella beyeri,14,Cfa,2,2,1
 2227006,Orconectes sanbornii,26,Dfb,4,27,0.14814814814814814
 2227322,Cambarus ortmanni,14,Cfa,2,7,0.2857142857142857
-NA,Faxonius saxatilis,14,Cfa,4,4,1
 9225460,Faxonius marchandi,14,Cfa,2,2,1
 2227163,Procambarus curdi,14,Cfa,18,18,1
 9062851,Creaserinus fodiens,26,Dfb,44,287,0.15331010452961671
@@ -556,17 +538,13 @@ NA,Faxonius saxatilis,14,Cfa,4,4,1
 2227208,Procambarus simulans,6,BSh,2,152,0.013157894736842105
 2227389,Cambarus carolinus,26,Dfb,5,40,0.125
 2227397,Cambarus jezerinaci,14,Cfa,1,1,1
-NA,Faxonius kentuckiensis,14,Cfa,8,8,1
 2227124,Distocambarus youngineri,14,Cfa,7,7,1
-NA,Procambarus ferrugineus,14,Cfa,6,6,1
-NA,Faxonius transfuga,9,Csb,3,3,1
 2227371,Cambarus angularis,26,Dfb,4,34,0.11764705882352941
 2227157,Procambarus rogersi,14,Cfa,12,12,1
 2227252,Procambarus nigrocinctus,14,Cfa,3,3,1
 10587240,Procambarus albaughi,14,Cfa,4,4,1
 2227345,Cambarus gentryi,14,Cfa,7,7,1
 9595834,Cambarus taylori,14,Cfa,3,3,1
-NA,Faxonius difficilis,14,Cfa,16,16,1
 2227162,Procambarus brazoriensis,14,Cfa,6,6,1
 4648529,Engaeus lyelli,9,Csb,1,13,0.07692307692307693
 4648546,Engaeus orientalis,15,Cfb,11,11,1
@@ -579,7 +557,6 @@ NA,Faxonius difficilis,14,Cfa,16,16,1
 2227371,Cambarus angularis,25,Dfa,4,34,0.11764705882352941
 2227295,Procambarus incilis,0,NA,1,21,0.047619047619047616
 2227142,Procambarus marthae,14,Cfa,7,7,1
-NA,Lacunicambarus nebrascensis,25,Dfa,4,4,1
 2227262,Procambarus gracilis,26,Dfb,8,128,0.0625
 5789951,Astacoides granulimanus,15,Cfb,1,5,0.2
 5789951,Astacoides granulimanus,14,Cfa,3,5,0.6
@@ -684,7 +661,6 @@ NA,Lacunicambarus nebrascensis,25,Dfa,4,4,1
 2227389,Cambarus carolinus,15,Cfb,8,40,0.2
 5789993,Cambarus laconensis,14,Cfa,1,1,1
 8950236,Pontastacus pachypus,8,Csa,1,2,0.5
-NA,Faxonius ronaldi,14,Cfa,2,2,1
 9483743,Cambarus appalachiensis,14,Cfa,1,31,0.03225806451612903
 8796188,Fallicambarus wallsi,14,Cfa,1,1,1
 2227395,Cambarus nerterius,26,Dfb,3,5,0.6
@@ -705,7 +681,6 @@ NA,Faxonius ronaldi,14,Cfa,2,2,1
 2227401,Cambarus parrishi,15,Cfb,3,18,0.16666666666666666
 5789985,Cambarus brimleyorum,14,Cfa,31,32,0.96875
 5789989,Cambarus hystricosus,14,Cfa,51,51,1
-NA,Cambarus laevis,25,Dfa,4,4,1
 2227248,Procambarus braswelli,14,Cfa,32,32,1
 5789988,Cambarus doughertyensis,14,Cfa,6,6,1
 2227375,Cambarus robustus,15,Cfb,11,422,0.026066350710900472
@@ -734,7 +709,6 @@ NA,Cambarus laevis,25,Dfa,4,4,1
 2227231,Procambarus zonangulus,26,Dfb,1,29,0.034482758620689655
 2227385,Cambarus cymatilis,14,Cfa,3,3,1
 8944006,Faxonius eupunctus,14,Cfa,6,6,1
-NA,Faxonius rafinesquei,14,Cfa,3,3,1
 2227372,Cambarus truncatus,14,Cfa,3,3,1
 9124482,Faxonius ozarkae,25,Dfa,4,42,0.09523809523809523
 8766234,Faxonius palmeri,25,Dfa,1,142,0.007042253521126761
@@ -748,7 +722,6 @@ NA,Faxonius rafinesquei,14,Cfa,3,3,1
 8931048,Faxonius compressus,26,Dfb,1,49,0.02040816326530612
 2227416,Hobbseus valleculus,14,Cfa,3,3,1
 2227316,Bouchardina robisoni,14,Cfa,1,1,1
-NA,Procambarus oaxacae,2,Am,6,14,0.42857142857142855
 4648551,Engaeus nulloporius,9,Csb,2,6,0.3333333333333333
 5789956,Astacopsis franklinii,0,NA,2,167,0.011976047904191617
 4648504,Spinastacoides insignis,15,Cfb,8,8,1
@@ -772,9 +745,7 @@ NA,Procambarus oaxacae,2,Am,6,14,0.42857142857142855
 9156113,Faxonius menae,14,Cfa,3,3,1
 2227194,Procambarus ouachitae,0,NA,1,35,0.02857142857142857
 9932784,Procambarus fayettei,14,Cfa,2,2,1
-NA,Faxonius tricuspis,14,Cfa,2,2,1
 2227214,Procambarus hayi,25,Dfa,1,80,0.0125
-NA,Faxonius theaphionensis,25,Dfa,1,1,1
 9023237,Faxonius deanae,7,BSk,7,18,0.3888888888888889
 9023237,Faxonius deanae,14,Cfa,6,18,0.3333333333333333
 4648473,Euastacus suttoni,14,Cfa,2,20,0.1
@@ -791,7 +762,6 @@ NA,Faxonius theaphionensis,25,Dfa,1,1,1
 8957737,Faxonius causeyi,14,Cfa,1,23,0.043478260869565216
 8840693,Faxonius nais,7,BSk,2,56,0.03571428571428571
 2227060,Orconectes stygocaneyi,14,Cfa,1,1,1
-NA,Faxonius castaneus,14,Cfa,1,1,1
 9563526,Cherax warsamsonicus,1,Af,1,1,1
 2227287,Procambarus mirandai,1,Af,1,36,0.027777777777777776
 2227381,Cambarus bartonii,27,Dfc,1,1268,7.886435331230284e-4
@@ -807,7 +777,6 @@ NA,Faxonius castaneus,14,Cfa,1,1,1
 8682286,Cherax snowden,1,Af,1,1,1
 9762953,Faxonius wagneri,14,Cfa,1,1,1
 9211000,Faxonius macrus,14,Cfa,5,6,0.8333333333333334
-NA,Creaserinus gilpini,14,Cfa,2,2,1
 9187586,Faxonius alluvius,25,Dfa,2,2,1
 10391449,Lacunicambarus diogenes,0,NA,1,460,0.002173913043478261
 2227309,Procambarus fallax,2,Am,1,41,0.024390243902439025
@@ -822,7 +791,6 @@ NA,Creaserinus gilpini,14,Cfa,2,2,1
 2227430,Cambarellus alvarezi,7,BSk,8,8,1
 2227431,Cambarellus chihuahuae,5,BWk,5,5,1
 2227441,Cambarellus chapalanus,11,Cwa,16,17,0.9411764705882353
-NA,Procambarus oaxacae,3,Aw,3,14,0.21428571428571427
 2227135,Procambarus mexicanus,12,Cwb,5,24,0.20833333333333334
 2227134,Procambarus xilitlae,11,Cwa,2,7,0.2857142857142857
 2227176,Procambarus hoffmanni,3,Aw,4,30,0.13333333333333333
@@ -863,7 +831,6 @@ NA,Procambarus oaxacae,3,Aw,3,14,0.21428571428571427
 2227147,Procambarus villalobosi,2,Am,1,4,0.25
 2227176,Procambarus hoffmanni,12,Cwb,4,30,0.13333333333333333
 2227223,Procambarus contrerasi,11,Cwa,2,9,0.2222222222222222
-NA,Procambarus oaxacae,1,Af,5,14,0.35714285714285715
 2227200,Procambarus rodriguezi,12,Cwb,1,4,0.25
 2227437,Cambarellus montezumae,6,BSh,5,324,0.015432098765432098
 2227438,Cambarellus patzcuarensis,11,Cwa,3,17,0.17647058823529413
@@ -911,7 +878,6 @@ NA,Procambarus oaxacae,1,Af,5,14,0.35714285714285715
 2227006,Orconectes sanbornii,14,Cfa,2,27,0.07407407407407407
 2227284,Procambarus jaculus,14,Cfa,3,3,1
 2227275,Procambarus gibbus,14,Cfa,2,2,1
-NA,Faxonius raymondi,25,Dfa,1,1,1
 4648510,Ombrastacoides dissitus,15,Cfb,1,1,1
 8442535,Cambarus andersoni,14,Cfa,2,2,1
 8838818,Parastacus caeruleodactylus,14,Cfa,3,3,1
@@ -936,7 +902,6 @@ NA,Faxonius raymondi,25,Dfa,1,1,1
 2227123,Distocambarus crockeri,26,Dfb,1,43,0.023255813953488372
 4648595,Cherax cainii,8,Csa,1,30,0.03333333333333333
 2226989,Pacifastacus fortis,9,Csb,1,2,0.5
-NA,Faxonius hobbsi,14,Cfa,1,1,1
 2227309,Procambarus fallax,1,Af,1,41,0.024390243902439025
 8930656,Faxonius immunis,21,Dwa,1,219,0.0045662100456621
 4417558,Cherax destructor,NA,NA,1,1867,5.356186395286556e-4
@@ -945,4 +910,3 @@ NA,Faxonius hobbsi,14,Cfa,1,1,1
 8819510,Faxonius obscurus,14,Cfa,1,66,0.015151515151515152
 9051396,Faxonius placidus,2,Am,1,75,0.013333333333333334
 4648616,Cherax preissii,0,NA,1,7,0.14285714285714285
-NA,Austropotamobius italicus,15,Cfb,1,1,1

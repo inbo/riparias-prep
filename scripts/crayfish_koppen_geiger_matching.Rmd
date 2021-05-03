@@ -155,7 +155,8 @@ data_redux <- data %>%
   mutate(acceptedScientificName= paste(genus, specificEpithet)) %>% 
   left_join(SPECIES, by = c("acceptedScientificName" = "ASN_2")) %>% 
   mutate(acceptedTaxonKey = TK_2) %>% 
-  filter(!is.na(eventDate), 
+  filter(!is.na(acceptedTaxonKey),
+         !is.na(eventDate), 
          !is.na(decimalLatitude),
          eventDate >= "1950-01-01",
          basisOfRecord %in% c("HUMAN_OBSERVATION",
@@ -180,6 +181,12 @@ coord <- data_redux %>%
 data_sp <- SpatialPointsDataFrame(coord,
                                   data = data_redux,
                                   proj4string = crs_wgs)
+```
+
+```{r}
+test <- data_redux %>% 
+  filter(is.na(acceptedTaxonKey)) %>% 
+  distinct(acceptedScientificName, .keep_all = TRUE)
 ```
 
 ```{r test spatial, eval=FALSE}
@@ -243,8 +250,8 @@ koppen_geiger_shapes <- gsub(pattern = ".shp",
                              koppen_geiger_shapes)
 
 present_shape <- subset(koppen_geiger_shapes, 
-                               grepl(pattern = "present", 
-                                      koppen_geiger_shapes))
+                        grepl(pattern = "present", 
+                              koppen_geiger_shapes))
 ```
 
 ```{r Determine climate zones in Belgium + read shapes}
