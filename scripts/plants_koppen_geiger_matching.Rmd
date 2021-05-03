@@ -153,6 +153,8 @@ if(rerun == 2 & length(filelist) > 0){
 }
 ```
 
+# DATA PREP
+
 ```{r subset data}
 #Subset Non - species records
 data <- data %>% 
@@ -161,10 +163,25 @@ data <- data %>%
 introduced_species <- data %>% 
   filter(countryCode == "BE") %>% 
   distinct(acceptedTaxonKey, acceptedScientificName) %>% 
-  mutate(introduced = TRUE)
+  mutate(introduced = TRUE) %>% 
+  rename(ScientificName = acceptedScientificName)
+
+SPECIES <- data %>% 
+  filter(taxonRank == "SPECIES", 
+         taxonomicStatus == "ACCEPTED") %>% 
+  distinct(acceptedTaxonKey, genus, specificEpithet) %>% 
+  mutate(ASN_2 = paste(genus, specificEpithet)) %>% 
+  rename(TK_2 = acceptedTaxonKey) %>% 
+  distinct(TK_2, ASN_2) %>% 
+  group_by(TK_2) %>% 
+  add_tally()
 
 data_redux <- data %>% 
-  filter(!is.na(eventDate), 
+  mutate(acceptedScientificName= paste(genus, specificEpithet)) %>% 
+  left_join(SPECIES, by = c("acceptedScientificName" = "ASN_2")) %>% 
+  mutate(acceptedTaxonKey = TK_2) %>% 
+  filter(!is.na(acceptedTaxonKey),
+         !is.na(eventDate), 
          !is.na(decimalLatitude),
          eventDate >= "1950-01-01",
          basisOfRecord %in% c("HUMAN_OBSERVATION",
@@ -174,9 +191,9 @@ data_redux <- data %>%
   dplyr::select(gbifID, eventDate, year, month, day, taxonKey, acceptedTaxonKey, 
                 acceptedScientificName, decimalLatitude, decimalLongitude, coordinateUncertaintyInMeters,
                 countryCode) %>% 
-  left_join(introduced_species) %>% 
+  left_join(introduced_species, by = c("acceptedTaxonKey")) %>% 
   filter(is.na(introduced)) %>% 
-  distinct(acceptedTaxonKey, acceptedScientificName, decimalLongitude, decimalLatitude) %>% 
+  distinct(acceptedTaxonKey, acceptedScientificName, decimalLongitude, decimalLatitude, eventDate) %>% 
   mutate(decimalLongitude = as.numeric(decimalLongitude))
 
 not_introduced <- data_redux %>% 
@@ -200,14 +217,21 @@ plot(worldmap)
 points(data_sp, col = "red")
 ```
 
-&service=wfs&version=1.1.0.
+```{r Species without gbifdata}
+no_gbif_data <- White_list_redux %>% 
+  anti_join(data, 
+            by = c("key" = "acceptedTaxonKey")) %>% 
+  select(ID, key, species)
+write_csv(no_gbif_data, "./data/interim/crayfish_missing_from_gbif.csv")
+```
+
+# CLIMATE MATCHING
 
 ```{r get belgian borders}
 wfs_regions <- "https://eservices.minfin.fgov.be/arcgis/services/R2C/Regions/MapServer/WFSServer"
 regions_client <- WFSClient$new(wfs_regions, 
                                 serviceVersion = "2.0.0")
 regions_client$getFeatureTypes(pretty = TRUE)
-
 url <- parse_url(wfs_regions)
 url$query <- list(service = "wfs",
                   #version = "2.0.0", # optional
@@ -216,9 +240,7 @@ url$query <- list(service = "wfs",
                   srsName = "EPSG:4326"
 )
 request <- build_url(url)
-
 bel_regions <- readOGR(request) #Lambert2008
-
 bel_regions <- spTransform(bel_regions, crs_wgs)
 bel_regions <- fix_geo_problems(bel_regions, tries = 5)
 ```
@@ -229,10 +251,8 @@ leaflet(bel_regions) %>%
   addPolygons()
 ```
 
-
-```{r overlay with koppen_geiger shapes}
+```{r Create filelists}
 legend <- read_delim("./data/spatial/koppen-geiger/KG_Beck_Legend.csv", ";")
-
 koppen_geiger_shapes <- dir(path = "./data/spatial/koppen-geiger", 
                             pattern = ".shp")
 koppen_geiger_shapes <- subset(koppen_geiger_shapes, 
@@ -242,14 +262,13 @@ koppen_geiger_shapes <- unique(koppen_geiger_shapes)
 koppen_geiger_shapes <- gsub(pattern = ".shp", 
                              replacement = "", 
                              koppen_geiger_shapes)
+present_shape <- subset(koppen_geiger_shapes, 
+                        grepl(pattern = "present", 
+                              koppen_geiger_shapes))
+```
 
-gc(reset = TRUE)
-if(memory.limit() <= nrow(data_sp)){
-  memory.limit(size = as.numeric(nrow(data_sp)))
-}
-
+```{r Determine climate zones in Belgium + read shapes}
 for(f in koppen_geiger_shapes){
-  
   shape <- readOGR(dsn = "./data/spatial/koppen-geiger", 
                    layer = f,
                    stringsAsFactors = FALSE)
@@ -264,27 +283,46 @@ for(f in koppen_geiger_shapes){
     distinct(GRIDCODE, Classification) %>% 
     filter(!is.na(Classification))
   
-  data_sp_over <- over(data_sp, shape)
-  data_overlay <- bind_cols(data_redux, data_sp_over) 
-  data_overlay <- data_overlay %>% 
-    group_by(acceptedTaxonKey, acceptedScientificName, GRIDCODE) %>% 
-    add_tally(name = "n_climate") %>% 
-    ungroup() %>% 
-    group_by(acceptedTaxonKey, acceptedScientificName) %>% 
-    add_tally(name = "n_totaal") %>% 
-    ungroup() %>% 
-    mutate(perc_climate = n_climate/n_totaal) %>% 
+  assign(f, shape)
+  assign(paste0("bel_gridcode", f), bel_gridcode)
+}
+```
+
+```{r Intersect gbif data with present climate}
+data_sp_over <- over(data_sp, get(present_shape))
+data_overlay <- bind_cols(data_redux, data_sp_over) 
+data_overlay <- data_overlay %>% 
+  group_by(acceptedTaxonKey, acceptedScientificName, GRIDCODE) %>% 
+  add_tally(name = "n_climate") %>% 
+  ungroup() %>% 
+  group_by(acceptedTaxonKey, acceptedScientificName) %>% 
+  add_tally(name = "n_totaal") %>% 
+  ungroup() %>% 
+  mutate(perc_climate = n_climate/n_totaal) %>% 
+  distinct(acceptedTaxonKey, acceptedScientificName, GRIDCODE, .keep_all = TRUE) %>% 
+  select(-decimalLatitude, -decimalLongitude, -gridcode, -Id, -eventDate)
+
+write_csv(data_overlay, file = paste0("./data/interim/plants_data_overlay_",
+                                      taxonKeys_origin_str, 
+                                      "_allSpecies.csv"))
+```
+
+```{r Climate matching}
+for(f in koppen_geiger_shapes){
+  
+  bel_gridcode <- get(paste0("bel_gridcode", f))
+  
+  data_overlay_sub <- data_overlay %>% 
     filter(GRIDCODE %in% bel_gridcode$GRIDCODE) %>% 
-    distinct(acceptedTaxonKey, acceptedScientificName, .keep_all = TRUE) %>% 
-    select(-decimalLatitude, -decimalLongitude, -gridcode, -Id) 
+    filter(n_totaal >= 90,
+           perc_climate >= 0.2)
   
   fn <- paste("plants_data_overlay", f, taxonKeys_origin_str, sep="_")
   fn <- paste0("./data/output/", fn, ".csv")
   
-  assign(f, shape)
-  assign(paste("plants_data_overlay", f, sep="_"), data_overlay)
+  assign(paste("data_overlay", f, sep="_"), data_overlay_sub)
   
-  write_csv(data_overlay, file = fn)
+  write_csv(data_overlay_sub, file = fn)
 }
 ```
 
