@@ -193,7 +193,7 @@ points(data_sp, col = "red")
 
 ```{r Species without gbifdata}
 no_gbif_data <- White_list_redux %>% 
-  anti_join(data_redux, 
+  anti_join(data, 
             by = c("key" = "acceptedTaxonKey")) %>% 
   select(ID, key, species)
 
