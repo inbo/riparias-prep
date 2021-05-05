@@ -1,5 +1,5 @@
 
-Get Crayfish data from gbif
+# SETUP
 
 ```{r setup}
 library(rgbif)
@@ -18,6 +18,8 @@ library(tidyverse)
 check <- function(x){tryCatch(if(class(x) == 'logical') 1 else 1, error=function(e) 0)} 
 ```
 
+# GET CRAYFISH DATA FROM GBIF
+
 ```{r read species list}
 White_list <- read_excel("data/raw/White list proposal for aquarium crayfish GBIF 22092020.xlsx", 
                          skip = 1)
@@ -31,7 +33,7 @@ table(White_list_redux$rank)
 n_distinct(White_list_redux$key)
 ```
 
-```{r download data, eval=FALSE}
+```{r download data}
 get_cred <- function(x){
   library(svDialogs)
   
@@ -48,49 +50,113 @@ get_cred <- function(x){
 gbif_user <- get_cred("gbif_user")
 gbif_pwd <- get_cred("gbif_pwd")
 gbif_email <- get_cred("gbif_email")
+
+taxonKeys_origin <- menu(choices = c("White - List", "All crayfish"), 
+                         title = "Which taxonkeys?",
+                         graphics = TRUE)
+
+if(taxonKeys_origin == 1){
+  keys <- unique(White_list_redux$key)
+  keys2 <- subset(keys, !is.na(keys))
+  folder <- "./data/raw/crayfish-downloads/white-list/"
+  taxonKeys_origin_str <- "white-list"
+}
+
+if(taxonKeys_origin == 2){
+  keys2 <- c(8022, 4479, 8670)
+  folder <- "./data/raw/crayfish-downloads/all/"
+  taxonKeys_origin_str <- "all"
+}
+
+if(taxonKeys_origin == 0){
+  stop("Canceled by userinput")
+}
+
+if(!dir.exists(folder)){
+  dir.create(folder, recursive = TRUE)
+}
+
+filelist <- dir(path = folder,
+                pattern = ".zip")
+
+rerun <- menu(choices = c("Yes", "No"), 
+              title = "Rerun download?",
+              graphics = TRUE)
+
+if(rerun == 1 || length(filelist) == 0){
+  taxonkey_set1 <- pred_in("taxonKey", keys2)
   
-keys <- unique(White_list_redux$key)
-keys2 <- subset(keys, !is.na(keys))
-taxonkey_set1 <- pred_in("taxonKey", keys2)
-
-set1 <- occ_download(taxonkey_set1, 
-                     pred("hasCoordinate", TRUE),
-                     user = gbif_user, 
-                     pwd = gbif_pwd, 
-                     email = gbif_email)
-
-repeat{
-  Sys.sleep(time = 5)
-  test_set1 <- occ_download_meta(set1)
-  if(test_set1$status == "SUCCEEDED"){
-    rawdata_set1_imported <- occ_download_get(set1, overwrite = TRUE) %>% 
-      occ_download_import()
-    break()
+  set1 <- occ_download(taxonkey_set1, 
+                       pred("hasCoordinate", TRUE),
+                       user = gbif_user, 
+                       pwd = gbif_pwd, 
+                       email = gbif_email)
+  
+  repeat{
+    Sys.sleep(time = 5)
+    test_set1 <- occ_download_meta(set1)
+    if(test_set1$status == "SUCCEEDED"){
+      data <- occ_download_get(set1, overwrite = TRUE) %>% 
+        occ_download_import()
+      break()
+    }
+    print(test_set1$status)
   }
-  print(test_set1$status)
+  
+  file.copy(from = paste0(test_set1$key, ".zip"),
+            to = paste0(folder, test_set1$key, ".zip"))
+  
+  file.remove(paste0(test_set1, ".zip"))
+}
+
+if(rerun == 2 & length(filelist) > 0){
+  filelist_info <- file.info(paste0(folder, filelist))
+  filelist_info <- filelist_info %>% 
+    filter(ctime == max(ctime, na.rm = TRUE)) 
+  
+  if(nrow(filelist_info) == 1){
+    old_data <- rownames(filelist_info)
+  }else{
+    warning(paste0("Multiple zip-files are the same age. downloading ", 
+                   filelist_info[1]))
+    old_data <- rownames(filelist_info[1])
+  }
+  
+  data <- read_tsv(unz(old_data, "occurrence.txt"), 
+                   col_types = c(decimalLatitude = col_number(),
+                                 decimalLongitude = col_number()))
 }
 ```
 
-```{r read data}
-if(check(test_set1)==1){
-  zipfn <- paste0("./", test_set1$key, ".zip")
-}else{
-  zipfn <- "./data/raw/0234706-200613084148143.zip"
-}
-
-data <- read_tsv(unz(zipfn, "occurrence.txt"), 
-                 col_types = c(decimalLatitude = col_number(),
-                               decimalLongitude = col_number()))
-```
+# DATA PREP
 
 ```{r subset data}
+#Subset Non - species records
+data <- data %>% 
+  filter(species != "")
+
 introduced_species <- data %>% 
   filter(countryCode == "BE") %>% 
-  distinct(taxonKey, species) %>% 
-  mutate(introduced = TRUE)
+  distinct(acceptedTaxonKey, acceptedScientificName) %>% 
+  mutate(introduced = TRUE) %>% 
+  rename(ScientificName = acceptedScientificName)
+
+SPECIES <- data %>% 
+  filter(taxonRank == "SPECIES", 
+         taxonomicStatus == "ACCEPTED") %>% 
+  distinct(acceptedTaxonKey, genus, specificEpithet) %>% 
+  mutate(ASN_2 = paste(genus, specificEpithet)) %>% 
+  rename(TK_2 = acceptedTaxonKey) %>% 
+  distinct(TK_2, ASN_2) %>% 
+  group_by(TK_2) %>% 
+  add_tally()
 
 data_redux <- data %>% 
-  filter(!is.na(eventDate), 
+  mutate(acceptedScientificName= paste(genus, specificEpithet)) %>% 
+  left_join(SPECIES, by = c("acceptedScientificName" = "ASN_2")) %>% 
+  mutate(acceptedTaxonKey = TK_2) %>% 
+  filter(!is.na(acceptedTaxonKey),
+         !is.na(eventDate), 
          !is.na(decimalLatitude),
          eventDate >= "1950-01-01",
          basisOfRecord %in% c("HUMAN_OBSERVATION",
@@ -98,23 +164,29 @@ data_redux <- data %>%
                               "UNKNOWN"),
          occurrenceStatus == "PRESENT") %>% 
   dplyr::select(gbifID, eventDate, year, month, day, taxonKey, acceptedTaxonKey, 
-         species, decimalLatitude, decimalLongitude, coordinateUncertaintyInMeters,
-         countryCode) %>% 
-  left_join(introduced_species) %>% 
+                acceptedScientificName, decimalLatitude, decimalLongitude, coordinateUncertaintyInMeters,
+                countryCode) %>% 
+  left_join(introduced_species, by = c("acceptedTaxonKey")) %>% 
   filter(is.na(introduced)) %>% 
-  distinct(taxonKey, species, decimalLongitude, decimalLatitude) %>% 
+  distinct(acceptedTaxonKey, acceptedScientificName, decimalLongitude, decimalLatitude, eventDate) %>% 
   mutate(decimalLongitude = as.numeric(decimalLongitude))
 
 not_introduced <- data_redux %>% 
-  distinct(taxonKey, species)
+  distinct(acceptedTaxonKey, acceptedScientificName)
 
 crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 
 coord <- data_redux %>%
   dplyr::select(decimalLongitude, decimalLatitude) #dplyr hiervoor is nodig om de functie select te laten lopen. Werkt anders niet door package raster.
 data_sp <- SpatialPointsDataFrame(coord,
-                                      data = data_redux,
-                                      proj4string = crs_wgs)
+                                  data = data_redux,
+                                  proj4string = crs_wgs)
+```
+
+```{r}
+test <- data_redux %>% 
+  filter(is.na(acceptedTaxonKey)) %>% 
+  distinct(acceptedScientificName, .keep_all = TRUE)
 ```
 
 ```{r test spatial, eval=FALSE}
@@ -126,12 +198,21 @@ plot(worldmap)
 points(data_sp, col = "red")
 ```
 
-&service=wfs&version=1.1.0.
+```{r Species without gbifdata}
+no_gbif_data <- White_list_redux %>% 
+  anti_join(data, 
+            by = c("key" = "acceptedTaxonKey")) %>% 
+  select(ID, key, species)
+
+write_csv(no_gbif_data, "./data/interim/crayfish_missing_from_gbif.csv")
+```
+
+# CLIMATE MATCHING
 
 ```{r get belgian borders}
 wfs_regions <- "https://eservices.minfin.fgov.be/arcgis/services/R2C/Regions/MapServer/WFSServer"
 regions_client <- WFSClient$new(wfs_regions, 
-                            serviceVersion = "2.0.0")
+                                serviceVersion = "2.0.0")
 regions_client$getFeatureTypes(pretty = TRUE)
 
 url <- parse_url(wfs_regions)
@@ -140,7 +221,7 @@ url$query <- list(service = "wfs",
                   request = "GetFeature",
                   typename = "regions",
                   srsName = "EPSG:4326"
-                  )
+)
 request <- build_url(url)
 
 bel_regions <- readOGR(request) #Lambert2008
@@ -155,8 +236,7 @@ leaflet(bel_regions) %>%
   addPolygons()
 ```
 
-
-```{r overlay with koppen_geiger shapes}
+```{r Create filelists}
 legend <- read_delim("./data/spatial/koppen-geiger/KG_Beck_Legend.csv", ";")
 
 koppen_geiger_shapes <- dir(path = "./data/spatial/koppen-geiger", 
@@ -169,6 +249,12 @@ koppen_geiger_shapes <- gsub(pattern = ".shp",
                              replacement = "", 
                              koppen_geiger_shapes)
 
+present_shape <- subset(koppen_geiger_shapes, 
+                        grepl(pattern = "present", 
+                              koppen_geiger_shapes))
+```
+
+```{r Determine climate zones in Belgium + read shapes}
 for(f in koppen_geiger_shapes){
   shape <- readOGR(dsn = "./data/spatial/koppen-geiger", 
                    layer = f,
@@ -184,37 +270,54 @@ for(f in koppen_geiger_shapes){
     distinct(GRIDCODE, Classification) %>% 
     filter(!is.na(Classification))
   
-  data_sp_over <- over(data_sp, shape)
-  data_overlay <- bind_cols(data_redux, data_sp_over) 
-  data_overlay <- data_overlay %>% 
-    group_by(taxonKey, species, GRIDCODE) %>% 
-    add_tally(name = "n_climate") %>% 
-    ungroup() %>% 
-    group_by(taxonKey, species) %>% 
-    add_tally(name = "n_totaal") %>% 
-    ungroup() %>% 
-    mutate(perc_climate = n_climate/n_totaal) %>% 
+  assign(f, shape)
+  assign(paste0("bel_gridcode", f), bel_gridcode)
+}
+```
+
+```{r Intersect gbif data with present climate}
+data_sp_over <- over(data_sp, get(present_shape))
+data_overlay <- bind_cols(data_redux, data_sp_over) 
+data_overlay <- data_overlay %>% 
+  group_by(acceptedTaxonKey, acceptedScientificName, GRIDCODE) %>% 
+  add_tally(name = "n_climate") %>% 
+  ungroup() %>% 
+  group_by(acceptedTaxonKey, acceptedScientificName) %>% 
+  add_tally(name = "n_totaal") %>% 
+  ungroup() %>% 
+  mutate(perc_climate = n_climate/n_totaal) %>% 
+  distinct(acceptedTaxonKey, acceptedScientificName, GRIDCODE, .keep_all = TRUE) %>% 
+  select(-decimalLatitude, -decimalLongitude, -gridcode, -Id, -eventDate)
+
+write_csv(data_overlay, file = paste0("./data/interim/data_overlay_",
+                                      taxonKeys_origin_str, 
+                                      "_allSpecies.csv"))
+```
+
+```{r Climate matching}
+for(f in koppen_geiger_shapes){
+  
+  bel_gridcode <- get(paste0("bel_gridcode", f))
+  
+  data_overlay_sub <- data_overlay %>% 
     filter(GRIDCODE %in% bel_gridcode$GRIDCODE) %>% 
-    distinct(taxonKey, species, .keep_all = TRUE) %>% 
-    select(-decimalLatitude, -decimalLongitude, -gridcode, -Id) %>% 
     filter(n_totaal >= 90,
            perc_climate >= 0.2)
   
-  fn <- paste("data_overlay", f, sep="_")
+  fn <- paste("data_overlay", f, taxonKeys_origin_str, sep="_")
   fn <- paste0("./data/output/", fn, ".csv")
   
-  assign(f, shape)
-  assign(paste("data_overlay", f, sep="_"), data_overlay)
+  assign(paste("data_overlay", f, sep="_"), data_overlay_sub)
   
-  write_csv(data_overlay, file = fn)
+  write_csv(data_overlay_sub, file = fn)
 }
 ```
 
 ```{r overlay_stats, eval=FALSE}
-n_distinct(data_overlay_future_10km$species)
+n_distinct(data_overlay_future_10km$acceptedScientificName)
 unique(data_overlay_future_10km$Classification)
 
-n_distinct(data_overlay_present_10km$species)
+n_distinct(data_overlay_present_10km$acceptedScientificName)
 unique(data_overlay_present_10km$Classification)
 ```
 
