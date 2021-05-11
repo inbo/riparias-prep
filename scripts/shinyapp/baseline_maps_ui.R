@@ -26,8 +26,7 @@ ui <- dashboardPage(
   dashboardBody(
     fluidRow(
       box(width = 12, 
-        img(src='Riparias_Logo.png', align = "right", height = 50),
-        img(src='INSTvoorNatuur_eng.jpg', align = "right", height = 50)
+        img(src='Riparias_Logo.png', align = "right", height = 90)
       )
     ),
     fluidRow(
