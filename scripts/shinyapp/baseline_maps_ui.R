@@ -33,7 +33,12 @@ ui <- dashboardPage(
       box(
         title = "map", width = 12,
         uiOutput("text1"),
-        leafletOutput("map", height = 700)
+        leafletOutput("map", height = 600)
+      )
+    ),
+    fluidRow(
+      box(width = 12,
+        "This tool was developed by the Research Institute for Nature and Forest within the framework of the Life RIPARIAS project"
       )
     )
   )
