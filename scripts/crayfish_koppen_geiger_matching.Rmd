@@ -208,32 +208,17 @@ write_csv(no_gbif_data, "./data/interim/crayfish_missing_from_gbif.csv")
 ```
 
 # CLIMATE MATCHING
+```{r get belgian KG codes}
+update_bel_codes <- menu(choices = c("Yes", "No"),
+                         title = "Update belgian codes?",
+                         graphics = TRUE)
 
-```{r get belgian borders}
-wfs_regions <- "https://eservices.minfin.fgov.be/arcgis/services/R2C/Regions/MapServer/WFSServer"
-regions_client <- WFSClient$new(wfs_regions, 
-                                serviceVersion = "2.0.0")
-regions_client$getFeatureTypes(pretty = TRUE)
-
-url <- parse_url(wfs_regions)
-url$query <- list(service = "wfs",
-                  #version = "2.0.0", # optional
-                  request = "GetFeature",
-                  typename = "regions",
-                  srsName = "EPSG:4326"
-)
-request <- build_url(url)
-
-bel_regions <- readOGR(request) #Lambert2008
-
-bel_regions <- spTransform(bel_regions, crs_wgs)
-bel_regions <- fix_geo_problems(bel_regions, tries = 5)
-```
-
-```{r test bel_regions, eval=FALSE}
-leaflet(bel_regions) %>% 
-  addTiles() %>% 
-  addPolygons()
+if(update_bel_codes == 1){
+  source("./scripts/get_KG_codes.R")
+  bel_gridcodes <- get_KG_codes("belgium")
+}else{
+  bel_gridcodes <- read_csv("./data/interim/belgium_KG_codes.csv")
+}
 ```
 
 ```{r Create filelists}
@@ -252,27 +237,6 @@ koppen_geiger_shapes <- gsub(pattern = ".shp",
 present_shape <- subset(koppen_geiger_shapes, 
                         grepl(pattern = "present", 
                               koppen_geiger_shapes))
-```
-
-```{r Determine climate zones in Belgium + read shapes}
-for(f in koppen_geiger_shapes){
-  shape <- readOGR(dsn = "./data/spatial/koppen-geiger", 
-                   layer = f,
-                   stringsAsFactors = FALSE)
-  shape <- spTransform(shape, crs_wgs)
-  shape <- fix_geo_problems(shape, tries = 5)
-  shape@data <- shape@data %>% 
-    mutate(GRIDCODE = as.double(gridcode)) %>% 
-    left_join(legend)
-  
-  bel_girdcode_intersect <- raster::intersect(shape,bel_regions)
-  bel_gridcode <- bel_girdcode_intersect@data %>% 
-    distinct(GRIDCODE, Classification) %>% 
-    filter(!is.na(Classification))
-  
-  assign(f, shape)
-  assign(paste0("bel_gridcode", f), bel_gridcode)
-}
 ```
 
 ```{r Intersect gbif data with present climate}
