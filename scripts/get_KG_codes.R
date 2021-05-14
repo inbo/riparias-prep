@@ -23,7 +23,10 @@ get_KG_codes <- function(region = "belgium"){
   #addPolygons()
   
   # Get Legend ####
-  legend <- read_delim("./data/spatial/koppen-geiger/KG_Rubel-Kotteks_Legend.csv", ";")
+  RK_legend <- read_delim("./data/spatial/koppen-geiger/KG_Rubel-Kotteks_Legend.csv", 
+                          ";")
+  Be_legend <- read_delim("./data/spatial/koppen-geiger/KG_Beck_Legend.csv", 
+                          ";")
   
   # Create scenario - list ####
   scenario_list <- dir(path = "./data/spatial/koppen-geiger/future/",
@@ -59,10 +62,17 @@ get_KG_codes <- function(region = "belgium"){
     }
   }
   
-  output <- output %>% 
-    left_join(legend, by = c("KG_GridCode" = "GRIDCODE"))
+  output_1 <- output %>% 
+    filter(grepl(pattern = "Beck", scenario)) %>% 
+    left_join(Be_legend, by = c("KG_GridCode" = "GRIDCODE"))
+  
+  output_2 <- output %>% 
+    filter(!grepl(pattern = "Beck", scenario)) %>% 
+    left_join(RK_legend, by = c("KG_GridCode" = "GRIDCODE"))
+  
+  output_final <- rbind(output_1, output_2)
   
   # Export output ####
-  write_csv(output, paste0("./data/interim/", region, "_KG_codes.csv"))
-  return(output)
+  write_csv(output_final, paste0("./data/interim/", region, "_KG_codes.csv"))
+  return(output_final)
 }
