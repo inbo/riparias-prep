@@ -349,24 +349,20 @@ if(update_bel_codes == 1){
 ```
 
 ```{r Climate matching}
-
-
-
-for(f in koppen_geiger_shapes){
+for(b in unique(bel_gridcodes$scenario)){
+  bel_gridcodes_scenario <- bel_gridcodes %>% 
+    filter(scenario == b)
   
-  bel_gridcode <- get(paste0("bel_gridcode", f))
-  
-  data_overlay_sub <- data_overlay %>% 
-    filter(GRIDCODE %in% bel_gridcode$GRIDCODE) %>% 
+  data_overlay_scenario <- data_overlay %>% 
+    filter(Classification %in% bel_gridcodes_scenario$Classification) %>% 
     filter(n_totaal >= 90,
            perc_climate >= 0.2)
   
-  fn <- paste("data_overlay", f, taxonKeys_origin_str, sep="_")
+  fn <- paste("data_overlay", b, taxonKeys_origin_str, sep="_")
   fn <- paste0("./data/output/", fn, ".csv")
   
-  assign(paste("data_overlay", f, sep="_"), data_overlay_sub)
-  
-  write_csv(data_overlay_sub, file = fn)
+  assign(paste("data_overlay", b, sep="_"), data_overlay_scenario)
+  write_csv(data_overlay_scenario, file = fn)
 }
 ```
 
