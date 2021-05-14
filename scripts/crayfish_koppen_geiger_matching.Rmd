@@ -210,19 +210,6 @@ write_csv(no_gbif_data, "./data/interim/crayfish_missing_from_gbif.csv")
 ```
 
 # CLIMATE MATCHING
-```{r get belgian KG codes}
-update_bel_codes <- menu(choices = c("Yes", "No"),
-                         title = "Update belgian codes?",
-                         graphics = TRUE)
-
-if(update_bel_codes == 1){
-  source("./scripts/get_KG_codes.R")
-  bel_gridcodes <- get_KG_codes("belgium")
-}else{
-  bel_gridcodes <- read_csv("./data/interim/belgium_KG_codes.csv")
-}
-```
-
 ```{r Create filelists}
 observed_shapes <- dir(path = "./data/spatial/koppen-geiger/observed/", 
                        pattern = ".dbf")
@@ -348,7 +335,23 @@ leaflet(obs_shape) %>%
   addPolygons()
 ```
 
+```{r get belgian KG codes}
+update_bel_codes <- menu(choices = c("Yes", "No"),
+                         title = "Update belgian codes?",
+                         graphics = TRUE)
+
+if(update_bel_codes == 1){
+  source("./scripts/get_KG_codes.R")
+  bel_gridcodes <- get_KG_codes("belgium")
+}else{
+  bel_gridcodes <- read_csv("./data/interim/belgium_KG_codes.csv")
+}
+```
+
 ```{r Climate matching}
+
+
+
 for(f in koppen_geiger_shapes){
   
   bel_gridcode <- get(paste0("bel_gridcode", f))
