@@ -266,14 +266,14 @@ for(o in observed_shapes){
   
   # Overlay with observed climate:
   if(nrow(data_sp_sub@data)>0){
-     data_sub_over <- over(data_sp_sub, obs_shape)
-  data_sub_overlay <- bind_cols(data_sp_sub@data, data_sub_over) 
-  
-  if(nrow(data_overlay_1) == 0){
-    data_overlay_1 <- data_sub_overlay
-  }else{
-    data_overlay_1 <- rbind(data_overlay_1, data_sub_overlay)
-  }
+    data_sub_over <- over(data_sp_sub, obs_shape)
+    data_sub_overlay <- bind_cols(data_sp_sub@data, data_sub_over) 
+    
+    if(nrow(data_overlay_1) == 0){
+      data_overlay_1 <- data_sub_overlay
+    }else{
+      data_overlay_1 <- rbind(data_overlay_1, data_sub_overlay)
+    }
   }else{
     warning(paste0("No data was present in the gbifdataset for ", o))
   }
@@ -286,13 +286,40 @@ RK_legend <- read_delim("./data/spatial/koppen-geiger/KG_Rubel-Kotteks_Legend.cs
 data_overlay_1 <- data_overlay_1 %>% 
   mutate(GRIDCODE = as.double(GRIDCODE)) %>% 
   left_join(RK_legend, by = c("GRIDCODE"))
-  
 
 table(data_overlay_1$year, useNA = "ifany")
 table(data_overlay_1$Classification, useNA = "ifany")
 ```
 
 ```{r Intersect gbif data with climate shapes - after 2001}
+# Read observed shape
+obs_shape <- readOGR(dsn = "./data/spatial/koppen-geiger",
+                     layer = "present_10km",
+                     stringsAsFactors = FALSE)
+
+obs_shape <- spTransform(obs_shape, crs_wgs)
+
+# Subset data
+data_sp_sub <- subset(data_sp, 
+                      data_sp@data$year > 2000)
+
+table(data_sp_sub@data$year, useNA = "ifany")
+table(data_sp@data$year, useNA = "ifany")
+
+# Overlay with observed climate:
+data_sub_over <- over(data_sp_sub, obs_shape)
+data_overlay_2 <- bind_cols(data_sp_sub@data, data_sub_over) 
+
+# Apply translation into climateclasses
+Be_legend <- read_delim("./data/spatial/koppen-geiger/KG_Beck_Legend.csv", 
+                        ";")
+data_overlay_2 <- data_overlay_2 %>% 
+  rename(GRIDCODE = gridcode) %>% 
+  mutate(GRIDCODE = as.double(GRIDCODE)) %>% 
+  left_join(Be_legend, by = c("GRIDCODE"))
+
+table(data_overlay_2$year, useNA = "ifany")
+table(data_overlay_2$Classification, useNA = "ifany")
 ```
 
 ```{r data overlay}
