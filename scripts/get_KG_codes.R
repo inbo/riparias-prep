@@ -15,8 +15,8 @@ get_KG_codes <- function(region = "belgium"){
   
   # Get Belgian Border ####
   worldmap <- getMap(resolution = "low")
-  belgian_border <- subset(worldmap, tolower(worldmap$ADMIN) == region) 
-  belgian_border <- spTransform(belgian_border, crs_wgs)
+  region_border <- subset(worldmap, tolower(worldmap$ADMIN) == region) 
+  region_border <- spTransform(region_border, crs_wgs)
   
   #leaflet(belgian_border) %>% 
   # addTiles() %>% 
@@ -50,9 +50,9 @@ get_KG_codes <- function(region = "belgium"){
     shape@data <- shape@data %>% 
       mutate(GRIDCODE = as.integer(GRIDCODE)) 
     
-    bel_girdcode_intersect <- raster::intersect(shape, belgian_border)
+    girdcode_intersect <- raster::intersect(shape, belgian_border)
     
-    for(g in bel_girdcode_intersect@data$GRIDCODE){
+    for(g in girdcode_intersect@data$GRIDCODE){
       output <- output %>% 
         add_row(scenario = s,
                 KG_GridCode = g)
@@ -63,6 +63,6 @@ get_KG_codes <- function(region = "belgium"){
     left_join(legend, by = c("KG_GridCode" = "GRIDCODE"))
   
   # Export output ####
-  write_csv(output, "./data/interim/belgian_KG_codes.csv")
+  write_csv(output, paste0("./data/interim/", region, "_KG_codes.csv"))
   return(output)
 }
