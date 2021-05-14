@@ -50,7 +50,7 @@ get_KG_codes <- function(region = "belgium"){
     shape@data <- shape@data %>% 
       mutate(GRIDCODE = as.integer(GRIDCODE)) 
     
-    girdcode_intersect <- raster::intersect(shape, belgian_border)
+    girdcode_intersect <- raster::intersect(shape, region_border)
     
     for(g in girdcode_intersect@data$GRIDCODE){
       output <- output %>% 
