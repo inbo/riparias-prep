@@ -24,11 +24,24 @@ ui <- dashboardPage(
     )
   ),
   dashboardBody(
+    tags$head(
+      includeCSS(path = "www/style.css")
+    ),
+    fluidRow(
+      box(width = 12, 
+        img(src='Riparias_Logo.png', align = "right", height = 90)
+      )
+    ),
     fluidRow(
       box(
         title = "map", width = 12,
         uiOutput("text1"),
-        leafletOutput("map", height = 900)
+        leafletOutput("map", height = 600)
+      )
+    ),
+    fluidRow(
+      box(width = 12,
+        "This tool was developed by the Research Institute for Nature and Forest within the framework of the Life RIPARIAS project"
       )
     )
   )
