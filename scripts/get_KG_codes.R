@@ -50,6 +50,12 @@ get_KG_codes <- function(region = "belgium"){
                      stringsAsFactors = FALSE)
     shape <- spTransform(shape, crs_wgs)
     shape <- fix_geo_problems(shape, tries = 5)
+    
+    if(c("gridcode") %in% colnames(shape@data)){
+      shape@data <- shape@data %>% 
+        rename(GRIDCODE = gridcode) 
+    }
+    
     shape@data <- shape@data %>% 
       mutate(GRIDCODE = as.integer(GRIDCODE)) 
     
@@ -71,6 +77,9 @@ get_KG_codes <- function(region = "belgium"){
     left_join(RK_legend, by = c("KG_GridCode" = "GRIDCODE"))
   
   output_final <- rbind(output_1, output_2)
+  
+  output_final <- output_final %>% 
+    filter(!is.na(Classification))
   
   # Export output ####
   write_csv(output_final, paste0("./data/interim/", region, "_KG_codes.csv"))
