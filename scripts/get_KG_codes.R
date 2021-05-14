@@ -57,6 +57,7 @@ for(s in scenario_list){
 
 output <- output %>% 
   left_join(legend, by = c("KG_GridCode" = "GRIDCODE"))
-# Export output ####
 
+# Export output ####
+write_csv(output, "./data/interim/belgian_KG_codes.csv")
 
