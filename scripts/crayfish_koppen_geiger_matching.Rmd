@@ -14,6 +14,7 @@ library(httr)
 library(rgeos)
 library(bcmaps)
 library(tiff)
+library(lubridate)
 library(tidyverse)
 check <- function(x){tryCatch(if(class(x) == 'logical') 1 else 1, error=function(e) 0)} 
 ```
@@ -169,7 +170,8 @@ data_redux <- data %>%
   left_join(introduced_species, by = c("acceptedTaxonKey")) %>% 
   filter(is.na(introduced)) %>% 
   distinct(acceptedTaxonKey, acceptedScientificName, decimalLongitude, decimalLatitude, eventDate) %>% 
-  mutate(decimalLongitude = as.numeric(decimalLongitude))
+  mutate(decimalLongitude = as.numeric(decimalLongitude)) %>% 
+  mutate(year = year(eventDate))
 
 not_introduced <- data_redux %>% 
   distinct(acceptedTaxonKey, acceptedScientificName)
@@ -222,26 +224,78 @@ if(update_bel_codes == 1){
 ```
 
 ```{r Create filelists}
-legend <- read_delim("./data/spatial/koppen-geiger/KG_Beck_Legend.csv", ";")
+observed_shapes <- dir(path = "./data/spatial/koppen-geiger/observed/", 
+                       pattern = ".dbf")
 
-koppen_geiger_shapes <- dir(path = "./data/spatial/koppen-geiger", 
-                            pattern = ".shp")
-koppen_geiger_shapes <- subset(koppen_geiger_shapes, 
-                               !grepl(pattern = ".xml", 
-                                      koppen_geiger_shapes))
-koppen_geiger_shapes <- unique(koppen_geiger_shapes)
-koppen_geiger_shapes <- gsub(pattern = ".shp", 
-                             replacement = "", 
-                             koppen_geiger_shapes)
-
-present_shape <- subset(koppen_geiger_shapes, 
-                        grepl(pattern = "present", 
-                              koppen_geiger_shapes))
+observed_shapes <- unique(observed_shapes)
+observed_shapes <- gsub(pattern = ".dbf", 
+                        replacement = "", 
+                        observed_shapes)
 ```
 
-```{r Intersect gbif data with present climate}
-data_sp_over <- over(data_sp, get(present_shape))
-data_overlay <- bind_cols(data_redux, data_sp_over) 
+As described in issue [#23](https://github.com/inbo/riparias-prep/issues/23)
+the intersect between the gbif data and the observed climate is to be split 
+according to the observation date. Data on gbif observed before 2001 (<=2000)
+is to be intersected by the respective Rubel & Kottek, 2010 - shapes. 
+While observations since 2001 shall be intersected by the shape from beck et al
+(1978 - 2016). Since the gridcodes for both sources is different further 
+analysis shall be done based on the translation into climate classes.
+
+```{r Intersect gbif data with climate shapes - before 2001}
+data_overlay_1 <- data.frame()
+
+for(o in observed_shapes){
+  # Read observed shape
+  obs_shape <- readOGR(dsn = "./data/spatial/koppen-geiger/observed",
+                       layer = o,
+                       stringsAsFactors = FALSE)
+  
+  obs_shape <- spTransform(obs_shape, crs_wgs)
+  
+  # Determine subset parameters
+  start <- as.numeric(substr(o, 0, 4))
+  end <- as.numeric(substr(o, 6, 9))
+  
+  # Subset data
+  data_sp_sub <- subset(data_sp, 
+                        data_sp@data$year >= start & 
+                          data_sp@data$year <= end)
+  
+  table(data_sp_sub@data$year, useNA = "ifany")
+  table(data_sp@data$year, useNA = "ifany")
+  
+  # Overlay with observed climate:
+  if(nrow(data_sp_sub@data)>0){
+     data_sub_over <- over(data_sp_sub, obs_shape)
+  data_sub_overlay <- bind_cols(data_sp_sub@data, data_sub_over) 
+  
+  if(nrow(data_overlay_1) == 0){
+    data_overlay_1 <- data_sub_overlay
+  }else{
+    data_overlay_1 <- rbind(data_overlay_1, data_sub_overlay)
+  }
+  }else{
+    warning(paste0("No data was present in the gbifdataset for ", o))
+  }
+}
+
+# Apply translation into climateclasses
+RK_legend <- read_delim("./data/spatial/koppen-geiger/KG_Rubel-Kotteks_Legend.csv", 
+                        ";")
+
+data_overlay_1 <- data_overlay_1 %>% 
+  mutate(GRIDCODE = as.double(GRIDCODE)) %>% 
+  left_join(RK_legend, by = c("GRIDCODE"))
+  
+
+table(data_overlay_1$year, useNA = "ifany")
+table(data_overlay_1$Classification, useNA = "ifany")
+```
+
+```{r Intersect gbif data with climate shapes - after 2001}
+```
+
+```{r data overlay}
 data_overlay <- data_overlay %>% 
   group_by(acceptedTaxonKey, acceptedScientificName, GRIDCODE) %>% 
   add_tally(name = "n_climate") %>% 
@@ -256,6 +310,12 @@ data_overlay <- data_overlay %>%
 write_csv(data_overlay, file = paste0("./data/interim/data_overlay_",
                                       taxonKeys_origin_str, 
                                       "_allSpecies.csv"))
+```
+
+```{r test obs_shape, eval = FALSE}
+leaflet(obs_shape) %>% 
+  addTiles() %>% 
+  addPolygons()
 ```
 
 ```{r Climate matching}
