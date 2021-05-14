@@ -314,7 +314,8 @@ data_overlay_2 <- bind_cols(data_sp_sub@data, data_sub_over)
 Be_legend <- read_delim("./data/spatial/koppen-geiger/KG_Beck_Legend.csv", 
                         ";")
 data_overlay_2 <- data_overlay_2 %>% 
-  rename(GRIDCODE = gridcode) %>% 
+  rename(GRIDCODE = gridcode,
+         ID = Id) %>% 
   mutate(GRIDCODE = as.double(GRIDCODE)) %>% 
   left_join(Be_legend, by = c("GRIDCODE"))
 
@@ -322,17 +323,19 @@ table(data_overlay_2$year, useNA = "ifany")
 table(data_overlay_2$Classification, useNA = "ifany")
 ```
 
-```{r data overlay}
+```{r combined data overlay}
+data_overlay <- rbind(data_overlay_1, data_overlay_2)
+
 data_overlay <- data_overlay %>% 
-  group_by(acceptedTaxonKey, acceptedScientificName, GRIDCODE) %>% 
+  group_by(acceptedTaxonKey, acceptedScientificName, Classification) %>% 
   add_tally(name = "n_climate") %>% 
   ungroup() %>% 
   group_by(acceptedTaxonKey, acceptedScientificName) %>% 
   add_tally(name = "n_totaal") %>% 
   ungroup() %>% 
   mutate(perc_climate = n_climate/n_totaal) %>% 
-  distinct(acceptedTaxonKey, acceptedScientificName, GRIDCODE, .keep_all = TRUE) %>% 
-  select(-decimalLatitude, -decimalLongitude, -gridcode, -Id, -eventDate)
+  distinct(acceptedTaxonKey, acceptedScientificName, Classification, .keep_all = TRUE) %>% 
+  select(-decimalLatitude, -decimalLongitude, -GRIDCODE, -ID, -eventDate, -year)
 
 write_csv(data_overlay, file = paste0("./data/interim/data_overlay_",
                                       taxonKeys_origin_str, 
