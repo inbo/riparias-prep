@@ -366,49 +366,7 @@ for(b in unique(bel_gridcodes$scenario)){
 }
 ```
 
-```{r overlay_stats, eval=FALSE}
-n_distinct(data_overlay_future_10km$acceptedScientificName)
-unique(data_overlay_future_10km$Classification)
 
-n_distinct(data_overlay_present_10km$acceptedScientificName)
-unique(data_overlay_present_10km$Classification)
-```
-
-```{r test koppen_geiger, eval=FALSE}
-temp_shape_1 <- get(koppen_geiger_shapes[1])
-temp_shape_2 <- get(koppen_geiger_shapes[2])
-
-pal_1 <- colorBin(palette = "RdYlGn", domain = as.numeric(temp_shape_1$GRIDCODE))
-pal_2 <- colorBin(palette = "RdYlGn", domain = as.numeric(temp_shape_2$GRIDCODE))
-
-map <- leaflet() %>% 
-  addTiles() %>% 
-  addPolygons(data = temp_shape_1,
-              group = koppen_geiger_shapes[1],
-              fillColor = ~pal_1(as.numeric(GRIDCODE)),
-              popup = ~GRIDCODE) %>% 
-  addPolygons(data = temp_shape_2,
-              group = koppen_geiger_shapes[2],
-              fillColor = ~pal_2(as.numeric(GRIDCODE)),
-              popup = ~GRIDCODE) %>% 
-  addLayersControl(overlayGroups = koppen_geiger_shapes)
-
-map2a <- leaflet() %>% 
-  addTiles() %>% 
-  addPolygons(data = temp_shape_1,
-              group = ~GRIDCODE,
-              fillColor = ~pal_2(as.numeric(GRIDCODE))) %>% 
-  addLayersControl(overlayGroups = temp_shape_1@data$GRIDCODE) %>% 
-  hideGroup(temp_shape_1@data$GRIDCODE)
-
-map2b <- leaflet() %>% 
-  addTiles() %>% 
-  addPolygons(data = temp_shape_2,
-              group = ~GRIDCODE,
-              fillColor = ~pal_2(as.numeric(GRIDCODE))) %>% 
-  addLayersControl(overlayGroups = temp_shape_2@data$GRIDCODE) %>% 
-  hideGroup(temp_shape_2@data$GRIDCODE)
-```
 
 
 
