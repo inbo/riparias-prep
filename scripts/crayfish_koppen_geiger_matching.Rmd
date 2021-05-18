@@ -370,7 +370,7 @@ for(b in unique(bel_gridcodes$scenario)){
   assign(paste("data_overlay", b, "filtered", sep="_"), 
          data_overlay_scenario_filtered)
   write_csv(data_overlay_scenario, file = fn)
-  write_csv(data_overlay_scenario_filtered, file = fn)
+  write_csv(data_overlay_scenario_filtered, file = fn2)
 }
 ```
 
