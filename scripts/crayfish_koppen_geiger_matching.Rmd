@@ -354,15 +354,23 @@ for(b in unique(bel_gridcodes$scenario)){
     filter(scenario == b)
   
   data_overlay_scenario <- data_overlay %>% 
-    filter(Classification %in% bel_gridcodes_scenario$Classification) %>% 
+    filter(Classification %in% bel_gridcodes_scenario$Classification) 
+  
+  data_overlay_scenario_filtered <- data_overlay_scenario %>% 
     filter(n_totaal >= 90,
            perc_climate >= 0.2)
   
   fn <- paste("data_overlay", b, taxonKeys_origin_str, sep="_")
-  fn <- paste0("./data/output/", fn, ".csv")
+  fn <- paste0("./data/interim/", fn, ".csv")
+  fn2 <- paste("data_overlay", b, taxonKeys_origin_str, "filtered", sep = "_")
+  fn2 <- paste0("./data/output/", fn2, ".csv")
   
-  assign(paste("data_overlay", b, sep="_"), data_overlay_scenario)
+  assign(paste("data_overlay", b, sep="_"), 
+         data_overlay_scenario)
+  assign(paste("data_overlay", b, "filtered", sep="_"), 
+         data_overlay_scenario_filtered)
   write_csv(data_overlay_scenario, file = fn)
+  write_csv(data_overlay_scenario_filtered, file = fn)
 }
 ```
 
