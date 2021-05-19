@@ -14,6 +14,7 @@ library(httr)
 library(rgeos)
 library(bcmaps)
 library(tiff)
+library(lubridate)
 library(tidyverse)
 check <- function(x){tryCatch(if(class(x) == 'logical') 1 else 1, error=function(e) 0)} 
 ```
@@ -169,7 +170,8 @@ data_redux <- data %>%
   left_join(introduced_species, by = c("acceptedTaxonKey")) %>% 
   filter(is.na(introduced)) %>% 
   distinct(acceptedTaxonKey, acceptedScientificName, decimalLongitude, decimalLatitude, eventDate) %>% 
-  mutate(decimalLongitude = as.numeric(decimalLongitude))
+  mutate(decimalLongitude = as.numeric(decimalLongitude)) %>% 
+  mutate(year = year(eventDate))
 
 not_introduced <- data_redux %>% 
   distinct(acceptedTaxonKey, acceptedScientificName)
@@ -208,154 +210,171 @@ write_csv(no_gbif_data, "./data/interim/crayfish_missing_from_gbif.csv")
 ```
 
 # CLIMATE MATCHING
-
-```{r get belgian borders}
-wfs_regions <- "https://eservices.minfin.fgov.be/arcgis/services/R2C/Regions/MapServer/WFSServer"
-regions_client <- WFSClient$new(wfs_regions, 
-                                serviceVersion = "2.0.0")
-regions_client$getFeatureTypes(pretty = TRUE)
-
-url <- parse_url(wfs_regions)
-url$query <- list(service = "wfs",
-                  #version = "2.0.0", # optional
-                  request = "GetFeature",
-                  typename = "regions",
-                  srsName = "EPSG:4326"
-)
-request <- build_url(url)
-
-bel_regions <- readOGR(request) #Lambert2008
-
-bel_regions <- spTransform(bel_regions, crs_wgs)
-bel_regions <- fix_geo_problems(bel_regions, tries = 5)
-```
-
-```{r test bel_regions, eval=FALSE}
-leaflet(bel_regions) %>% 
-  addTiles() %>% 
-  addPolygons()
-```
-
 ```{r Create filelists}
-legend <- read_delim("./data/spatial/koppen-geiger/KG_Beck_Legend.csv", ";")
+observed_shapes <- dir(path = "./data/spatial/koppen-geiger/observed/", 
+                       pattern = ".dbf")
 
-koppen_geiger_shapes <- dir(path = "./data/spatial/koppen-geiger", 
-                            pattern = ".shp")
-koppen_geiger_shapes <- subset(koppen_geiger_shapes, 
-                               !grepl(pattern = ".xml", 
-                                      koppen_geiger_shapes))
-koppen_geiger_shapes <- unique(koppen_geiger_shapes)
-koppen_geiger_shapes <- gsub(pattern = ".shp", 
-                             replacement = "", 
-                             koppen_geiger_shapes)
-
-present_shape <- subset(koppen_geiger_shapes, 
-                        grepl(pattern = "present", 
-                              koppen_geiger_shapes))
+observed_shapes <- unique(observed_shapes)
+observed_shapes <- gsub(pattern = ".dbf", 
+                        replacement = "", 
+                        observed_shapes)
 ```
 
-```{r Determine climate zones in Belgium + read shapes}
-for(f in koppen_geiger_shapes){
-  shape <- readOGR(dsn = "./data/spatial/koppen-geiger", 
-                   layer = f,
-                   stringsAsFactors = FALSE)
-  shape <- spTransform(shape, crs_wgs)
-  shape <- fix_geo_problems(shape, tries = 5)
-  shape@data <- shape@data %>% 
-    mutate(GRIDCODE = as.double(gridcode)) %>% 
-    left_join(legend)
+As described in issue [#23](https://github.com/inbo/riparias-prep/issues/23)
+the intersect between the gbif data and the observed climate is to be split 
+according to the observation date. Data on gbif observed before 2001 (<=2000)
+is to be intersected by the respective Rubel & Kottek, 2010 - shapes. 
+While observations since 2001 shall be intersected by the shape from beck et al
+(1978 - 2016). Since the gridcodes for both sources is different further 
+analysis shall be done based on the translation into climate classes.
+
+```{r Intersect gbif data with climate shapes - before 2001}
+data_overlay_1 <- data.frame()
+
+for(o in observed_shapes){
+  # Read observed shape
+  obs_shape <- readOGR(dsn = "./data/spatial/koppen-geiger/observed",
+                       layer = o,
+                       stringsAsFactors = FALSE)
   
-  bel_girdcode_intersect <- raster::intersect(shape,bel_regions)
-  bel_gridcode <- bel_girdcode_intersect@data %>% 
-    distinct(GRIDCODE, Classification) %>% 
-    filter(!is.na(Classification))
+  obs_shape <- spTransform(obs_shape, crs_wgs)
   
-  assign(f, shape)
-  assign(paste0("bel_gridcode", f), bel_gridcode)
+  # Determine subset parameters
+  start <- as.numeric(substr(o, 0, 4))
+  end <- as.numeric(substr(o, 6, 9))
+  
+  # Subset data
+  data_sp_sub <- subset(data_sp, 
+                        data_sp@data$year >= start & 
+                          data_sp@data$year <= end)
+  
+  table(data_sp_sub@data$year, useNA = "ifany")
+  table(data_sp@data$year, useNA = "ifany")
+  
+  # Overlay with observed climate:
+  if(nrow(data_sp_sub@data)>0){
+    data_sub_over <- over(data_sp_sub, obs_shape)
+    data_sub_overlay <- bind_cols(data_sp_sub@data, data_sub_over) 
+    
+    if(nrow(data_overlay_1) == 0){
+      data_overlay_1 <- data_sub_overlay
+    }else{
+      data_overlay_1 <- rbind(data_overlay_1, data_sub_overlay)
+    }
+  }else{
+    warning(paste0("No data was present in the gbifdataset for ", o))
+  }
 }
+
+# Apply translation into climateclasses
+RK_legend <- read_delim("./data/spatial/koppen-geiger/KG_Rubel-Kotteks_Legend.csv", 
+                        ";")
+
+data_overlay_1 <- data_overlay_1 %>% 
+  mutate(GRIDCODE = as.double(GRIDCODE)) %>% 
+  left_join(RK_legend, by = c("GRIDCODE"))
+
+table(data_overlay_1$year, useNA = "ifany")
+table(data_overlay_1$Classification, useNA = "ifany")
 ```
 
-```{r Intersect gbif data with present climate}
-data_sp_over <- over(data_sp, get(present_shape))
-data_overlay <- bind_cols(data_redux, data_sp_over) 
+```{r Intersect gbif data with climate shapes - after 2001}
+# Read observed shape
+obs_shape <- readOGR(dsn = "./data/spatial/koppen-geiger",
+                     layer = "present_10km",
+                     stringsAsFactors = FALSE)
+
+obs_shape <- spTransform(obs_shape, crs_wgs)
+
+# Subset data
+data_sp_sub <- subset(data_sp, 
+                      data_sp@data$year > 2000)
+
+table(data_sp_sub@data$year, useNA = "ifany")
+table(data_sp@data$year, useNA = "ifany")
+
+# Overlay with observed climate:
+data_sub_over <- over(data_sp_sub, obs_shape)
+data_overlay_2 <- bind_cols(data_sp_sub@data, data_sub_over) 
+
+# Apply translation into climateclasses
+Be_legend <- read_delim("./data/spatial/koppen-geiger/KG_Beck_Legend.csv", 
+                        ";")
+data_overlay_2 <- data_overlay_2 %>% 
+  rename(GRIDCODE = gridcode,
+         ID = Id) %>% 
+  mutate(GRIDCODE = as.double(GRIDCODE)) %>% 
+  left_join(Be_legend, by = c("GRIDCODE"))
+
+table(data_overlay_2$year, useNA = "ifany")
+table(data_overlay_2$Classification, useNA = "ifany")
+```
+
+```{r combined data overlay}
+data_overlay <- rbind(data_overlay_1, data_overlay_2)
+
 data_overlay <- data_overlay %>% 
-  group_by(acceptedTaxonKey, acceptedScientificName, GRIDCODE) %>% 
+  group_by(acceptedTaxonKey, acceptedScientificName, Classification) %>% 
   add_tally(name = "n_climate") %>% 
   ungroup() %>% 
   group_by(acceptedTaxonKey, acceptedScientificName) %>% 
   add_tally(name = "n_totaal") %>% 
   ungroup() %>% 
   mutate(perc_climate = n_climate/n_totaal) %>% 
-  distinct(acceptedTaxonKey, acceptedScientificName, GRIDCODE, .keep_all = TRUE) %>% 
-  select(-decimalLatitude, -decimalLongitude, -gridcode, -Id, -eventDate)
+  distinct(acceptedTaxonKey, acceptedScientificName, Classification, .keep_all = TRUE) %>% 
+  select(-decimalLatitude, -decimalLongitude, -GRIDCODE, -ID, -eventDate, -year)
 
 write_csv(data_overlay, file = paste0("./data/interim/data_overlay_",
                                       taxonKeys_origin_str, 
                                       "_allSpecies.csv"))
 ```
 
-```{r Climate matching}
-for(f in koppen_geiger_shapes){
-  
-  bel_gridcode <- get(paste0("bel_gridcode", f))
-  
-  data_overlay_sub <- data_overlay %>% 
-    filter(GRIDCODE %in% bel_gridcode$GRIDCODE) %>% 
-    filter(n_totaal >= 90,
-           perc_climate >= 0.2)
-  
-  fn <- paste("data_overlay", f, taxonKeys_origin_str, sep="_")
-  fn <- paste0("./data/output/", fn, ".csv")
-  
-  assign(paste("data_overlay", f, sep="_"), data_overlay_sub)
-  
-  write_csv(data_overlay_sub, file = fn)
+```{r test obs_shape, eval = FALSE}
+leaflet(obs_shape) %>% 
+  addTiles() %>% 
+  addPolygons()
+```
+
+```{r get belgian KG codes}
+update_bel_codes <- menu(choices = c("Yes", "No"),
+                         title = "Update belgian codes?",
+                         graphics = TRUE)
+
+if(update_bel_codes == 1){
+  source("./scripts/get_KG_codes.R")
+  bel_gridcodes <- get_KG_codes("belgium")
+}else{
+  bel_gridcodes <- read_csv("./data/interim/belgium_KG_codes.csv")
 }
 ```
 
-```{r overlay_stats, eval=FALSE}
-n_distinct(data_overlay_future_10km$acceptedScientificName)
-unique(data_overlay_future_10km$Classification)
-
-n_distinct(data_overlay_present_10km$acceptedScientificName)
-unique(data_overlay_present_10km$Classification)
+```{r Climate matching}
+for(b in unique(bel_gridcodes$scenario)){
+  bel_gridcodes_scenario <- bel_gridcodes %>% 
+    filter(scenario == b)
+  
+  data_overlay_scenario <- data_overlay %>% 
+    filter(Classification %in% bel_gridcodes_scenario$Classification) 
+  
+  data_overlay_scenario_filtered <- data_overlay_scenario %>% 
+    filter(n_totaal >= 90,
+           perc_climate >= 0.2)
+  
+  fn <- paste("data_overlay", b, taxonKeys_origin_str, sep="_")
+  fn <- paste0("./data/interim/", fn, ".csv")
+  fn2 <- paste("data_overlay", b, taxonKeys_origin_str, "filtered", sep = "_")
+  fn2 <- paste0("./data/output/", fn2, ".csv")
+  
+  assign(paste("data_overlay", b, sep="_"), 
+         data_overlay_scenario)
+  assign(paste("data_overlay", b, "filtered", sep="_"), 
+         data_overlay_scenario_filtered)
+  write_csv(data_overlay_scenario, file = fn)
+  write_csv(data_overlay_scenario_filtered, file = fn2)
+}
 ```
 
-```{r test koppen_geiger, eval=FALSE}
-temp_shape_1 <- get(koppen_geiger_shapes[1])
-temp_shape_2 <- get(koppen_geiger_shapes[2])
 
-pal_1 <- colorBin(palette = "RdYlGn", domain = as.numeric(temp_shape_1$GRIDCODE))
-pal_2 <- colorBin(palette = "RdYlGn", domain = as.numeric(temp_shape_2$GRIDCODE))
-
-map <- leaflet() %>% 
-  addTiles() %>% 
-  addPolygons(data = temp_shape_1,
-              group = koppen_geiger_shapes[1],
-              fillColor = ~pal_1(as.numeric(GRIDCODE)),
-              popup = ~GRIDCODE) %>% 
-  addPolygons(data = temp_shape_2,
-              group = koppen_geiger_shapes[2],
-              fillColor = ~pal_2(as.numeric(GRIDCODE)),
-              popup = ~GRIDCODE) %>% 
-  addLayersControl(overlayGroups = koppen_geiger_shapes)
-
-map2a <- leaflet() %>% 
-  addTiles() %>% 
-  addPolygons(data = temp_shape_1,
-              group = ~GRIDCODE,
-              fillColor = ~pal_2(as.numeric(GRIDCODE))) %>% 
-  addLayersControl(overlayGroups = temp_shape_1@data$GRIDCODE) %>% 
-  hideGroup(temp_shape_1@data$GRIDCODE)
-
-map2b <- leaflet() %>% 
-  addTiles() %>% 
-  addPolygons(data = temp_shape_2,
-              group = ~GRIDCODE,
-              fillColor = ~pal_2(as.numeric(GRIDCODE))) %>% 
-  addLayersControl(overlayGroups = temp_shape_2@data$GRIDCODE) %>% 
-  hideGroup(temp_shape_2@data$GRIDCODE)
-```
 
 
 
