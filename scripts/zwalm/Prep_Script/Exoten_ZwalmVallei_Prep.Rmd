@@ -26,11 +26,11 @@ nameserver$taxonKey <- as.double(nameserver$taxonKey)
 ```
 
 ```{r read data, include=FALSE}
-baseline <- readOGR("../riparias-prep/data/spatial/baseline", 
+baseline <- readOGR("./data/spatial/baseline", 
                     "t2_ALL_points_Batch2_1_3", 
                     stringsAsFactors = FALSE)
 
-zwalmvallei <- readOGR("./Data/Spatial", 
+zwalmvallei <- readOGR("./data/spatial/zwalm", 
                        "Middenloop_RB", 
                        stringsAsFactors = FALSE)
 
