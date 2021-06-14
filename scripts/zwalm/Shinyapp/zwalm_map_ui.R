@@ -2,12 +2,19 @@ library(shiny)
 library(shinydashboard)
 library(leaflet)
 library(rgdal)
+library(rgeos)
 
-points_in_perimeter <- readOGR("https://github.com/inbo/fis-projecten/raw/136_zwalm/Exoten/zwalm/Files/points_in_zwalm.geojson", stringsAsFactors = FALSE)
-perimeter_shape <- readOGR("https://github.com/inbo/fis-projecten/raw/136_zwalm/Exoten/zwalm/Files/zwalmvallei.geojson", stringsAsFactors = FALSE)
-perimeter_buffer <- readOGR("https://github.com/inbo/fis-projecten/raw/136_zwalm/Exoten/zwalm/Files/zwalmvallei_buffer.geojson", stringsAsFactors = FALSE)
+branch <- "https://github.com/inbo/riparias-prep/raw/27_Update_Riparias_Baseline/scripts/"
+
+points_in_perimeter <- readOGR(paste0(branch, "zwalm/Files/points_in_zwalm.geojson")
+                               , stringsAsFactors = FALSE)
+perimeter_shape <- readOGR(paste0(branch, "zwalm/Files/zwalmvallei.geojson")
+                           , stringsAsFactors = FALSE)
+perimeter_buffer <- readOGR(paste0(branch, "zwalm/Files/zwalmvallei_buffer.geojson")
+                            , stringsAsFactors = FALSE)
 
 bbox <- as.data.frame(perimeter_shape@bbox)
+centroid <- gCentroid(perimeter_shape)
 
 ui <- dashboardPage(
   dashboardHeader(title = "Exoten in de Zwalm vallei"),
@@ -30,7 +37,7 @@ ui <- dashboardPage(
     ),
     fluidRow(
       box(width = 12, 
-        img(src='INSTvoorNatuur_eng', align = "right", height = 90)
+          img(src='INSTvoorNatuur_eng.jpg', align = "right", height = 90)
       )
     ),
     fluidRow(
@@ -47,6 +54,7 @@ server <- function(input, output) {
   
   output$text1 <- renderUI({
     text <- "Selecteer minstens 1 soort om de waarnemingen weer te geven"
+    
     if(length(input$species) == 1){
       text <- HTML(paste0(em(input$species), " waarnemingen tussen ", 
                           strong(input$slider[1]), " & ", 
@@ -87,14 +95,12 @@ server <- function(input, output) {
       addPolylines(data = perimeter_shape, 
                    color = "black") %>% 
       addPolylines(data = perimeter_buffer, 
-                   color = "grey")
+                   color = "grey") %>% 
       addCircleMarkers(popup = points_in_perimeter_sub$popup,
                        radius = 1,
                        color = "red") %>% 
-      setMaxBounds(lng1 = bbox$min[1], 
-                   lat1 = bbox$min[2], 
-                   lng2 = bbox$max[1], 
-                   lat2 = bbox$max[2])
+      setView(lng = centroid@coords[1], 
+              lat = centroid@coords[2], zoom = 11)
   })
 }
 
