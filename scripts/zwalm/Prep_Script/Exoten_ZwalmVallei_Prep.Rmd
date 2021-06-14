@@ -1,0 +1,69 @@
+---
+title: "Exoten ZwalmVallei"
+author: "Sander Devisscher"
+date: "14-6-2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(shiny)
+library(rgdal)
+library(sp)
+library(rgeos)
+library(leaflet)
+library(tidylog)
+library(googlesheets4)
+library(tidyverse)
+knitr::opts_chunk$set(echo = TRUE)
+crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
+```
+
+```{r get nameserver}
+bo_email <- Sys.getenv("bo_email")
+gs4_auth(email = bo_email)
+nameserver <- read_sheet("15f17hXE9ZyUxEe2xA0seKs0CSibgYJdkaWcnmVoI1yY")
+nameserver$taxonKey <- as.double(nameserver$taxonKey)
+```
+
+```{r read data, include=FALSE}
+baseline <- readOGR("../riparias-prep/data/spatial/baseline", 
+                    "t2_ALL_points_Batch2_1_3", 
+                    stringsAsFactors = FALSE)
+
+zwalmvallei <- readOGR("./Data/Spatial", 
+                       "Middenloop_RB", 
+                       stringsAsFactors = FALSE)
+
+zwalmvallei <- spTransform(zwalmvallei, "EPSG:31370")
+
+zwalmvallei_buffer <- gBuffer(zwalmvallei,
+                              width = 10000,
+                              byid = TRUE
+                              )
+
+zwalmvallei_buffer <- spTransform(zwalmvallei_buffer, crs_wgs)
+zwalmvallei <- spTransform(zwalmvallei, crs_wgs)
+
+writeOGR(zwalmvallei, dsn = "./Exoten/zwalm/Files/zwalmvallei.geojson", 
+         layer = "zwalmvallei", driver = "GeoJSON", overwrite_layer = TRUE)
+
+writeOGR(zwalmvallei_buffer, dsn = "./Exoten/zwalm/Files/zwalmvallei_buffer.geojson", 
+         layer = "zwalmvallei_buffer", driver = "GeoJSON", overwrite_layer = TRUE)
+```
+
+```{r subset points}
+points_in_zwalm <- raster::intersect(baseline, zwalmvallei_buffer)
+
+points_in_zwalm@data <- points_in_zwalm@data %>% 
+  left_join(nameserver, by = c("accptTK" = "taxonKey")) %>% 
+  mutate(popup = paste0("Soort: ", vernacular_name_nl, " <em>", scientific_name ,"</em><br>",
+                        "Jaar: ", year, "<br>",
+                        "Dataset: <a href=", datstID, ">", datstID, "</a><br>",
+                        "Bron: ", Source, "<br>",
+                        recrdrl, "GBIF record</a>"))
+
+writeOGR(points_in_zwalm, dsn = "./Exoten/zwalm/Files/points_in_zwalm.geojson", 
+         layer = "points_in_zwalm", driver = "GeoJSON", overwrite_layer = TRUE)
+
+```
+
