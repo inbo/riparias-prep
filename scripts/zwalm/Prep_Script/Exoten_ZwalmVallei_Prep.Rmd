@@ -44,17 +44,17 @@ zwalmvallei_buffer <- gBuffer(zwalmvallei,
 zwalmvallei_buffer <- spTransform(zwalmvallei_buffer, crs_wgs)
 zwalmvallei <- spTransform(zwalmvallei, crs_wgs)
 
-writeOGR(zwalmvallei, dsn = "./Exoten/zwalm/Files/zwalmvallei.geojson", 
+writeOGR(zwalmvallei, dsn = "./scripts/zwalm/Files/zwalmvallei.geojson", 
          layer = "zwalmvallei", driver = "GeoJSON", overwrite_layer = TRUE)
 
-writeOGR(zwalmvallei, dsn = "./Exoten/zwalm/Files", 
+writeOGR(zwalmvallei, dsn = "./scripts/zwalm/Files", 
          layer = "zwalmvallei", driver = "ESRI Shapefile", 
          overwrite_layer = TRUE)
 
-writeOGR(zwalmvallei_buffer, dsn = "./Exoten/zwalm/Files/zwalmvallei_buffer.geojson", 
+writeOGR(zwalmvallei_buffer, dsn = "./scripts/zwalm/Files/zwalmvallei_buffer.geojson", 
          layer = "zwalmvallei_buffer", driver = "GeoJSON", overwrite_layer = TRUE)
 
-writeOGR(zwalmvallei_buffer, dsn = "./Exoten/zwalm/Files", 
+writeOGR(zwalmvallei_buffer, dsn = "./scripts/zwalm/Files", 
          layer = "zwalmvallei_buffer", driver = "ESRI Shapefile"
          , overwrite_layer = TRUE)
 ```
@@ -70,10 +70,10 @@ points_in_zwalm@data <- points_in_zwalm@data %>%
                         "Bron: ", Source, "<br>",
                         recrdrl, "GBIF record</a>"))
 
-writeOGR(points_in_zwalm, dsn = "./Exoten/zwalm/Files/points_in_zwalm.geojson", 
+writeOGR(points_in_zwalm, dsn = "./scripts/zwalm/Files/points_in_zwalm.geojson", 
          layer = "points_in_zwalm", driver = "GeoJSON", overwrite_layer = TRUE)
 
-writeOGR(points_in_zwalm, dsn = "./Exoten/zwalm/Files", 
+writeOGR(points_in_zwalm, dsn = "./scripts/zwalm/Files", 
          layer = "points_in_zwalm", driver = "ESRI Shapefile"
          , overwrite_layer = TRUE)
 
