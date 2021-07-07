@@ -18,6 +18,8 @@ knitr::opts_chunk$set(echo = TRUE)
 crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 ```
 
+https://docs.google.com/spreadsheets/d/15f17hXE9ZyUxEe2xA0seKs0CSibgYJdkaWcnmVoI1yY/edit#gid=0
+
 ```{r get nameserver}
 bo_email <- Sys.getenv("bo_email")
 gs4_auth(email = bo_email)
