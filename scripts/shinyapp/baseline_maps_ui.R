@@ -3,8 +3,10 @@ library(shinydashboard)
 library(leaflet)
 library(rgdal)
 
-points_in_perimeter <- readOGR("https://github.com/inbo/riparias-prep/raw/master/data/spatial/baseline/points_in_perimeter.geojson", stringsAsFactors = FALSE)
-perimeter_shape <- readOGR("https://github.com/inbo/riparias-prep/raw/master/data/spatial/perimeter/Riparias_Official_StudyArea.geojson", stringsAsFactors = FALSE)
+branch <- "27_Update_Riparias_Baseline"
+
+points_in_perimeter <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/points_in_perimeter.geojson"), stringsAsFactors = FALSE)
+perimeter_shape <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
 
 bbox <- as.data.frame(perimeter_shape@bbox)
 
@@ -24,11 +26,24 @@ ui <- dashboardPage(
     )
   ),
   dashboardBody(
+    tags$head(
+      includeCSS(path = "www/style.css")
+    ),
+    fluidRow(
+      box(width = 12, 
+        img(src='Riparias_Logo.png', align = "right", height = 90)
+      )
+    ),
     fluidRow(
       box(
         title = "map", width = 12,
         uiOutput("text1"),
-        leafletOutput("map", height = 900)
+        leafletOutput("map", height = 600)
+      )
+    ),
+    fluidRow(
+      box(width = 12,
+        "This tool was developed by the Research Institute for Nature and Forest within the framework of the Life RIPARIAS project"
       )
     )
   )
