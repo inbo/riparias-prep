@@ -100,12 +100,14 @@ Due to overlap between taxonkeys in cuts for speed sake distinct has to be added
 final_unfiltered <- data.frame()
 final_filtered <- data.frame()
 final_cm <- data.frame()
+raw_data_final <- data.frame()
 
 for(i in 1:cuts){
   data_list <- get(paste0("output_", i))
   data_filtered <- data_list$filtered
   data_cm <- data_list$cm
   data_unfiltered <- data_list$unfiltered
+  data_raw <- data_list$spatial@data
   
   if(nrow(final_filtered)==0){
     final_filtered <- data_filtered
@@ -124,6 +126,12 @@ for(i in 1:cuts){
   }else{
     final_unfiltered <- rbind(final_unfiltered, data_unfiltered)
   }
+  
+  if(nrow(raw_data_final)==0){
+    raw_data_final <- data_raw
+  }else{
+    raw_data_final <- rbind(raw_data_final, data_raw)
+  }
 }
 
 
@@ -138,6 +146,9 @@ write_csv(final_cm, "./data/output/plants_data_overlay_future.csv")
 final_unfiltered <- final_unfiltered %>% 
   distinct(taxonKey, Classification, .keep_all = TRUE) 
 write_csv(final_unfiltered, "./data/output/plants_data_overlay_present.csv")
+
+write_csv(raw_data_final, paste0("./data/raw/plants-downloads/", gsub(".zip", ".csv", zipfile)))
+
 ```
 
 
