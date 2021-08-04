@@ -10,8 +10,9 @@ and one the future climate according to Köppen Geiger.
 
 ```{r setup}
 library(googlesheets4)
-library(tidyverse)
+library(dplyr)
 library(rgbif)
+library(sp)
 
 library(devtools)
 install_github("trias-project/trias", ref = "73_climate_matching_function")
@@ -60,11 +61,38 @@ taxonkeys <- as.integer(unique(White_list_redux$taxonKey))
 ```{r run climate matching function}
 zipfile <- "./0336409-200613084148143.zip"
 
-output <- climate_match(region = "Belgium",
-                        taxonkey = taxonkeys,
+target <- 75
+cuts <- ceiling(length(taxonkeys)/target)
+
+gc(reset = TRUE)
+if(memory.limit() <= 300 * length(taxonkeys)){
+  memory.limit(size = 300 * length(taxonkeys))
+}
+
+for(i in 1:cuts){
+  gc(reset = TRUE)
+  if(i == 1){
+    start <- 1
+    end <- target
+  }else{
+    start <- (i-1)*target
+    end <- i*target
+    if(end > length(taxonkeys)){
+      end <- length(taxonkeys)
+    }
+  }
+  taxonkeys_sub <- taxonkeys[start:end]
+  output <- climate_match(region = "Belgium",
+                        taxonkey = taxonkeys_sub,
                         BasisOfRecord = c("HUMAN_OBSERVATION", "PRESERVED_SPECIMEN", "UNKNOWN"),
                         perc_climate = 0.2,
                         n_totaal = 90,
-                        zipfile = zipfile)
+                        zipfile = zipfile,
+                        maps = FALSE)
+  
+  assign(paste0("output_", i), output)
+}
+
+
 ```
 
