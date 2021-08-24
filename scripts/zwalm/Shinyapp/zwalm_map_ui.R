@@ -4,7 +4,7 @@ library(leaflet)
 library(rgdal)
 library(rgeos)
 
-branch <- "https://github.com/inbo/riparias-prep/raw/27_Update_Riparias_Baseline/scripts/"
+branch <- "https://github.com/inbo/riparias-prep/raw/master/scripts/"
 
 points_in_perimeter <- readOGR(paste0(branch, "zwalm/Files/points_in_zwalm.geojson")
                                , stringsAsFactors = FALSE)
