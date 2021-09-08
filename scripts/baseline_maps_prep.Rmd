@@ -79,6 +79,12 @@ table(points_in_perimeter$vernacular_name_en)
 writeOGR(points_in_perimeter, dsn = "./data/spatial/baseline/points_in_perimeter.geojson", layer = "points_in_perimeter", driver = "GeoJSON", overwrite_layer = TRUE)
 ```
 
+```{r export baseline shapes, eval=FALSE}
+baseline <- subset(points_in_perimeter, points_in_perimeter$year <= 2020)
+
+writeOGR(baseline, dsn = "./data/spatial/baseline/baseline.geojson", layer = "baseline", driver = "GeoJSON", overwrite_layer = TRUE)
+```
+
 ```{r export as csv}
 write_delim(points_in_perimeter@data, 
             "./data/output/points_in_perimeter.csv", 
