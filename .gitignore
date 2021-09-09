@@ -42,3 +42,5 @@ vignettes/*.pdf
 data/raw/*.zip
 data/raw/crayfish-downloads/all/*.zip
 data/raw/crayfish-downloads/white-list/*.zip
+data/raw/bul_bul_downloads/*.zip
+
