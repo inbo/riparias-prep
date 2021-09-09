@@ -5,7 +5,13 @@ date: "9-9-2021"
 output: html_document
 ---
 
+prior to running this script you might want to download any of these zipfiles:
+only p_jocosus @ https://www.gbif.org/occurrence/download/0286357-200613084148143 or
+both @ https://www.gbif.org/occurrence/download/0013307-210819072339941 
+and place the zipfile into the "./data/raw/bul_bul_downloads/" - folder
+
 ```{r libraries, include=FALSE}
+library(dplyr)
 library(rgbif)
 library(sp)
 
@@ -23,7 +29,7 @@ taxonkeys <- c(p_jocosus, p_cafer)
 ```
 
 ```{r cm, include=FALSE}
-zipfile <- ""
+zipfile <- "./data/raw/bul_bul_downloads/0013307-210819072339941.zip"
 
 if(file.exists(zipfile)){
   output <- climate_match(region = "Belgium",
