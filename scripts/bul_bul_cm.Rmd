@@ -22,7 +22,28 @@ p_cafer <- 2486131
 taxonkeys <- c(p_jocosus, p_cafer)
 ```
 
-```{r}
+```{r cm, include=FALSE}
+zipfile <- ""
 
+if(file.exists(zipfile)){
+  output <- climate_match(region = "Belgium",
+                        taxonkey = taxonkeys,
+                        BasisOfRecord = c("HUMAN_OBSERVATION", "PRESERVED_SPECIMEN", "UNKNOWN"),
+                        cm_limit = 0.2,
+                        n_limit = 90,
+                        zipfile = zipfile,
+                        maps = TRUE)
+}else{
+  output <- climate_match(region = "Belgium",
+                        taxonkey = taxonkeys,
+                        BasisOfRecord = c("HUMAN_OBSERVATION", "PRESERVED_SPECIMEN", "UNKNOWN"),
+                        cm_limit = 0.2,
+                        n_limit = 90,
+                        maps = TRUE)
+}
+```
+
+```{r species_maps}
+output$single_species_maps[p_jocosus]
 ```
 
