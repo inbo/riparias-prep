@@ -1,0 +1,28 @@
+---
+title: "cm_bul_bul"
+author: "Sander Devisscher"
+date: "9-9-2021"
+output: html_document
+---
+
+```{r libraries, include=FALSE}
+library(rgbif)
+library(sp)
+
+library(devtools)
+install_github("trias-project/trias", ref = "73_climate_matching_function")
+
+library(trias)
+```
+
+```{r taxonkeys, include=FALSE}
+p_jocosus <- 2486151
+p_cafer <- 2486131
+
+taxonkeys <- c(p_jocosus, p_cafer)
+```
+
+```{r}
+
+```
+
