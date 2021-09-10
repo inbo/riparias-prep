@@ -27,6 +27,11 @@ taxonkeys <- c(p_jocosus, p_cafer)
 ```{r cm, include=FALSE}
 zipfile <- "./data/raw/bul_bul_downloads/0013307-210819072339941.zip"
 
+gc(reset = TRUE)
+if(memory.limit() <= 80000){
+  memory.limit(size = as.numeric(80000))
+}
+
 if(file.exists(zipfile)){
   output <- climate_match(region = "Europe",
                         taxonkey = taxonkeys,
