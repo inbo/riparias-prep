@@ -28,26 +28,29 @@ taxonkeys <- c(p_jocosus, p_cafer)
 zipfile <- "./data/raw/bul_bul_downloads/0013307-210819072339941.zip"
 
 if(file.exists(zipfile)){
-  output <- climate_match(region = "Belgium",
+  output <- climate_match(region = "Europe",
                         taxonkey = taxonkeys,
                         BasisOfRecord = c("HUMAN_OBSERVATION", "PRESERVED_SPECIMEN", "UNKNOWN"),
-                        cm_limit = 0.2,
-                        n_limit = 90,
                         zipfile = zipfile,
                         maps = TRUE)
 }else{
-  output <- climate_match(region = "Belgium",
+  output <- climate_match(region = "Europe",
                         taxonkey = taxonkeys,
                         BasisOfRecord = c("HUMAN_OBSERVATION", "PRESERVED_SPECIMEN", "UNKNOWN"),
-                        cm_limit = 0.2,
-                        n_limit = 90,
                         maps = TRUE)
 }
 ```
 
+Kaarten: 
+per soort
+1. Current global
+2. Current Europe
+3. Future Europe
+
 ```{r species_maps}
-output$single_species_maps$`2486151`
+p_jocosus_map <- output$single_species_maps$`2486151`
+p_cafer_map <- output$single_species_maps$`2486131`
 
-
+europe_cm <- output$cm
 ```
 
