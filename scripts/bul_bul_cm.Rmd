@@ -11,10 +11,6 @@ both @ https://www.gbif.org/occurrence/download/0013307-210819072339941
 and place the zipfile into the "./data/raw/bul_bul_downloads/" - folder
 
 ```{r libraries, include=FALSE}
-library(dplyr)
-library(rgbif)
-library(sp)
-
 library(devtools)
 install_github("trias-project/trias", ref = "73_climate_matching_function")
 
@@ -50,6 +46,8 @@ if(file.exists(zipfile)){
 ```
 
 ```{r species_maps}
-output$single_species_maps[p_jocosus]
+output$single_species_maps$`2486151`
+
+
 ```
 
