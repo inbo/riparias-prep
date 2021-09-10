@@ -13,7 +13,8 @@ and place the zipfile into the "./data/raw/bul_bul_downloads/" - folder
 ```{r libraries, include=FALSE}
 library(devtools)
 install_github("trias-project/trias", ref = "73_climate_matching_function")
-
+library(leaflet)
+library(tidyverse)
 library(trias)
 ```
 
@@ -53,8 +54,12 @@ per soort
 3. Future Europe
 
 ```{r species_maps}
-p_jocosus_map <- output$single_species_maps$`2486151`
-p_cafer_map <- output$single_species_maps$`2486131`
+zoomlevel <- 3.5
+
+p_jocosus_map <- output$single_species_maps$`2486151` %>% 
+  leaflet::setView(lat = 51, lng = 15, zoom = zoomlevel)
+p_cafer_map <- output$single_species_maps$`2486131` %>% 
+  leaflet::setView(lat = 51, lng = 15, zoom = zoomlevel)
 
 europe_cm <- output$cm
 ```
