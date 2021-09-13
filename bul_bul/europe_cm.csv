@@ -1,0 +1,110 @@
+taxonKey,acceptedScientificName,Classification,Description,n_climate,n_totaal,perc_climate,scenario
+2486151,Pycnonotus jocosus,Cfb,Temperate oceanic climate,927,53628,0.01728574625195793,2071-2100_Beck
+2486151,Pycnonotus jocosus,Cfa,Humid subtropical climate,3970,53628,0.07402849257850376,2071-2100_Beck
+2486151,Pycnonotus jocosus,Aw,"Tropical savanna, wet",13956,53628,0.26023718952785857,2071-2100_Beck
+2486151,Pycnonotus jocosus,BSh,Hot semi-arid (steppe) climate,4272,53628,0.07965987916759902,2071-2100_Beck
+2486131,Pycnonotus cafer,Aw,"Tropical savanna, wet",28393,74094,0.38320241854941023,2071-2100_Beck
+2486131,Pycnonotus cafer,Af,Tropical rainforest climate,2355,74094,0.031783950117418414,2071-2100_Beck
+2486151,Pycnonotus jocosus,Csb,Warm-summer Mediterranean climate,17,53628,3.16998582829865e-4,2071-2100_Beck
+2486151,Pycnonotus jocosus,Am,Tropical monsoon climate,19293,53628,0.3597560975609756,2071-2100_Beck
+2486131,Pycnonotus cafer,BSh,Hot semi-arid (steppe) climate,14376,74094,0.19402380759575674,2071-2100_Beck
+2486131,Pycnonotus cafer,Am,Tropical monsoon climate,11940,74094,0.16114665155073285,2071-2100_Beck
+2486131,Pycnonotus cafer,BWh,Hot deserts climate,2736,74094,0.03692606688800713,2071-2100_Beck
+2486151,Pycnonotus jocosus,Af,Tropical rainforest climate,518,53628,0.009659133288580592,2071-2100_Beck
+2486151,Pycnonotus jocosus,Csa,Hot-summer Mediterranean climate,2302,53628,0.04292533751025584,2071-2100_Beck
+2486151,Pycnonotus jocosus,BSk,Cold semi-arid (steppe) climate,48,53628,8.950548221078541e-4,2071-2100_Beck
+2486151,Pycnonotus jocosus,BWh,Hot deserts climate,42,53628,7.831729693443723e-4,2071-2100_Beck
+2486131,Pycnonotus cafer,Csa,Hot-summer Mediterranean climate,46,74094,6.208329959240964e-4,2071-2100_Beck
+2486131,Pycnonotus cafer,Cfa,Humid subtropical climate,745,74094,0.01005479526007504,2071-2100_Beck
+2486131,Pycnonotus cafer,ET,Tundra,21,74094,2.8342375900882664e-4,2071-2100_Beck
+2486131,Pycnonotus cafer,Dwc,Monsoon-influenced subarctic climate,2,74094,2.6992738953221582e-5,2071-2100_Beck
+2486131,Pycnonotus cafer,Cfb,Temperate oceanic climate,258,74094,0.003482063324965584,2071-2100_Beck
+2486151,Pycnonotus jocosus,Dwa,Monsoon-influenced hot-summer humid continental climate,1,53628,1.8646975460580295e-5,2071-2100_Beck
+2486131,Pycnonotus cafer,Dwb,Monsoon-influenced warm-summer humid continental climate,23,74094,3.104164979620482e-4,2071-2100_Beck
+2486151,Pycnonotus jocosus,Dwb,Monsoon-influenced warm-summer humid continental climate,2,53628,3.729395092116059e-5,2071-2100_Beck
+2486131,Pycnonotus cafer,BSk,Cold semi-arid (steppe) climate,3,74094,4.048910842983238e-5,2071-2100_Beck
+2486131,Pycnonotus cafer,Dfb,Warm-summer humid continental climate,3,74094,4.048910842983238e-5,2071-2100_Beck
+2486151,Pycnonotus jocosus,Cfb,Temperate oceanic climate,927,53628,0.01728574625195793,2001-2025-A1FI
+2486151,Pycnonotus jocosus,Cfa,Humid subtropical climate,3970,53628,0.07402849257850376,2001-2025-A1FI
+2486151,Pycnonotus jocosus,BSh,Hot semi-arid (steppe) climate,4272,53628,0.07965987916759902,2001-2025-A1FI
+2486131,Pycnonotus cafer,Af,Tropical rainforest climate,2355,74094,0.031783950117418414,2001-2025-A1FI
+2486151,Pycnonotus jocosus,Csb,Warm-summer Mediterranean climate,17,53628,3.16998582829865e-4,2001-2025-A1FI
+2486131,Pycnonotus cafer,BSh,Hot semi-arid (steppe) climate,14376,74094,0.19402380759575674,2001-2025-A1FI
+2486131,Pycnonotus cafer,BWh,Hot deserts climate,2736,74094,0.03692606688800713,2001-2025-A1FI
+2486151,Pycnonotus jocosus,Af,Tropical rainforest climate,518,53628,0.009659133288580592,2001-2025-A1FI
+2486151,Pycnonotus jocosus,Csa,Hot-summer Mediterranean climate,2302,53628,0.04292533751025584,2001-2025-A1FI
+2486151,Pycnonotus jocosus,BSk,Cold semi-arid (steppe) climate,48,53628,8.950548221078541e-4,2001-2025-A1FI
+2486151,Pycnonotus jocosus,BWh,Hot deserts climate,42,53628,7.831729693443723e-4,2001-2025-A1FI
+2486131,Pycnonotus cafer,Csa,Hot-summer Mediterranean climate,46,74094,6.208329959240964e-4,2001-2025-A1FI
+2486131,Pycnonotus cafer,Cfa,Humid subtropical climate,745,74094,0.01005479526007504,2001-2025-A1FI
+2486131,Pycnonotus cafer,ET,Tundra,21,74094,2.8342375900882664e-4,2001-2025-A1FI
+2486131,Pycnonotus cafer,Dwc,Monsoon-influenced subarctic climate,2,74094,2.6992738953221582e-5,2001-2025-A1FI
+2486131,Pycnonotus cafer,Cfb,Temperate oceanic climate,258,74094,0.003482063324965584,2001-2025-A1FI
+2486151,Pycnonotus jocosus,Dwa,Monsoon-influenced hot-summer humid continental climate,1,53628,1.8646975460580295e-5,2001-2025-A1FI
+2486131,Pycnonotus cafer,Dwb,Monsoon-influenced warm-summer humid continental climate,23,74094,3.104164979620482e-4,2001-2025-A1FI
+2486151,Pycnonotus jocosus,Dwb,Monsoon-influenced warm-summer humid continental climate,2,53628,3.729395092116059e-5,2001-2025-A1FI
+2486131,Pycnonotus cafer,BSk,Cold semi-arid (steppe) climate,3,74094,4.048910842983238e-5,2001-2025-A1FI
+2486131,Pycnonotus cafer,Dfb,Warm-summer humid continental climate,3,74094,4.048910842983238e-5,2001-2025-A1FI
+2486151,Pycnonotus jocosus,Cfb,Temperate oceanic climate,927,53628,0.01728574625195793,2026-2050-A1FI
+2486151,Pycnonotus jocosus,Cfa,Humid subtropical climate,3970,53628,0.07402849257850376,2026-2050-A1FI
+2486151,Pycnonotus jocosus,BSh,Hot semi-arid (steppe) climate,4272,53628,0.07965987916759902,2026-2050-A1FI
+2486131,Pycnonotus cafer,Af,Tropical rainforest climate,2355,74094,0.031783950117418414,2026-2050-A1FI
+2486151,Pycnonotus jocosus,Csb,Warm-summer Mediterranean climate,17,53628,3.16998582829865e-4,2026-2050-A1FI
+2486131,Pycnonotus cafer,BSh,Hot semi-arid (steppe) climate,14376,74094,0.19402380759575674,2026-2050-A1FI
+2486131,Pycnonotus cafer,BWh,Hot deserts climate,2736,74094,0.03692606688800713,2026-2050-A1FI
+2486151,Pycnonotus jocosus,Af,Tropical rainforest climate,518,53628,0.009659133288580592,2026-2050-A1FI
+2486151,Pycnonotus jocosus,Csa,Hot-summer Mediterranean climate,2302,53628,0.04292533751025584,2026-2050-A1FI
+2486151,Pycnonotus jocosus,BSk,Cold semi-arid (steppe) climate,48,53628,8.950548221078541e-4,2026-2050-A1FI
+2486151,Pycnonotus jocosus,BWh,Hot deserts climate,42,53628,7.831729693443723e-4,2026-2050-A1FI
+2486131,Pycnonotus cafer,Csa,Hot-summer Mediterranean climate,46,74094,6.208329959240964e-4,2026-2050-A1FI
+2486131,Pycnonotus cafer,Cfa,Humid subtropical climate,745,74094,0.01005479526007504,2026-2050-A1FI
+2486131,Pycnonotus cafer,ET,Tundra,21,74094,2.8342375900882664e-4,2026-2050-A1FI
+2486131,Pycnonotus cafer,Dwc,Monsoon-influenced subarctic climate,2,74094,2.6992738953221582e-5,2026-2050-A1FI
+2486131,Pycnonotus cafer,Cfb,Temperate oceanic climate,258,74094,0.003482063324965584,2026-2050-A1FI
+2486151,Pycnonotus jocosus,Dwa,Monsoon-influenced hot-summer humid continental climate,1,53628,1.8646975460580295e-5,2026-2050-A1FI
+2486131,Pycnonotus cafer,Dwb,Monsoon-influenced warm-summer humid continental climate,23,74094,3.104164979620482e-4,2026-2050-A1FI
+2486151,Pycnonotus jocosus,Dwb,Monsoon-influenced warm-summer humid continental climate,2,53628,3.729395092116059e-5,2026-2050-A1FI
+2486131,Pycnonotus cafer,BSk,Cold semi-arid (steppe) climate,3,74094,4.048910842983238e-5,2026-2050-A1FI
+2486131,Pycnonotus cafer,Dfb,Warm-summer humid continental climate,3,74094,4.048910842983238e-5,2026-2050-A1FI
+2486151,Pycnonotus jocosus,Cfb,Temperate oceanic climate,927,53628,0.01728574625195793,2051-2075-A1FI
+2486151,Pycnonotus jocosus,Cfa,Humid subtropical climate,3970,53628,0.07402849257850376,2051-2075-A1FI
+2486151,Pycnonotus jocosus,BSh,Hot semi-arid (steppe) climate,4272,53628,0.07965987916759902,2051-2075-A1FI
+2486131,Pycnonotus cafer,Af,Tropical rainforest climate,2355,74094,0.031783950117418414,2051-2075-A1FI
+2486151,Pycnonotus jocosus,Csb,Warm-summer Mediterranean climate,17,53628,3.16998582829865e-4,2051-2075-A1FI
+2486131,Pycnonotus cafer,BSh,Hot semi-arid (steppe) climate,14376,74094,0.19402380759575674,2051-2075-A1FI
+2486131,Pycnonotus cafer,BWh,Hot deserts climate,2736,74094,0.03692606688800713,2051-2075-A1FI
+2486151,Pycnonotus jocosus,Af,Tropical rainforest climate,518,53628,0.009659133288580592,2051-2075-A1FI
+2486151,Pycnonotus jocosus,Csa,Hot-summer Mediterranean climate,2302,53628,0.04292533751025584,2051-2075-A1FI
+2486151,Pycnonotus jocosus,BSk,Cold semi-arid (steppe) climate,48,53628,8.950548221078541e-4,2051-2075-A1FI
+2486151,Pycnonotus jocosus,BWh,Hot deserts climate,42,53628,7.831729693443723e-4,2051-2075-A1FI
+2486131,Pycnonotus cafer,Csa,Hot-summer Mediterranean climate,46,74094,6.208329959240964e-4,2051-2075-A1FI
+2486131,Pycnonotus cafer,Cfa,Humid subtropical climate,745,74094,0.01005479526007504,2051-2075-A1FI
+2486131,Pycnonotus cafer,ET,Tundra,21,74094,2.8342375900882664e-4,2051-2075-A1FI
+2486131,Pycnonotus cafer,Dwc,Monsoon-influenced subarctic climate,2,74094,2.6992738953221582e-5,2051-2075-A1FI
+2486131,Pycnonotus cafer,Cfb,Temperate oceanic climate,258,74094,0.003482063324965584,2051-2075-A1FI
+2486151,Pycnonotus jocosus,Dwa,Monsoon-influenced hot-summer humid continental climate,1,53628,1.8646975460580295e-5,2051-2075-A1FI
+2486131,Pycnonotus cafer,Dwb,Monsoon-influenced warm-summer humid continental climate,23,74094,3.104164979620482e-4,2051-2075-A1FI
+2486151,Pycnonotus jocosus,Dwb,Monsoon-influenced warm-summer humid continental climate,2,53628,3.729395092116059e-5,2051-2075-A1FI
+2486131,Pycnonotus cafer,BSk,Cold semi-arid (steppe) climate,3,74094,4.048910842983238e-5,2051-2075-A1FI
+2486131,Pycnonotus cafer,Dfb,Warm-summer humid continental climate,3,74094,4.048910842983238e-5,2051-2075-A1FI
+2486151,Pycnonotus jocosus,Cfb,Temperate oceanic climate,927,53628,0.01728574625195793,2076-2100-A1FI
+2486151,Pycnonotus jocosus,Cfa,Humid subtropical climate,3970,53628,0.07402849257850376,2076-2100-A1FI
+2486151,Pycnonotus jocosus,BSh,Hot semi-arid (steppe) climate,4272,53628,0.07965987916759902,2076-2100-A1FI
+2486131,Pycnonotus cafer,Af,Tropical rainforest climate,2355,74094,0.031783950117418414,2076-2100-A1FI
+2486151,Pycnonotus jocosus,Csb,Warm-summer Mediterranean climate,17,53628,3.16998582829865e-4,2076-2100-A1FI
+2486131,Pycnonotus cafer,BSh,Hot semi-arid (steppe) climate,14376,74094,0.19402380759575674,2076-2100-A1FI
+2486131,Pycnonotus cafer,BWh,Hot deserts climate,2736,74094,0.03692606688800713,2076-2100-A1FI
+2486151,Pycnonotus jocosus,Af,Tropical rainforest climate,518,53628,0.009659133288580592,2076-2100-A1FI
+2486151,Pycnonotus jocosus,Csa,Hot-summer Mediterranean climate,2302,53628,0.04292533751025584,2076-2100-A1FI
+2486151,Pycnonotus jocosus,BSk,Cold semi-arid (steppe) climate,48,53628,8.950548221078541e-4,2076-2100-A1FI
+2486151,Pycnonotus jocosus,BWh,Hot deserts climate,42,53628,7.831729693443723e-4,2076-2100-A1FI
+2486131,Pycnonotus cafer,Csa,Hot-summer Mediterranean climate,46,74094,6.208329959240964e-4,2076-2100-A1FI
+2486131,Pycnonotus cafer,Cfa,Humid subtropical climate,745,74094,0.01005479526007504,2076-2100-A1FI
+2486131,Pycnonotus cafer,ET,Tundra,21,74094,2.8342375900882664e-4,2076-2100-A1FI
+2486131,Pycnonotus cafer,Dwc,Monsoon-influenced subarctic climate,2,74094,2.6992738953221582e-5,2076-2100-A1FI
+2486131,Pycnonotus cafer,Cfb,Temperate oceanic climate,258,74094,0.003482063324965584,2076-2100-A1FI
+2486151,Pycnonotus jocosus,Dwa,Monsoon-influenced hot-summer humid continental climate,1,53628,1.8646975460580295e-5,2076-2100-A1FI
+2486131,Pycnonotus cafer,Dwb,Monsoon-influenced warm-summer humid continental climate,23,74094,3.104164979620482e-4,2076-2100-A1FI
+2486151,Pycnonotus jocosus,Dwb,Monsoon-influenced warm-summer humid continental climate,2,53628,3.729395092116059e-5,2076-2100-A1FI
+2486131,Pycnonotus cafer,BSk,Cold semi-arid (steppe) climate,3,74094,4.048910842983238e-5,2076-2100-A1FI
+2486131,Pycnonotus cafer,Dfb,Warm-summer humid continental climate,3,74094,4.048910842983238e-5,2076-2100-A1FI
