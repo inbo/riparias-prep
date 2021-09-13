@@ -73,5 +73,7 @@ p_cafer_map_europe <- output$single_species_maps$`2486131` %>%
 
 ```{r data}
 europe_cm <- output$cm
+
+write_csv(europe_cm, "./bul_bul/europe_cm.csv")
 ```
 
