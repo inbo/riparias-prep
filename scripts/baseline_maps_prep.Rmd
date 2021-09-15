@@ -83,6 +83,8 @@ writeOGR(points_in_perimeter, dsn = "./data/spatial/baseline/points_in_perimeter
 baseline <- subset(points_in_perimeter, points_in_perimeter$year <= 2020)
 
 writeOGR(baseline, dsn = "./data/spatial/baseline/baseline.geojson", layer = "baseline", driver = "GeoJSON", overwrite_layer = TRUE)
+
+write_csv(baseline@data, "./data/output/baseline_data.csv")
 ```
 
 ```{r export as csv}
