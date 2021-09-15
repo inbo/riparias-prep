@@ -26,7 +26,7 @@ taxonkeys <- c(p_jocosus, p_cafer)
 ```
 
 ```{r cm, include=FALSE}
-zipfile <- "./data/raw/bul_bul_downloads/0013307-210819072339941.zip"
+zipfile <- "./data/raw/bul_bul_downloads/occurrence_subset.zip"
 
 gc(reset = TRUE)
 if(memory.limit() <= 80000){
@@ -34,13 +34,13 @@ if(memory.limit() <= 80000){
 }
 
 if(file.exists(zipfile)){
-  output <- climate_match(region = "Europe",
+  output2 <- climate_match(region = "Europe",
                         taxonkey = taxonkeys,
                         BasisOfRecord = c("HUMAN_OBSERVATION", "PRESERVED_SPECIMEN", "UNKNOWN"),
                         zipfile = zipfile,
                         maps = TRUE)
 }else{
-  output <- climate_match(region = "Europe",
+  output2 <- climate_match(region = "Europe",
                         taxonkey = taxonkeys,
                         BasisOfRecord = c("HUMAN_OBSERVATION", "PRESERVED_SPECIMEN", "UNKNOWN"),
                         maps = TRUE)
@@ -54,6 +54,8 @@ per soort
 3. Future Europe
 
 ```{r species_maps}
+output <- output2
+
 #Worldwide
 p_jocosus_map_world <- output$single_species_maps$`2486151` %>% 
   leaflet::setView(lat = 0, lng = 0, zoom = 2)
@@ -74,6 +76,12 @@ p_cafer_map_europe <- output$single_species_maps$`2486131` %>%
 ```{r data}
 europe_cm <- output$cm
 
-write_csv(europe_cm, "./bul_bul/europe_cm.csv")
+europe_cm_old <- output_backup$cm 
+
+europe_cm_combined <- europe_cm %>% 
+  left_join(europe_cm_old, by = c("Classification", "scenario")) %>% 
+  mutate(perc_climate_diff = round((perc_climate.x - perc_climate.y)*100,2))
+
+write_csv(europe_cm, "./bul_bul/europe_cm_corrected.csv")
 ```
 
