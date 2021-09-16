@@ -136,17 +136,21 @@ current_map <- leaflet(current) %>%
   addPolygons(fillColor = ~pal(suitability),
               color = "black",
               weight = 0.5,
+              fillOpacity = 1,
               popup = ~Classification) %>% 
   addLegend(pal = pal,
-            values = ~suitability) %>% 
+            values = ~suitability,
+            opacity = 1) %>% 
   leaflet::setView(lat = 51, lng = 15, zoom = zoomlevel)
 
 future_map <- leaflet(future) %>%
   addPolygons(fillColor = ~pal(suitability),
               color = "black",
               weight = 0.5,
+              fillOpacity = 1,
               popup = ~Classification) %>% 
   addLegend(pal = pal,
-            values = ~suitability) %>% 
+            values = ~suitability,
+            opacity = 1) %>% 
   leaflet::setView(lat = 51, lng = 15, zoom = zoomlevel)
 ```
