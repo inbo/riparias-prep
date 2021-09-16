@@ -85,3 +85,68 @@ europe_cm_combined <- europe_cm %>%
 write_csv(europe_cm, "./bul_bul/europe_cm_corrected.csv")
 ```
 
+
+```{r simple climate zones map}
+# get data from datapackage
+current <- trias::observed$`1980-2016`
+
+future <- trias::future$`2071-2100_Beck`
+
+legend <- trias::legends$KG_Beck
+
+# select climate zone
+#High suitability
+cm_zones_1 <- c("Cfa", "BSh")
+#Moderate suitability
+cm_zones_2 <- c("Csa", "Cfb","Af")
+#Low suitability
+cm_zones_3 <- c("BSk", "Csb", "BWh", "Dwa", "ET", "Dwb", "Dwc")
+
+# Reclassify climate zones
+legend <- legend %>% 
+  mutate(suitability = case_when(Classification %in% cm_zones_1 ~ "high",
+                                 Classification %in% cm_zones_2 ~ "moderate",
+                                 Classification %in% cm_zones_3 ~ "low",
+                                 TRUE ~ as.character(NA)),
+         suitability = factor(suitability, 
+                              levels = c("high", "moderate", "low"),
+                              labels = c("high", "moderate", "low"),
+                              ordered = TRUE))
+
+current@data <- current@data %>% 
+  mutate(gridcode = as.numeric(gridcode)) %>% 
+  left_join(legend, by = c("gridcode" = "GRIDCODE"))
+
+
+future@data <- future@data %>% 
+  mutate(gridcode = as.numeric(gridcode)) %>% 
+  left_join(legend, by = c("gridcode" = "GRIDCODE"))
+
+# Create maps
+zoomlevel <- 3.5
+
+pal <- colorFactor("YlOrRd", 
+                domain = legend$suitability,
+                levels = c("high", "moderate", "low"),
+                ordered = TRUE,
+                reverse = TRUE,
+                na.color = "#fcfbfd")
+
+current_map <- leaflet(current) %>%
+  addPolygons(fillColor = ~pal(suitability),
+              color = "black",
+              weight = 0.5,
+              popup = ~Classification) %>% 
+  addLegend(pal = pal,
+            values = ~suitability) %>% 
+  leaflet::setView(lat = 51, lng = 15, zoom = zoomlevel)
+
+future_map <- leaflet(future) %>%
+  addPolygons(fillColor = ~pal(suitability),
+              color = "black",
+              weight = 0.5,
+              popup = ~Classification) %>% 
+  addLegend(pal = pal,
+            values = ~suitability) %>% 
+  leaflet::setView(lat = 51, lng = 15, zoom = zoomlevel)
+```
