@@ -1,0 +1,31 @@
+```{r}
+library(tidyverse)
+```
+
+```{r}
+occurrence_raw <- read_csv("data/raw/bul_bul_downloads/occurrence_raw.txt")
+
+table(occurrence_raw$taxon)
+
+occurrence <- occurrence_raw %>% 
+  mutate(decimalLatitude = latitude,
+         decimalLongitude = longitude,
+         establishmentMeans = NA,
+         acceptedTaxonKey = 2486151,
+         taxonKey = 2486151, 
+         basisOfRecord = "HUMAN_OBSERVATION",
+         taxonRank = "SPECIES",
+         taxonomicStatus = "ACCEPTED",
+         genus = "Pycnonotus",
+         specificEpithet = "jocosus",
+         eventDate = year,
+         coordinateUncertaintyInMeters = 1,
+         occurrenceStatus = "PRESENT",
+         countryCode = NA,
+         month = 1,
+         day = 1,
+         gbifID = NA)
+
+write_tsv(occurrence, "./data/raw/bul_bul_downloads/occurrence.txt")
+```
+
