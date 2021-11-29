@@ -1,0 +1,32 @@
+```{r setup}
+library(tidyverse)
+library(devtools)
+install_github("trias-project/trias", ref = "73_climate_matching_function")
+
+library(trias)
+```
+
+```{r}
+species <- c(2227289, 9442269)
+
+output <- climate_match(region = "belgium", 
+                        taxonkey = species,
+                        n_limit = 90,
+                        cm_limit = 0.2,
+                        BasisOfRecord = c("HUMAN_OBSERVATION", 
+                                          "PRESERVED_SPECIMEN", 
+                                          "UNKNOWN"),
+                        maps = FALSE)
+```
+
+```{r}
+unfiltered <- output$unfiltered
+cm <- output$cm
+filtered <- output$filtered
+```
+
+```{r}
+write_csv(unfiltered, "./data/output/extra_crayfish_present.csv")
+write_csv(cm, "./data/output/extra_crayfish_future.csv")
+```
+
