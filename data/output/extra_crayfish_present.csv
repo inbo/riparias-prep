@@ -1,0 +1,15 @@
+taxonKey,acceptedScientificName,Classification,Description,n_climate,n_totaal,perc_climate
+2227289,Procambarus acutus,Cfa,Humid subtropical climate,2029,2441,0.8312167144612863
+2227289,Procambarus acutus,Dfa,Hot-summer humid continental climate,229,2441,0.09381401065137239
+7194602,Procambarus acutus,Csa,Hot-summer Mediterranean climate,2,2441,8.193363375665711e-4
+7194602,Procambarus acutus,Aw,"Tropical savanna, wet",1,2441,4.0966816878328555e-4
+7194602,Procambarus acutus,NA,NA,2,2441,8.193363375665711e-4
+7194602,Procambarus acutus,Cfb,Temperate oceanic climate,135,2441,0.055305202785743544
+2227289,Procambarus acutus,Dfb,Warm-summer humid continental climate,39,2441,0.015977058582548137
+9442269,Procambarus virginalis,Cfb,Temperate oceanic climate,37,43,0.8604651162790697
+2227289,Procambarus acutus,Cwb,Subtropical highland climate or temperate oceanic climate with dry winters,1,2441,4.0966816878328555e-4
+9442269,Procambarus virginalis,Cwb,Subtropical highland climate or temperate oceanic climate with dry winters,1,43,0.023255813953488372
+9442269,Procambarus virginalis,Cfa,Humid subtropical climate,1,43,0.023255813953488372
+9442269,Procambarus virginalis,Dfb,Warm-summer humid continental climate,3,43,0.06976744186046512
+9442269,Procambarus virginalis,Csa,Hot-summer Mediterranean climate,1,43,0.023255813953488372
+2227289,Procambarus acutus,Csb,Warm-summer Mediterranean climate,3,2441,0.0012290045063498567

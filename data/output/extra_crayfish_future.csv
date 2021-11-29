@@ -1,0 +1,17 @@
+taxonKey,acceptedScientificName,Classification,Description,n_climate,n_totaal,perc_climate,scenario
+2227289,Procambarus acutus,Cfa,Humid subtropical climate,2029,2441,0.8312167144612863,2071-2100_Beck
+7194602,Procambarus acutus,Cfb,Temperate oceanic climate,135,2441,0.055305202785743544,2071-2100_Beck
+9442269,Procambarus virginalis,Cfb,Temperate oceanic climate,37,43,0.8604651162790697,2071-2100_Beck
+9442269,Procambarus virginalis,Cfa,Humid subtropical climate,1,43,0.023255813953488372,2071-2100_Beck
+7194602,Procambarus acutus,Cfb,Temperate oceanic climate,135,2441,0.055305202785743544,2001-2025-A1FI
+9442269,Procambarus virginalis,Cfb,Temperate oceanic climate,37,43,0.8604651162790697,2001-2025-A1FI
+7194602,Procambarus acutus,Cfb,Temperate oceanic climate,135,2441,0.055305202785743544,2026-2050-A1FI
+9442269,Procambarus virginalis,Cfb,Temperate oceanic climate,37,43,0.8604651162790697,2026-2050-A1FI
+2227289,Procambarus acutus,Cfa,Humid subtropical climate,2029,2441,0.8312167144612863,2051-2075-A1FI
+7194602,Procambarus acutus,Cfb,Temperate oceanic climate,135,2441,0.055305202785743544,2051-2075-A1FI
+9442269,Procambarus virginalis,Cfb,Temperate oceanic climate,37,43,0.8604651162790697,2051-2075-A1FI
+9442269,Procambarus virginalis,Cfa,Humid subtropical climate,1,43,0.023255813953488372,2051-2075-A1FI
+2227289,Procambarus acutus,Cfa,Humid subtropical climate,2029,2441,0.8312167144612863,2076-2100-A1FI
+7194602,Procambarus acutus,Csa,Hot-summer Mediterranean climate,2,2441,8.193363375665711e-4,2076-2100-A1FI
+9442269,Procambarus virginalis,Cfa,Humid subtropical climate,1,43,0.023255813953488372,2076-2100-A1FI
+9442269,Procambarus virginalis,Csa,Hot-summer Mediterranean climate,1,43,0.023255813953488372,2076-2100-A1FI
