@@ -22,6 +22,7 @@ output <- climate_match(region = "belgium",
 ```{r}
 unfiltered <- output$unfiltered
 cm <- output$cm
+filtered <- output$filtered
 ```
 
 ```{r}
