@@ -3,7 +3,7 @@ library(shinydashboard)
 library(leaflet)
 library(rgdal)
 
-branch <- "master"
+branch <- "32_baseline_check"
 
 points_in_perimeter <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/points_in_perimeter.geojson"), stringsAsFactors = FALSE)
 perimeter_shape <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
