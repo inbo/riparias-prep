@@ -4,9 +4,12 @@ library(leaflet)
 library(rgdal)
 
 
-branch <- "master"
+branch <- "32_baseline_check"
 
 points_in_perimeter <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/points_in_perimeter.geojson"), stringsAsFactors = FALSE)
+
+points_in_perimeter@data$occrrnS <- as.factor(points_in_perimeter@data$occrrnS)
+
 perimeter_shape <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
 
 bbox <- as.data.frame(perimeter_shape@bbox)
@@ -32,7 +35,7 @@ ui <- dashboardPage(
     ),
     fluidRow(
       box(width = 12, 
-        img(src='Riparias_Logo.png', align = "right", height = 90)
+          img(src='Riparias_Logo.png', align = "right", height = 90)
       )
     ),
     fluidRow(
@@ -44,7 +47,7 @@ ui <- dashboardPage(
     ),
     fluidRow(
       box(width = 12,
-        "This tool was developed by the Research Institute for Nature and Forest within the framework of the Life RIPARIAS project"
+          "This tool was developed by the Research Institute for Nature and Forest within the framework of the Life RIPARIAS project"
       )
     )
   )
@@ -89,12 +92,21 @@ server <- function(input, output) {
                                       points_in_perimeter_sub$vernacular_name_en %in%
                                         input$species)
     
+    pal <- colorFactor(palette = c("#1b9e77", "#d95f02", "#636363"),
+                       levels = c("ABSENT", "PRESENT", NA))
+    
     leaflet(points_in_perimeter_sub) %>% 
       addTiles() %>% 
       addPolylines(data = perimeter_shape) %>% 
-      addCircleMarkers(popup = points_in_perimeter_sub$popup,
+      addCircleMarkers(data = points_in_perimeter_sub,
+                       popup = points_in_perimeter_sub$popup,
                        radius = 1,
-                       color = "red") %>% 
+                       color = ~pal(points_in_perimeter_sub@data$occrrnS),
+                       fillColor = ~pal(points_in_perimeter_sub@data$occrrnS)) %>% 
+      addLegend(data = points_in_perimeter_sub,
+                title = "occurrence Status",
+                values = ~unique(points_in_perimeter@data$occrrnS),
+                pal = pal) %>% 
       setMaxBounds(lng1 = bbox$min[1], 
                    lat1 = bbox$min[2], 
                    lng2 = bbox$max[1], 
