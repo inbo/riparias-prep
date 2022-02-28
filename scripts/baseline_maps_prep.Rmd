@@ -38,7 +38,7 @@ leaflet(perimeter_shape) %>%
 ```
 
 ```{r get pointdata, include = FALSE}
-pointdata <- readOGR("./data/spatial/baseline", "t2_ALL_points_Batch2_1_3", stringsAsFactors = FALSE)
+pointdata <- readOGR("./data/spatial/baseline", "t999_ALL_points_Batch2_1_3_999", stringsAsFactors = FALSE)
 ```
 
 ```{r test points, eval = FALSE}
@@ -77,6 +77,14 @@ table(NoEngName$accptTK)
 table(points_in_perimeter$vernacular_name_en)
 
 writeOGR(points_in_perimeter, dsn = "./data/spatial/baseline/points_in_perimeter.geojson", layer = "points_in_perimeter", driver = "GeoJSON", overwrite_layer = TRUE)
+```
+
+```{r export baseline shapes}
+baseline <- subset(points_in_perimeter, points_in_perimeter$year <= 2020)
+
+writeOGR(baseline, dsn = "./data/spatial/baseline/baseline.geojson", layer = "baseline", driver = "GeoJSON", overwrite_layer = TRUE)
+
+write_csv(baseline@data, "./data/output/baseline_data.csv")
 ```
 
 ```{r export as csv}
