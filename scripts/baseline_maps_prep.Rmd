@@ -87,9 +87,12 @@ writeOGR(baseline, dsn = "./data/spatial/baseline/baseline.geojson", layer = "ba
 write_csv(baseline@data, "./data/output/baseline_data.csv")
 ```
 
-```{r export as csv}
-write_delim(points_in_perimeter@data, 
-            "./data/output/points_in_perimeter.csv", 
-            ";")
+```{r export update shapes}
+writeOGR(points_in_perimeter, dsn = "./data/spatial/baseline/current_state.geojson", layer = "current_state", driver = "GeoJSON", overwrite_layer = TRUE)
+
+write_csv(points_in_perimeter@data, "./data/output/current_state_data.csv")
 ```
+
+
+
 
