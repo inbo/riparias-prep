@@ -4,7 +4,7 @@ library(leaflet)
 library(rgdal)
 
 
-branch <- "32_baseline_check"
+branch <- "master"
 
 points_in_perimeter <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/points_in_perimeter.geojson"), stringsAsFactors = FALSE)
 
