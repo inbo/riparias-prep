@@ -2,7 +2,8 @@ library(shiny)
 library(shinydashboard)
 library(leaflet)
 library(rgdal)
-
+library(dplyr)
+library(ggplot2)
 
 branch <- "41_extending_baseline_map"
 
@@ -13,6 +14,9 @@ points_in_perimeter@data$occrrnS <- as.factor(points_in_perimeter@data$occrrnS)
 perimeter_shape <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
 
 bbox <- as.data.frame(perimeter_shape@bbox)
+
+overview_RBU <- read.csv('obsersations_RBU.csv')
+overview_RBSU <- read.csv('obsersations_RBSU.csv')
 
 ui <- navbarPage(
   title = "Riparias D1",
@@ -48,7 +52,22 @@ ui <- navbarPage(
   )
   
 )
-, tabPanel('Distribution'),
+, tabPanel('Distribution',
+           sidebarLayout(
+             sidebarPanel(
+               selectInput("RBUi", "Choose a riber basin:",
+                           choices = unique(overview_RBU$RBU)),
+             numericInput("RBSUi", "A0_CODE:", 10)
+             ),
+           mainPanel(
+             fluidRow(
+             box(
+               plotOutput("graphRBU", height = 600)
+             )
+           )
+           )))
+           
+           ,
 tabPanel('Surveillance'),
 tabPanel('Trends')
 )
@@ -85,7 +104,24 @@ server <- function(input, output) {
                           strong(input$slider[2])))
     }
     print(text)
+    
   })
+  
+  dat<-reactive({
+      test <- overview_RBU[(overview_RBU$RBU == input$RBUi),]
+      print(test)
+      test
+  })
+  
+  output$graphRBU <-renderPlot ({
+    ggplot(dat(), aes(x=scientific_name, y=n, fill= state)) +
+      geom_bar(stat="identity", position=position_dodge())+
+      theme_minimal() +
+      scale_fill_brewer(palette="Paired")+
+      coord_flip()
+    
+  })
+
   
   output$map <- renderLeaflet({
     
