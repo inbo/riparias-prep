@@ -118,7 +118,9 @@ server <- function(input, output) {
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
-      coord_flip()
+      coord_flip()+ 
+      labs(y = "Number of observations")+ 
+      labs(x = "Species")
     
   })
 
