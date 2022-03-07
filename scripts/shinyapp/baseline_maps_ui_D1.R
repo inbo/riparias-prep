@@ -55,27 +55,32 @@ ui <- navbarPage(
 , tabPanel('Distribution',
            sidebarLayout(
              sidebarPanel(
-               selectInput("RBUi", "Choose a riber basin:",
-                           choices = unique(overview_RBU$RBU)),
-             numericInput("RBSUi", "A0_CODE:", 10)
+               selectInput("RBUi", "Select a river basin:",
+                           choices = unique(overview_RBU$RBU))
              ),
            mainPanel(
              fluidRow(
              box(
-               plotOutput("graphRBU", height = 600)
+               plotOutput("graphRBU")
              )
            )
-           )))
+           )),
+           sidebarLayout(
+             sidebarPanel(
+               numericInput("RBSUi", " Select an A0_CODE:", 10)
+             ),
+             mainPanel(
+               fluidRow(
+                 box(
+                   plotOutput("graphRBSU")
+                 )
+               )
+             )))
            
            ,
 tabPanel('Surveillance'),
 tabPanel('Trends')
 )
-  
-  
-    
-  
-    
 
   
 
@@ -124,6 +129,22 @@ server <- function(input, output) {
     
   })
 
+  dat2<-reactive({
+    test2 <- overview_RBSU[(overview_RBSU$A0_CODE == input$RBSUi),]
+    print(test2)
+    test2
+  })
+  
+  output$graphRBSU <-renderPlot ({
+    ggplot(dat2(), aes(x=scientific_name, y=n, fill= state)) +
+      geom_bar(stat="identity", position=position_dodge())+
+      theme_minimal() +
+      scale_fill_brewer(palette="Paired")+
+      coord_flip()+ 
+      labs(y = "Number of observations")+ 
+      labs(x = "Species")
+    
+  })
   
   output$map <- renderLeaflet({
     
