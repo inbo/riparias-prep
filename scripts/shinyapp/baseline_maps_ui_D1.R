@@ -15,8 +15,10 @@ perimeter_shape <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", 
 
 bbox <- as.data.frame(perimeter_shape@bbox)
 
-overview_RBU <- read.csv('obsersations_RBU.csv')
-overview_RBSU <- read.csv('obsersations_RBSU.csv')
+overview_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/observations_RBU.csv"))
+overview_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/observations_RBSU.csv"))
+occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBU.csv"))
+occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBSU.csv"))
 
 ui <- navbarPage(
   title = "Riparias D1",
