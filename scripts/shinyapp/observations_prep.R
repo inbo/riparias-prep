@@ -81,8 +81,8 @@ overview_RBSU <- rbind(current_per_RBSU, baseline_per_RBSU)
 
 #save output
 
-write.csv(overview_RBU, './data/interim/obsersations_RBU.csv')
-write.csv(overview_RBSU, './data/interim/obsersations_RBSU.csv')
+write.csv(overview_RBU, './data/interim/observations_RBU.csv')
+write.csv(overview_RBSU, './data/interim/observations_RBSU.csv')
 
 #test_barplot
 
