@@ -20,6 +20,7 @@ overview_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", b
 occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBU.csv"))
 occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBSU.csv"))
 
+
 ui <- navbarPage(
   title = "Riparias D1",
   header= fluidRow(
@@ -62,9 +63,10 @@ ui <- navbarPage(
              ),
            mainPanel(
              fluidRow(
-             box(
-               plotOutput("graphRBU")
-             )
+               tabsetPanel(type = "tabs",
+                           tabPanel("Observations", plotOutput("graphRBU")),
+                           tabPanel("Occupancy", plotOutput("OccRBU"))
+                           )
            )
            )),
            sidebarLayout(
@@ -73,8 +75,9 @@ ui <- navbarPage(
              ),
              mainPanel(
                fluidRow(
-                 box(
-                   plotOutput("graphRBSU")
+                 tabsetPanel(type = "tabs",
+                             tabPanel("Observations", plotOutput("graphRBSU")),
+                             tabPanel("Occupancy", plotOutput("OccRBSU"))
                  )
                )
              )))
@@ -114,14 +117,13 @@ server <- function(input, output) {
     
   })
   
-  dat<-reactive({
+  datObs<-reactive({
       test <- overview_RBU[(overview_RBU$RBU == input$RBUi),]
-      print(test)
       test
   })
   
   output$graphRBU <-renderPlot ({
-    ggplot(dat(), aes(x=scientific_name, y=n, fill= state)) +
+    ggplot(datObs(), aes(x=scientific_name, y=n, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
@@ -131,19 +133,50 @@ server <- function(input, output) {
     
   })
 
-  dat2<-reactive({
+  datOcc <-reactive({
+    test1 <- occupancy_RBU[(occupancy_RBU$RBU == input$RBUi),]
+    test1
+  })
+  
+  output$OccRBU <-renderPlot ({
+    ggplot(datOcc(), aes(x=scientific_name, y=Occupancy, fill= state)) +
+      geom_bar(stat="identity", position=position_dodge())+
+      theme_minimal() +
+      scale_fill_brewer(palette="Paired")+
+      coord_flip()+ 
+      labs(y = "Occupancy")+ 
+      labs(x = "Species")
+    
+  })
+  
+  datObs2<-reactive({
     test2 <- overview_RBSU[(overview_RBSU$A0_CODE == input$RBSUi),]
-    print(test2)
     test2
   })
   
   output$graphRBSU <-renderPlot ({
-    ggplot(dat2(), aes(x=scientific_name, y=n, fill= state)) +
+    ggplot(datObs2(), aes(x=scientific_name, y=n, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
       coord_flip()+ 
       labs(y = "Number of observations")+ 
+      labs(x = "Species")
+    
+  })
+  
+  datOcc2<-reactive({
+    test3 <- occupancy_RBSU[(occupancy_RBSU$A0_CODE == input$RBSUi),]
+    test3
+  })
+  
+  output$OccRBSU <-renderPlot ({
+    ggplot(datOcc2(), aes(x=scientific_name, y=Occupancy, fill= state)) +
+      geom_bar(stat="identity", position=position_dodge())+
+      theme_minimal() +
+      scale_fill_brewer(palette="Paired")+
+      coord_flip()+ 
+      labs(y = "Occupancy")+ 
       labs(x = "Species")
     
   })
