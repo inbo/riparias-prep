@@ -51,11 +51,9 @@ baseline_in_RBSU_EEA <- raster::intersect(baseline_in_RBSU, EEA_1km)
 
 baseline_in_RBSU_EEA_data <- as.data.frame(baseline_in_RBSU_EEA@data)
 
-names(baseline_in_RBSU_EEA_data)[10] <-'RBSU'
-
 baseline_per_RBSU_EEA <- baseline_in_RBSU_EEA_data %>%
-  select(scientific_name, RBSU, CELLCODE)%>% 
-  group_by (scientific_name, RBSU)%>%
+  select(scientific_name, A0_CODE, CELLCODE)%>% 
+  group_by (scientific_name, A0_CODE)%>%
   mutate(Occupancy = n_distinct(CELLCODE))%>%
   select(-c(CELLCODE))%>%
   distinct()
@@ -88,11 +86,9 @@ current_in_RBSU_EEA <- raster::intersect(current_in_RBSU, EEA_1km)
 
 current_in_RBSU_EEA_data <- as.data.frame(current_in_RBSU_EEA@data)
 
-names(current_in_RBSU_EEA_data)[10] <-'RBSU'
-
 current_per_RBSU_EEA <- current_in_RBSU_EEA_data %>%
-  select(scientific_name, RBSU, CELLCODE)%>% 
-  group_by (scientific_name, RBSU)%>%
+  select(scientific_name,A0_CODE, CELLCODE)%>% 
+  group_by (scientific_name, A0_CODE)%>%
   mutate(Occupancy = n_distinct(CELLCODE))%>%
   select(-c(CELLCODE))%>%
   distinct()
