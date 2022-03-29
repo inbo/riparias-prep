@@ -54,8 +54,8 @@ occupancy_RBU <- merge(occupancy_RBU, CELLES_per_RBU, by='RBU')
 occupancy_RBSU <- merge(occupancy_RBSU, CELLES_per_RBSU, by='A0_CODE')
 
 #generate relative occupancy
-occupancy_RBU$Occupancy_abs <- occupancy_RBU$Occupancy/occupancy_RBU$count
-occupancy_RBSU$Occupancy_abs <- occupancy_RBSU$Occupancy/occupancy_RBSU$count
+occupancy_RBU$Occupancy_rel <- occupancy_RBU$Occupancy/occupancy_RBU$count
+occupancy_RBSU$Occupancy_rel <- occupancy_RBSU$Occupancy/occupancy_RBSU$count
 
 #save output
 write.csv(occupancy_RBU, './data/interim/occupancy_RBU.csv')
