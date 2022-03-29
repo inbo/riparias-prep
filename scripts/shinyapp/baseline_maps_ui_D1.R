@@ -4,10 +4,22 @@ library(leaflet)
 library(rgdal)
 library(dplyr)
 library(ggplot2)
-
+library(sf)
 branch <- "41_extending_baseline_map"
 
 points_in_perimeter <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/points_in_perimeter.geojson"), stringsAsFactors = FALSE)
+
+Riparias_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
+
+#Riparias_laag <- readOGR(dsn= paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/Riparias subunits"), layer="Final_RSU_RIPARIAS_baseline")
+
+#st_crs(Riparias_laag)#check projectie
+#crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
+#Riparias_laag <- spTransform(Riparias_laag, crs_wgs)
+#Riparias_laag <- st_as_sf(Riparias_laag)
+#test<- sf_geojson(Riparias_laag)
+#writeOGR(test, dsn="./data/spatial/Riparias subunits/Riparias_laag.GeoJSON", driver="GeoJSON")
+#st_write(Riparias_laag, "test.geojson")
 
 points_in_perimeter@data$occrrnS <- as.factor(points_in_perimeter@data$occrrnS)
 
@@ -65,7 +77,8 @@ ui <- navbarPage(
              fluidRow(
                tabsetPanel(type = "tabs",
                            tabPanel("Observations", plotOutput("graphRBU")),
-                           tabPanel("Occupancy", plotOutput("OccRBU"))
+                           tabPanel("Absolute occupancy", plotOutput("OccRBU")),
+                           tabPanel("Relative occupancy", plotOutput("OccRBUREL"))
                            )
            )
            )),
@@ -77,7 +90,8 @@ ui <- navbarPage(
                fluidRow(
                  tabsetPanel(type = "tabs",
                              tabPanel("Observations", plotOutput("graphRBSU")),
-                             tabPanel("Occupancy", plotOutput("OccRBSU"))
+                             tabPanel("Absolute occupancy", plotOutput("OccRBSU")),
+                             tabPanel("Relative occupancy", plotOutput("OccRBSUREL"))
                  )
                )
              )))
@@ -144,7 +158,18 @@ server <- function(input, output) {
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
       coord_flip()+ 
-      labs(y = "Occupancy")+ 
+      labs(y = "Absolute occupancy")+ 
+      labs(x = "Species")
+    
+  })
+  
+  output$OccRBUREL <-renderPlot ({
+    ggplot(datOcc(), aes(x=scientific_name, y=Occupancy_rel, fill= state)) +
+      geom_bar(stat="identity", position=position_dodge())+
+      theme_minimal() +
+      scale_fill_brewer(palette="Paired")+
+      coord_flip()+ 
+      labs(y = "Relative occupancy")+ 
       labs(x = "Species")
     
   })
@@ -176,7 +201,18 @@ server <- function(input, output) {
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
       coord_flip()+ 
-      labs(y = "Occupancy")+ 
+      labs(y = "Absolute occupancy")+ 
+      labs(x = "Species")
+    
+  })
+  
+  output$OccRBSUREL <-renderPlot ({
+    ggplot(datOcc2(), aes(x=scientific_name, y=Occupancy_rel, fill= state)) +
+      geom_bar(stat="identity", position=position_dodge())+
+      theme_minimal() +
+      scale_fill_brewer(palette="Paired")+
+      coord_flip()+ 
+      labs(y = "Relative occupancy")+ 
       labs(x = "Species")
     
   })
