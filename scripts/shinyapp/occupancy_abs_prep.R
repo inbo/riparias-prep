@@ -14,12 +14,11 @@ RBU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/da
 #bounding box
 bbox <- as.data.frame(RBU@bbox)
 
-RBSU <- readOGR("data/spatial/Riparias subunits/River_subunits_RSU_21012021.shp", stringsAsFactors = FALSE)
+RBSU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
 
 #transform RBSU to projection WGS84
 crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 
-RBSU <- spTransform(RBSU, crs_wgs)
 
 #import EEA 1km file
 EEA_1km <- readOGR("data/spatial/EEA 1km/be_1km.shp")
