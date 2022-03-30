@@ -5,27 +5,20 @@ library(rgdal)
 library(dplyr)
 library(ggplot2)
 library(sf)
+
 branch <- "41_extending_baseline_map"
 
 points_in_perimeter <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/points_in_perimeter.geojson"), stringsAsFactors = FALSE)
 
-Riparias_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
+RBU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
 
-#Riparias_laag <- readOGR(dsn= paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/Riparias subunits"), layer="Final_RSU_RIPARIAS_baseline")
-
-#st_crs(Riparias_laag)#check projectie
-#crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
-#Riparias_laag <- spTransform(Riparias_laag, crs_wgs)
-#Riparias_laag <- st_as_sf(Riparias_laag)
-#test<- sf_geojson(Riparias_laag)
-#writeOGR(test, dsn="./data/spatial/Riparias subunits/Riparias_laag.GeoJSON", driver="GeoJSON")
-#st_write(Riparias_laag, "test.geojson")
+RBSU_laag <- RBSU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
 
 points_in_perimeter@data$occrrnS <- as.factor(points_in_perimeter@data$occrrnS)
 
-perimeter_shape <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
 
-bbox <- as.data.frame(perimeter_shape@bbox)
+
+bbox <- as.data.frame(RBU_laag@bbox)
 
 overview_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/observations_RBU.csv"))
 overview_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/observations_RBSU.csv"))
@@ -235,7 +228,7 @@ server <- function(input, output) {
     
     leaflet(points_in_perimeter_sub) %>% 
       addTiles() %>% 
-      addPolylines(data = perimeter_shape) %>% 
+      addPolylines(data = RBU_laag) %>% 
       addCircleMarkers(data = points_in_perimeter_sub,
                        popup = points_in_perimeter_sub$popup,
                        radius = 1,
