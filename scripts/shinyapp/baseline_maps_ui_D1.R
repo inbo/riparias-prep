@@ -12,11 +12,11 @@ points_in_perimeter <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw
 
 RBU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
 
-RBSU_laag <- RBSU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
+RBSU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
 
 points_in_perimeter@data$occrrnS <- as.factor(points_in_perimeter@data$occrrnS)
 
-
+level_of_invasion_RBSU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/level_of_invasion_RBSU.geojson"))
 
 bbox <- as.data.frame(RBU_laag@bbox)
 
@@ -99,7 +99,11 @@ tabPanel('Level of invasion',
                          choices = unique(occupancy_RBU$scientific_name))
            ),#sidebarPanel
            mainPanel(
-             
+             fluidRow(
+               box(
+                 leafletOutput("map_level_of_invasion", height = 600)
+               )#box
+             )#fluidRow
            )#mainPanel
          )#sidebarLayout
          )#tabPanel
@@ -253,6 +257,11 @@ server <- function(input, output) {
                    lat1 = bbox$min[2], 
                    lng2 = bbox$max[1], 
                    lat2 = bbox$max[2])
+  })
+  
+  output$map_level_of_invasion <- renderLeaflet({
+    leaflet(level_of_invasion_RBSU)%>%
+      addTiles()
   })
 }
 
