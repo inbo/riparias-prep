@@ -158,7 +158,7 @@ server <- function(input, output) {
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
       coord_flip()+ 
-      labs(y = "Absolute occupancy")+ 
+      labs(y = "Absolute occupancy (1km² grid cells)")+ 
       labs(x = "Species")
     
   })
@@ -201,7 +201,7 @@ server <- function(input, output) {
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
       coord_flip()+ 
-      labs(y = "Absolute occupancy")+ 
+      labs(y = "Absolute occupancy (1km² grid cells)")+ 
       labs(x = "Species")
     
   })
