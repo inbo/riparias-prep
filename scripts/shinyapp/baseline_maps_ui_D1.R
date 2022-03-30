@@ -91,7 +91,8 @@ ui <- navbarPage(
            
            ,
 tabPanel('Surveillance'),
-tabPanel('Trends')
+tabPanel('Trends'),
+tabPanel('Level of _invasion')
 )
 
   
