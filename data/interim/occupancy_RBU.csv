@@ -1,60 +1,60 @@
-"","RBU","scientific_name","Occupancy","state","count","Occupancy_rel"
-"1","Dijle - Dyle","Impatiens glandulifera",282,"current",1432,0.196927374301676
-"2","Dijle - Dyle","Heracleum mantegazzianum",270,"current",1432,0.18854748603352
-"3","Dijle - Dyle","Procambarus virginalis",3,"current",1432,0.00209497206703911
-"4","Dijle - Dyle","Pacifastacus leniusculus",15,"current",1432,0.0104748603351955
-"5","Dijle - Dyle","Elodea nuttallii",33,"current",1432,0.0230446927374302
-"6","Dijle - Dyle","Hydrocotyle ranunculoides",38,"baseline",1432,0.026536312849162
-"7","Dijle - Dyle","Ludwigia grandiflora",27,"current",1432,0.018854748603352
-"8","Dijle - Dyle","Heracleum mantegazzianum",258,"baseline",1432,0.180167597765363
-"9","Dijle - Dyle","Hydrocotyle ranunculoides",40,"current",1432,0.0279329608938547
-"10","Dijle - Dyle","Myriophyllum aquaticum",33,"current",1432,0.0230446927374302
-"11","Dijle - Dyle","Pacifastacus leniusculus",15,"baseline",1432,0.0104748603351955
-"12","Dijle - Dyle","Procambarus clarkii",11,"current",1432,0.00768156424581006
-"13","Dijle - Dyle","Ludwigia grandiflora",27,"baseline",1432,0.018854748603352
-"14","Dijle - Dyle","Lysichiton americanus",5,"current",1432,0.00349162011173184
-"15","Dijle - Dyle","Procambarus virginalis",2,"baseline",1432,0.00139664804469274
-"16","Dijle - Dyle","Faxonius limosus",25,"baseline",1432,0.0174581005586592
-"17","Dijle - Dyle","Lysichiton americanus",5,"baseline",1432,0.00349162011173184
-"18","Dijle - Dyle","Faxonius limosus",25,"current",1432,0.0174581005586592
-"19","Dijle - Dyle","Elodea nuttallii",32,"baseline",1432,0.0223463687150838
-"20","Dijle - Dyle","Myriophyllum aquaticum",33,"baseline",1432,0.0230446927374302
-"21","Dijle - Dyle","Procambarus clarkii",8,"baseline",1432,0.00558659217877095
-"22","Dijle - Dyle","Impatiens glandulifera",262,"baseline",1432,0.182960893854749
-"23","Mark - Marcq","Heracleum mantegazzianum",17,"current",221,0.0769230769230769
-"24","Mark - Marcq","Ludwigia peploides",1,"current",221,0.00452488687782805
-"25","Mark - Marcq","Lagarosiphon major",1,"current",221,0.00452488687782805
-"26","Mark - Marcq","Faxonius limosus",1,"current",221,0.00452488687782805
-"27","Mark - Marcq","Impatiens glandulifera",31,"current",221,0.14027149321267
-"28","Mark - Marcq","Myriophyllum aquaticum",1,"current",221,0.00452488687782805
-"29","Mark - Marcq","Heracleum mantegazzianum",15,"baseline",221,0.0678733031674208
-"30","Mark - Marcq","Impatiens glandulifera",28,"baseline",221,0.126696832579186
-"31","Mark - Marcq","Ludwigia grandiflora",2,"baseline",221,0.00904977375565611
-"32","Mark - Marcq","Myriophyllum aquaticum",1,"baseline",221,0.00452488687782805
-"33","Mark - Marcq","Ludwigia peploides",1,"baseline",221,0.00452488687782805
-"34","Mark - Marcq","Lagarosiphon major",1,"baseline",221,0.00452488687782805
-"35","Mark - Marcq","Faxonius limosus",1,"baseline",221,0.00452488687782805
-"36","Mark - Marcq","Ludwigia grandiflora",2,"current",221,0.00904977375565611
-"37","Zenne - Senne","Ludwigia grandiflora",8,"baseline",1306,0.00612557427258806
-"38","Zenne - Senne","Hydrocotyle ranunculoides",11,"baseline",1306,0.00842266462480858
-"39","Zenne - Senne","Myriophyllum aquaticum",17,"baseline",1306,0.0130168453292496
-"40","Zenne - Senne","Elodea nuttallii",8,"baseline",1306,0.00612557427258806
-"41","Zenne - Senne","Hydrocotyle ranunculoides",12,"current",1306,0.00918836140888208
-"42","Zenne - Senne","Lysichiton americanus",2,"current",1306,0.00153139356814701
-"43","Zenne - Senne","Heracleum mantegazzianum",258,"current",1306,0.197549770290965
-"44","Zenne - Senne","Impatiens glandulifera",319,"current",1306,0.244257274119449
-"45","Zenne - Senne","Heracleum mantegazzianum",241,"baseline",1306,0.184532924961715
-"46","Zenne - Senne","Ludwigia grandiflora",8,"current",1306,0.00612557427258806
-"47","Zenne - Senne","Procambarus acutus",1,"baseline",1306,0.000765696784073507
-"48","Zenne - Senne","Myriophyllum aquaticum",18,"current",1306,0.0137825421133231
-"49","Zenne - Senne","Procambarus acutus",1,"current",1306,0.000765696784073507
-"50","Zenne - Senne","Elodea nuttallii",11,"current",1306,0.00842266462480858
-"51","Zenne - Senne","Lagarosiphon major",1,"current",1306,0.000765696784073507
-"52","Zenne - Senne","Impatiens glandulifera",308,"baseline",1306,0.23583460949464
-"53","Zenne - Senne","Lysichiton americanus",2,"baseline",1306,0.00153139356814701
-"54","Zenne - Senne","Faxonius limosus",33,"current",1306,0.0252679938744257
-"55","Zenne - Senne","Procambarus clarkii",10,"current",1306,0.00765696784073507
-"56","Zenne - Senne","Faxonius limosus",30,"baseline",1306,0.0229709035222052
-"57","Zenne - Senne","Ludwigia peploides",1,"current",1306,0.000765696784073507
-"58","Zenne - Senne","Procambarus clarkii",10,"baseline",1306,0.00765696784073507
-"59","Zenne - Senne","Lagarosiphon major",1,"baseline",1306,0.000765696784073507
+"","RBU","scientific_name","Occupancy","state","count","Occupancy_rel","level_of_invasion"
+"1","Dijle - Dyle","Impatiens glandulifera",282,"current",1432,0.196927374301676,"weakly invaded"
+"2","Dijle - Dyle","Heracleum mantegazzianum",270,"current",1432,0.18854748603352,"weakly invaded"
+"3","Dijle - Dyle","Procambarus virginalis",3,"current",1432,0.00209497206703911,"scattered occurences only"
+"4","Dijle - Dyle","Pacifastacus leniusculus",15,"current",1432,0.0104748603351955,"scattered occurences only"
+"5","Dijle - Dyle","Elodea nuttallii",33,"current",1432,0.0230446927374302,"scattered occurences only"
+"6","Dijle - Dyle","Hydrocotyle ranunculoides",38,"baseline",1432,0.026536312849162,"scattered occurences only"
+"7","Dijle - Dyle","Ludwigia grandiflora",27,"current",1432,0.018854748603352,"scattered occurences only"
+"8","Dijle - Dyle","Heracleum mantegazzianum",258,"baseline",1432,0.180167597765363,"weakly invaded"
+"9","Dijle - Dyle","Hydrocotyle ranunculoides",40,"current",1432,0.0279329608938547,"scattered occurences only"
+"10","Dijle - Dyle","Myriophyllum aquaticum",33,"current",1432,0.0230446927374302,"scattered occurences only"
+"11","Dijle - Dyle","Pacifastacus leniusculus",15,"baseline",1432,0.0104748603351955,"scattered occurences only"
+"12","Dijle - Dyle","Procambarus clarkii",11,"current",1432,0.00768156424581006,"scattered occurences only"
+"13","Dijle - Dyle","Ludwigia grandiflora",27,"baseline",1432,0.018854748603352,"scattered occurences only"
+"14","Dijle - Dyle","Lysichiton americanus",5,"current",1432,0.00349162011173184,"scattered occurences only"
+"15","Dijle - Dyle","Procambarus virginalis",2,"baseline",1432,0.00139664804469274,"scattered occurences only"
+"16","Dijle - Dyle","Faxonius limosus",25,"baseline",1432,0.0174581005586592,"scattered occurences only"
+"17","Dijle - Dyle","Lysichiton americanus",5,"baseline",1432,0.00349162011173184,"scattered occurences only"
+"18","Dijle - Dyle","Faxonius limosus",25,"current",1432,0.0174581005586592,"scattered occurences only"
+"19","Dijle - Dyle","Elodea nuttallii",32,"baseline",1432,0.0223463687150838,"scattered occurences only"
+"20","Dijle - Dyle","Myriophyllum aquaticum",33,"baseline",1432,0.0230446927374302,"scattered occurences only"
+"21","Dijle - Dyle","Procambarus clarkii",8,"baseline",1432,0.00558659217877095,"scattered occurences only"
+"22","Dijle - Dyle","Impatiens glandulifera",262,"baseline",1432,0.182960893854749,"weakly invaded"
+"23","Mark - Marcq","Heracleum mantegazzianum",17,"current",221,0.0769230769230769,"scattered occurences only"
+"24","Mark - Marcq","Ludwigia peploides",1,"current",221,0.00452488687782805,"scattered occurences only"
+"25","Mark - Marcq","Lagarosiphon major",1,"current",221,0.00452488687782805,"scattered occurences only"
+"26","Mark - Marcq","Faxonius limosus",1,"current",221,0.00452488687782805,"scattered occurences only"
+"27","Mark - Marcq","Impatiens glandulifera",31,"current",221,0.14027149321267,"weakly invaded"
+"28","Mark - Marcq","Myriophyllum aquaticum",1,"current",221,0.00452488687782805,"scattered occurences only"
+"29","Mark - Marcq","Heracleum mantegazzianum",15,"baseline",221,0.0678733031674208,"scattered occurences only"
+"30","Mark - Marcq","Impatiens glandulifera",28,"baseline",221,0.126696832579186,"weakly invaded"
+"31","Mark - Marcq","Ludwigia grandiflora",2,"baseline",221,0.00904977375565611,"scattered occurences only"
+"32","Mark - Marcq","Myriophyllum aquaticum",1,"baseline",221,0.00452488687782805,"scattered occurences only"
+"33","Mark - Marcq","Ludwigia peploides",1,"baseline",221,0.00452488687782805,"scattered occurences only"
+"34","Mark - Marcq","Lagarosiphon major",1,"baseline",221,0.00452488687782805,"scattered occurences only"
+"35","Mark - Marcq","Faxonius limosus",1,"baseline",221,0.00452488687782805,"scattered occurences only"
+"36","Mark - Marcq","Ludwigia grandiflora",2,"current",221,0.00904977375565611,"scattered occurences only"
+"37","Zenne - Senne","Ludwigia grandiflora",8,"baseline",1306,0.00612557427258806,"scattered occurences only"
+"38","Zenne - Senne","Hydrocotyle ranunculoides",11,"baseline",1306,0.00842266462480858,"scattered occurences only"
+"39","Zenne - Senne","Myriophyllum aquaticum",17,"baseline",1306,0.0130168453292496,"scattered occurences only"
+"40","Zenne - Senne","Elodea nuttallii",8,"baseline",1306,0.00612557427258806,"scattered occurences only"
+"41","Zenne - Senne","Hydrocotyle ranunculoides",12,"current",1306,0.00918836140888208,"scattered occurences only"
+"42","Zenne - Senne","Lysichiton americanus",2,"current",1306,0.00153139356814701,"scattered occurences only"
+"43","Zenne - Senne","Heracleum mantegazzianum",258,"current",1306,0.197549770290965,"weakly invaded"
+"44","Zenne - Senne","Impatiens glandulifera",319,"current",1306,0.244257274119449,"weakly invaded"
+"45","Zenne - Senne","Heracleum mantegazzianum",241,"baseline",1306,0.184532924961715,"weakly invaded"
+"46","Zenne - Senne","Ludwigia grandiflora",8,"current",1306,0.00612557427258806,"scattered occurences only"
+"47","Zenne - Senne","Procambarus acutus",1,"baseline",1306,0.000765696784073507,"scattered occurences only"
+"48","Zenne - Senne","Myriophyllum aquaticum",18,"current",1306,0.0137825421133231,"scattered occurences only"
+"49","Zenne - Senne","Procambarus acutus",1,"current",1306,0.000765696784073507,"scattered occurences only"
+"50","Zenne - Senne","Elodea nuttallii",11,"current",1306,0.00842266462480858,"scattered occurences only"
+"51","Zenne - Senne","Lagarosiphon major",1,"current",1306,0.000765696784073507,"scattered occurences only"
+"52","Zenne - Senne","Impatiens glandulifera",308,"baseline",1306,0.23583460949464,"weakly invaded"
+"53","Zenne - Senne","Lysichiton americanus",2,"baseline",1306,0.00153139356814701,"scattered occurences only"
+"54","Zenne - Senne","Faxonius limosus",33,"current",1306,0.0252679938744257,"scattered occurences only"
+"55","Zenne - Senne","Procambarus clarkii",10,"current",1306,0.00765696784073507,"scattered occurences only"
+"56","Zenne - Senne","Faxonius limosus",30,"baseline",1306,0.0229709035222052,"scattered occurences only"
+"57","Zenne - Senne","Ludwigia peploides",1,"current",1306,0.000765696784073507,"scattered occurences only"
+"58","Zenne - Senne","Procambarus clarkii",10,"baseline",1306,0.00765696784073507,"scattered occurences only"
+"59","Zenne - Senne","Lagarosiphon major",1,"baseline",1306,0.000765696784073507,"scattered occurences only"
