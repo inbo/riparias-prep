@@ -13,6 +13,9 @@ RBU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/da
 
 RBSU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
 
+#correct projection
+crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
+
 #import EEA 1km file
 EEA_1km <- readOGR("data/spatial/EEA 1km/be_1km.shp")
 EEA_1km <- spTransform(EEA_1km, crs_wgs)
@@ -21,6 +24,9 @@ EEA_1km <- spTransform(EEA_1km, crs_wgs)
 EEA_1km_in_RBU <- raster::intersect(EEA_1km, RBU)
 
 EEA_1km_RBU_data <- as.data.frame(EEA_1km_in_RBU@data)
+
+#check if outcome is logical
+table(table(EEA_1km_RBU_data$CELLCODE))
 
 names(EEA_1km_RBU_data)[4] <-'RBU'
 
@@ -36,6 +42,8 @@ EEA_1km_in_RBSU <- raster::intersect(EEA_1km, RBSU)
 
 EEA_1km_RBSU_data <- as.data.frame(EEA_1km_in_RBSU@data)
 
+#check if outcome is logical
+table(table(EEA_1km_RBSU_data$CELLCODE))
 
 CELLES_per_RBSU <- EEA_1km_RBSU_data %>%
   select(A0_CODE, CELLCODE)%>%
