@@ -92,7 +92,17 @@ ui <- navbarPage(
            ,
 tabPanel('Surveillance'),
 tabPanel('Trends'),
-tabPanel('Level of _invasion')
+tabPanel('Level of invasion',
+         sidebarLayout(
+           sidebarPanel(
+             selectInput("Species_loi", "Select a species:",
+                         choices = unique(occupancy_RBU$scientific_name))
+           ),#sidebarPanel
+           mainPanel(
+             
+           )#mainPanel
+         )#sidebarLayout
+         )#tabPanel
 )
 
   
