@@ -5,6 +5,7 @@ library(rgdal)
 library(dplyr)
 library(ggplot2)
 library(sf)
+library(stringr)
 
 branch <- "41_extending_baseline_map"
 
@@ -16,7 +17,12 @@ RBSU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch
 
 points_in_perimeter@data$occrrnS <- as.factor(points_in_perimeter@data$occrrnS)
 
-level_of_invasion_RBSU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/level_of_invasion_RBSU.geojson"))
+level_of_invasion_RBSU <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/level_of_invasion_RBSU.geojson")))
+
+level_of_invasion_RBSU <- level_of_invasion_RBSU%>%filter(state=='current')
+
+level_of_invasion_color <- as.data.frame(level_of_invasion_RBSU)
+print(names(level_of_invasion_RBSU))
 
 bbox <- as.data.frame(RBU_laag@bbox)
 
@@ -96,13 +102,11 @@ tabPanel('Level of invasion',
          sidebarLayout(
            sidebarPanel(
              selectInput("Species_loi", "Select a species:",
-                         choices = unique(occupancy_RBU$scientific_name))
+                         choices = unique(occupancy_RBSU$scientific_name))
            ),#sidebarPanel
            mainPanel(
              fluidRow(
-               box(
                  leafletOutput("map_level_of_invasion", height = 600)
-               )#box
              )#fluidRow
            )#mainPanel
          )#sidebarLayout
@@ -259,9 +263,43 @@ server <- function(input, output) {
                    lat2 = bbox$max[2])
   })
   
+
+  
   output$map_level_of_invasion <- renderLeaflet({
+    
+    labels <- sprintf(
+      "A0_CODE: <strong>%s</strong>",
+      level_of_invasion_RBSU$A0_CODE
+    ) %>% lapply(htmltools::HTML)
+    
+    pal <- colorFactor(palette = c("yellow", "orange", "red", "grey"),
+                       levels = c("scattered occurences only", "weakly invaded", "heavily invaded", NA))
+    
     leaflet(level_of_invasion_RBSU)%>%
-      addTiles()
+      addTiles()%>%
+      addPolygons(
+        fillColor = ~pal(level_of_invasion_color[,str_replace(input$Species_loi, ' ', '.')]),
+        weight = 2,
+        opacity = 1,
+        color = "white",
+        dashArray = "3",
+        fillOpacity = 0.5,
+        highlight = highlightOptions(
+          weight = 5,
+          color = "#666",
+          dashArray = "",
+          fillOpacity = 0.7,
+          bringToFront = TRUE),
+      label = labels,
+      labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px",
+      direction = "auto"))%>%
+      addLegend(data = level_of_invasion_color,
+                title = "Level of invasion",
+                values = ~c("scattered occurences only", "weakly invaded", "heavily invaded", NA),
+                pal = pal)
+  
   })
 }
 
