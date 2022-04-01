@@ -52,7 +52,6 @@ ui <- navbarPage(
   ),
   tabPanel("Distribution",
     tabsetPanel(
-      type="tabs",
       tabPanel('Maps',
     titlePanel('Maps'),
     sidebarLayout(
@@ -96,11 +95,10 @@ tabPanel('Occupancy',
              )
            )),
          
-         #type = "tabs",
-         #tabPanel("Observations", plotOutput("graphRBU")),
+
          sidebarLayout(
            sidebarPanel(
-             selectInput("RBSUi", " Select a river basin subunit:", 'Maalbeek',
+             selectInput("RBSUi", " Select a river basin subunit:",
                          choices = unique(overview_RBSU$fullname.of.RBSU))
            ),
            mainPanel(
@@ -117,7 +115,41 @@ tabPanel('Occupancy',
 
 )#tabsetPanel
 ),#tabPanel
-tabPanel('Surveillance'),
+tabPanel('Surveillance',
+      tabsetPanel(
+        tabPanel('Observations',
+        titlePanel('Observations'),
+        sidebarLayout(
+
+          sidebarPanel(
+            selectInput("RBUi2", "Select a river basin:",
+                        choices = unique(overview_RBU$RBU))
+          ),
+          mainPanel(
+            fluidRow(
+              plotOutput("graphRBU")
+              )
+            )
+          ),
+        sidebarLayout(
+          
+          sidebarPanel(
+            selectInput("RBSUi2", "Select a river basin subunit:",
+                        choices = unique(overview_RBSU$fullname.of.RBSU))
+          ),
+          mainPanel(
+            fluidRow(
+              plotOutput("graphRBSU")
+            )
+          )
+        )
+          
+        ),#tabPanel,
+        tabPanel('Effort',
+                 titlePanel('Surveillance effort')
+        )#tabPanel Effort
+                 )#tabsetPanel 
+         ),#tabPanel Surveillance
 tabPanel('Species trends'),
 tabPanel('Management',
          sidebarLayout(
@@ -165,7 +197,7 @@ server <- function(input, output) {
   })
   
   datObs<-reactive({
-      test <- overview_RBU[(overview_RBU$RBU == input$RBUi),]
+      test <- overview_RBU[(overview_RBU$RBU == input$RBUi2),]
       test
   })
   
@@ -208,7 +240,7 @@ server <- function(input, output) {
   })
   
   datObs2<-reactive({
-    test2 <- overview_RBSU[(overview_RBSU$fullname.of.RBSU == input$RBSUi),]
+    test2 <- overview_RBSU[(overview_RBSU$fullname.of.RBSU == input$RBSUi2),]
     test2
   })
   
