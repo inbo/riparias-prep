@@ -22,9 +22,8 @@ points_in_perimeter@data$occrrnS <- as.factor(points_in_perimeter@data$occrrnS)
 
 level_of_invasion_RBSU <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/level_of_invasion_RBSU.geojson")))
 
-level_of_invasion_RBSU <- level_of_invasion_RBSU%>%filter(state=='current')
-
-
+level_of_invasion_RBSU_current <- level_of_invasion_RBSU%>%filter(state=='current')
+level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU%>%filter(state=='baseline')
 bbox <- as.data.frame(RBU_laag@bbox)
 
 overview_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/observations_RBU.csv"))
@@ -36,10 +35,12 @@ full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
 
 overview_RBSU <- merge(overview_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
-level_of_invasion_RBSU <- merge (level_of_invasion_RBSU, full_name_RBSU,by= 'Id', all.x=TRUE)
 
-level_of_invasion_color <- as.data.frame(level_of_invasion_RBSU)
-print(names(level_of_invasion_RBSU))
+level_of_invasion_RBSU_current <- merge (level_of_invasion_RBSU_current, full_name_RBSU,by= 'Id', all.x=TRUE)
+level_of_invasion_RBSU_baseline <- merge(level_of_invasion_RBSU_baseline, full_name_RBSU, by= 'Id', all.x=TRUE)
+
+level_of_invasion_color_current <- as.data.frame(level_of_invasion_RBSU_current)
+level_of_invasion_color_baseline <- as.data.frame(level_of_invasion_RBSU_baseline)
 
 #Userinterface####
 
@@ -104,7 +105,6 @@ tabPanel('Occupancy',
            mainPanel(
              fluidRow(
                tabsetPanel(type = "tabs",
-#                           tabPanel("Observations", plotOutput("graphRBSU")),
                            tabPanel("Absolute occupancy", plotOutput("OccRBSU")),
                            tabPanel("Relative occupancy", plotOutput("OccRBSUREL"))
                )
@@ -159,7 +159,14 @@ tabPanel('Management',
            ),#sidebarPanel
            mainPanel(
              fluidRow(
-                 leafletOutput("map_level_of_invasion", height = 600)
+             box(
+               title='baseline state',
+                 leafletOutput("map_level_of_invasion_baseline")
+             ),
+             box(
+               title='current state',
+                 leafletOutput("map_level_of_invasion_current")
+                 )
              )#fluidRow
            )#mainPanel
          )#sidebarLayout
@@ -318,20 +325,20 @@ server <- function(input, output) {
   
 
   
-  output$map_level_of_invasion <- renderLeaflet({
+  output$map_level_of_invasion_current <- renderLeaflet({
     
     labels <- sprintf(
       "<strong>%s</strong>",
-      level_of_invasion_RBSU$fullname.of.RBSU
+      level_of_invasion_RBSU_current$fullname.of.RBSU
     ) %>% lapply(htmltools::HTML)
     
     pal <- colorFactor(palette = c("yellow", "orange", "red", "grey"),
                        levels = c( "scattered occurences only", "weakly invaded", "heavily invaded", NA))
     
-    leaflet(level_of_invasion_RBSU)%>%
+    leaflet(level_of_invasion_RBSU_current)%>%
       addTiles()%>%
       addPolygons(
-        fillColor = ~pal(level_of_invasion_color[,str_replace(input$Species_loi, ' ', '.')]),
+        fillColor = ~pal(level_of_invasion_color_current[,str_replace(input$Species_loi, ' ', '.')]),
         weight = 2,
         opacity = 1,
         color = "white",
@@ -348,10 +355,47 @@ server <- function(input, output) {
       style = list("font-weight" = "normal", padding = "3px 8px"),
       textsize = "15px",
       direction = "auto"))%>%
-      addLegend(data = level_of_invasion_color,
+      addLegend(data = level_of_invasion_color_current,
                 title = "Level of invasion",
                 values = ~c("scattered occurences only", "weakly invaded", "heavily invaded", NA),
                 pal = pal)
+    
+   })
+    
+    output$map_level_of_invasion_baseline <- renderLeaflet({
+      
+      labels <- sprintf(
+        "<strong>%s</strong>",
+        level_of_invasion_RBSU_baseline$fullname.of.RBSU
+      ) %>% lapply(htmltools::HTML)
+      
+      pal <- colorFactor(palette = c("yellow", "orange", "red", "grey"),
+                         levels = c( "scattered occurences only", "weakly invaded", "heavily invaded", NA))
+      
+      leaflet(level_of_invasion_RBSU_baseline)%>%
+        addTiles()%>%
+        addPolygons(
+          fillColor = ~pal(level_of_invasion_color_baseline[,str_replace(input$Species_loi, ' ', '.')]),
+          weight = 2,
+          opacity = 1,
+          color = "white",
+          dashArray = "3",
+          fillOpacity = 0.5,
+          highlight = highlightOptions(
+            weight = 5,
+            color = "#666",
+            dashArray = "",
+            fillOpacity = 0.7,
+            bringToFront = TRUE),
+          label = labels,
+          labelOptions = labelOptions(
+            style = list("font-weight" = "normal", padding = "3px 8px"),
+            textsize = "15px",
+            direction = "auto"))%>%
+        addLegend(data = level_of_invasion_color_baseline,
+                  title = "Level of invasion",
+                  values = ~c("scattered occurences only", "weakly invaded", "heavily invaded", NA),
+                  pal = pal)
   
   })
 }
