@@ -7,6 +7,9 @@ library(ggplot2)
 library(sf)
 library(stringr)
 
+#Reading in data####
+
+##branch#####
 branch <- "41_extending_baseline_map"
 
 points_in_perimeter <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/points_in_perimeter.geojson"), stringsAsFactors = FALSE)
@@ -21,8 +24,6 @@ level_of_invasion_RBSU <- st_as_sf(readOGR(paste0("https://github.com/inbo/ripar
 
 level_of_invasion_RBSU <- level_of_invasion_RBSU%>%filter(state=='current')
 
-level_of_invasion_color <- as.data.frame(level_of_invasion_RBSU)
-print(names(level_of_invasion_RBSU))
 
 bbox <- as.data.frame(RBU_laag@bbox)
 
@@ -31,6 +32,16 @@ overview_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", b
 occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBU.csv"))
 occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBSU.csv"))
 
+full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/input/Full_name_per_RBSU.csv"), sep=";")
+
+overview_RBSU <- merge(overview_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
+occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
+level_of_invasion_RBSU <- merge (level_of_invasion_RBSU, full_name_RBSU,by= 'Id', all.x=TRUE)
+
+level_of_invasion_color <- as.data.frame(level_of_invasion_RBSU)
+print(names(level_of_invasion_RBSU))
+
+#Userinterface####
 
 ui <- navbarPage(
   title = "Riparias D1",
@@ -83,7 +94,8 @@ ui <- navbarPage(
            )),
            sidebarLayout(
              sidebarPanel(
-               numericInput("RBSUi", " Select an A0_CODE:", 10)
+               selectInput("RBSUi", " Select a river basin subunit:", 'Maalbeek',
+                           choices = unique(overview_RBSU$fullname.of.RBSU))
              ),
              mainPanel(
                fluidRow(
@@ -96,9 +108,9 @@ ui <- navbarPage(
              )))
            
            ,
-tabPanel('Surveillance'),
-tabPanel('Trends'),
-tabPanel('Level of invasion',
+tabPanel('Surveillance effort'),
+tabPanel('Species trends'),
+tabPanel('Management',
          sidebarLayout(
            sidebarPanel(
              selectInput("Species_loi", "Select a species:",
@@ -115,7 +127,7 @@ tabPanel('Level of invasion',
 
   
 
-
+#Server####
 server <- function(input, output) { 
   
   output$text1 <- renderUI({
@@ -187,7 +199,7 @@ server <- function(input, output) {
   })
   
   datObs2<-reactive({
-    test2 <- overview_RBSU[(overview_RBSU$A0_CODE == input$RBSUi),]
+    test2 <- overview_RBSU[(overview_RBSU$fullname.of.RBSU == input$RBSUi),]
     test2
   })
   
@@ -203,7 +215,7 @@ server <- function(input, output) {
   })
   
   datOcc2<-reactive({
-    test3 <- occupancy_RBSU[(occupancy_RBSU$A0_CODE == input$RBSUi),]
+    test3 <- occupancy_RBSU[(occupancy_RBSU$fullname.of.RBSU == input$RBSUi),]
     test3
   })
   
@@ -268,12 +280,12 @@ server <- function(input, output) {
   output$map_level_of_invasion <- renderLeaflet({
     
     labels <- sprintf(
-      "A0_CODE: <strong>%s</strong>",
-      level_of_invasion_RBSU$A0_CODE
+      "<strong>%s</strong>",
+      level_of_invasion_RBSU$fullname.of.RBSU
     ) %>% lapply(htmltools::HTML)
     
     pal <- colorFactor(palette = c("yellow", "orange", "red", "grey"),
-                       levels = c("scattered occurences only", "weakly invaded", "heavily invaded", NA))
+                       levels = c( "scattered occurences only", "weakly invaded", "heavily invaded", NA))
     
     leaflet(level_of_invasion_RBSU)%>%
       addTiles()%>%
