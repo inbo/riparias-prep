@@ -50,7 +50,11 @@ ui <- navbarPage(
         img(src='Riparias_Logo.png', align = "right", height = 90)
     )
   ),
-  tabPanel("Maps",
+  tabPanel("Distribution",
+    tabsetPanel(
+      type="tabs",
+      tabPanel('Maps',
+    titlePanel('Maps'),
     sidebarLayout(
       sidebarPanel(
         sliderInput("slider", 
@@ -67,48 +71,53 @@ ui <- navbarPage(
         ),
       mainPanel(
         fluidRow(
-          box(
-            title = "map", width = 12,
+          box(width = 12,
             uiOutput("text1"),
             leafletOutput("map", height = 600)
           )
         )
       )
   )
-  
-)
-, tabPanel('Distribution',
-           sidebarLayout(
-             sidebarPanel(
-               selectInput("RBUi", "Select a river basin:",
-                           choices = unique(overview_RBU$RBU))
-             ),
+),#tabpanel
+tabPanel('Occupancy',
+         titlePanel('Occupancy'),
+         
+         sidebarLayout(
+           sidebarPanel(
+             selectInput("RBUi", "Select a river basin:",
+                         choices = unique(overview_RBU$RBU))
+           ),
+           mainPanel(
+             fluidRow(
+               tabsetPanel(
+                           tabPanel("Absolute occupancy", plotOutput("OccRBU")),
+                           tabPanel("Relative occupancy", plotOutput("OccRBUREL"))
+               )
+             )
+           )),
+         
+         #type = "tabs",
+         #tabPanel("Observations", plotOutput("graphRBU")),
+         sidebarLayout(
+           sidebarPanel(
+             selectInput("RBSUi", " Select a river basin subunit:", 'Maalbeek',
+                         choices = unique(overview_RBSU$fullname.of.RBSU))
+           ),
            mainPanel(
              fluidRow(
                tabsetPanel(type = "tabs",
-                           tabPanel("Observations", plotOutput("graphRBU")),
-                           tabPanel("Absolute occupancy", plotOutput("OccRBU")),
-                           tabPanel("Relative occupancy", plotOutput("OccRBUREL"))
-                           )
-           )
-           )),
-           sidebarLayout(
-             sidebarPanel(
-               selectInput("RBSUi", " Select a river basin subunit:", 'Maalbeek',
-                           choices = unique(overview_RBSU$fullname.of.RBSU))
-             ),
-             mainPanel(
-               fluidRow(
-                 tabsetPanel(type = "tabs",
-                             tabPanel("Observations", plotOutput("graphRBSU")),
-                             tabPanel("Absolute occupancy", plotOutput("OccRBSU")),
-                             tabPanel("Relative occupancy", plotOutput("OccRBSUREL"))
-                 )
+#                           tabPanel("Observations", plotOutput("graphRBSU")),
+                           tabPanel("Absolute occupancy", plotOutput("OccRBSU")),
+                           tabPanel("Relative occupancy", plotOutput("OccRBSUREL"))
                )
-             )))
-           
-           ,
-tabPanel('Surveillance effort'),
+             )
+           ))        
+         
+)#tabPanel
+
+)#tabsetPanel
+),#tabPanel
+tabPanel('Surveillance'),
 tabPanel('Species trends'),
 tabPanel('Management',
          sidebarLayout(
