@@ -54,8 +54,8 @@ CELLES_per_RBSU <- EEA_1km_RBSU_data %>%
 gc()
 
 #import absolute output
-occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBU.csv"))
-occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBSU.csv"))
+occupancy_RBU <- read.csv("./data/interim/occupancy_RBU.csv")
+occupancy_RBSU <- read.csv("./data/interim/occupancy_RBSU.csv")
 
 #remove first column
 occupancy_RBU <- occupancy_RBU %>% select(-c(1))

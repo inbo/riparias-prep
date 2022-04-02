@@ -48,9 +48,9 @@ ui <- navbarPage(
   title = "Riparias D1",
   header= fluidRow(
     box(width = 12, 
-        img(src='Riparias_Logo.png', align = "right", height = 90)
-    )
-  ),
+      img(src='Riparias_Logo.png', align = "right", height = 90)
+  )),
+
   tabPanel("Distribution",
     tabsetPanel(
       tabPanel('Maps',
@@ -152,6 +152,7 @@ tabPanel('Surveillance',
          ),#tabPanel Surveillance
 tabPanel('Species trends'),
 tabPanel('Management',
+         titlePanel('Level of invasion'),
          sidebarLayout(
            sidebarPanel(
              selectInput("Species_loi", "Select a species:",
@@ -170,7 +171,8 @@ tabPanel('Management',
              )#fluidRow
            )#mainPanel
          )#sidebarLayout
-         )#tabPanel
+         ),#tabPanel
+img(src='Riparias_Logo.png', align = "right", height = 90)
 )
 
   

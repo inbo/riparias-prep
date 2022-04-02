@@ -6,7 +6,7 @@ library(tidyr)
 
 branch <- "41_extending_baseline_map"
 
-#import geojson of RBU and RBSU
+#import geojson of RBU and RBSU####
 RBU <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
                                branch,
                                "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE))
@@ -14,11 +14,11 @@ RBSU <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
                                 branch,
                                 "/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE))
 
-#import relative occupancy
-occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBU.csv"))
-occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBSU.csv"))
+#import relative occupancy####
+occupancy_RBU <- read.csv(paste0("./data/interim/occupancy_RBU.csv"))
+occupancy_RBSU <- read.csv(paste0("./data/interim/occupancy_RBSU.csv"))
 
-#remove first column
+#remove first column####
 occupancy_RBU <- occupancy_RBU %>% select(-c(1))
 occupancy_RBSU <- occupancy_RBSU %>% select(-c(1))
  

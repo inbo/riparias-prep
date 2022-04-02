@@ -1,1 +1,56 @@
-Id;fullname of RBSU1;Dyle I - Haute Dyle2;Dyle I - Thyle3;Dyle I - Orne aval4;Dyle I - Orne amont5;Dyle I - Nil6;Lasne - Amont7;Dyle II et Pisselet8;Train9;Lasne - Argentine10;Nethen11;Afstroomzone van IJSSE12;Lasne - Aval13;Afstroomzone van DIJLE I14;Afstroomzone van VOER (Leuven)15;Afstroomzone van DIJLE II16;Afstroomzone van DIJLE III17;Afstroomzone van WINGE18;Afstroomzone van KANAAL LEUVEN-DIJLE19;Afstroomzone van LEIBEEK - LAAKBEEK20;Afstroomzone van WEESBEEK21;Afstroomzone van DIJLE VI22;Afstroomzone van DEMER VII23;Afstroomzone van GROTE VIJVER MECHELEN24;Senne I - Gageole25;Senne I - Amont26;Sennette I27;Samme - Amont28;Samme - Aval29;Thisnes30;Senne I - Boussemont31;Senne I - Brainette32;Ry Ternel33;Senne II34;Stincup-Lobbecq35;Sennette II36;Hain - Aval37;Hain - Amont38;Afstroomzone van ZUUNBEEK39;Afstroomzone van Groebengracht40;Afstroomzone van KANAAL CHARLEROI-BRUSSEL41;Afstroomzone van Molenbeek - Lakebeek - Meerbeek42;Afstroomzone van MOLENBEEK - NEERPEDEBEEK43;Geley(i)tsbeek/Verrewinkelbeek/Ukkelbeek44;Woluwe upstream45;Maalbeek46;Zenne-Senne at Bruxelles47;Molenbeek48;Woluwe downstream49;Afstroomzone van ZEEKANAAL BRUSSEL-SCHELDE50;Afstroomzone van ZENNE II51;Afstroomzone van GETIJDEDIJLE & GETIJDEZENNE52;Marcq I53;Afstroomzone van MARK (Denderbekken)54;Marcq II55;Coerq
+Id;fullnameRBSU
+1;Dyle I - Haute Dyle
+2;Dyle I - Thyle
+3;Dyle I - Orne aval
+4;Dyle I - Orne amont
+5;Dyle I - Nil
+6;Lasne - Amont
+7;Dyle II et Pisselet
+8;Train
+9;Lasne - Argentine
+10;Nethen
+11;Afstroomzone van IJSSE
+12;Lasne - Aval
+13;Afstroomzone van DIJLE I
+14;Afstroomzone van VOER (Leuven)
+15;Afstroomzone van DIJLE II
+16;Afstroomzone van DIJLE III
+17;Afstroomzone van WINGE
+18;Afstroomzone van KANAAL LEUVEN-DIJLE
+19;Afstroomzone van LEIBEEK - LAAKBEEK
+20;Afstroomzone van WEESBEEK
+21;Afstroomzone van DIJLE VI
+22;Afstroomzone van DEMER VII
+23;Afstroomzone van GROTE VIJVER MECHELEN
+24;Senne I - Gageole
+25;Senne I - Amont
+26;Sennette I
+27;Samme - Amont
+28;Samme - Aval
+29;Thisnes
+30;Senne I - Boussemont
+31;Senne I - Brainette
+32;Ry Ternel
+33;Senne II
+34;Stincup-Lobbecq
+35;Sennette II
+36;Hain - Aval
+37;Hain - Amont
+38;Afstroomzone van ZUUNBEEK
+39;Afstroomzone van Groebengracht
+40;Afstroomzone van KANAAL CHARLEROI-BRUSSEL
+41;Afstroomzone van Molenbeek - Lakebeek - Meerbeek
+42;Afstroomzone van MOLENBEEK - NEERPEDEBEEK
+43;Geley(i)tsbeek/Verrewinkelbeek/Ukkelbeek
+44;Woluwe upstream
+45;Maalbeek
+46;Zenne-Senne at Bruxelles
+47;Molenbeek
+48;Woluwe downstream
+49;Afstroomzone van ZEEKANAAL BRUSSEL-SCHELDE
+50;Afstroomzone van ZENNE II
+51;Afstroomzone van GETIJDEDIJLE & GETIJDEZENNE
+52;Marcq I
+53;Afstroomzone van MARK (Denderbekken)
+54;Marcq II
+55;Coerq
