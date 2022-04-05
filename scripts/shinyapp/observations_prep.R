@@ -1,8 +1,8 @@
 #'This script returns two csv fiels:
 #'observations_RBU.csv : number of observations per species per river basin unit per state (baseline or current) 
-#'header observations_RBU.csv: scientific_name,"RBU","n","state"
+#'header observations_RBU.csv: scientific_name,"RBU","n_observations","state"
 #'observations_RBSU.csv : number of observations per species per river basin subunit per state (baseline or current)
-#'header observations_RBSU.csv: scientific_name,"A0_CODE","n","state"
+#'header observations_RBSU.csv: scientific_name,"A0_CODE","n_obseervations","state"
 #'
 #'@param branch A string referring to the branch on github on which input data is read in
 #'@param current_state geosjon file in WGS 84 projection containing observations from 2010 until now
