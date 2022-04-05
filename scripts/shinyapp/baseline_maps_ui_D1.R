@@ -211,7 +211,7 @@ server <- function(input, output) {
   })
   
   output$graphRBU <-renderPlot ({
-    ggplot(datObs(), aes(x=scientific_name, y=n, fill= state)) +
+    ggplot(datObs(), aes(x=scientific_name, y=n_observations, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
@@ -254,7 +254,7 @@ server <- function(input, output) {
   })
   
   output$graphRBSU <-renderPlot ({
-    ggplot(datObs2(), aes(x=scientific_name, y=n, fill= state)) +
+    ggplot(datObs2(), aes(x=scientific_name, y=n_observations, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
