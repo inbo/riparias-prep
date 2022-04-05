@@ -29,7 +29,6 @@ bbox <- as.data.frame(RBU_laag@bbox)
 
 occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBU.csv"))
 occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBSU.csv"))
-
 full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/input/Full_name_per_RBSU.csv"), sep=";")
 
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
