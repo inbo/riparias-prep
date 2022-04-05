@@ -26,14 +26,12 @@ level_of_invasion_RBSU_current <- level_of_invasion_RBSU%>%filter(state=='curren
 level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU%>%filter(state=='baseline')
 bbox <- as.data.frame(RBU_laag@bbox)
 
-overview_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/observations_RBU.csv"))
-overview_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/observations_RBSU.csv"))
+
 occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBU.csv"))
 occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBSU.csv"))
 
 full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/input/Full_name_per_RBSU.csv"), sep=";")
 
-overview_RBSU <- merge(overview_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
 
 level_of_invasion_RBSU_current <- merge (level_of_invasion_RBSU_current, full_name_RBSU,by= 'Id', all.x=TRUE)
@@ -85,7 +83,7 @@ tabPanel('Occupancy',
          sidebarLayout(
            sidebarPanel(
              selectInput("RBUi", "Select a river basin:",
-                         choices = unique(overview_RBU$RBU))
+                         choices = unique(occupancy_RBU$RBU))
            ),
            mainPanel(
              fluidRow(
@@ -100,7 +98,7 @@ tabPanel('Occupancy',
          sidebarLayout(
            sidebarPanel(
              selectInput("RBSUi", " Select a river basin subunit:",
-                         choices = unique(overview_RBSU$fullname.of.RBSU))
+                         choices = unique(occupancy_RBSU$fullname.of.RBSU))
            ),
            mainPanel(
              fluidRow(
@@ -123,7 +121,7 @@ tabPanel('Surveillance',
 
           sidebarPanel(
             selectInput("RBUi2", "Select a river basin:",
-                        choices = unique(overview_RBU$RBU))
+                        choices = unique(occupancy_RBU$RBU))
           ),
           mainPanel(
             fluidRow(
@@ -135,7 +133,7 @@ tabPanel('Surveillance',
           
           sidebarPanel(
             selectInput("RBSUi2", "Select a river basin subunit:",
-                        choices = unique(overview_RBSU$fullname.of.RBSU))
+                        choices = unique(occupancy_RBSU$fullname.of.RBSU))
           ),
           mainPanel(
             fluidRow(
@@ -206,7 +204,7 @@ server <- function(input, output) {
   })
   
   datObs<-reactive({
-      test <- overview_RBU[(overview_RBU$RBU == input$RBUi2),]
+      test <- occupancy_RBU[(occupancy_RBU$RBU == input$RBUi2),]
       test
   })
   
@@ -249,7 +247,7 @@ server <- function(input, output) {
   })
   
   datObs2<-reactive({
-    test2 <- overview_RBSU[(overview_RBSU$fullname.of.RBSU == input$RBSUi2),]
+    test2 <- occupancy_RBSU[(occupancy_RBSU$fullname.of.RBSU == input$RBSUi2),]
     test2
   })
   
