@@ -75,7 +75,7 @@ occupancy_RBU_temp$Occupancy_rel <- occupancy_RBU_temp$Occupancy/occupancy_RBU_t
 occupancy_RBSU_temp$Occupancy_rel <- occupancy_RBSU_temp$Occupancy/occupancy_RBSU_temp$Total_cellcode_per_area
 
 #save output####
-write.csv(occupancy_RBU_temp, './data/interim/occupancy_RBU.csv')
-write.csv(occupancy_RBSU_temp, './data/interim/occupancy_RBSU.csv')
+write.csv(occupancy_RBU_temp, './data/interim/occupancy_RBU.csv', row.names=FALSE)
+write.csv(occupancy_RBSU_temp, './data/interim/occupancy_RBSU.csv', row.names=FALSE)
 
 
