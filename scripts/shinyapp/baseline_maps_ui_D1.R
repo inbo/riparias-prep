@@ -97,7 +97,7 @@ tabPanel('Occupancy',
          sidebarLayout(
            sidebarPanel(
              selectInput("RBSUi", " Select a river basin subunit:",
-                         choices = unique(occupancy_RBSU$fullname.of.RBSU))
+                         choices = unique(occupancy_RBSU$fullnameRBSU))
            ),
            mainPanel(
              fluidRow(
@@ -132,7 +132,7 @@ tabPanel('Surveillance',
           
           sidebarPanel(
             selectInput("RBSUi2", "Select a river basin subunit:",
-                        choices = unique(occupancy_RBSU$fullname.of.RBSU))
+                        choices = unique(occupancy_RBSU$fullnameRBSU))
           ),
           mainPanel(
             fluidRow(
@@ -246,7 +246,7 @@ server <- function(input, output) {
   })
   
   datObs2<-reactive({
-    test2 <- occupancy_RBSU[(occupancy_RBSU$fullname.of.RBSU == input$RBSUi2),]
+    test2 <- occupancy_RBSU[(occupancy_RBSU$fullnameRBSU == input$RBSUi2),]
     test2
   })
   
@@ -262,7 +262,7 @@ server <- function(input, output) {
   })
   
   datOcc2<-reactive({
-    test3 <- occupancy_RBSU[(occupancy_RBSU$fullname.of.RBSU == input$RBSUi),]
+    test3 <- occupancy_RBSU[(occupancy_RBSU$fullnameRBSU == input$RBSUi),]
     test3
   })
   
@@ -328,7 +328,7 @@ server <- function(input, output) {
     
     labels <- sprintf(
       "<strong>%s</strong>",
-      level_of_invasion_RBSU_current$fullname.of.RBSU
+      level_of_invasion_RBSU_current$fullnameRBSU
     ) %>% lapply(htmltools::HTML)
     
     pal <- colorFactor(palette = c("yellow", "orange", "red", "grey"),
@@ -365,7 +365,7 @@ server <- function(input, output) {
       
       labels <- sprintf(
         "<strong>%s</strong>",
-        level_of_invasion_RBSU_baseline$fullname.of.RBSU
+        level_of_invasion_RBSU_baseline$fullnameRBSU
       ) %>% lapply(htmltools::HTML)
       
       pal <- colorFactor(palette = c("yellow", "orange", "red", "grey"),
