@@ -153,4 +153,4 @@ df_ts_compact <-
   left_join(spec_names, by = "taxonKey")
 
 # export ####
-write_csv("./data/interim/trends_compact.csv")
+write_csv(df_ts_compact, "./data/interim/trends_compact.csv")
