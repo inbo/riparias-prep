@@ -2,9 +2,9 @@
 #'and adds extra columns two the files describing the occupancy per species per area per state
 #'Two output files are generated:
 #'occupancy_RBU.csv: extra columns describe occupancy per species per river basin unit per state (baseline or current) 
-#'header observations_RBU.csv: scientific_name,"RBU","n_observations","state", "Occupancy"
+#'header observations_RBU.csv: scientific_name,"RBU","state","n_observations", "Occupancy"
 #'occupancy_RBSU.csv: extra columns describe occupancy  per species per river basin subunit per state (baseline or current)
-#'header observations_RBSU.csv: scientific_name,"A0_CODE","n_observations","state", "Occupancy"
+#'header observations_RBSU.csv: scientific_name,"A0_CODE","state", "n_observations","Occupancy"
 #'
 #'@param branch A string referring to the branch on github on which input data is read in
 #'@param current_state geosjon file in WGS 84 projection containing observations from 2010 until now
@@ -114,12 +114,11 @@ current_per_RBSU_EEA$state <- 'current'
 gc()
 #bind tables####
 occupancy_RBU <- rbind(current_per_RBU_EEA, baseline_per_RBU_EEA)
-
 occupancy_RBSU <- rbind(current_per_RBSU_EEA, baseline_per_RBSU_EEA)
 
 #join occupancy files with observations files
-occupancy_RBSU<- merge(occupancy_RBSU, observations_RBSU, by= c('scientific_name', 'A0_CODE', 'state'),all.x=TRUE)
-occupancy_RBU <- merge(occupancy_RBU, observations_RBU, by= c('scientific_name', 'A0_CODE', 'state'),all.x=TRUE)
+occupancy_RBSU<- merge(observations_RBSU, occupancy_RBSU,by= c('scientific_name', 'A0_CODE', 'state'),all.x=TRUE)
+occupancy_RBU <- merge(observations_RBU,occupancy_RBU, by= c('scientific_name', 'RBU', 'state'),all.x=TRUE)
 
 #save output####
 
