@@ -69,7 +69,7 @@ level_of_invasion_RBU <- merge(RBU, occupancy_RBU_wider, by.x='BEKNAAM', by.y="R
 st_write(level_of_invasion_RBSU,"./data/interim/level_of_invasion_RBSU.geojson", append=FALSE)
 st_write(level_of_invasion_RBU, "./data/interim/level_of_invasion_RBU.geojson", append=FALSE)
 
-write.csv(occupancy_RBU_temp, './data/interim/occupancy_RBU.csv')
-write.csv(occupancy_RBSU_temp, './data/interim/occupancy_RBSU.csv')
+write.csv(occupancy_RBU_temp, './data/interim/occupancy_RBU.csv', row.names=FALSE)
+write.csv(occupancy_RBSU_temp, './data/interim/occupancy_RBSU.csv', row.names=FALSE)
 
 
