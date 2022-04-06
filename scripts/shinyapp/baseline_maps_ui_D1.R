@@ -453,6 +453,21 @@ server <- function(input, output) {
       
     })
   
+  output$map_current_state  <- renderLeaflet({
+    
+    current_state_sub <- subset(current_state,
+                                 current_state$scientific_name %in%
+                                   input$Species_loi)
+    leaflet() %>% 
+      addTiles() %>% 
+      addPolylines(data = RBSU_laag, color="grey") %>%
+      addCircleMarkers(data = current_state_sub,
+                       popup = current_state_sub$popup,
+                       radius = 1,
+                       color="blue")
+    
+  })
+  
     center <- reactive({
       subset(centroid_per_RBSU, fullnameRBSU == input$RBSU_loi) 
     })
@@ -469,6 +484,11 @@ server <- function(input, output) {
       leafletProxy('map_level_of_invasion_baseline') %>% 
         setView(lng =  center()$longitude, lat = center()$latitude, zoom = 11)
     })
+    observe({
+      leafletProxy('map_current_state') %>% 
+        setView(lng =  center()$longitude, lat = center()$latitude, zoom = 11)
+    })
+    
     
     
 }
