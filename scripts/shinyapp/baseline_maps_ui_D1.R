@@ -33,8 +33,6 @@ full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
 
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
 
-
-#test_zoomfunctie
 centroid_per_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/input/centroid_per_RBSU.csv"))
 centroid_per_RBSU <- merge(centroid_per_RBSU, full_name_RBSU, by='Id', all.x=TRUE)
 
@@ -155,7 +153,37 @@ tabPanel('Surveillance',
                  )#tabsetPanel 
          ),#tabPanel Surveillance
 ##Species trends####
-tabPanel('Species trends'),
+tabPanel('Species trends',
+         titlePanel('Species trends'),
+         sidebarLayout(
+           sidebarPanel(
+             selectInput("Species_loi", "Select a species:",
+                         choices = unique(occupancy_RBSU$scientific_name))
+             ),#sidebarPanel
+           mainPanel(
+             fluidRow(
+               box(
+                 title='Observations',
+                 plotOutput("plot_trends_obs")
+               ),
+               box(
+                 title='Observations-corrected',
+                 plotOutput("plot_trends_obs_cor")
+               )
+             ),#fluidRow,
+             fluidRow(
+               box(
+                 title='Occupancy',
+                 plotOutput("plot_trends_occ")
+               ),
+               box(
+                 title='Occupancy-corrected',
+                 plotOutput("plot_trends_occ_cor")
+               )
+             )#fluidRow,
+           )#mainPanel
+         )#sidebarLayout
+         ),#tabPanel
 ##Management####
 tabPanel('Management',
          titlePanel('Level of invasion'),
@@ -354,8 +382,19 @@ server <- function(input, output) {
       labs(x = "Species")
     
   })
+  ##Species_trends####
+  ###plot_trends_obs####
   
+  #output$plot_trends_obs <- renderPlot ({})
+  ###plot_trends_obs_cor####
   
+  #output$plot_trends_obs_cor <- renderPlot ({})
+  ###plot_trends_occ####
+  
+  #output$plot_trends_occ <- renderPlot ({})
+  ###plot_trends_occ_cor####
+  
+  #output$plot_trends_occ_cor <- renderPlot ({})
   ##Level of invasion####
   ###Level of invasion baseline####
     output$map_level_of_invasion_baseline <- renderLeaflet({
