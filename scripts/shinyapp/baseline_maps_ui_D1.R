@@ -9,12 +9,11 @@ library(stringr)
 
 #Reading in data####
 
-##branch#####
 branch <- "41_extending_baseline_map"
 
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/current_state.geojson"), stringsAsFactors = FALSE)
 
-baseline <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/baseline.geojson"), stringsAsFactors = FALSE)
+baseline_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/baseline.geojson"), stringsAsFactors = FALSE)
 
 RBU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
 
@@ -47,7 +46,7 @@ ui <- navbarPage(
     box(width = 12, 
       img(src='Riparias_Logo.png', align = "right", height = 90)
   )),
-
+  ##Distribution####
   tabPanel("Distribution",
     tabsetPanel(
       tabPanel('Maps',
@@ -76,6 +75,7 @@ ui <- navbarPage(
       )
   )
 ),#tabpanel
+##Occupancy####
 tabPanel('Occupancy',
          titlePanel('Occupancy'),
          
@@ -112,6 +112,7 @@ tabPanel('Occupancy',
 
 )#tabsetPanel
 ),#tabPanel
+##Surveillance####
 tabPanel('Surveillance',
       tabsetPanel(
         tabPanel('Observations',
@@ -147,7 +148,9 @@ tabPanel('Surveillance',
         )#tabPanel Effort
                  )#tabsetPanel 
          ),#tabPanel Surveillance
+##Species trends####
 tabPanel('Species trends'),
+##Management####
 tabPanel('Management',
          titlePanel('Level of invasion'),
          sidebarLayout(
@@ -165,7 +168,18 @@ tabPanel('Management',
                title='current state',
                  leafletOutput("map_level_of_invasion_current")
                  )
-             )#fluidRow
+             ),#fluidRow,
+             fluidRow(
+               box(
+                 title='baseline state',
+                 leafletOutput("map_baseline_state")
+               ),
+               box(
+                 title='current state',
+                 leafletOutput("map_current_state")
+               )
+             )#fluidRow,
+             
            )#mainPanel
          )#sidebarLayout
          ),#tabPanel
@@ -176,7 +190,8 @@ img(src='Riparias_Logo.png', align = "right", height = 90)
 
 #Server####
 server <- function(input, output) { 
-  
+  ##Maps####
+  ###Text1####
   output$text1 <- renderUI({
     text <- "Select at least one species to display observations"
     if(length(input$species) == 1){
@@ -202,92 +217,7 @@ server <- function(input, output) {
     
   })
   
-  datObs<-reactive({
-      test <- occupancy_RBU[(occupancy_RBU$RBU == input$RBUi2),]
-      test
-  })
-  
-  output$graphRBU <-renderPlot ({
-    ggplot(datObs(), aes(x=scientific_name, y=n_observations, fill= state)) +
-      geom_bar(stat="identity", position=position_dodge())+
-      theme_minimal() +
-      scale_fill_brewer(palette="Paired")+
-      coord_flip()+ 
-      labs(y = "Number of observations")+ 
-      labs(x = "Species")
-    
-  })
-
-  datOcc <-reactive({
-    test1 <- occupancy_RBU[(occupancy_RBU$RBU == input$RBUi),]
-    test1
-  })
-  
-  output$OccRBU <-renderPlot ({
-    ggplot(datOcc(), aes(x=scientific_name, y=Occupancy, fill= state)) +
-      geom_bar(stat="identity", position=position_dodge())+
-      theme_minimal() +
-      scale_fill_brewer(palette="Paired")+
-      coord_flip()+ 
-      labs(y = "Absolute occupancy (1km² grid cells)")+ 
-      labs(x = "Species")
-    
-  })
-  
-  output$OccRBUREL <-renderPlot ({
-    ggplot(datOcc(), aes(x=scientific_name, y=Occupancy_rel, fill= state)) +
-      geom_bar(stat="identity", position=position_dodge())+
-      theme_minimal() +
-      scale_fill_brewer(palette="Paired")+
-      coord_flip()+ 
-      labs(y = "Relative occupancy")+ 
-      labs(x = "Species")
-    
-  })
-  
-  datObs2<-reactive({
-    test2 <- occupancy_RBSU[(occupancy_RBSU$fullnameRBSU == input$RBSUi2),]
-    test2
-  })
-  
-  output$graphRBSU <-renderPlot ({
-    ggplot(datObs2(), aes(x=scientific_name, y=n_observations, fill= state)) +
-      geom_bar(stat="identity", position=position_dodge())+
-      theme_minimal() +
-      scale_fill_brewer(palette="Paired")+
-      coord_flip()+ 
-      labs(y = "Number of observations")+ 
-      labs(x = "Species")
-    
-  })
-  
-  datOcc2<-reactive({
-    test3 <- occupancy_RBSU[(occupancy_RBSU$fullnameRBSU == input$RBSUi),]
-    test3
-  })
-  
-  output$OccRBSU <-renderPlot ({
-    ggplot(datOcc2(), aes(x=scientific_name, y=Occupancy, fill= state)) +
-      geom_bar(stat="identity", position=position_dodge())+
-      theme_minimal() +
-      scale_fill_brewer(palette="Paired")+
-      coord_flip()+ 
-      labs(y = "Absolute occupancy (1km² grid cells)")+ 
-      labs(x = "Species")
-    
-  })
-  
-  output$OccRBSUREL <-renderPlot ({
-    ggplot(datOcc2(), aes(x=scientific_name, y=Occupancy_rel, fill= state)) +
-      geom_bar(stat="identity", position=position_dodge())+
-      theme_minimal() +
-      scale_fill_brewer(palette="Paired")+
-      coord_flip()+ 
-      labs(y = "Relative occupancy")+ 
-      labs(x = "Species")
-    
-  })
-  
+  ###Map####
   output$map <- renderLeaflet({
     
     jaren <- seq(from = min(input$slider), 
@@ -295,11 +225,11 @@ server <- function(input, output) {
                  by = 1)
     
     current_state_sub <- subset(current_state, 
-                                      current_state$year %in% jaren)
+                                current_state$year %in% jaren)
     
     current_state_sub <- subset(current_state_sub,
-                                      current_state_sub$scientific_name %in%
-                                        input$species)
+                                current_state_sub$scientific_name %in%
+                                  input$species)
     
     pal <- colorFactor(palette = c("#1b9e77", "#d95f02", "#636363"),
                        levels = c("ABSENT", "PRESENT", NA))
@@ -322,45 +252,107 @@ server <- function(input, output) {
                    lat2 = bbox$max[2])
   })
   
+  ##occupancy####
+  ###Occupance_RBU_absoluut####
+  
+
+  datOcc <-reactive({
+    test1 <- occupancy_RBU[(occupancy_RBU$RBU == input$RBUi),]
+    test1
+  })
+  
+  output$OccRBU <-renderPlot ({
+    ggplot(datOcc(), aes(x=scientific_name, y=Occupancy, fill= state)) +
+      geom_bar(stat="identity", position=position_dodge())+
+      theme_minimal() +
+      scale_fill_brewer(palette="Paired")+
+      coord_flip()+ 
+      labs(y = "Absolute occupancy (1km² grid cells)")+ 
+      labs(x = "Species")
+    
+  })
+  
+  ###Occupance_RBU_relatief####
+  output$OccRBUREL <-renderPlot ({
+    ggplot(datOcc(), aes(x=scientific_name, y=Occupancy_rel, fill= state)) +
+      geom_bar(stat="identity", position=position_dodge())+
+      theme_minimal() +
+      scale_fill_brewer(palette="Paired")+
+      coord_flip()+ 
+      labs(y = "Relative occupancy")+ 
+      labs(x = "Species")
+    
+  })
+  
+  ###Occupance_RBSU_absoluut####
+  datOcc2<-reactive({
+    test3 <- occupancy_RBSU[(occupancy_RBSU$fullnameRBSU == input$RBSUi),]
+    test3
+  })
+  
+  output$OccRBSU <-renderPlot ({
+    ggplot(datOcc2(), aes(x=scientific_name, y=Occupancy, fill= state)) +
+      geom_bar(stat="identity", position=position_dodge())+
+      theme_minimal() +
+      scale_fill_brewer(palette="Paired")+
+      coord_flip()+ 
+      labs(y = "Absolute occupancy (1km² grid cells)")+ 
+      labs(x = "Species")
+    
+  })
+  ###Occupance_RBSU_relatief####
+  output$OccRBSUREL <-renderPlot ({
+    ggplot(datOcc2(), aes(x=scientific_name, y=Occupancy_rel, fill= state)) +
+      geom_bar(stat="identity", position=position_dodge())+
+      theme_minimal() +
+      scale_fill_brewer(palette="Paired")+
+      coord_flip()+ 
+      labs(y = "Relative occupancy")+ 
+      labs(x = "Species")
+    
+  })
+  
+  ##Surveillance####
+  ###Observations####
+  ####Observations_RBU####
+  datObs<-reactive({
+    test <- occupancy_RBU[(occupancy_RBU$RBU == input$RBUi2),]
+    test
+  })
+  
+  output$graphRBU <-renderPlot ({
+    ggplot(datObs(), aes(x=scientific_name, y=n_observations, fill= state)) +
+      geom_bar(stat="identity", position=position_dodge())+
+      theme_minimal() +
+      scale_fill_brewer(palette="Paired")+
+      coord_flip()+ 
+      labs(y = "Number of observations")+ 
+      labs(x = "Species")
+    
+  })
+  
+  ####Observations_RBSU####
+  datObs2<-reactive({
+    test2 <- occupancy_RBSU[(occupancy_RBSU$fullnameRBSU == input$RBSUi2),]
+    test2
+  })
+  
+  output$graphRBSU <-renderPlot ({
+    ggplot(datObs2(), aes(x=scientific_name, y=n_observations, fill= state)) +
+      geom_bar(stat="identity", position=position_dodge())+
+      theme_minimal() +
+      scale_fill_brewer(palette="Paired")+
+      coord_flip()+ 
+      labs(y = "Number of observations")+ 
+      labs(x = "Species")
+    
+  })
+  
 
   
-  output$map_level_of_invasion_current <- renderLeaflet({
-    
-    labels <- sprintf(
-      "<strong>%s</strong>",
-      level_of_invasion_RBSU_current$fullnameRBSU
-    ) %>% lapply(htmltools::HTML)
-    
-    pal <- colorFactor(palette = c("yellow", "orange", "red", "grey"),
-                       levels = c( "scattered occurences only", "weakly invaded", "heavily invaded", NA))
-    
-    leaflet(level_of_invasion_RBSU_current)%>%
-      addTiles()%>%
-      addPolygons(
-        fillColor = ~pal(level_of_invasion_color_current[,str_replace(input$Species_loi, ' ', '.')]),
-        weight = 2,
-        opacity = 1,
-        color = "white",
-        dashArray = "3",
-        fillOpacity = 0.5,
-        highlight = highlightOptions(
-          weight = 5,
-          color = "#666",
-          dashArray = "",
-          fillOpacity = 0.7,
-          bringToFront = TRUE),
-      label = labels,
-      labelOptions = labelOptions(
-      style = list("font-weight" = "normal", padding = "3px 8px"),
-      textsize = "15px",
-      direction = "auto"))%>%
-      addLegend(data = level_of_invasion_color_current,
-                title = "Level of invasion",
-                values = ~c("scattered occurences only", "weakly invaded", "heavily invaded", NA),
-                pal = pal)
-    
-   })
-    
+  
+  ##Level of invasion####
+  ###Level of invasion baseline####
     output$map_level_of_invasion_baseline <- renderLeaflet({
       
       labels <- sprintf(
@@ -395,8 +387,63 @@ server <- function(input, output) {
                   title = "Level of invasion",
                   values = ~c("scattered occurences only", "weakly invaded", "heavily invaded", NA),
                   pal = pal)
-  
+      
+    
   })
+  
+  ###Level_of_invasion_current####
+  output$map_level_of_invasion_current <- renderLeaflet({
+    
+    labels <- sprintf(
+      "<strong>%s</strong>",
+      level_of_invasion_RBSU_current$fullnameRBSU
+    ) %>% lapply(htmltools::HTML)
+    
+    pal <- colorFactor(palette = c("yellow", "orange", "red", "grey"),
+                       levels = c( "scattered occurences only", "weakly invaded", "heavily invaded", NA))
+    
+    leaflet(level_of_invasion_RBSU_current)%>%
+      addTiles()%>%
+      addPolygons(
+        fillColor = ~pal(level_of_invasion_color_current[,str_replace(input$Species_loi, ' ', '.')]),
+        weight = 2,
+        opacity = 1,
+        color = "white",
+        dashArray = "3",
+        fillOpacity = 0.5,
+        highlight = highlightOptions(
+          weight = 5,
+          color = "#666",
+          dashArray = "",
+          fillOpacity = 0.7,
+          bringToFront = TRUE),
+        label = labels,
+        labelOptions = labelOptions(
+          style = list("font-weight" = "normal", padding = "3px 8px"),
+          textsize = "15px",
+          direction = "auto"))%>%
+      addLegend(data = level_of_invasion_color_current,
+                title = "Level of invasion",
+                values = ~c("scattered occurences only", "weakly invaded", "heavily invaded", NA),
+                pal = pal)
+    
+  })
+    
+  ###Map_baseline_state####
+    output$map_baseline_state  <- renderLeaflet({
+      
+    baseline_state_sub <- subset(baseline_state,
+                                  baseline_state$scientific_name %in%
+                                    input$Species_loi)
+    leaflet() %>% 
+      addTiles() %>% 
+      addPolylines(data = RBSU_laag, color="grey") %>%
+      addCircleMarkers(data = baseline_state_sub,
+                       popup = baseline_state_sub$popup,
+                       radius = 1,
+                       color="blue") 
+      
+    })
 }
 
 shinyApp(ui, server)
