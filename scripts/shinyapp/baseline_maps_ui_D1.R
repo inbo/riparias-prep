@@ -35,7 +35,7 @@ occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id
 
 
 #test_zoomfunctie
-a_final <- read.csv('centroid_per_RSBU.csv')
+a_final <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/input/centroid_per_RSBU.csv"))
 a_final <- merge(a_final, full_name_RBSU, by='Id', all.x=TRUE)
 
 level_of_invasion_RBSU_current <- merge (level_of_invasion_RBSU_current, full_name_RBSU,by= 'Id', all.x=TRUE)
