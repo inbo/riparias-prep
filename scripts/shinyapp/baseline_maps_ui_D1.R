@@ -157,7 +157,7 @@ tabPanel('Species trends',
          titlePanel('Species trends'),
          sidebarLayout(
            sidebarPanel(
-             selectInput("Species_loi", "Select a species:",
+             selectInput("Species_trends", "Select a species:",
                          choices = unique(occupancy_RBSU$scientific_name))
              ),#sidebarPanel
            mainPanel(
