@@ -12,20 +12,20 @@ library(stringr)
 ##branch#####
 branch <- "41_extending_baseline_map"
 
-points_in_perimeter <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/points_in_perimeter.geojson"), stringsAsFactors = FALSE)
+current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/current_state.geojson"), stringsAsFactors = FALSE)
+
+baseline <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/baseline.geojson"), stringsAsFactors = FALSE)
 
 RBU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
 
 RBSU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
 
-points_in_perimeter@data$occrrnS <- as.factor(points_in_perimeter@data$occrrnS)
-
 level_of_invasion_RBSU <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/level_of_invasion_RBSU.geojson")))
 
 level_of_invasion_RBSU_current <- level_of_invasion_RBSU%>%filter(state=='current')
 level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU%>%filter(state=='baseline')
-bbox <- as.data.frame(RBU_laag@bbox)
 
+bbox <- as.data.frame(RBU_laag@bbox)
 
 occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBU.csv"))
 occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBSU.csv"))
@@ -63,7 +63,7 @@ ui <- navbarPage(
                     dragRange = TRUE),
         checkboxGroupInput("species",
                            "Species",
-                           choices = unique(points_in_perimeter$vernacular_name_en)
+                           choices = unique(current_state$scientific_name)
         )
         ),
       mainPanel(
@@ -294,27 +294,27 @@ server <- function(input, output) {
                  to = max(input$slider),
                  by = 1)
     
-    points_in_perimeter_sub <- subset(points_in_perimeter, 
-                                      points_in_perimeter$year %in% jaren)
+    current_state_sub <- subset(current_state, 
+                                      current_state$year %in% jaren)
     
-    points_in_perimeter_sub <- subset(points_in_perimeter_sub,
-                                      points_in_perimeter_sub$vernacular_name_en %in%
+    current_state_sub <- subset(current_state_sub,
+                                      current_state_sub$scientific_name %in%
                                         input$species)
     
     pal <- colorFactor(palette = c("#1b9e77", "#d95f02", "#636363"),
                        levels = c("ABSENT", "PRESENT", NA))
     
-    leaflet(points_in_perimeter_sub) %>% 
+    leaflet(current_state_sub) %>% 
       addTiles() %>% 
       addPolylines(data = RBU_laag) %>% 
-      addCircleMarkers(data = points_in_perimeter_sub,
-                       popup = points_in_perimeter_sub$popup,
+      addCircleMarkers(data = current_state_sub,
+                       popup = current_state_sub$popup,
                        radius = 1,
-                       color = ~pal(points_in_perimeter_sub@data$occrrnS),
-                       fillColor = ~pal(points_in_perimeter_sub@data$occrrnS)) %>% 
-      addLegend(data = points_in_perimeter_sub,
+                       color = ~pal(current_state_sub@data$occrrnS),
+                       fillColor = ~pal(current_state_sub@data$occrrnS)) %>% 
+      addLegend(data = current_state_sub,
                 title = "occurrence Status",
-                values = ~unique(points_in_perimeter@data$occrrnS),
+                values = ~unique(current_state@data$occrrnS),
                 pal = pal) %>% 
       setMaxBounds(lng1 = bbox$min[1], 
                    lat1 = bbox$min[2], 
