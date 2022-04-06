@@ -35,8 +35,8 @@ occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id
 
 
 #test_zoomfunctie
-a_final <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/input/centroid_per_RSBU.csv"))
-a_final <- merge(a_final, full_name_RBSU, by='Id', all.x=TRUE)
+centroid_per_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/input/centroid_per_RBSU.csv"))
+centroid_per_RBSU <- merge(centroid_per_RBSU, full_name_RBSU, by='Id', all.x=TRUE)
 
 level_of_invasion_RBSU_current <- merge (level_of_invasion_RBSU_current, full_name_RBSU,by= 'Id', all.x=TRUE)
 level_of_invasion_RBSU_baseline <- merge(level_of_invasion_RBSU_baseline, full_name_RBSU, by= 'Id', all.x=TRUE)
@@ -164,7 +164,7 @@ tabPanel('Management',
              selectInput("Species_loi", "Select a species:",
                          choices = unique(occupancy_RBSU$scientific_name)),
              selectInput("RBSU_loi", "Select a river basin subunit:",
-                         choices = unique(a_final$fullnameRBSU))),#sidebarPanel
+                         choices = unique(centroid_per_RBSU$fullnameRBSU))),#sidebarPanel
            mainPanel(
              fluidRow(
              box(
@@ -454,7 +454,7 @@ server <- function(input, output) {
     })
   
     center <- reactive({
-      subset(a_final, fullnameRBSU == input$RBSU_loi) 
+      subset(centroid_per_RBSU, fullnameRBSU == input$RBSU_loi) 
     })
     
     observe({
