@@ -19,6 +19,7 @@ RBU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,
 
 RBSU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
 
+
 level_of_invasion_RBSU <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/level_of_invasion_RBSU.geojson")))
 
 level_of_invasion_RBSU_current <- level_of_invasion_RBSU%>%filter(state=='current')
@@ -31,6 +32,11 @@ occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
 full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/input/Full_name_per_RBSU.csv"), sep=";")
 
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
+
+
+#test_zoomfunctie
+a_final <- read.csv('centroid_per_RSBU.csv')
+a_final <- merge(a_final, full_name_RBSU, by='Id', all.x=TRUE)
 
 level_of_invasion_RBSU_current <- merge (level_of_invasion_RBSU_current, full_name_RBSU,by= 'Id', all.x=TRUE)
 level_of_invasion_RBSU_baseline <- merge(level_of_invasion_RBSU_baseline, full_name_RBSU, by= 'Id', all.x=TRUE)
@@ -156,8 +162,9 @@ tabPanel('Management',
          sidebarLayout(
            sidebarPanel(
              selectInput("Species_loi", "Select a species:",
-                         choices = unique(occupancy_RBSU$scientific_name))
-           ),#sidebarPanel
+                         choices = unique(occupancy_RBSU$scientific_name)),
+             selectInput("RBSU_loi", "Select a river basin subunit:",
+                         choices = unique(a_final$fullnameRBSU))),#sidebarPanel
            mainPanel(
              fluidRow(
              box(
@@ -179,7 +186,7 @@ tabPanel('Management',
                  leafletOutput("map_current_state")
                )
              )#fluidRow,
-             
+      
            )#mainPanel
          )#sidebarLayout
          ),#tabPanel
@@ -348,8 +355,6 @@ server <- function(input, output) {
     
   })
   
-
-  
   
   ##Level of invasion####
   ###Level of invasion baseline####
@@ -430,6 +435,9 @@ server <- function(input, output) {
   })
     
   ###Map_baseline_state####
+  
+
+  
     output$map_baseline_state  <- renderLeaflet({
       
     baseline_state_sub <- subset(baseline_state,
@@ -441,9 +449,28 @@ server <- function(input, output) {
       addCircleMarkers(data = baseline_state_sub,
                        popup = baseline_state_sub$popup,
                        radius = 1,
-                       color="blue") 
+                       color="blue")
       
     })
+  
+    center <- reactive({
+      subset(a_final, fullnameRBSU == input$RBSU_loi) 
+    })
+    
+    observe({
+      leafletProxy('map_baseline_state') %>% 
+        setView(lng =  center()$longitude, lat = center()$latitude, zoom = 11)
+    })
+    observe({
+      leafletProxy('map_level_of_invasion_current') %>% 
+        setView(lng =  center()$longitude, lat = center()$latitude, zoom = 11)
+    })
+    observe({
+      leafletProxy('map_level_of_invasion_baseline') %>% 
+        setView(lng =  center()$longitude, lat = center()$latitude, zoom = 11)
+    })
+    
+    
 }
 
 shinyApp(ui, server)
