@@ -13,6 +13,8 @@
 #'@param RBSU geojson file in WGS 84 projection containing polygons at river basin subunit level
 #'@param EEA_1km
 
+#!REMARK!: manually remove files "./data/interim/level_of_invasion_RBU.geojson" and "./data/interim/level_of_invasion_RBSU.geojson" before running this script.
+
 #import libraries####
 library(leaflet)
 library(rgdal)
