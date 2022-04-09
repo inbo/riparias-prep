@@ -19,21 +19,33 @@ library(dplyr)
 
 branch <- "41_extending_baseline_map"
 
-RBU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
+RBU <- st_as_sf(
+  readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+                 branch,
+                 "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), 
+          stringsAsFactors = FALSE)
+)
 
-RBSU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
+RBSU <- st_make_valid(
+  st_as_sf(
+  readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", 
+                 branch,
+                 "/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"),
+          stringsAsFactors = FALSE)
+  )
+)
 
 #correct projection####
 crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 
 #import EEA 1km file####
 EEA_1km <- readOGR("data/spatial/EEA 1km/be_1km.shp")
-EEA_1km <- spTransform(EEA_1km, crs_wgs)
+EEA_1km <- st_as_sf(spTransform(EEA_1km, crs_wgs))
 
 #intersect of EEA_1km with RBU####
-EEA_1km_in_RBU <- raster::intersect(EEA_1km, RBU)
+EEA_1km_in_RBU <- st_intersection(EEA_1km, RBU)
 
-EEA_1km_RBU_data <- as.data.frame(EEA_1km_in_RBU@data)
+EEA_1km_RBU_data <- as.data.frame(EEA_1km_in_RBU)
 
 #check if outcome is logical####
 table(table(EEA_1km_RBU_data$CELLCODE))
@@ -48,9 +60,9 @@ CELLES_per_RBU <- EEA_1km_RBU_data %>%
 gc()
 
 #intersect of EEA_1km with RBSU####
-EEA_1km_in_RBSU <- raster::intersect(EEA_1km, RBSU)
+EEA_1km_in_RBSU <- st_intersection(EEA_1km, RBSU)
 
-EEA_1km_RBSU_data <- as.data.frame(EEA_1km_in_RBSU@data)
+EEA_1km_RBSU_data <- as.data.frame(EEA_1km_in_RBSU)
 
 #check if outcome is logical####
 table(table(EEA_1km_RBSU_data$CELLCODE))
