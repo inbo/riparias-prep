@@ -11,17 +11,39 @@ library(stringr)
 
 branch <- "41_extending_baseline_map"
 
-current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/current_state.geojson"), stringsAsFactors = FALSE)
+current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+                                branch, 
+                                "/data/spatial/baseline/current_state.geojson"),
+                         stringsAsFactors = FALSE)
 
-baseline_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/baseline.geojson"), stringsAsFactors = FALSE)
+baseline_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+                                 branch,
+                                 "/data/spatial/baseline/baseline.geojson"),
+                          stringsAsFactors = FALSE)
 
-RBU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
+RBU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+                           branch, 
+                           "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), 
+                    stringsAsFactors = FALSE)
 
-RBSU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
+RBSU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+                            branch,
+                            "/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"),
+                     stringsAsFactors = FALSE)
 
-EEA_per_species_baseline <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/EEA_per_species_baseline.geojson")))
-EEA_per_species_current <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/EEA_per_species_current.geojson")))
+EEA_per_species_baseline <- st_as_sf(
+              readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+                             branch,
+                             "/data/interim/EEA_per_species_baseline.geojson")))
 
+EEA_per_species_current <- st_as_sf(
+              readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+                             branch,
+                             "/data/interim/EEA_per_species_current.geojson")))
+EEA_surveillance_effort <- st_as_sf(
+                        readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+                        branch,
+                        "/data/interim/EEA_high_search_effort.geojson")))
 level_of_invasion_RBSU <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/level_of_invasion_RBSU.geojson")))
 
 level_of_invasion_RBSU_current <- level_of_invasion_RBSU%>%filter(state=='current')
@@ -29,12 +51,24 @@ level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU%>%filter(state=='basel
 
 bbox <- as.data.frame(RBU_laag@bbox)
 
-occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBU.csv"))
-occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/interim/occupancy_RBSU.csv"))
-full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/input/Full_name_per_RBSU.csv"), sep=";")
+occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
+                                 branch,
+                                 "/data/interim/occupancy_RBU.csv"))
+
+occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
+                                  branch,
+                                  "/data/interim/occupancy_RBSU.csv"))
+
+Surveillance_effort_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
+                                            branch,
+                                            "/data/interim/Surveillance_effort.csv"))
+
+full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
+                                  branch, 
+                                  "/data/input/Full_name_per_RBSU.csv"), sep=";")
 
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
-
+Surveillance_effort_RBSU <- merge(Surveillance_effort_RBSU, full_name_RBSU, by= 'Id', all.x=TRUE)
 centroid_per_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/input/centroid_per_RBSU.csv"))
 centroid_per_RBSU <- merge(centroid_per_RBSU, full_name_RBSU, by='Id', all.x=TRUE)
 
@@ -130,9 +164,7 @@ tabPanel('Surveillance',
                         choices = unique(occupancy_RBU$RBU))
           ),
           mainPanel(
-            fluidRow(
               plotOutput("graphRBU")
-              )
             )
           ),
         sidebarLayout(
@@ -150,7 +182,16 @@ tabPanel('Surveillance',
           
         ),#tabPanel,
         tabPanel('Effort',
-                 titlePanel('Surveillance effort')
+                 titlePanel('Surveillance effort'),
+                 fluidRow(
+                   box(
+                   plotOutput("Plot_surveillance_effort_RBSU", height=600)
+                   ),
+                   box(
+                     'Distribution of EEA cells (1km²) with high surveillance effort',
+                     leafletOutput("map_EEA_surveillance_effort", height=600)
+                   )
+                   )#fluidrow
         )#tabPanel Effort
                  )#tabsetPanel 
          ),#tabPanel Surveillance
@@ -310,6 +351,7 @@ server <- function(input, output) {
   })
   
   ###Occupance_RBU_relatief####
+  #geom_text(aes(label = signif(CC,2)), hjust = -0.2)
   output$OccRBUREL <-renderPlot ({
     ggplot(datOcc(), aes(x=scientific_name, y=Occupancy_rel, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
@@ -338,6 +380,7 @@ server <- function(input, output) {
     
   })
   ###Occupance_RBSU_relatief####
+  #geom_text(aes(label = signif(CC,2)), hjust = -0.2)
   output$OccRBSUREL <-renderPlot ({
     ggplot(datOcc2(), aes(x=scientific_name, y=Occupancy_rel, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
@@ -384,6 +427,32 @@ server <- function(input, output) {
       labs(x = "Species")
     
   })
+  
+  ###Surveillance effort per RBSU####
+  ####Plot_surveillance_effort_RBSU####
+  
+  output$Plot_surveillance_effort_RBSU <-renderPlot ({
+    ggplot(Surveillance_effort_RBSU, aes(x=fullnameRBSU, y=SurveillanceEffortRel)) +
+      geom_bar(stat="identity")+
+      coord_flip()+ 
+      labs(y = "Percentage of EEA 1 km² cells with high surveillance effort")+ 
+      labs(x = "River basin subunit")
+  })
+  
+  ####map_EEA_surveillance_effort####
+  #labels_se <- sprintf(
+  #  "<strong>%s</strong>",
+  #  RBSU_laag$fullnameRBSU
+  #) %>% lapply(htmltools::HTML)
+  
+  output$map_EEA_surveillance_effort <- renderLeaflet ({
+    leaflet(EEA_surveillance_effort) %>% 
+      addTiles() %>% 
+      addPolygons(color="grey")
+    
+    
+  })
+  
   ##Species_trends####
   ###plot_trends_obs####
   
