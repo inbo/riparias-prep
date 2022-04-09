@@ -19,6 +19,8 @@ RBU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,
 
 RBSU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
 
+EEA_per_species_baseline <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/EEA_per_species_baseline.geojson")))
+EEA_per_species_current <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/EEA_per_species_current.geojson")))
 
 level_of_invasion_RBSU <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/level_of_invasion_RBSU.geojson")))
 
@@ -482,9 +484,14 @@ server <- function(input, output) {
     baseline_state_sub <- subset(baseline_state,
                                   baseline_state$scientific_name %in%
                                     input$Species_loi)
+    
+    EEA_per_species_baseline_sub <- subset(EEA_per_species_baseline,
+                                           EEA_per_species_baseline$scientific_name %in%
+                                             input$Species_loi)
     leaflet() %>% 
       addTiles() %>% 
       addPolylines(data = RBSU_laag, color="grey") %>%
+      addPolygons(data = EEA_per_species_baseline_sub, color="grey") %>%
       addCircleMarkers(data = baseline_state_sub,
                        popup = baseline_state_sub$popup,
                        radius = 1,
@@ -492,14 +499,21 @@ server <- function(input, output) {
       
     })
   
+  ###map_current_state####
   output$map_current_state  <- renderLeaflet({
     
     current_state_sub <- subset(current_state,
                                  current_state$scientific_name %in%
                                    input$Species_loi)
+    
+    EEA_per_species_current_sub <- subset(EEA_per_species_current,
+                                           EEA_per_species_current$scientific_name %in%
+                                             input$Species_loi)
+    
     leaflet() %>% 
       addTiles() %>% 
       addPolylines(data = RBSU_laag, color="grey") %>%
+      addPolygons(data = EEA_per_species_current_sub, color="grey") %>%
       addCircleMarkers(data = current_state_sub,
                        popup = current_state_sub$popup,
                        radius = 1,
