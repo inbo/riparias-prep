@@ -69,7 +69,9 @@ full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
 
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
 Surveillance_effort_RBSU <- merge(Surveillance_effort_RBSU, full_name_RBSU, by= 'Id', all.x=TRUE)
-centroid_per_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/input/centroid_per_RBSU.csv"))
+centroid_per_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
+                                     branch,
+                                     "/data/input/centroid_per_RBSU_versie2.csv"))
 centroid_per_RBSU <- merge(centroid_per_RBSU, full_name_RBSU, by='Id', all.x=TRUE)
 
 level_of_invasion_RBSU_current <- merge (level_of_invasion_RBSU_current, full_name_RBSU,by= 'Id', all.x=TRUE)
@@ -82,10 +84,12 @@ level_of_invasion_color_baseline <- as.data.frame(level_of_invasion_RBSU_baselin
 
 ui <- navbarPage(
   title = "Riparias D1",
-  header= fluidRow(
-    box(width = 12, 
-      img(src='Riparias_Logo.png', align = "right", height = 90)
-  )),
+  #header= 
+  #  fluidRow(
+  #  box(width = 12, 
+  #    img(src='Riparias_Logo.png', align = "right", height = 90)
+  #)
+  #),
   ##Distribution####
   tabPanel("Distribution",
     tabsetPanel(
@@ -185,10 +189,11 @@ tabPanel('Surveillance',
                  titlePanel('Surveillance effort'),
                  fluidRow(
                    box(
+                     'Percentage of EEA cells (1km²) per river basin subunit with heigh surveillance effort for plant species',
                    plotOutput("Plot_surveillance_effort_RBSU", height=600)
                    ),
                    box(
-                     'Distribution of EEA cells (1km²) with high surveillance effort',
+                     'Distribution of EEA cells (1km²) with high surveillance effort for plant species',
                      leafletOutput("map_EEA_surveillance_effort", height=600)
                    )
                    )#fluidrow
