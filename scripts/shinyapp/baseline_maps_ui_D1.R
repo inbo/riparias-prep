@@ -550,7 +550,72 @@ server <- function(input, output) {
   })
   ###plot_trends_obs_cor####
   
-  #output$plot_trends_obs_cor <- renderPlot ({})
+  output$plot_trends_obs_cor <- renderPlot ({
+    df_key_1 <- df_key()
+    
+    #### Determine emergence status ####
+    if(nrow(df_key_1) > 0){
+      
+      test_eval_years <- FALSE %in% unique(evaluation_years %in% df_key_1$year)
+      
+      if(test_eval_years == FALSE){
+        results_gam <- apply_gam(
+          df = df_key_1,
+          y_var = "obs",
+          baseline_var = "cobs",
+          taxonKey = "taxonKey",
+          eval_years = evaluation_years,
+          type_indicator = "observations",
+          taxon_key = unique(df_key_1$taxonKey),
+          name = unique(df_key_1$canonicalName),
+          df_title = ""
+        )
+      }else{
+        results_gam <- list(plot = NULL)
+      }
+    }else{
+      results_gam <- "empty"
+    }
+    
+    #### Create plots ####
+    ##### ALT_Plot ####
+    if(is.null(results_gam$plot)){
+      alt_plot <- df_key_1 %>% 
+        ggplot(aes(x = year, y = obs)) + 
+        ylab("observations") +
+        geom_point(stat = "identity") +
+        scale_x_continuous(breaks = seq(from = min(df_key_1$year, na.rm = TRUE),
+                                        to = max(df_key_1$year, na.rm = TRUE),
+                                        by = 5)) 
+      
+      if(max(df_key_1$obs, na.rm = TRUE) == 1){
+        alt_plot <- alt_plot +
+          scale_y_continuous(breaks =  seq(from = 0,
+                                           to = 2,
+                                           by = 1)) +
+          annotate("text", x = max(df_key_1$year), y = 2, label = paste0("The emergence status of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
+      }else{
+        alt_plot <- alt_plot +
+          annotate("text", x = max(df_key_1$year), y = max(df_key_1$obs), label = paste0("The emergence status of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
+      }
+      
+      print(alt_plot)
+    }
+    
+    ##### No Data plot ####
+    if(results_gam == "empty"){
+      alt_plot_2 <- df_key_1 %>% 
+        ggplot(aes(x = year, y = obs)) + 
+        ylab("observations") +
+        geom_point(stat = "identity") +
+        annotate("text", x = maxjaar, y = 1, label = paste0(input$Species_trends, " \n is not yet present \n in Belgium"),vjust = "inward", hjust = "inward", colour = "red")
+      print(alt_plot_2)
+    }
+    ##### GAM plot ####
+    if(results_gam != "empty" & !is.null(results_gam$plot)){
+      print(results_gam$plot)
+    }
+  })
   ###plot_trends_occ####
   
   #output$plot_trends_occ <- renderPlot ({})
