@@ -10,7 +10,7 @@ library(trias)
 
 #Reading in data####
 
-branch <- "42_add_trends"
+branch <- "41_extending_baseline_map"
 
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
                                 branch, 
