@@ -6,6 +6,7 @@ library(dplyr)
 library(ggplot2)
 library(sf)
 library(stringr)
+library(trias)
 
 #Reading in data####
 
@@ -79,6 +80,10 @@ level_of_invasion_RBSU_baseline <- merge(level_of_invasion_RBSU_baseline, full_n
 
 level_of_invasion_color_current <- as.data.frame(level_of_invasion_RBSU_current)
 level_of_invasion_color_baseline <- as.data.frame(level_of_invasion_RBSU_baseline)
+
+df_ts_compact <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
+                                 branch,
+                                 "/data/interim/trends_compact.csv"))
 
 #Userinterface####
 
@@ -459,6 +464,11 @@ server <- function(input, output) {
   })
   
   ##Species_trends####
+  ### subset data ####
+  df_key <- reactive({
+    df_key <- df_ts_compact[(df_ts_compact$canonicalName == input$Species_trends),]
+  })
+  
   ###plot_trends_obs####
   
   #output$plot_trends_obs <- renderPlot ({})
