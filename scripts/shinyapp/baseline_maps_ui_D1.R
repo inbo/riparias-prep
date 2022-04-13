@@ -686,7 +686,73 @@ server <- function(input, output) {
   })
   ###plot_trends_occ_cor####
   
-  #output$plot_trends_occ_cor <- renderPlot ({})
+  output$plot_trends_occ_cor <- renderPlot ({
+    df_key_1 <- df_key()
+    
+    #### Determine emergence status ####
+    if(nrow(df_key_1) > 0){
+      
+      test_eval_years <- FALSE %in% unique(evaluation_years %in% df_key_1$year)
+      
+      if(test_eval_years == FALSE){
+        results_gam <- apply_gam(
+          df = df_key_1,
+          y_var = "ncells",
+          baseline_var = "c_ncells",
+          taxonKey = "taxonKey",
+          eval_years = evaluation_years,
+          type_indicator = "occupancy",
+          taxon_key = unique(df_key_1$taxonKey),
+          name = unique(df_key_1$canonicalName),
+          df_title = "",
+          y_label = "occupancy (km2)"
+        )
+      }else{
+        results_gam <- list(plot = NULL)
+      }
+    }else{
+      results_gam <- "empty"
+    }
+    
+    #### Create plots ####
+    ##### ALT_Plot ####
+    if(is.null(results_gam$plot)){
+      alt_plot <- df_key_1 %>% 
+        ggplot(aes(x = year, y = ncells)) + 
+        ylab("occupancy (km2)") +
+        geom_point(stat = "identity") +
+        scale_x_continuous(breaks = seq(from = min(df_key_1$year, na.rm = TRUE),
+                                        to = max(df_key_1$year, na.rm = TRUE),
+                                        by = 5)) 
+      
+      if(max(df_key_1$ncells, na.rm = TRUE) == 1){
+        alt_plot <- alt_plot +
+          scale_y_continuous(breaks =  seq(from = 0,
+                                           to = 2,
+                                           by = 1)) +
+          annotate("text", x = max(df_key_1$year), y = 2, label = paste0("The emergence status of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
+      }else{
+        alt_plot <- alt_plot +
+          annotate("text", x = max(df_key_1$year), y = max(df_key_1$ncells), label = paste0("The emergence status of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
+      }
+      
+      print(alt_plot)
+    }
+    
+    ##### No Data plot ####
+    if(results_gam == "empty"){
+      alt_plot_2 <- df_key_1 %>% 
+        ggplot(aes(x = year, y = ncells)) + 
+        ylab("occupancy (km2)") +
+        geom_point(stat = "identity") +
+        annotate("text", x = maxjaar, y = 1, label = paste0(input$Species_trends, " \n is not yet present \n in Belgium"),vjust = "inward", hjust = "inward", colour = "red")
+      print(alt_plot_2)
+    }
+    ##### GAM plot ####
+    if(results_gam != "empty" & !is.null(results_gam$plot)){
+      print(results_gam$plot)
+    }
+  })
   ##Level of invasion####
   ###Level of invasion baseline####
     output$map_level_of_invasion_baseline <- renderLeaflet({
