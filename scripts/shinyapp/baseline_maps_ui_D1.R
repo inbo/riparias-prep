@@ -85,6 +85,12 @@ df_ts_compact <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
                                  branch,
                                  "/data/interim/trends_compact.csv"))
 
+## Calculate evaluation years ####
+evaluation_years <- seq(from = as.integer(format(Sys.Date(), "%Y")) - 4,
+                        to = as.integer(format(Sys.Date(), "%Y")) - 1)
+
+maxjaar <- as.integer(format(Sys.Date(), "%Y"))
+
 #Userinterface####
 
 ui <- navbarPage(
@@ -464,6 +470,11 @@ server <- function(input, output) {
   })
   
   ##Species_trends####
+  # For every type of trend plot there will be 3 "results".
+  # 1: An assessment of emergence can be made => GAM graph
+  # 2: No assessment of emergence can be made => ALT graph 
+  # 3: No data in dataset => Error message
+  
   ### subset data ####
   df_key <- reactive({
     df_key <- df_ts_compact[(df_ts_compact$canonicalName == input$Species_trends),]
