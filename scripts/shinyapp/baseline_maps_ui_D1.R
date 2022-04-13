@@ -486,6 +486,8 @@ server <- function(input, output) {
     
     df_key_1 <- df_key()
     
+    trend_type <- "observations"
+    
     #### Determine emergence status ####
     if(nrow(df_key_1) > 0){
       
@@ -525,10 +527,10 @@ server <- function(input, output) {
           scale_y_continuous(breaks =  seq(from = 0,
                                            to = 2,
                                            by = 1)) +
-          annotate("text", x = max(df_key_1$year), y = 2, label = paste0("The emergence status of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
+          annotate("text", x = max(df_key_1$year), y = 2, label = paste0("The ", trend_type, " trend of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
       }else{
         alt_plot <- alt_plot +
-        annotate("text", x = max(df_key_1$year), y = max(df_key_1$obs), label = paste0("The emergence status of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
+        annotate("text", x = max(df_key_1$year), y = max(df_key_1$obs), label = paste0("The ", trend_type, " trend of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
       }
       
       print(alt_plot)
@@ -552,6 +554,8 @@ server <- function(input, output) {
   
   output$plot_trends_obs_cor <- renderPlot ({
     df_key_1 <- df_key()
+    
+    trend_type <- "corrected observations"
     
     #### Determine emergence status ####
     if(nrow(df_key_1) > 0){
@@ -593,10 +597,10 @@ server <- function(input, output) {
           scale_y_continuous(breaks =  seq(from = 0,
                                            to = 2,
                                            by = 1)) +
-          annotate("text", x = max(df_key_1$year), y = 2, label = paste0("The emergence status of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
+          annotate("text", x = max(df_key_1$year), y = 2, label = paste0("The ", trend_type, " trend of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
       }else{
         alt_plot <- alt_plot +
-          annotate("text", x = max(df_key_1$year), y = max(df_key_1$obs), label = paste0("The emergence status of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
+          annotate("text", x = max(df_key_1$year), y = max(df_key_1$obs), label = paste0("The ", trend_type, " trend of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
       }
       
       print(alt_plot)
@@ -620,6 +624,8 @@ server <- function(input, output) {
   
   output$plot_trends_occ <- renderPlot ({
     df_key_1 <- df_key()
+    
+    trend_type <- "occupancy"
     
     #### Determine emergence status ####
     if(nrow(df_key_1) > 0){
@@ -661,10 +667,10 @@ server <- function(input, output) {
           scale_y_continuous(breaks =  seq(from = 0,
                                            to = 2,
                                            by = 1)) +
-          annotate("text", x = max(df_key_1$year), y = 2, label = paste0("The emergence status of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
+          annotate("text", x = max(df_key_1$year), y = 2, label = paste0("The ", trend_type, " trend of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
       }else{
         alt_plot <- alt_plot +
-          annotate("text", x = max(df_key_1$year), y = max(df_key_1$ncells), label = paste0("The emergence status of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
+          annotate("text", x = max(df_key_1$year), y = max(df_key_1$ncells), label = paste0("The ", trend_type, " trend of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
       }
       
       print(alt_plot)
@@ -688,6 +694,8 @@ server <- function(input, output) {
   
   output$plot_trends_occ_cor <- renderPlot ({
     df_key_1 <- df_key()
+    
+    trend_type <- "corrected occupancy"
     
     #### Determine emergence status ####
     if(nrow(df_key_1) > 0){
@@ -730,10 +738,10 @@ server <- function(input, output) {
           scale_y_continuous(breaks =  seq(from = 0,
                                            to = 2,
                                            by = 1)) +
-          annotate("text", x = max(df_key_1$year), y = 2, label = paste0("The emergence status of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
+          annotate("text", x = max(df_key_1$year), y = 2, label = paste0("The ", trend_type, " trend of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
       }else{
         alt_plot <- alt_plot +
-          annotate("text", x = max(df_key_1$year), y = max(df_key_1$ncells), label = paste0("The emergence status of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
+          annotate("text", x = max(df_key_1$year), y = max(df_key_1$ncells), label = paste0("The ", trend_type, " trend of \n", input$Species_trends, " \n cannot be assessed."),vjust = "inward", hjust = "inward", colour = "red")
       }
       
       print(alt_plot)
