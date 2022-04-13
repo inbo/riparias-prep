@@ -9,7 +9,7 @@ library(stringr)
 
 #Reading in data####
 
-branch <- "41_extending_baseline_map"
+branch <- "42_add_trends"
 
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
                                 branch, 
