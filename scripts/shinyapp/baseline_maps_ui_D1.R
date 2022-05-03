@@ -501,8 +501,7 @@ server <- function(input, output) {
           eval_years = evaluation_years,
           type_indicator = "observations",
           taxon_key = unique(df_key_1$taxonKey),
-          name = unique(df_key_1$canonicalName),
-          df_title = ""
+          name = unique(df_key_1$canonicalName)
         )
       }else{
         results_gam <- list(plot = NULL)
@@ -547,7 +546,10 @@ server <- function(input, output) {
     }
     ##### GAM plot ####
     if(results_gam != "empty" & !is.null(results_gam$plot)){
-      print(results_gam$plot)
+      gam_plot <- results_gam$plot +
+        labs(title = "")
+      
+      print(gam_plot)
     }
   })
   ###plot_trends_obs_cor####
@@ -617,7 +619,10 @@ server <- function(input, output) {
     }
     ##### GAM plot ####
     if(results_gam != "empty" & !is.null(results_gam$plot)){
-      print(results_gam$plot)
+      gam_plot <- results_gam$plot +
+        labs(title = "")
+      
+      print(gam_plot)
     }
   })
   ###plot_trends_occ####
@@ -687,7 +692,10 @@ server <- function(input, output) {
     }
     ##### GAM plot ####
     if(results_gam != "empty" & !is.null(results_gam$plot)){
-      print(results_gam$plot)
+      gam_plot <- results_gam$plot +
+        labs(title = "")
+      
+      print(gam_plot)
     }
   })
   ###plot_trends_occ_cor####
@@ -758,7 +766,10 @@ server <- function(input, output) {
     }
     ##### GAM plot ####
     if(results_gam != "empty" & !is.null(results_gam$plot)){
-      print(results_gam$plot)
+      gam_plot <- results_gam$plot +
+        labs(title = "")
+      
+      print(gam_plot)
     }
   })
   ##Level of invasion####
