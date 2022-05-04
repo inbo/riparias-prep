@@ -6,7 +6,10 @@ library(dplyr)
 library(ggplot2)
 library(sf)
 library(stringr)
-library(trias)
+library(trias) 
+
+#possible cause of failure concerning trias package:
+# Only packages installed from GitHub with devtools::install_github, in version 1.4 (or later) of devtools, are supported. Packages installed with an earlier version of devtools must be reinstalled with the later version before you can deploy your application. If you get an error such as “PackageSourceError” when you attempt to deploy, check that you have installed all the packages from Github with devtools 1.4 or later.
 
 #Reading in data####
 
