@@ -10,88 +10,123 @@ library(sf)
 library(rgdal)
 library(httr)
 library(tidyverse)
+library(ows4R)      # interface for Open Geospatial Consortium webservices
+```
+
+# EMPTY MEMORY
+
+```{r}
+rm(list=setdiff(ls(), c("Wb_FLA", "Wb_WAL", "Wb_BRU"))) # Remove all except region polygons
 ```
 
 # OBSERVATIONS
 
-Read in observations of Riparias species in Riparias area.
+Read in observations of Riparias species in Riparias area. Currently 14 species.
 
-TO CHECK: Are these all the species of the Riparias checklist (this file was made by Sander)?
+TO DO : to do for all RIPARIAS species. Maybe the explanation from Damiano in #50 may help.
 
 ```{r}
 branch <- "41_extending_baseline_map"
 
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/current_state.geojson"), stringsAsFactors = FALSE)
 
-baseline_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/baseline.geojson"), stringsAsFactors = FALSE)
+# baseline_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/baseline.geojson"), stringsAsFactors = FALSE)
 ```
 
-# FLANDERS
+# GEOGRAPHY
 
-As there is no true need to merge the geographic data from the three regions, which use different formats, the three regions are dealt with apart from one another.
+As there is no true need to merge the geographic data from the three regions, which use different formats, the three regions are dealt with apart from one another. This part deals with the common elements.
 
 ```{r}
 crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 ```
 
+# FLANDERS
+
 ```{r read}
-Wb_Vlaanderen <- readOGR("./data/spatial/watervlakken/watervlakken.shp") # returns sp-object
+Wb_FLA <- readOGR("./data/spatial/watervlakken/watervlakken.shp") # Returns SP object.
 ```
 
 ```{r transform}
-st_crs(Wb_Vlaanderen)
-Wb_Vlaanderen <- spTransform(Wb_Vlaanderen, crs_wgs)
+st_crs(Wb_FLA)
+Wb_FLA <- spTransform(Wb_FLA, crs_wgs)
 ```
 
 ```{r optional.buffer}
 ```
 
 ```{r intersect map with observations}
-output <- raster::intersect(current_state,Wb_Vlaanderen) # Zware berekening. Risico op vastlopen !!
-output_VLA <- as.data.frame(output@data)
+FLA_data <- raster::intersect(current_state, Wb_FLA) # Zware berekening. Risico op vastlopen !!
+FLA_output <- as.data.frame(FLA_data@data)
 ```
 
-```{r}
-final_result <- output_data %>%
-  select(scientific_name, waterbody_name, year)%>%
-  group_by()%>%
-  summarize() # afhankelijk van wat geanalyzeerd moet worden
+```{r optional}
+FLA_trimmed <- FLA_output %>% 
+  select(year, dcmlLtt, dcmlLng, Source, occrrnS, BEKNAAM, scientific_name, WVLC, NAAM, GEBIED, OPPWVL, OMTWVL)
+```
+
+```{r summary}
+FLA_summary <- FLA_output %>%
+  group_by(WVLC, scientific_name) %>%
+  summarize(year_first = min(year), year_last = max(year), ) # afhankelijk van wat geanalyzeerd moet worden
+```
+
+```{r output}
+write_csv(FLA_trimmed, "./scripts/ad hoc/prioritizing areas/output/FLA_observations.csv")
+write_csv(FLA_summary, "./scripts/ad hoc/prioritizing areas/output/FLA_summary.csv")
 ```
 
 # WALLONIA
 
 ```{r read}
-Wb_WAL <- st_read("./data/spatial/watervlakken/Plans_eau_PICEA_pourBDREF.gdb") # returns sf-object
+Wb_WAL <- st_read("./data/spatial/watervlakken/Plans_eau_PICEA_pourBDREF.gdb") # Returns SF object
+```
+
+```{r control plot}
+ggplot(data = Wb_WAL) + geom_sf() # SF's can be plotted using ggplot
 ```
 
 ```{r transform}
-st_crs(Wb_WAL)#check projectie
+st_crs(Wb_WAL) # check projectie
 Wb_WAL <- st_transform(Wb_WAL, crs_wgs)
 ```
 
 ```{r optional.buffer}
 ```
 
+```{r intersect map with observations}
+WAL_data <- raster::intersect(current_state,Wb_WAL) # ...
+WAL_output <- as.data.frame(WAL_data@data)
+```
+
+```{r summary}
+WAL_summary <- WAL_output %>%
+  group_by(dcmlLtt, dcmlLng, scientific_name) %>%
+  summarize(year_first = min(year), year_last = max(year), ) # afhankelijk van wat geanalyzeerd moet worden
+```
+
+```{r output}
+write_csv(WAL_output, "./scripts/ad hoc/prioritizing areas/output/WAL_observations.csv")
+write_csv(WAL_summary, "./scripts/ad hoc/prioritizing areas/output/WAL_summary.csv")
+```
+
 # BRUSSELS
 
-```{r read}
-WFS_BRU <- "https://wfs.environnement.brussels/belb?REQUEST=GetCapabilities&SERVICE=WFS"
-
-url <- parse_url(WFS_BRU)
-url$query <- list(service = "wfs",
-                  #version = "2.0.0", # facultative
-                  request = "GetCapabilities"
-)
-request <- build_url(url)
-request
-
-Wb_Brussel<-read_sf(request, layer="Water_surface") # returns sf-object
+```{r get to know the WFS}
+WFS_BRU <- "https://wfs.environnement.brussels/belb?"
+BRU_client <- WFSClient$new(WFS_BRU, serviceVersion = "2.0.0")
+BRU_client$getFeatureTypes(pretty = TRUE)
 ```
 
-```{r transform}
-st_crs(Wb_Brussel)
-Wb_Brussel <- st_transform(Wb_Brussel, crs_wgs)
-```
+```{r}
+URL <- parse_url(WFS_BRU)
+URL$query <- list(service = "wfs",
+                  version = "2.0.0", # hier blijkbaar niet optioneel ?!
+                  request = "GetFeature",
+                  typename = "BELB:water_polygon"
+                  # srsName = "EPSG:31370"
+                  )
 
-```{r optional.buffer}
+request <- build_url(URL)
+Wb_BRU <- read_sf(request) # DOESN'T WORK, DESPITE THE VALID URL... Should return sf-object.
 ```
