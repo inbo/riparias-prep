@@ -7,10 +7,13 @@ output: html_document
 
 ```{r libraries}
 library(sf)
-library(rgdal)
-library(httr)
-library(tidyverse)
-library(ows4R)      # interface for Open Geospatial Consortium webservices
+library(ggplot2)
+# library(rgdal)
+# library(httr)
+# library(tidyverse)
+library(rgbif)
+library(dplyr)
+# library(ows4R)      # interface for Open Geospatial Consortium webservices
 ```
 
 # EMPTY MEMORY
@@ -19,17 +22,82 @@ library(ows4R)      # interface for Open Geospatial Consortium webservices
 rm(list=setdiff(ls(), c("Wb_FLA", "Wb_WAL", "Wb_BRU"))) # Remove all except region polygons
 ```
 
-# OBSERVATIONS
-
-Read in observations of Riparias species in Riparias area. Currently 14 species.
-
-TO DO : to do for all RIPARIAS species. Maybe the explanation from Damiano in #50 may help.
+# RIPARIAS: SPECIES LIST
 
 ```{r}
+species_list <- rgbif::name_usage(datasetKey = "fd004d9a-2ea4-4244-bb60-0df508d20a15")
+
+taxonkeys <- riparias_checklist$data %>%
+  filter(origin == "SOURCE") %>%
+  pull(.data$nubKey)
+```
+
+# RIPARIAS: TARGET AREA
+
+```{r read map}
+KAART <- st_read("./data/spatial/perimeter/Riparias_Official_StudyArea.geojson")
+```
+
+```{r just checking}
+ggplot(data = KAART) +
+  geom_sf()
+```
+
+# GET OBSERVATIONS FROM GBIF
+
+```{r get credentials}
+get_cred <- function(x){
+  library(svDialogs)
+    cred <- Sys.getenv(x)
+    if(cred == ""){
+    input <- dlgInput(paste0("What is your ", x, "?"))
+    cred <- input$res
+    Sys.setenv(x = cred)
+  }
+  return(cred)
+}
+gbif_email <- get_cred("GBIF e-mail")
+gbif_user <- get_cred("GBIF username")
+gbif_pwd <- get_cred("GBIF password")
+```
+
+```{r initiate download}
+set1 <- occ_download(user = gbif_user, pwd = gbif_pwd, email = gbif_email,
+                     pred_in("taxonKey", taxonkeys),
+                     pred_gte("year", 2015),
+                     pred("hasCoordinate", TRUE),
+                     pred("country","BE"), # Rechtstreekse overlay met RIPARIAS-gebied? pred_within?
+                     type = "and",
+                     format = "SIMPLE_CSV")
+
+data_raw <- occ_download_get(set1, path = "./data/interim/pond_prioritisation/", overwrite = TRUE) %>% 
+  occ_download_import()
+```
+
+```{r filter meaningful records}
+# Filter records with the same occurenceID => most straightforward way to get rid of duplicates (#1)
+# Filter records without coordinates (assuming decimalLatitude & decimalLongitude are equally missing) (#2)
+
+data_subset <- data_raw %>% 
+  distinct(occurrenceID, .keep_all = TRUE) %>% #1
+  filter(!is.na(decimalLatitude)) %>% #2 
+  select(gbifID, eventDate, year, month, day, taxonKey, species, decimalLatitude, decimalLongitude,
+         coordinateUncertaintyInMeters, countryCode)
+```
+
+```{r convert to sf}
+PUNTEN <- st_as_sf(data_subset, coords = c("decimalLongitude", "decimalLatitude"), crs = "+proj=longlat +datum=WGS84")
+```
+
+```{r only points within RIPARIAS area}
+POINTS_IN_RIPARIAS <- st_join(PUNTEN, KAART, left = FALSE)
+```
+
+# OLD OPTION - TO DELETE
+
+```{r option1}
 branch <- "41_extending_baseline_map"
-
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/current_state.geojson"), stringsAsFactors = FALSE)
-
 # baseline_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/baseline.geojson"), stringsAsFactors = FALSE)
 ```
 
@@ -43,69 +111,74 @@ crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 
 # FLANDERS
 
-```{r read}
+```{r OLD - SP - TO DELETE}
 Wb_FLA <- readOGR("./data/spatial/watervlakken/watervlakken.shp") # Returns SP object.
-```
 
-```{r transform}
 st_crs(Wb_FLA)
 Wb_FLA <- spTransform(Wb_FLA, crs_wgs)
-```
 
-```{r optional.buffer}
-```
-
-```{r intersect map with observations}
+# r intersect map with observations
 FLA_data <- raster::intersect(current_state, Wb_FLA) # Zware berekening. Risico op vastlopen !!
 FLA_output <- as.data.frame(FLA_data@data)
-```
 
-```{r optional}
+# r optional
 FLA_trimmed <- FLA_output %>% 
   select(year, dcmlLtt, dcmlLng, Source, occrrnS, BEKNAAM, scientific_name, WVLC, NAAM, GEBIED, OPPWVL, OMTWVL)
-```
 
-```{r summary}
+# r summary
 FLA_summary <- FLA_output %>%
   group_by(WVLC, scientific_name) %>%
   summarize(year_first = min(year), year_last = max(year), ) # afhankelijk van wat geanalyzeerd moet worden
-```
 
-```{r output}
+# r output}
 write_csv(FLA_trimmed, "./scripts/ad hoc/prioritizing areas/output/FLA_observations.csv")
 write_csv(FLA_summary, "./scripts/ad hoc/prioritizing areas/output/FLA_summary.csv")
+```
+
+```{r read Flanders}
+Wb_FLA <- st_read("./data/spatial/watervlakken/watervlakken.shp")
+```
+
+```{r control plot}
+ggplot(data = Wb_FLA) +
+  geom_sf()
+```
+
+```{r points within PONDS}
+POINTS_IN_RIPARIAS <- st_transform(POINTS_IN_RIPARIAS, crs = st_crs(Wb_FLA))
+POINTS_IN_PONDS_FL <- st_join(POINTS_IN_RIPARIAS, Wb_FLA, left = FALSE)
 ```
 
 # WALLONIA
 
 ```{r read}
-Wb_WAL <- st_read("./data/spatial/watervlakken/Plans_eau_PICEA_pourBDREF.gdb") # Returns SF object
+Wb_WAL <- st_read("./data/spatial/watervlakken/Plans_eau_PICEA_pourBDREF.gdb")
 ```
 
 ```{r control plot}
-ggplot(data = Wb_WAL) + geom_sf() # SF's can be plotted using ggplot
+ggplot(data = Wb_WAL) +
+  geom_sf()
 ```
 
-```{r transform}
+```{r points within PONDS}
+POINTS_IN_RIPARIAS <- st_transform(POINTS_IN_RIPARIAS, crs = st_crs(Wb_WAL))
+POINTS_IN_PONDS_WA <- st_join(POINTS_IN_RIPARIAS, Wb_WAL, left = FALSE)
+```
+
+```{r OLD - SP - transform}
 st_crs(Wb_WAL) # check projectie
 Wb_WAL <- st_transform(Wb_WAL, crs_wgs)
-```
 
-```{r optional.buffer}
-```
-
-```{r intersect map with observations}
+# r intersect map with observations}
 WAL_data <- raster::intersect(current_state,Wb_WAL) # ...
 WAL_output <- as.data.frame(WAL_data@data)
-```
 
-```{r summary}
+# r summary}
 WAL_summary <- WAL_output %>%
   group_by(dcmlLtt, dcmlLng, scientific_name) %>%
   summarize(year_first = min(year), year_last = max(year), ) # afhankelijk van wat geanalyzeerd moet worden
-```
 
-```{r output}
+#r output}
 write_csv(WAL_output, "./scripts/ad hoc/prioritizing areas/output/WAL_observations.csv")
 write_csv(WAL_summary, "./scripts/ad hoc/prioritizing areas/output/WAL_summary.csv")
 ```
