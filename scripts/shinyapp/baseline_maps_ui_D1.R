@@ -279,7 +279,44 @@ tabPanel('Management',
       
            )#mainPanel
          )#sidebarLayout
+##Site-level monitoring####
          ),#tabPanel
+        tabPanel('Site-level monitoring',
+                 sidebarLayout(
+                   sidebarPanel(
+                     selectInput("Species_loi", "Select a species:",
+                                 choices = c( 'Hydrocotyle ranunculoides',
+                                 'Ludwigia grandiflora',
+                                 'Myriophyllum aquaticum',
+                                 'Impatiens glandulifera',
+                                 'Heracleum mantegazzianum')
+                                 )),
+                   mainPanel(
+                     fluidRow(
+                       box(
+                         title='Plants',
+                         plotOutput("DAFOR")
+                       )#box
+                   )#fluidRow
+                   )#mainPanel
+                   ),#sidebarlayout
+                 sidebarLayout(
+                   sidebarPanel(
+                     selectInput("Species_loi", "Select a species:",
+                                 choices = c( "Orconectes virilis",
+                                              "Procambarus clarkii",
+                                              "P. fallax")
+                     )),
+                   mainPanel(
+                     fluidRow(
+                       box(
+                         title='Crayfish',
+                         plotOutput("CPUE")
+                       )#box
+                     )#fluidRow
+                   )#mainPanel
+                 )#Sidebarlayout
+                     ),#tabPanel
 img(src='Riparias_Logo.png', align = "right", height = 90)
 )
 
@@ -446,6 +483,36 @@ server <- function(input, output) {
       labs(x = "Species")
     
   })
+  
+  ###Site-level monitoring###
+  ###########################
+  output$DAFOR <- renderPlot ({
+    specie <- c(rep("baseline" , 6) , rep("target" , 6))
+    DAFOR <- rep(c("Dominant" , "Abundant" , "Frequent", "Occasional", "Rare", "Absent") , 4)
+    value <- abs(rnorm(12 , 0 , 15))
+    data <- data.frame(specie,DAFOR,value)
+    
+    ggplot(data, aes(fill=DAFOR, y=value, x=specie)) + 
+    geom_bar(position="stack", stat="identity")+
+    labs(y='Number of sites')+
+    labs(x='Time')+
+    theme_bw()
+  })
+  
+  output$CPUE <- renderPlot ({
+    df2 <- data.frame(location=rep(c("site 1", "site 2", "site 3"), each=2),
+                      dose=rep(c("baseline", "target"),3),
+                      len=c(6.8, 15, 12, 4.2, 10, 6))
+    
+    ggplot(df2, aes(x=dose, y=len, group=location)) +
+      geom_line(aes(linetype=location))+
+      geom_point()+
+      labs(y='CPUE')+
+      labs(x='Time')+
+      theme_bw()
+  })
+  
+  
   
   ###Surveillance effort per RBSU####
   ####Plot_surveillance_effort_RBSU####
