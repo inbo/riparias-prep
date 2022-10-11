@@ -248,6 +248,8 @@ tabPanel('Species trends',
          ),#tabPanel
 ##Management####
 tabPanel('Management',
+         tabsetPanel(
+           tabPanel('Maps',
          titlePanel('Level of invasion'),
          sidebarLayout(
            sidebarPanel(
@@ -279,6 +281,10 @@ tabPanel('Management',
       
            )#mainPanel
          )#sidebarLayout
+           ),#tabPanel,
+         tabPanel('Table',
+                  img(src='tabel.png', align = "right", height = 500))
+         )#tabsetPanel
 ##Site-level monitoring####
          ),#tabPanel
         tabPanel('Site-level monitoring',
