@@ -12,8 +12,7 @@ library(trias)
 # Only packages installed from GitHub with devtools::install_github, in version 1.4 (or later) of devtools, are supported. Packages installed with an earlier version of devtools must be reinstalled with the later version before you can deploy your application. If you get an error such as “PackageSourceError” when you attempt to deploy, check that you have installed all the packages from Github with devtools 1.4 or later.
 
 #Reading in data####
-
-branch <- "41_extending_baseline_map"
+branch <- "master"
 
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
                                 branch, 
@@ -612,7 +611,7 @@ server <- function(input, output) {
     }
     
     ##### No Data plot ####
-    if(results_gam == "empty"){
+    if("empty" %in% results_gam){
       alt_plot_2 <- df_key_1 %>% 
         ggplot(aes(x = year, y = obs)) + 
         ylab("observations") +
@@ -621,7 +620,7 @@ server <- function(input, output) {
       print(alt_plot_2)
     }
     ##### GAM plot ####
-    if(results_gam != "empty" & !is.null(results_gam$plot)){
+    if(!"empty" %in% results_gam & !is.null(results_gam$plot)){
       gam_plot <- results_gam$plot +
         labs(title = "")
       
@@ -685,7 +684,7 @@ server <- function(input, output) {
     }
     
     ##### No Data plot ####
-    if(results_gam == "empty"){
+    if("empty" %in% results_gam){
       alt_plot_2 <- df_key_1 %>% 
         ggplot(aes(x = year, y = obs)) + 
         ylab("observations") +
@@ -694,7 +693,7 @@ server <- function(input, output) {
       print(alt_plot_2)
     }
     ##### GAM plot ####
-    if(results_gam != "empty" & !is.null(results_gam$plot)){
+    if(!"empty" %in% results_gam & !is.null(results_gam$plot)){
       gam_plot <- results_gam$plot +
         labs(title = "")
       
@@ -758,7 +757,7 @@ server <- function(input, output) {
     }
     
     ##### No Data plot ####
-    if(results_gam == "empty"){
+    if("empty" %in% results_gam){
       alt_plot_2 <- df_key_1 %>% 
         ggplot(aes(x = year, y = ncells)) + 
         ylab("occupancy (km2)") +
@@ -767,7 +766,7 @@ server <- function(input, output) {
       print(alt_plot_2)
     }
     ##### GAM plot ####
-    if(results_gam != "empty" & !is.null(results_gam$plot)){
+    if(!"empty" %in% results_gam & !is.null(results_gam$plot)){
       gam_plot <- results_gam$plot +
         labs(title = "")
       
@@ -832,7 +831,7 @@ server <- function(input, output) {
     }
     
     ##### No Data plot ####
-    if(results_gam == "empty"){
+    if("empty" %in% results_gam){
       alt_plot_2 <- df_key_1 %>% 
         ggplot(aes(x = year, y = ncells)) + 
         ylab("occupancy (km2)") +
@@ -841,7 +840,7 @@ server <- function(input, output) {
       print(alt_plot_2)
     }
     ##### GAM plot ####
-    if(results_gam != "empty" & !is.null(results_gam$plot)){
+    if(!"empty" %in% results_gam & !is.null(results_gam$plot)){
       gam_plot <- results_gam$plot +
         labs(title = "")
       
