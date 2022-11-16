@@ -611,7 +611,7 @@ server <- function(input, output) {
     }
     
     ##### No Data plot ####
-    if(results_gam == "empty"){
+    if("empty" %in% results_gam){
       alt_plot_2 <- df_key_1 %>% 
         ggplot(aes(x = year, y = obs)) + 
         ylab("observations") +
@@ -620,7 +620,7 @@ server <- function(input, output) {
       print(alt_plot_2)
     }
     ##### GAM plot ####
-    if(results_gam != "empty" & !is.null(results_gam$plot)){
+    if(!"empty" %in% results_gam & !is.null(results_gam$plot)){
       gam_plot <- results_gam$plot +
         labs(title = "")
       
@@ -684,7 +684,7 @@ server <- function(input, output) {
     }
     
     ##### No Data plot ####
-    if(results_gam == "empty"){
+    if("empty" %in% results_gam){
       alt_plot_2 <- df_key_1 %>% 
         ggplot(aes(x = year, y = obs)) + 
         ylab("observations") +
@@ -693,7 +693,7 @@ server <- function(input, output) {
       print(alt_plot_2)
     }
     ##### GAM plot ####
-    if(results_gam != "empty" & !is.null(results_gam$plot)){
+    if(!"empty" %in% results_gam & !is.null(results_gam$plot)){
       gam_plot <- results_gam$plot +
         labs(title = "")
       
@@ -757,7 +757,7 @@ server <- function(input, output) {
     }
     
     ##### No Data plot ####
-    if(results_gam == "empty"){
+    if("empty" %in% results_gam){
       alt_plot_2 <- df_key_1 %>% 
         ggplot(aes(x = year, y = ncells)) + 
         ylab("occupancy (km2)") +
@@ -766,7 +766,7 @@ server <- function(input, output) {
       print(alt_plot_2)
     }
     ##### GAM plot ####
-    if(results_gam != "empty" & !is.null(results_gam$plot)){
+    if(!"empty" %in% results_gam & !is.null(results_gam$plot)){
       gam_plot <- results_gam$plot +
         labs(title = "")
       
@@ -831,7 +831,7 @@ server <- function(input, output) {
     }
     
     ##### No Data plot ####
-    if(results_gam == "empty"){
+    if("empty" %in% results_gam){
       alt_plot_2 <- df_key_1 %>% 
         ggplot(aes(x = year, y = ncells)) + 
         ylab("occupancy (km2)") +
@@ -840,7 +840,7 @@ server <- function(input, output) {
       print(alt_plot_2)
     }
     ##### GAM plot ####
-    if(results_gam != "empty" & !is.null(results_gam$plot)){
+    if(!"empty" %in% results_gam & !is.null(results_gam$plot)){
       gam_plot <- results_gam$plot +
         labs(title = "")
       
