@@ -44,3 +44,4 @@ data/raw/crayfish-downloads/all/*.zip
 data/raw/crayfish-downloads/white-list/*.zip
 *.zip
 scripts/shinyapp/a_final.csv
+.Renviron.txt
