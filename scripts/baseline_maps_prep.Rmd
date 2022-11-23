@@ -10,8 +10,6 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r libraries, include=FALSE}
-library(googlesheets4)
-library(googledrive)
 library(rgdal)
 library(rgeos)
 library(sp)
@@ -19,15 +17,14 @@ library(raster)
 library(leaflet)
 library(tidyverse)
 library(knitr)
+library(rgbif)
+library(dplyr)
 
 crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 ```
 
 ```{r}
 #upload species keys from Riparias checklist
-library(rgbif)
-library(dplyr)
-
 riparias_checklist <- rgbif::name_usage(
   datasetKey = "fd004d9a-2ea4-4244-bb60-0df508d20a15", 
 )
@@ -38,6 +35,28 @@ gbif_backbone_keys <-
   pull(.data$nubKey)
 
 gbif_backbone_keys
+```
+```{r}
+#download occurences from species from GBIF
+
+#add username, email and password of GBIF account to R.environ en herstart Rstudio
+#install.packages("usethis")
+#usethis::edit_r_environ()
+
+
+gbif_download <- occ_download(
+  pred_in("taxonKey", gbif_backbone_keys),
+  pred_in("country", c("BE")),
+  pred("hasCoordinate", TRUE),
+  pred_gte("year", 2000)
+  )                              
+
+#occ_download_get(key= "")
+occ_download_wait(gbif_download)
+
+a <- occ_download_get(gbif_download, overwrite=TRUE) %>%
+  occ_download_import()%>%
+  filter(!is.na(decimalLongitude), !is.na(decimalLatitude))
 ```
 
 ```{r get perimeter shape, include = FALSE}
