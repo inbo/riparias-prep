@@ -13,7 +13,7 @@ library(sf)
 library(dplyr)
 
 #read in input####
-branch <- "41_extending_baseline_map"
+branch <- "50_add_species"
 
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/current_state.geojson"), stringsAsFactors = FALSE)
 

@@ -22,7 +22,7 @@ library(dplyr)
 
 
 #read in input data####
-branch <- "41_extending_baseline_map"
+branch <- "master"
 
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                 branch,

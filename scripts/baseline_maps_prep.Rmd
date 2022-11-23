@@ -23,6 +23,23 @@ library(knitr)
 crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 ```
 
+```{r}
+#upload species keys from Riparias checklist
+library(rgbif)
+library(dplyr)
+
+riparias_checklist <- rgbif::name_usage(
+  datasetKey = "fd004d9a-2ea4-4244-bb60-0df508d20a15", 
+)
+
+gbif_backbone_keys <- 
+  riparias_checklist$data %>%
+  dplyr::filter(origin == "SOURCE") %>%
+  pull(.data$nubKey)
+
+gbif_backbone_keys
+```
+
 ```{r get perimeter shape, include = FALSE}
 perimeter_shape <- readOGR("./data/spatial/perimeter", "Riparias_Official_StudyArea", stringsAsFactors = FALSE)
 
