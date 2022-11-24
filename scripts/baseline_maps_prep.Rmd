@@ -10,8 +10,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r libraries, include=FALSE}
-library(rgdal)
-library(rgeos)
+library(sf)
 library(sp)
 library(raster)
 library(leaflet)
@@ -60,11 +59,7 @@ a <- occ_download_get(gbif_download, overwrite=TRUE) %>%
 ```
 
 ```{r get perimeter shape, include = FALSE}
-perimeter_shape <- readOGR("./data/spatial/perimeter", "Riparias_Official_StudyArea", stringsAsFactors = FALSE)
-
-perimeter_shape <- spTransform(perimeter_shape, crs_wgs)
-
-bbox <- as.data.frame(perimeter_shape@bbox)
+perimeter_shape <- st_read("https://raw.githubusercontent.com/inbo/riparias-prep/master/data/spatial/perimeter/Riparias_Official_StudyArea.geojson")
 ```
 
 ```{r test perimeter, eval = FALSE}
@@ -74,59 +69,42 @@ leaflet(perimeter_shape) %>%
 ```
 
 ```{r get pointdata, include = FALSE}
-pointdata <- readOGR("./data/spatial/baseline", "t999_ALL_points_Batch2_1_3_999", stringsAsFactors = FALSE)
+
+```
+```{r}
+pointdata <-  st_as_sf(a,
+               coords = c("decimalLongitude",
+                          "decimalLatitude"),
+               crs = 4326)
 ```
 
 ```{r test points, eval = FALSE}
-leaflet(pointdata) %>% 
+leaflet(points_in_perimeter) %>% 
   addTiles() %>% 
   addCircleMarkers()
 ```
 
 https://docs.google.com/spreadsheets/d/15f17hXE9ZyUxEe2xA0seKs0CSibgYJdkaWcnmVoI1yY/edit#gid=0
 
-```{r get nameserver}
-bo_email <- Sys.getenv("bo_email")
-gs4_auth(email = bo_email)
-
-nameserver <- read_sheet("15f17hXE9ZyUxEe2xA0seKs0CSibgYJdkaWcnmVoI1yY")
-
-nameserver$taxonKey <- as.double(nameserver$taxonKey)
-```
 
 ```{r intersect with perimeter, include = FALSE}
-points_in_perimeter <- raster::intersect(pointdata, perimeter_shape)
+points_in_perimeter <- st_intersection(pointdata, perimeter_shape)%>%
+  select(BEKNAAM, species,occurrenceStatus, speciesKey, taxonKey,     individualCount,vernacularName, collectionCode, references, year)
 
-points_in_perimeter@data <- points_in_perimeter@data %>% 
-  left_join(nameserver, by = c("accptTK" = "taxonKey")) %>% 
-  mutate(popup = paste0("Species: ", vernacular_name_en, " <em>", scientific_name ,"</em><br>",
-                        "Year: ", year, "<br>",
-                        "Dataset: <a href=", datstID, ">", datstID, "</a><br>",
-                        "Source: ", Source, "<br>",
-                        recrdrl, "GBIF record</a>"))
-  
-NoEngName <- points_in_perimeter@data %>% 
-  filter(is.na(vernacular_name_en))
-
-table(NoEngName$accptTK)
-
-table(points_in_perimeter$vernacular_name_en)
-
-writeOGR(points_in_perimeter, dsn = "./data/spatial/baseline/points_in_perimeter.geojson", layer = "points_in_perimeter", driver = "GeoJSON", overwrite_layer = TRUE)
+st_write(points_in_perimeter,  "points_in_perimeter.geojson")
 ```
 
 ```{r export baseline shapes}
-baseline <- subset(points_in_perimeter, points_in_perimeter$year <= 2020)
+baseline <- points_in_perimeter %>% filter(year>=2000 & year<=2015)
 
-writeOGR(baseline, dsn = "./data/spatial/baseline/baseline.geojson", layer = "baseline", driver = "GeoJSON", overwrite_layer = TRUE)
+st_write(baseline,  "baseline.geojson")
 
-write_csv(baseline@data, "./data/output/baseline_data.csv")
 ```
 
 ```{r export update shapes}
-writeOGR(points_in_perimeter, dsn = "./data/spatial/baseline/current_state.geojson", layer = "current_state", driver = "GeoJSON", overwrite_layer = TRUE)
+current_state <- points_in_perimeter %>% filter(year>2015)
 
-write_csv(points_in_perimeter@data, "./data/output/current_state_data.csv")
+st_write(current_state,  "current_state.geojson")
 ```
 
 
