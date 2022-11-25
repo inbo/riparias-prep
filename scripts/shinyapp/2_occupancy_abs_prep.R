@@ -12,6 +12,8 @@
 #'@param RBU geojson file containing polygons at river basin unit level
 #'@param RBSU geojson file containing polygons at river basin subunit level
 
+rm(list=ls())
+
 #load libraries####
 library(leaflet)
 library(rgdal)
@@ -20,7 +22,7 @@ library(dplyr)
 
 
 #read in input####
-branch <- "41_extending_baseline_map"
+branch <- "50_add_species"
 
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/current_state.geojson"), stringsAsFactors = FALSE)
 
