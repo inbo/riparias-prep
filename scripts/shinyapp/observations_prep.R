@@ -17,83 +17,82 @@ library(leaflet)
 library(rgdal)
 library(sf)
 library(dplyr)
-
+library(ggplot2)
 
 
 
 #read in input data####
-branch <- "master"
+branch <- "50_add_species"
 
-current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", 
+current_state<- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                 branch,
-                                "/data/spatial/baseline/current_state.geojson"),
-                         stringsAsFactors = FALSE)
+                                "/data/spatial/baseline/current_state.geojson"))
 
-baseline <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+baseline <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
                            branch,
-                           "/data/spatial/baseline/baseline.geojson"),
-                    stringsAsFactors = FALSE)
+                           "/data/spatial/baseline/baseline.geojson"))
 
-RBU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+RBU <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                       branch,
-                      "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
+                      "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"))
 
-RBSU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
+RBSU <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
+                       branch,
+                       "/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"))
 
+RBSU <- st_make_valid(RBSU)
 
 #intersect of baseline occurences with RBU####
-baseline_in_RBU <- raster::intersect(baseline, RBU)
+baseline_in_RBU <- st_intersection(baseline, RBU)
 
-baseline_in_RBU_data <- as.data.frame(baseline_in_RBU@data)
+baseline_in_RBU <- baseline_in_RBU%>%rename(RBU=BEKNAAM)
 
-names(baseline_in_RBU_data)[10] <-'RBU'
 
-baseline_per_RBU <- baseline_in_RBU_data %>%
-  select(scientific_name, RBU)%>%
-  group_by (scientific_name, RBU)%>%
-  count(scientific_name)%>%
+baseline_per_RBU <- baseline_in_RBU %>%
+  select(species, RBU)%>%
+  group_by (species, RBU)%>%
+  count(species)%>%
   rename(n_observations=n)
 
 baseline_per_RBU$state <- 'baseline'
 
 #intersect of baseline occurences with RBSU####
 
-baseline_in_RBSU <- raster::intersect(baseline, RBSU)
+baseline_in_RBSU <- st_intersection(baseline, RBSU)
 
-baseline_in_RBSU_data <- as.data.frame(baseline_in_RBSU@data)
+baseline_in_RBSU <- baseline_in_RBSU%>%rename(RBSU=A0_CODE)
 
-baseline_per_RBSU <- baseline_in_RBSU_data %>%
-  select(scientific_name, A0_CODE)%>%
-  group_by (scientific_name, A0_CODE)%>%
-  count(scientific_name)%>%
+
+baseline_per_RBSU <- baseline_in_RBSU %>%
+  select(species, RBSU)%>%
+  group_by (species, RBSU)%>%
+  count(species)%>%
   rename(n_observations=n)
 
 baseline_per_RBSU$state <- 'baseline'
 
 #intersect of current state occurences with RBU####
-current_in_RBU <- raster::intersect(current_state, RBU)
+current_in_RBU <- st_intersection(current_state, RBU)
 
-current_in_RBU_data <- as.data.frame(current_in_RBU@data)
+current_in_RBU <- current_in_RBU%>%rename(RBU=BEKNAAM)
 
-names(current_in_RBU_data)[10] <-'RBU'
-
-current_per_RBU <- current_in_RBU_data %>%
-  select(scientific_name, RBU)%>%
-  group_by (scientific_name, RBU)%>%
-  count(scientific_name)%>%
+current_per_RBU <- current_in_RBU %>%
+  select(species, RBU)%>%
+  group_by (species, RBU)%>%
+  count(species)%>%
   rename(n_observations=n)
 
 current_per_RBU$state <- 'current'
 
 #intersect of current state occurences with RBSU####
-current_in_RBSU <- raster::intersect(current_state, RBSU)
+current_in_RBSU <- st_intersection(current_state, RBSU)
 
-current_in_RBSU_data <- as.data.frame(current_in_RBSU@data)
+current_in_RBSU <- current_in_RBSU%>%rename(RBSU=A0_CODE)
 
-current_per_RBSU <- current_in_RBSU_data %>%
-  select(scientific_name, A0_CODE)%>%
-  group_by (scientific_name, A0_CODE)%>%
-  count(scientific_name)%>%
+current_per_RBSU <- current_in_RBSU %>%
+  select(species, RBSU)%>%
+  group_by (species, RBSU)%>%
+  count(species)%>%
   rename(n_observations=n)
 
 current_per_RBSU$state <- 'current'
@@ -113,9 +112,16 @@ write.csv(overview_RBSU, './data/interim/observations_RBSU.csv', row.names=FALSE
 overview_RBU_DIJLE <- overview_RBU%>%
   filter(RBU== 'Dijle - Dyle')
 
-p<-ggplot(data= overview_RBU_DIJLE, aes(x=scientific_name, y=n, fill= state)) +
+p<-ggplot(data= overview_RBU_DIJLE, aes(x=species, y=n_observations, fill= state)) +
   geom_bar(stat="identity", position=position_dodge())+
   theme_minimal() +
   scale_fill_brewer(palette="Paired")+
   coord_flip()
 
+#check intersections
+
+leaflet() %>% 
+  addTiles() %>% 
+  addPolygons(data=RBSU, color="black")%>%
+  addPolylines(data=RBU, color= "green")
+  

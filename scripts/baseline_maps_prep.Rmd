@@ -97,14 +97,14 @@ st_write(points_in_perimeter,  "points_in_perimeter.geojson")
 ```{r export baseline shapes}
 baseline <- points_in_perimeter %>% filter(year>=2000 & year<=2015)
 
-st_write(baseline,  "baseline.geojson")
+st_write(baseline,  "./data/spatial/baseline/baseline.geojson")
 
 ```
 
 ```{r export update shapes}
 current_state <- points_in_perimeter %>% filter(year>2015)
 
-st_write(current_state,  "current_state.geojson")
+st_write(current_state,  "./data/spatial/baseline/current_state.geojson")
 ```
 
 
