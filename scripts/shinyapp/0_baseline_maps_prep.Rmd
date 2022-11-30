@@ -53,9 +53,12 @@ gbif_download <- occ_download(
 #occ_download_get(key= "")
 occ_download_wait(gbif_download)
 
-a <- occ_download_get(gbif_download, overwrite=TRUE) %>%
+write.csv(as.character(occ_download_meta(gbif_download)),
+          paste0("gbif_download", Sys.Date(), ".csv"))
+
+a <- occ_download_get(gbif_download, overwrite=TRUE)%>%
   occ_download_import()%>%
-  filter(!is.na(decimalLongitude), !is.na(decimalLatitude))
+  filter(!is.na(decimalLongitude), !is.na(decimalLatitude)) 
 ```
 
 ```{r get perimeter shape, include = FALSE}
@@ -88,23 +91,49 @@ https://docs.google.com/spreadsheets/d/15f17hXE9ZyUxEe2xA0seKs0CSibgYJdkaWcnmVoI
 
 
 ```{r intersect with perimeter, include = FALSE}
-points_in_perimeter <- st_intersection(pointdata, perimeter_shape)%>%
-  select(BEKNAAM, species,occurrenceStatus, speciesKey, taxonKey,     individualCount,vernacularName, collectionCode, references, year)
+points_in_perimeter <- st_intersection(pointdata, perimeter_shape)
 
-st_write(points_in_perimeter,  "points_in_perimeter.geojson")
+points_in_perimeter_sel <- points_in_perimeter %>%
+  dplyr::select(species,
+                occurrenceStatus,
+                identificationVerificationStatus,
+                speciesKey,
+                taxonKey,
+                individualCount,
+                vernacularName,
+                collectionCode,
+                references,
+                year)
+
+points_in_perimeter_sel<- points_in_perimeter_sel%>%
+  filter(!identificationVerificationStatus %in% c('unverified','not validated'))
+  
+st_write(points_in_perimeter_sel,  "C:/Users/jasmijn_hillaert/Documents/GitHub/riparias-prep/data/spatial/baseline/points_in_perimeter_sel.geojson")
 ```
 
 ```{r export baseline shapes}
-baseline <- points_in_perimeter %>% filter(year>=2000 & year<=2015)
+baseline <- points_in_perimeter_sel %>%
+    filter(year>=2000 & year<=2015)%>%
+    filter(occurrenceStatus!='ABSENT')
 
-st_write(baseline,  "./data/spatial/baseline/baseline.geojson")
+st_write(baseline,  "C:/Users/jasmijn_hillaert/Documents/GitHub/riparias-prep/data/spatial/baseline/baseline.geojson")
+
+```
+```{r export baseline shapes}
+median <- points_in_perimeter_sel %>%
+    filter(year>=2016 & year<=2020)%>%
+    filter(occurrenceStatus!='ABSENT')
+
+st_write(median,  "C:/Users/jasmijn_hillaert/Documents/GitHub/riparias-prep/data/spatial/baseline/median.geojson")
 
 ```
 
 ```{r export update shapes}
-current_state <- points_in_perimeter %>% filter(year>2015)
+current_state <- points_in_perimeter_sel %>% 
+    filter(year>=2021)%>%
+    filter(occurrenceStatus!='ABSENT')
 
-st_write(current_state,  "./data/spatial/baseline/current_state.geojson")
+st_write(median,  "C:/Users/jasmijn_hillaert/Documents/GitHub/riparias-prep/data/spatial/baseline/current_state.geojson")
 ```
 
 
