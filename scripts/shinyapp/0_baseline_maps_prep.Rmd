@@ -71,9 +71,7 @@ leaflet(perimeter_shape) %>%
   addPolylines()
 ```
 
-```{r get pointdata, include = FALSE}
 
-```
 ```{r}
 pointdata <-  st_as_sf(a,
                coords = c("decimalLongitude",
@@ -133,7 +131,7 @@ current_state <- points_in_perimeter_sel %>%
     filter(year>=2021)%>%
     filter(occurrenceStatus!='ABSENT')
 
-st_write(median,  "C:/Users/jasmijn_hillaert/Documents/GitHub/riparias-prep/data/spatial/baseline/current_state.geojson")
+st_write(current_state,  "C:/Users/jasmijn_hillaert/Documents/GitHub/riparias-prep/data/spatial/baseline/current_state.geojson")
 ```
 
 
