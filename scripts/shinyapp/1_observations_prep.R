@@ -28,6 +28,10 @@ current_state<- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                                 branch,
                                 "/data/spatial/baseline/current_state.geojson"))
 
+median <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
+                           branch,
+                           "/data/spatial/baseline/median.geojson"))
+
 baseline <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
                            branch,
                            "/data/spatial/baseline/baseline.geojson"))
@@ -45,11 +49,12 @@ RBSU <- st_make_valid(RBSU)
 #intersect of baseline occurences with RBU####
 baseline_in_RBU <- st_intersection(baseline, RBU)
 
-baseline_in_RBU <- baseline_in_RBU%>%rename(RBU=BEKNAAM)
-
+baseline_in_RBU <- as.data.frame(
+  baseline_in_RBU%>%
+  rename(RBU=BEKNAAM))
 
 baseline_per_RBU <- baseline_in_RBU %>%
-  select(species, RBU)%>%
+  dplyr::select(species, RBU)%>%
   group_by (species, RBU)%>%
   count(species)%>%
   rename(n_observations=n)
@@ -60,24 +65,58 @@ baseline_per_RBU$state <- 'baseline'
 
 baseline_in_RBSU <- st_intersection(baseline, RBSU)
 
-baseline_in_RBSU <- baseline_in_RBSU%>%rename(RBSU=A0_CODE)
-
+baseline_in_RBSU <- as.data.frame(
+  baseline_in_RBSU%>%
+  rename(RBSU=A0_CODE))
 
 baseline_per_RBSU <- baseline_in_RBSU %>%
-  select(species, RBSU)%>%
+  dplyr::select(species, RBSU)%>%
   group_by (species, RBSU)%>%
   count(species)%>%
   rename(n_observations=n)
 
 baseline_per_RBSU$state <- 'baseline'
 
+#intersect of median occurences with RBU####
+median_in_RBU <- st_intersection(median, RBU)
+
+median_in_RBU <- as.data.frame(
+  median_in_RBU%>%
+    rename(RBU=BEKNAAM))
+
+median_per_RBU <- median_in_RBU %>%
+  dplyr::select(species, RBU)%>%
+  group_by (species, RBU)%>%
+  count(species)%>%
+  rename(n_observations=n)
+
+median_per_RBU$state <- 'median'
+
+#intersect of median occurences with RBSU####
+
+median_in_RBSU <- st_intersection(median, RBSU)
+
+median_in_RBSU <- as.data.frame(
+  median_in_RBSU%>%
+    rename(RBSU=A0_CODE))
+
+median_per_RBSU <- median_in_RBSU %>%
+  dplyr::select(species, RBSU)%>%
+  group_by (species, RBSU)%>%
+  count(species)%>%
+  rename(n_observations=n)
+
+median_per_RBSU$state <- 'median'
+
 #intersect of current state occurences with RBU####
 current_in_RBU <- st_intersection(current_state, RBU)
 
-current_in_RBU <- current_in_RBU%>%rename(RBU=BEKNAAM)
+current_in_RBU <- as.data.frame(
+  current_in_RBU%>%
+  rename(RBU=BEKNAAM))
 
 current_per_RBU <- current_in_RBU %>%
-  select(species, RBU)%>%
+  dplyr::select(species, RBU)%>%
   group_by (species, RBU)%>%
   count(species)%>%
   rename(n_observations=n)
@@ -87,10 +126,12 @@ current_per_RBU$state <- 'current'
 #intersect of current state occurences with RBSU####
 current_in_RBSU <- st_intersection(current_state, RBSU)
 
-current_in_RBSU <- current_in_RBSU%>%rename(RBSU=A0_CODE)
+current_in_RBSU <- as.data.frame(
+  current_in_RBSU%>%
+  rename(RBSU=A0_CODE))
 
 current_per_RBSU <- current_in_RBSU %>%
-  select(species, RBSU)%>%
+  dplyr::select(species, RBSU)%>%
   group_by (species, RBSU)%>%
   count(species)%>%
   rename(n_observations=n)
@@ -98,9 +139,9 @@ current_per_RBSU <- current_in_RBSU %>%
 current_per_RBSU$state <- 'current'
 
 #bind tables####
-overview_RBU <- rbind(current_per_RBU, baseline_per_RBU)
+overview_RBU <- rbind(current_per_RBU, baseline_per_RBU, median_per_RBU)
 
-overview_RBSU <- rbind(current_per_RBSU, baseline_per_RBSU)
+overview_RBSU <- rbind(current_per_RBSU, baseline_per_RBSU, median_per_RBSU)
 
 #save output####
 

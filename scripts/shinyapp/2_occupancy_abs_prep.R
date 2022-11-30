@@ -26,6 +26,8 @@ branch <- "50_add_species"
 
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/current_state.geojson"), stringsAsFactors = FALSE)
 
+median <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/median.geojson"), stringsAsFactors = FALSE)
+
 baseline <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/baseline.geojson"), stringsAsFactors = FALSE)
 
 RBU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
@@ -47,15 +49,14 @@ EEA_1km <- spTransform(EEA_1km, crs_wgs)
 baseline_in_RBU <- raster::intersect(baseline, RBU)
 baseline_in_RBU_EEA <- raster::intersect(baseline_in_RBU, EEA_1km)
 
-baseline_in_RBU_EEA_data <- as.data.frame(baseline_in_RBU_EEA@data)
-
-names(baseline_in_RBU_EEA_data)[10] <-'RBU'
+baseline_in_RBU_EEA_data <- as.data.frame(baseline_in_RBU_EEA@data)%>%
+  rename(RBU=BEKNAAM)
 
 baseline_per_RBU_EEA <- baseline_in_RBU_EEA_data %>%
-  select(scientific_name, RBU, CELLCODE)%>% 
-  group_by (scientific_name, RBU)%>%
+  dplyr::select(species, RBU, CELLCODE)%>% 
+  group_by (species, RBU)%>%
   mutate(Occupancy = n_distinct(CELLCODE))%>%
-  select(-c(CELLCODE))%>%
+  dplyr::select(-c(CELLCODE))%>%
   distinct()
 
 baseline_per_RBU_EEA$state <- 'baseline'
@@ -67,13 +68,14 @@ gc()
 baseline_in_RBSU <- raster::intersect(baseline, RBSU)
 baseline_in_RBSU_EEA <- raster::intersect(baseline_in_RBSU, EEA_1km)
 
-baseline_in_RBSU_EEA_data <- as.data.frame(baseline_in_RBSU_EEA@data)
+baseline_in_RBSU_EEA_data <- as.data.frame(baseline_in_RBSU_EEA@data)%>%
+  rename(RBSU = A0_CODE)
 
 baseline_per_RBSU_EEA <- baseline_in_RBSU_EEA_data %>%
-  select(scientific_name, A0_CODE, CELLCODE)%>% 
-  group_by (scientific_name, A0_CODE)%>%
+  dplyr::select(species,RBSU, CELLCODE)%>% 
+  group_by (species, RBSU)%>%
   mutate(Occupancy = n_distinct(CELLCODE))%>%
-  select(-c(CELLCODE))%>%
+  dplyr::select(-c(CELLCODE))%>%
   distinct()
 
 baseline_per_RBSU_EEA$state <- 'baseline'
@@ -84,15 +86,14 @@ gc()
 current_in_RBU <- raster::intersect(current_state, RBU)
 current_in_RBU_EEA <- raster::intersect(current_in_RBU, EEA_1km)
 
-current_in_RBU_EEA_data <- as.data.frame(current_in_RBU_EEA@data)
-
-names(current_in_RBU_EEA_data)[10] <-'RBU'
+current_in_RBU_EEA_data <- as.data.frame(current_in_RBU_EEA@data)%>%
+  rename(RBU=BEKNAAM)
 
 current_per_RBU_EEA <- current_in_RBU_EEA_data %>%
-  select(scientific_name, RBU, CELLCODE)%>% 
-  group_by (scientific_name, RBU)%>%
+  dplyr::select(species, RBU, CELLCODE)%>% 
+  group_by (species, RBU)%>%
   mutate(Occupancy = n_distinct(CELLCODE))%>%
-  select(-c(CELLCODE))%>%
+  dplyr::select(-c(CELLCODE))%>%
   distinct()
 
 current_per_RBU_EEA$state <- 'current'
@@ -102,30 +103,67 @@ gc()
 current_in_RBSU <- raster::intersect(current_state, RBSU)
 current_in_RBSU_EEA <- raster::intersect(current_in_RBSU, EEA_1km)
 
-current_in_RBSU_EEA_data <- as.data.frame(current_in_RBSU_EEA@data)
+current_in_RBSU_EEA_data <- as.data.frame(current_in_RBSU_EEA@data)%>%
+  rename(RBSU=A0_CODE)
 
 current_per_RBSU_EEA <- current_in_RBSU_EEA_data %>%
-  select(scientific_name,A0_CODE, CELLCODE)%>% 
-  group_by (scientific_name, A0_CODE)%>%
+  dplyr::select(species,RBSU, CELLCODE)%>% 
+  group_by (species, RBSU)%>%
   mutate(Occupancy = n_distinct(CELLCODE))%>%
-  select(-c(CELLCODE))%>%
+  dplyr::select(-c(CELLCODE))%>%
   distinct()
 
 current_per_RBSU_EEA$state <- 'current'
 
 gc()
+
+#intersect of median occurences with RBU####
+median_in_RBU <- raster::intersect(median, RBU)
+median_in_RBU_EEA <- raster::intersect(median_in_RBU, EEA_1km)
+
+median_in_RBU_EEA_data <- as.data.frame(median_in_RBU_EEA@data)%>%
+  rename(RBU=BEKNAAM)
+
+median_per_RBU_EEA <- median_in_RBU_EEA_data %>%
+  dplyr::select(species, RBU, CELLCODE)%>% 
+  group_by (species, RBU)%>%
+  mutate(Occupancy = n_distinct(CELLCODE))%>%
+  dplyr::select(-c(CELLCODE))%>%
+  distinct()
+
+median_per_RBU_EEA$state <- 'median'
+
+gc()
+
+#intersect of median occurences with RBSU####
+median_in_RBSU <- raster::intersect(median, RBSU)
+median_in_RBSU_EEA <- raster::intersect(median_in_RBSU, EEA_1km)
+
+median_in_RBSU_EEA_data <- as.data.frame(median_in_RBSU_EEA@data)%>%
+  rename(RBSU=A0_CODE)
+
+median_per_RBSU_EEA <- median_in_RBSU_EEA_data %>%
+  dplyr::select(species,RBSU, CELLCODE)%>% 
+  group_by (species, RBSU)%>%
+  mutate(Occupancy = n_distinct(CELLCODE))%>%
+  dplyr::select(-c(CELLCODE))%>%
+  distinct()
+
+median_per_RBSU_EEA$state <- 'median'
+
+gc()
 #bind tables####
-occupancy_RBU <- rbind(current_per_RBU_EEA, baseline_per_RBU_EEA)
-occupancy_RBSU <- rbind(current_per_RBSU_EEA, baseline_per_RBSU_EEA)
+occupancy_RBU <- rbind(current_per_RBU_EEA, baseline_per_RBU_EEA, median_per_RBU_EEA)
+occupancy_RBSU <- rbind(current_per_RBSU_EEA, baseline_per_RBSU_EEA, median_per_RBSU_EEA)
 
 #join occupancy files with observations files
-occupancy_RBSU<- merge(observations_RBSU, occupancy_RBSU,by= c('scientific_name', 'A0_CODE', 'state'),all.x=TRUE)
-occupancy_RBU <- merge(observations_RBU,occupancy_RBU, by= c('scientific_name', 'RBU', 'state'),all.x=TRUE)
+occupancy_RBSU<- merge(observations_RBSU, occupancy_RBSU,by= c('species', 'RBSU', 'state'),all.x=TRUE)
+occupancy_RBU <- merge(observations_RBU,occupancy_RBU, by= c('species', 'RBU', 'state'),all.x=TRUE)
 
 #save output####
 
-write.csv(occupancy_RBU, './data/interim/occupancy_RBU.csv', row.names=FALSE)
-write.csv(occupancy_RBSU, './data/interim/occupancy_RBSU.csv', row.names=FALSE)
+write.csv(occupancy_RBU, './data/interim/occupancy_abs_RBU.csv', row.names=FALSE)
+write.csv(occupancy_RBSU, './data/interim/occupancy_abs_RBSU.csv', row.names=FALSE)
 
 #test_barplot####
 
@@ -133,7 +171,7 @@ occupancy_RBU_DIJLE <- occupancy_RBU%>%
   filter(RBU== 'Dijle - Dyle')
 
 library(ggplot2)
-p<-ggplot(data= occupancy_RBU_DIJLE, aes(x=scientific_name, y=Occupancy, fill= state)) +
+p<-ggplot(data= occupancy_RBU_DIJLE, aes(x=species, y=Occupancy, fill= state)) +
   geom_bar(stat="identity", position=position_dodge())+
   theme_minimal() +
   scale_fill_brewer(palette="Paired")+
