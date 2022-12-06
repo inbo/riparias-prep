@@ -5,10 +5,6 @@ date: "`r Sys.time()`"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
-
 ```{r libraries, include=FALSE}
 library(sf)
 library(sp)
@@ -101,7 +97,8 @@ points_in_perimeter_sel <- points_in_perimeter %>%
                 vernacularName,
                 collectionCode,
                 references,
-                year)
+                year,
+                kingdomKey)
 
 points_in_perimeter_sel<- points_in_perimeter_sel%>%
   filter(!identificationVerificationStatus %in% c('unverified','not validated'))
@@ -117,19 +114,23 @@ baseline <- points_in_perimeter_sel %>%
 st_write(baseline,  "C:/Users/jasmijn_hillaert/Documents/GitHub/riparias-prep/data/spatial/baseline/baseline.geojson")
 
 ```
-```{r export baseline shapes}
-median <- points_in_perimeter_sel %>%
-    filter(year>=2016 & year<=2020)%>%
-    filter(occurrenceStatus!='ABSENT')
 
-st_write(median,  "C:/Users/jasmijn_hillaert/Documents/GitHub/riparias-prep/data/spatial/baseline/median.geojson")
 
-```
+
 
 ```{r export update shapes}
-current_state <- points_in_perimeter_sel %>% 
+current_state_plants <- points_in_perimeter_sel %>%
+    filter(kingdomKey==6)%>%
     filter(year>=2021)%>%
     filter(occurrenceStatus!='ABSENT')
+
+current_state_animals <- points_in_perimeter_sel%>%
+    filter(kingdomKey==1)%>%
+    filter(year>=2016)%>%
+    filter(occurrenceStatus!='ABSENT')
+
+current_state <- rbind(current_state_animals,
+                       current_state_plants)
 
 st_write(current_state,  "C:/Users/jasmijn_hillaert/Documents/GitHub/riparias-prep/data/spatial/baseline/current_state.geojson")
 ```
