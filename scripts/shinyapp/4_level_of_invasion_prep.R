@@ -46,17 +46,19 @@ occupancy_RBSU <- read.csv(paste0("./data/interim/occupancy_rel_RBSU.csv"))
 occupancy_RBU <- occupancy_RBU %>%
   mutate(
   level_of_invasion = case_when(
-    Occupancy_rel <= 0.10 ~ "scattered occurences only",
-    Occupancy_rel <= 0.30 ~ "weakly invaded",
-    Occupancy_rel > 0.30 ~ "heavily invaded")
+    Occupancy_rel == 0 ~ "not recorded",
+    Occupancy_rel <= 0.05 ~ "scattered occurences only",
+    Occupancy_rel <= 0.10 ~ "weakly invaded",
+    Occupancy_rel > 0.10 ~ "heavily invaded")
   )
    
 occupancy_RBSU <- occupancy_RBSU %>%
   mutate(
     level_of_invasion = case_when(
+      Occupancy_rel == 0 ~ "not recorded",
       Occupancy_rel <= 0.10 ~ "scattered occurences only",
-      Occupancy_rel <= 0.30 ~ "weakly invaded",
-      Occupancy_rel > 0.30 ~ "heavily invaded")
+      Occupancy_rel <= 0.20 ~ "weakly invaded",
+      Occupancy_rel > 0.20 ~ "heavily invaded")
   )
 
 #add level of invasion (as value) per species (as column names) to spatial RBSU layer####

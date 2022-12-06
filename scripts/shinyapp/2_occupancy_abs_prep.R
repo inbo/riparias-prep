@@ -26,8 +26,6 @@ branch <- "50_add_species"
 
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/current_state.geojson"), stringsAsFactors = FALSE)
 
-median <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/median.geojson"), stringsAsFactors = FALSE)
-
 baseline <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/baseline/baseline.geojson"), stringsAsFactors = FALSE)
 
 RBU <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch, "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
@@ -117,44 +115,9 @@ current_per_RBSU_EEA$state <- 'current'
 
 gc()
 
-#intersect of median occurences with RBU####
-median_in_RBU <- raster::intersect(median, RBU)
-median_in_RBU_EEA <- raster::intersect(median_in_RBU, EEA_1km)
-
-median_in_RBU_EEA_data <- as.data.frame(median_in_RBU_EEA@data)%>%
-  rename(RBU=BEKNAAM)
-
-median_per_RBU_EEA <- median_in_RBU_EEA_data %>%
-  dplyr::select(species, RBU, CELLCODE)%>% 
-  group_by (species, RBU)%>%
-  mutate(Occupancy = n_distinct(CELLCODE))%>%
-  dplyr::select(-c(CELLCODE))%>%
-  distinct()
-
-median_per_RBU_EEA$state <- 'median'
-
-gc()
-
-#intersect of median occurences with RBSU####
-median_in_RBSU <- raster::intersect(median, RBSU)
-median_in_RBSU_EEA <- raster::intersect(median_in_RBSU, EEA_1km)
-
-median_in_RBSU_EEA_data <- as.data.frame(median_in_RBSU_EEA@data)%>%
-  rename(RBSU=A0_CODE)
-
-median_per_RBSU_EEA <- median_in_RBSU_EEA_data %>%
-  dplyr::select(species,RBSU, CELLCODE)%>% 
-  group_by (species, RBSU)%>%
-  mutate(Occupancy = n_distinct(CELLCODE))%>%
-  dplyr::select(-c(CELLCODE))%>%
-  distinct()
-
-median_per_RBSU_EEA$state <- 'median'
-
-gc()
 #bind tables####
-occupancy_RBU <- rbind(current_per_RBU_EEA, baseline_per_RBU_EEA, median_per_RBU_EEA)
-occupancy_RBSU <- rbind(current_per_RBSU_EEA, baseline_per_RBSU_EEA, median_per_RBSU_EEA)
+occupancy_RBU <- rbind(current_per_RBU_EEA, baseline_per_RBU_EEA)
+occupancy_RBSU <- rbind(current_per_RBSU_EEA, baseline_per_RBSU_EEA)
 
 #join occupancy files with observations files
 occupancy_RBSU<- merge(observations_RBSU, occupancy_RBSU,by= c('species', 'RBSU', 'state'),all.x=TRUE)
