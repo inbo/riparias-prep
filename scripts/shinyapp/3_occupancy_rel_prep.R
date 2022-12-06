@@ -12,6 +12,7 @@
 #'@param EEA_1km
 
 rm(list=ls())
+gc()
 
 library(leaflet)
 library(rgdal)
@@ -24,9 +25,9 @@ RBU <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                       branch,
                       "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"))
 
-RBSU <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
+RBSU <- st_make_valid(st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                        branch,
-                       "/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"))
+                       "/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson")))
 
 #correct projection####
 crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
@@ -43,10 +44,11 @@ EEA_1km_RBU_data <- as.data.frame(EEA_1km_in_RBU)
 #check if outcome is logical####
 table(table(EEA_1km_RBU_data$CELLCODE))
 
-names(EEA_1km_RBU_data)[4] <-'RBU'
+EEA_1km_RBU_data<- EEA_1km_RBU_data%>% 
+  rename(RBU=BEKNAAM)
 
 CELLES_per_RBU <- EEA_1km_RBU_data %>%
-  select(RBU, CELLCODE)%>%
+  dplyr::select(RBU, CELLCODE)%>%
   group_by (RBU)%>%
   summarise(Total_cellcode_per_area=n())
 
@@ -61,26 +63,27 @@ EEA_1km_RBSU_data <- as.data.frame(EEA_1km_in_RBSU)
 table(table(EEA_1km_RBSU_data$CELLCODE))
 
 CELLES_per_RBSU <- EEA_1km_RBSU_data %>%
-  select(A0_CODE, CELLCODE)%>%
+  dplyr::select(A0_CODE, CELLCODE)%>%
   group_by (A0_CODE)%>%
-  summarise(Total_cellcode_per_area=n())
+  summarise(Total_cellcode_per_area=n())%>%
+  rename(RBSU=A0_CODE)
 
 gc()
 
 #import absolute output####
-occupancy_RBU <- read.csv("./data/interim/occupancy_RBU.csv")
-occupancy_RBSU <- read.csv("./data/interim/occupancy_RBSU.csv")
+occupancy_RBU <- read.csv("./data/interim/occupancy_abs_RBU.csv")
+occupancy_RBSU <- read.csv("./data/interim/occupancy_abs_RBSU.csv")
 
 #merge both tables####
 occupancy_RBU_temp <- merge(occupancy_RBU, CELLES_per_RBU, by='RBU')
-occupancy_RBSU_temp <- merge(occupancy_RBSU, CELLES_per_RBSU, by='A0_CODE')
+occupancy_RBSU_temp <- merge(occupancy_RBSU, CELLES_per_RBSU, by='RBSU')
 
 #generate relative occupancy####
 occupancy_RBU_temp$Occupancy_rel <- occupancy_RBU_temp$Occupancy/occupancy_RBU_temp$Total_cellcode_per_area
 occupancy_RBSU_temp$Occupancy_rel <- occupancy_RBSU_temp$Occupancy/occupancy_RBSU_temp$Total_cellcode_per_area
 
 #save output####
-write.csv(occupancy_RBU_temp, './data/interim/occupancy_RBU.csv', row.names=FALSE)
-write.csv(occupancy_RBSU_temp, './data/interim/occupancy_RBSU.csv', row.names=FALSE)
+write.csv(occupancy_RBU_temp, './data/interim/occupancy_rel_RBU.csv', row.names=FALSE)
+write.csv(occupancy_RBSU_temp, './data/interim/occupancy_rel_RBSU.csv', row.names=FALSE)
 
 
