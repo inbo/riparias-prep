@@ -1,0 +1,1 @@
+https://wfs.environnement.brussels/belb?REQUEST=GetCapabilities&SERVICE=WFS

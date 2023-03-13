@@ -1,0 +1,276 @@
+---
+title: "pond_prioritisation"
+author: "Bram D'hondt"
+date: '2022-05-23'
+output: html_document
+---
+
+```{r libraries}
+library(sf)
+library(ggplot2)
+library(tidyverse)
+library(rgbif)
+library(dplyr)
+library(httr)
+library(ows4R)
+library(sp) # 2check
+```
+
+# EMPTY MEMORY
+
+```{r}
+# rm(list=ls())
+rm(list=setdiff(ls(), c("Wb_FLA", "Wb_WAL", "Wb_BRU", "POINTS_IN_RIPARIAS"))) # Remove all except...
+```
+
+# RIPARIAS: SPECIES LIST
+
+```{r}
+species_list <- rgbif::name_usage(datasetKey = "fd004d9a-2ea4-4244-bb60-0df508d20a15")
+
+taxonkeys <- species_list$data %>%
+  filter(origin == "SOURCE") %>%
+  pull(.data$nubKey)
+```
+
+# RIPARIAS: TARGET AREA
+
+```{r read map}
+MAP_RIPARIAS <- st_read("./data/spatial/perimeter/Riparias_Official_StudyArea.geojson")
+```
+
+```{r just checking}
+ggplot(data = MAP_RIPARIAS) +
+  geom_sf()
+```
+
+# GET OBSERVATIONS FROM GBIF
+
+```{r get credentials}
+get_cred <- function(x){
+  library(svDialogs)
+    cred <- Sys.getenv(x)
+    if(cred == ""){
+    input <- dlgInput(paste0("What is your ", x, "?"))
+    cred <- input$res
+    Sys.setenv(x = cred)
+  }
+  return(cred)
+}
+gbif_email <- get_cred("GBIF e-mail")
+gbif_user <- get_cred("GBIF username")
+gbif_pwd <- get_cred("GBIF password")
+```
+
+```{r}
+if(dir.exists("./data/interim/pond_prioritisation/")){
+  filelist <- dir("./data/interim/pond_prioritisation/", pattern = ".zip", full.names = TRUE)
+  filelist_info <- file.info(filelist)
+  filelist_info <- filelist_info %>% 
+    filter(ctime == max(ctime, na.rm = TRUE)) # Neem het zip-bestand met de meest recente ctime (changed time)
+  
+  if(nrow(filelist_info) == 1){
+    old_data <- rownames(filelist_info)
+  }else{
+    warning("Multiple zip-files are the same age.")
+    old_data <- ""
+  }
+}else{
+  old_data <- ""
+}
+```
+
+## GBIF download
+
+```{r}
+rerun <- menu(choices = c("Yes", "No"), 
+              title = "Download new data?",
+              graphics = TRUE)
+
+if(old_data == "" || rerun == 1){
+  set1 <- occ_download(user = gbif_user, pwd = gbif_pwd, email = gbif_email,
+                     pred_in("taxonKey", taxonkeys),
+                     pred_gte("year", 2000),
+                     pred("hasCoordinate", TRUE),
+                     pred("country","BE"), # Rechtstreekse overlay met RIPARIAS-gebied? pred_within?
+                     type = "and",
+                     format = "SIMPLE_CSV")
+  
+  repeat{
+    Sys.sleep(time = 5)
+    test_set1 <- occ_download_meta(set1)
+    if(test_set1$status == "SUCCEEDED"){
+      data_raw <- occ_download_get(set1, overwrite = TRUE) %>% 
+        occ_download_import()
+      break()
+    }
+    print(test_set1$status)
+  }
+  
+  file.copy(from = paste0("./", test_set1$key, ".zip"), to = paste0("./data/interim/pond_prioritisation/",
+                                                                    test_set1$key, ".zip"))
+  file.remove(paste0("./", test_set1$key, ".zip"))
+  
+}else{
+  data_raw <- read_tsv(unz(old_data, "0417386-210914110416597.csv"), 
+                                    col_types = c(decimalLatitude = col_number(),
+                                                  decimalLongitude = col_number()))
+}
+```
+
+```{r filter meaningful records}
+# Filter records with the same occurenceID => most straightforward way to get rid of duplicates (#1)
+# Filter records without coordinates (assuming decimalLatitude & decimalLongitude are equally missing) (#2)
+
+data_subset <- data_raw %>% 
+  distinct(occurrenceID, .keep_all = TRUE) %>% #1
+  filter(!is.na(decimalLatitude)) %>% #2 
+  select(gbifID, eventDate, year, month, day, taxonKey, species, decimalLatitude, decimalLongitude,
+         coordinateUncertaintyInMeters, countryCode)
+```
+
+```{r convert to sf}
+PUNTEN <- st_as_sf(data_subset, coords = c("decimalLongitude", "decimalLatitude"), crs = "+proj=longlat +datum=WGS84")
+```
+
+```{r only points within RIPARIAS area}
+POINTS_IN_RIPARIAS <- st_join(PUNTEN, MAP_RIPARIAS, left = FALSE)
+```
+
+```{r just checking}
+ggplot() +
+  geom_sf(data = MAP_RIPARIAS) +
+  geom_sf(data = POINTS_IN_RIPARIAS, aes(color = species))
+```
+
+# GEOGRAPHY
+
+As there is no true need to merge the geographic data from the three regions, which use different formats, the three regions are dealt with apart from one another. This part deals with the common elements.
+
+## FLANDERS
+
+SF working. SP working. SF favoured over SP.
+
+```{r read Flanders}
+Wb_FLA <- st_read("./data/spatial/watervlakken/watervlakken.shp")
+```
+
+```{r control plot}
+ggplot(data = Wb_FLA) +
+  geom_sf()
+```
+
+```{r points within PONDS}
+POINTS_IN_RIPARIAS_forFL <- st_transform(POINTS_IN_RIPARIAS, crs = st_crs(Wb_FLA))
+POINTS_IN_PONDS_FL <- st_join(POINTS_IN_RIPARIAS_forFL, Wb_FLA, left = FALSE)
+```
+
+```{r}
+ggplot() +
+  geom_sf(data = MAP_RIPARIAS) +
+  geom_sf(data = POINTS_IN_PONDS_FL, aes(color = species))
+```
+
+
+```{r output}
+FLA_trimmed <- POINTS_IN_PONDS_FL %>% 
+  select(gbifID, eventDate, year, month, day, taxonKey, species, BEKNAAM, POLY_AREA, Area_km2, WVLC, NAAM, GEBIED,
+         OPPWVL, OMTWVL)
+
+FLA_summary <- FLA_trimmed %>%
+  group_by(WVLC, species) %>%
+  summarize(year_first = min(year), year_last = max(year))
+
+write_csv(FLA_trimmed, "./scripts/ad hoc/prioritizing areas/output/FLA_observations.csv")
+write_csv(FLA_summary, "./scripts/ad hoc/prioritizing areas/output/FLA_summary.csv")
+```
+
+```{r OLD - SP - TO DELETE}
+Wb_FLA <- readOGR("./data/spatial/watervlakken/watervlakken.shp") # Returns SP object.
+st_crs(Wb_FLA)
+Wb_FLA <- spTransform(Wb_FLA, crs_wgs)
+FLA_data <- raster::intersect(current_state, Wb_FLA) # Zware berekening. Risico op vastlopen !!
+FLA_output <- as.data.frame(FLA_data@data)
+```
+
+## WALLONIA
+
+SF not working. SP working.
+
+```{r read}
+Wb_WAL <- st_read("./data/spatial/watervlakken/Plans_eau_PICEA_pourBDREF.gdb")
+```
+
+```{r control plot}
+ggplot() +
+  geom_sf(data = Wb_WAL) +
+  geom_sf(data = MAP_RIPARIAS)
+```
+
+```{r}
+crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
+Wb_WAL <- st_transform(Wb_WAL, crs_wgs)
+
+# r intersect map with observations
+WAL_data <- raster::intersect(POINTS_IN_RIPARIAS,Wb_WAL) # Zware berekening. Risico op vastlopen !!
+WAL_output <- as.data.frame(WAL_data@data)
+```
+
+```{r}
+WAL_summary <- WAL_output %>%
+  group_by(dcmlLtt, dcmlLng, scientific_name) %>%
+  summarize(year_first = min(year), year_last = max(year)) # afhankelijk van wat geanalyzeerd moet worden
+
+write_csv(WAL_output, "./scripts/ad hoc/prioritizing areas/output/WAL_observations.csv")
+write_csv(WAL_summary, "./scripts/ad hoc/prioritizing areas/output/WAL_summary.csv")
+```
+
+# BRUSSELS
+
+```{r get to know the WFS}
+WFS_BRU <- "https://wfs.environnement.brussels/belb?"
+# BRU_client <- WFSClient$new(WFS_BRU, serviceVersion = "2.0.0")
+# BRU_client$getFeatureTypes(pretty = TRUE)
+```
+
+```{r}
+URL <- parse_url(WFS_BRU)
+URL$query <- list(service = "wfs",
+                  version = "2.0.0", # hier blijkbaar verplicht !
+                  request = "GetFeature",
+                  typename = "BELB:water_surface"
+                  # srsName = "EPSG:31370"
+                  )
+
+request <- build_url(URL)
+Wb_BRU <- read_sf(request)
+```
+
+```{r control plot}
+ggplot(data = Wb_BRU) +
+  geom_sf()
+```
+
+```{r points within PONDS}
+POINTS_IN_RIPARIAS_forBR <- st_transform(POINTS_IN_RIPARIAS, crs = st_crs(Wb_BRU))
+POINTS_IN_PONDS_BR <- st_join(POINTS_IN_RIPARIAS_forBR, Wb_BRU, left = FALSE)
+```
+
+```{r}
+ggplot() +
+  geom_sf(data = MAP_RIPARIAS) +
+  geom_sf(data = POINTS_IN_PONDS_BR, aes(color = species))
+```
+
+```{r output}
+BRX_trimmed <- POINTS_IN_PONDS_BR %>% 
+  select(gbifID, eventDate, year, month, day, taxonKey, species, BEKNAAM, POLY_AREA, Area_km2, gml_id, gid,
+         idsurfhyd, nom, naam, type, type_nl)
+
+BRX_summary <- BRX_trimmed %>%
+  group_by(idsurfhyd, species) %>%
+  summarize(year_first = min(year), year_last = max(year))
+
+write_csv(BRX_trimmed, "./scripts/ad hoc/prioritizing areas/output/BRX_observations.csv")
+write_csv(BRX_summary, "./scripts/ad hoc/prioritizing areas/output/BRX_summary.csv")
+```
