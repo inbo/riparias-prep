@@ -56,6 +56,7 @@ leaflet()%>%
   addPolylines(data=RBSU2, color="red")%>%
   addPolygons(data=RBU2, fillColor= ~factpal_RBU(BV))
 
+#-> er lijken kleine gaatjes binnen de RBU laag te zitten, wass omdat de RBSU laag niet mooi aansluitend was
 #wegschrijven nieuwe lagen
 st_write(RBSU2, "~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")
 st_write(RBU2, "~/Github/riparias-prep/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson")
