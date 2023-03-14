@@ -39,10 +39,10 @@ RBSU2 <- st_make_valid(RBSU2)
 
 RBU2 <- RBSU2 %>%
   mutate(BV= case_when(
-    BV=='Dile'~'red',
-    BV=="Dyle"~"red",
-    BV=="Senne"~"green",
-    BV=="Marcq"~"yellow"
+    BV=='Dile'~'Dyle',
+    BV=="Dyle"~"Dyle",
+    BV=="Senne"~"Senne",
+    BV=="Marcq"~"Marcq"
     ))%>%
   st_set_precision(0) %>% 
   group_by(BV)%>%
@@ -54,7 +54,7 @@ factpal_RBU <- colorFactor(topo.colors(3), RBU2$BV)
 leaflet()%>% 
   addTiles()%>% 
   addPolylines(data=RBSU2, color="red")%>%
-  addPolygons(data=RBU2, fillColor= ~factpal(BV))
+  addPolygons(data=RBU2, fillColor= ~factpal_RBU(BV))
 
 #wegschrijven nieuwe lagen
 st_write(RBSU2, "~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")
