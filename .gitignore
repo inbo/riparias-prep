@@ -45,3 +45,8 @@ data/raw/crayfish-downloads/white-list/*.zip
 *.zip
 scripts/shinyapp/a_final.csv
 .Renviron.txt
+scripts/shinyapp/gbif_citation2022-11-29.csv
+scripts/shinyapp/Heracleum_persicum.txt
+scripts/shinyapp/gbif_download2022-11-29.csv
+scripts/shinyapp/gbif_download2022-12-06.csv
+scripts/shinyapp/gbif_download2022-11-30.csv
