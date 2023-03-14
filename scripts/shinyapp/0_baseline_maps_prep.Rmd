@@ -58,13 +58,13 @@ a <- occ_download_get(gbif_download, overwrite=TRUE)%>%
 ```
 
 ```{r get perimeter shape, include = FALSE}
-perimeter_shape <- st_read("https://raw.githubusercontent.com/inbo/riparias-prep/master/data/spatial/perimeter/Riparias_Official_StudyArea.geojson")
+perimeter_shape <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson")
 ```
 
 ```{r test perimeter, eval = FALSE}
-leaflet(perimeter_shape) %>% 
+leaflet() %>% 
   addTiles() %>% 
-  addPolylines()
+  addPolylines(data=perimeter_shape, color="red")
 ```
 
 
@@ -75,11 +75,7 @@ pointdata <-  st_as_sf(a,
                crs = 4326)
 ```
 
-```{r test points, eval = FALSE}
-leaflet(points_in_perimeter) %>% 
-  addTiles() %>% 
-  addCircleMarkers()
-```
+
 
 https://docs.google.com/spreadsheets/d/15f17hXE9ZyUxEe2xA0seKs0CSibgYJdkaWcnmVoI1yY/edit#gid=0
 
@@ -103,21 +99,33 @@ points_in_perimeter_sel <- points_in_perimeter %>%
 points_in_perimeter_sel<- points_in_perimeter_sel%>%
   filter(!identificationVerificationStatus %in% c('unverified','not validated'))
   
-st_write(points_in_perimeter_sel,  "C:/Users/jasmijn_hillaert/Documents/GitHub/riparias-prep/data/spatial/baseline/points_in_perimeter_sel.geojson")
+st_write(points_in_perimeter_sel,  "~/GitHub/riparias-prep/data/spatial/baseline/points_in_perimeter_sel.geojson")
+```
+
+```{r test points, eval = FALSE}
+leaflet(points_in_perimeter) %>% 
+  addTiles() %>% 
+  addCircleMarkers()
 ```
 
 ```{r export baseline shapes}
-baseline <- points_in_perimeter_sel %>%
-    filter(year>=2000 & year<=2015)%>%
+baseline_state_plants <- points_in_perimeter_sel %>%
+    filter(kingdomKey==6)%>%
+    filter(year<2021)%>%
     filter(occurrenceStatus!='ABSENT')
 
-st_write(baseline,  "C:/Users/jasmijn_hillaert/Documents/GitHub/riparias-prep/data/spatial/baseline/baseline.geojson")
+baseline_state_animals <- points_in_perimeter_sel%>%
+    filter(kingdomKey==1)%>%
+    filter(year<2016)%>%
+    filter(occurrenceStatus!='ABSENT')
+
+baseline_state <- rbind(baseline_state_animals,
+                       baseline_state_plants)
+
+
+st_write(baseline_state,  "~/GitHub/riparias-prep/data/spatial/baseline/baseline.geojson")
 
 ```
-
-
-
-
 ```{r export update shapes}
 current_state_plants <- points_in_perimeter_sel %>%
     filter(kingdomKey==6)%>%
@@ -132,7 +140,7 @@ current_state_animals <- points_in_perimeter_sel%>%
 current_state <- rbind(current_state_animals,
                        current_state_plants)
 
-st_write(current_state,  "C:/Users/jasmijn_hillaert/Documents/GitHub/riparias-prep/data/spatial/baseline/current_state.geojson")
+st_write(current_state,  "~/GitHub/riparias-prep/data/spatial/baseline/current_state.geojson")
 ```
 
 
