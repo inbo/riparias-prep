@@ -14,7 +14,6 @@ rm(list=ls())
 
 #loading libraries####
 library(leaflet)
-library(rgdal)
 library(sf)
 library(dplyr)
 library(ggplot2)
