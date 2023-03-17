@@ -2,10 +2,11 @@
 # Setup ####
 ## Libraries ####
 library(tidyverse) # To do data science
-library(tidylog) # To provide feedback on dplyr functions
+#library(tidylog) # To provide feedback on dplyr functions
 library(progress) # To add progress bars
 library(here) # To find files
 library(lubridate) # To work with dates
+library(sf)
 library(rgdal)
 library(rgbif)
 library(trias)
@@ -14,27 +15,45 @@ library(trias)
 crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 
 # Read data ####
-points_in_perimeter <- readOGR("./data/spatial/baseline/points_in_perimeter.geojson", stringsAsFactors = FALSE)
+#read in input data####
+branch <- "50_add_species"
 
-EEA_1km <- readOGR("data/spatial/EEA 1km/be_1km.shp")
-EEA_1km <- spTransform(EEA_1km, crs_wgs)
+current_state<- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
+                               branch,
+                               "/data/spatial/baseline/current_state.geojson"))
+
+baseline <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
+                           branch,
+                           "/data/spatial/baseline/baseline.geojson"))
+
+removed <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
+                          branch,
+                          "/data/spatial/baseline/points_in_perimeter_sel.geojson"))
+
+points_in_perimeter <- rbind(current_state, baseline, removed)
+
+EEA_1km <- st_read("data/spatial/Riparias_subunits/EEA_1km_Riparias.geojson") %>% 
+  st_transform(crs_wgs) %>% 
+  dplyr::select(CELLCODE, geometry)
 
 # trias prep ####
-## column namens ####
-points_in_perimeter@data <- points_in_perimeter@data %>% 
-  rename(taxonKey = accptTK)
-
 ## grid cells ####
-sp_grid <- raster::intersect(points_in_perimeter, EEA_1km)
 
-df_grid <- sp_grid@data %>% 
-  rename(eea_cell_code = CELLCODE) %>% 
+points_1km <- points_in_perimeter
+points_1km$eea_cell_code <- apply(sf::st_intersects(EEA_1km, 
+                                               points_in_perimeter, 
+                                               sparse = FALSE), 2, 
+                             function(col) {EEA_1km[which(col),
+                             ]$CELLCODE})
+
+df_grid <- as.data.frame(points_1km) %>% 
+  dplyr::select(-geometry) %>% 
   group_by(taxonKey, eea_cell_code, year) %>% 
   summarise(obs = n()) 
 
 ## classinfo ####
 taxon_key <-
-  points_in_perimeter@data %>%
+  points_in_perimeter %>%
   distinct(taxonKey) %>% 
   pull()
 
