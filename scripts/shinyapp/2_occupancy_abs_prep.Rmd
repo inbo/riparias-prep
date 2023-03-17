@@ -1,0 +1,178 @@
+```{r }
+#'This script loads two csv-files (observations_RBU.csv and observations_RBSU.csv) 
+#'and adds extra columns two the files describing the occupancy per species per area per state
+#'Two output files are generated:
+#'occupancy_RBU.csv: extra columns describe occupancy per species per river basin unit per state (baseline or current) 
+#'header observations_RBU.csv: scientific_name,"RBU","state","n_observations", "Occupancy"
+#'occupancy_RBSU.csv: extra columns describe occupancy  per species per river basin subunit per state (baseline or current)
+#'header observations_RBSU.csv: scientific_name,"A0_CODE","state", "n_observations","Occupancy"
+#'
+#'@param branch A string referring to the branch on github on which input data is read in
+#'@param current_state geosjon file in WGS 84 projection containing observations from 2010 until now
+#'@param baseline geojson file in WGS 84 projection containing observations from 2010 to 2020
+#'@param RBU geojson file containing polygons at river basin unit level
+#'@param RBSU geojson file containing polygons at river basin subunit level
+
+rm(list=ls())
+
+#load libraries####
+library(leaflet)
+library(sf)
+library(dplyr)
+
+
+current_state <- st_read('~/Github/riparias-prep/data/spatial/baseline/current_state.geojson')
+
+baseline <- st_read('~/Github/riparias-prep/data/spatial/baseline/baseline.geojson')
+
+RBU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson")
+
+RBSU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")
+
+##read in observations####
+observations_RBU <- read.csv('~/Github/riparias-prep/data/interim/observations_RBU.csv')
+observations_RBSU <- read.csv('~/Github/riparias-prep/data/interim/observations_RBSU.csv')
+
+
+
+##define correct projection####
+
+##import EEA 1km file####
+EEA_1km_Riparias <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/EEA_1km_Riparias.geojson")
+
+#EEA_1km <- st_transform(EEA_1km, crs=4326)
+
+#leaflet()%>% 
+#  addTiles()%>% 
+#  addPolylines(data=EEA_1km_Riparias, color="green")%>%
+#  addPolylines(data=RBU, color="red")
+
+#EEA_1km_Riparias <- EEA_1km[st_intersects(EEA_1km, RBU) %>% lengths >0,]
+
+#st_write(EEA_1km_Riparias, #'~/Github/riparias-prep/data/spatial/Riparias_subunits/EEA_1km_Riparias.#geojson')
+
+#intersect of baseline occurences with RBU####
+baseline_in_RBU <- st_intersection(baseline, RBU)
+
+#in de plaats van st_intersection(baseline, EEA_1km_Riparias)
+
+a=0
+
+for (species_name in unique(baseline_in_RBU$species)){
+  for (RBU_level in unique(baseline_in_RBU$BV)){
+  selection <- baseline_in_RBU%>%
+        filter(species == species_name)%>%
+        filter(BV == RBU_level)
+  temp <- EEA_1km_Riparias[st_intersects(EEA_1km_Riparias, selection) %>% lengths >0,]
+  temp <- temp %>%
+    mutate(
+      species=species_name,
+      RBU = RBU_level
+    )
+      print(paste0(species_name,' ', dim(selection)))
+      
+  if (a==0) {Spatial_summary_RBU <- temp} else (
+    Spatial_summary_RBU <- rbind(Spatial_summary_RBU, temp)
+  )
+  a<- a+1
+  
+  }
+}
+  
+
+
+baseline_in_RBU_EEA_data <- as.data.frame(baseline_in_RBU_EEA@data)%>%
+  rename(RBU=BEKNAAM)
+
+baseline_per_RBU_EEA <- baseline_in_RBU_EEA_data %>%
+  dplyr::select(species, RBU, CELLCODE)%>% 
+  group_by (species, RBU)%>%
+  mutate(Occupancy = n_distinct(CELLCODE))%>%
+  dplyr::select(-c(CELLCODE))%>%
+  distinct()
+
+baseline_per_RBU_EEA$state <- 'baseline'
+
+gc()
+
+#intersect of baseline occurences with RBSU####
+
+baseline_in_RBSU <- raster::intersect(baseline, RBSU)
+baseline_in_RBSU_EEA <- raster::intersect(baseline_in_RBSU, EEA_1km)
+
+baseline_in_RBSU_EEA_data <- as.data.frame(baseline_in_RBSU_EEA@data)%>%
+  rename(RBSU = A0_CODE)
+
+baseline_per_RBSU_EEA <- baseline_in_RBSU_EEA_data %>%
+  dplyr::select(species,RBSU, CELLCODE)%>% 
+  group_by (species, RBSU)%>%
+  mutate(Occupancy = n_distinct(CELLCODE))%>%
+  dplyr::select(-c(CELLCODE))%>%
+  distinct()
+
+baseline_per_RBSU_EEA$state <- 'baseline'
+
+gc()
+
+#intersect of current state occurences with RBU####
+current_in_RBU <- raster::intersect(current_state, RBU)
+current_in_RBU_EEA <- raster::intersect(current_in_RBU, EEA_1km)
+
+current_in_RBU_EEA_data <- as.data.frame(current_in_RBU_EEA@data)%>%
+  rename(RBU=BEKNAAM)
+
+current_per_RBU_EEA <- current_in_RBU_EEA_data %>%
+  dplyr::select(species, RBU, CELLCODE)%>% 
+  group_by (species, RBU)%>%
+  mutate(Occupancy = n_distinct(CELLCODE))%>%
+  dplyr::select(-c(CELLCODE))%>%
+  distinct()
+
+current_per_RBU_EEA$state <- 'current'
+
+gc()
+#intersect of current state occurences with RBSU####
+current_in_RBSU <- raster::intersect(current_state, RBSU)
+current_in_RBSU_EEA <- raster::intersect(current_in_RBSU, EEA_1km)
+
+current_in_RBSU_EEA_data <- as.data.frame(current_in_RBSU_EEA@data)%>%
+  rename(RBSU=A0_CODE)
+
+current_per_RBSU_EEA <- current_in_RBSU_EEA_data %>%
+  dplyr::select(species,RBSU, CELLCODE)%>% 
+  group_by (species, RBSU)%>%
+  mutate(Occupancy = n_distinct(CELLCODE))%>%
+  dplyr::select(-c(CELLCODE))%>%
+  distinct()
+
+current_per_RBSU_EEA$state <- 'current'
+
+gc()
+
+#bind tables####
+occupancy_RBU <- rbind(current_per_RBU_EEA, baseline_per_RBU_EEA)
+occupancy_RBSU <- rbind(current_per_RBSU_EEA, baseline_per_RBSU_EEA)
+
+#join occupancy files with observations files
+occupancy_RBSU<- merge(observations_RBSU, occupancy_RBSU,by= c('species', 'RBSU', 'state'),all.x=TRUE)
+occupancy_RBU <- merge(observations_RBU,occupancy_RBU, by= c('species', 'RBU', 'state'),all.x=TRUE)
+
+#save output####
+
+write.csv(occupancy_RBU, './data/interim/occupancy_abs_RBU.csv', row.names=FALSE)
+write.csv(occupancy_RBSU, './data/interim/occupancy_abs_RBSU.csv', row.names=FALSE)
+
+#test_barplot####
+
+occupancy_RBU_DIJLE <- occupancy_RBU%>%
+  filter(RBU== 'Dijle - Dyle')
+
+library(ggplot2)
+p<-ggplot(data= occupancy_RBU_DIJLE, aes(x=species, y=Occupancy, fill= state)) +
+  geom_bar(stat="identity", position=position_dodge())+
+  theme_minimal() +
+  scale_fill_brewer(palette="Paired")+
+  coord_flip()
+
+show(p)
+```

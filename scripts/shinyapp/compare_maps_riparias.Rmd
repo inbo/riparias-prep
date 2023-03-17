@@ -11,10 +11,9 @@ output: html_document
 #Inladen libraries
 library(sf)
 library(leaflet)
+library(dplyr)
 
 branch <- "50_add_species"
-
-crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 
 #RBU gebied
 
@@ -23,7 +22,7 @@ RBU <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
 
 RBSU2 <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/New_RSU_RIPARIAS_12_02_2021.shp")
 
-RBSU2 <- st_transform(RBSU2, crs=crs_wgs)
+RBSU2 <- st_transform(RBSU2, crs=4326)
 
 leaflet()%>% 
   addTiles()%>% 
@@ -38,23 +37,23 @@ leaflet()%>%
 RBSU2 <- st_make_valid(RBSU2)
 
 RBU2 <- RBSU2 %>%
-  mutate(BV= case_when(
-    BV=='Dile'~'Dyle',
-    BV=="Dyle"~"Dyle",
-    BV=="Senne"~"Senne",
-    BV=="Marcq"~"Marcq"
+  mutate(RBU= case_when(
+    BV=='Dile'~'Dijle - Dyle',
+    BV=="Dyle"~'Dijle - Dyle',
+    BV=="Senne"~"Zenne - Senne",
+    BV=="Marcq"~"Mark - Marcq"
     ))%>%
   st_set_precision(0) %>% 
-  group_by(BV)%>%
+  group_by(RBU)%>%
   summarize(geometry = st_union(geometry))
 
 factpal_RBSU <- colorFactor(topo.colors(55),RBSU2$A0_CODE)
-factpal_RBU <- colorFactor(topo.colors(3), RBU2$BV)
+factpal_RBU <- colorFactor(topo.colors(3), RBU2$RBU)
 
 leaflet()%>% 
   addTiles()%>% 
   addPolylines(data=RBSU2, color="red")%>%
-  addPolygons(data=RBU2, fillColor= ~factpal_RBU(BV))
+  addPolygons(data=RBU2, fillColor= ~factpal_RBU(RBU))
 
 #-> er lijken kleine gaatjes binnen de RBU laag te zitten, wass omdat de RBSU laag niet mooi aansluitend was
 #wegschrijven nieuwe lagen

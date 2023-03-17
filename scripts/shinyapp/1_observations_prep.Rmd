@@ -35,70 +35,55 @@ baseline <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
 
 RBU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson")
 
-RBSU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")
+RBSU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")%>%
+  rename(RBSU = A0_CODE)
 
 
 
 #intersect of baseline occurences with RBU####
 baseline_in_RBU <- st_intersection(baseline, RBU)
 
-baseline_in_RBU <- as.data.frame(
-  baseline_in_RBU%>%
-  rename(RBU=BV))
-
 baseline_per_RBU <- baseline_in_RBU %>%
   dplyr::select(species, RBU)%>%
   group_by (species, RBU)%>%
   count(species)%>%
-  rename(n_observations=n)
-
-baseline_per_RBU$state <- 'baseline'
+  rename(n_observations=n)%>%
+  st_drop_geometry()%>%
+  mutate(state="baseline")
 
 #intersect of baseline occurences with RBSU####
 
 baseline_in_RBSU <- st_intersection(baseline, RBSU)
 
-baseline_in_RBSU <- as.data.frame(
-  baseline_in_RBSU%>%
-  rename(RBSU=A0_CODE))
-
 baseline_per_RBSU <- baseline_in_RBSU %>%
   dplyr::select(species, RBSU)%>%
   group_by (species, RBSU)%>%
   count(species)%>%
-  rename(n_observations=n)
-
-baseline_per_RBSU$state <- 'baseline'
+  rename(n_observations=n)%>%
+  st_drop_geometry()%>%
+  mutate(state="baseline")
 
 #intersect of current state occurences with RBU####
 current_in_RBU <- st_intersection(current_state, RBU)
-
-current_in_RBU <- as.data.frame(
-  current_in_RBU%>%
-  rename(RBU=BV))
 
 current_per_RBU <- current_in_RBU %>%
   dplyr::select(species, RBU)%>%
   group_by (species, RBU)%>%
   count(species)%>%
-  rename(n_observations=n)
-
-current_per_RBU$state <- 'current'
+  rename(n_observations=n)%>%
+  st_drop_geometry()%>%
+  mutate(state="current")
 
 #intersect of current state occurences with RBSU####
 current_in_RBSU <- st_intersection(current_state, RBSU)
-
-current_in_RBSU <- as.data.frame(
-  current_in_RBSU%>%
-  rename(RBSU=A0_CODE))
 
 current_per_RBSU <- current_in_RBSU %>%
   dplyr::select(species, RBSU)%>%
   group_by (species, RBSU)%>%
   count(species)%>%
-  rename(n_observations=n)
-
-current_per_RBSU$state <- 'current'
+  rename(n_observations=n)%>%
+  st_drop_geometry()%>%
+  mutate(state="current")
 
 #bind tables####
 overview_RBU <- rbind(current_per_RBU, baseline_per_RBU)
