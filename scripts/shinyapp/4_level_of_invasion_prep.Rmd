@@ -1,3 +1,4 @@
+```{r}
 #'This script loads two csv-files (occupancy_RBU.csv and occupancy_RBSU.csv) 
 #'and adds extra columns two the files describing the level of invasion per species per area per state
 #'Four output files are generated:
@@ -20,36 +21,30 @@ gc()
 
 #import libraries####
 library(leaflet)
-library(rgdal)
 library(sf)
 library(dplyr)
 library(tidyr)
 
 #import data####
-branch <- "50_add_species"
 
 ##import geojson of RBU and RBSU####
-RBU <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
-                               branch,
-                               "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), stringsAsFactors = FALSE)
-RBSU <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                branch,
-                                "/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"), stringsAsFactors = FALSE)
+RBU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson")
+
+RBSU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")
 
 ##import relative occupancy####
-occupancy_RBU <- read.csv(paste0("./data/interim/occupancy_rel_RBU.csv"))
-occupancy_RBSU <- read.csv(paste0("./data/interim/occupancy_rel_RBSU.csv"))
+occupancy_RBU <- read.csv(paste0("~/Github/riparias-prep/data/interim/occupancy_rel_RBU.csv"))
+occupancy_RBSU <- read.csv(paste0("~/Github/riparias-prep/data/interim/occupancy_rel_RBSU.csv"))
 
 
- 
 #define level of invasion depending on relative occupancy####
 occupancy_RBU <- occupancy_RBU %>%
   mutate(
   level_of_invasion = case_when(
     Occupancy_rel == 0 ~ "not recorded",
-    Occupancy_rel <= 0.05 ~ "scattered occurences only",
-    Occupancy_rel <= 0.10 ~ "weakly invaded",
-    Occupancy_rel > 0.10 ~ "heavily invaded")
+    Occupancy_rel <= 0.01 ~ "scattered occurences only",
+    Occupancy_rel <= 0.05 ~ "weakly invaded",
+    Occupancy_rel > 0.05 ~ "heavily invaded")
   )
    
 occupancy_RBSU <- occupancy_RBSU %>%
@@ -70,13 +65,13 @@ level_of_invasion_RBSU <- merge(RBSU, occupancy_RBSU_wider, by.x='A0_CODE', by.y
 occupancy_RBU_temp<- occupancy_RBU %>% dplyr::select(c('RBU', 'species', 'state', 'level_of_invasion'))
 occupancy_RBU_wider <- occupancy_RBU_temp %>% pivot_wider(names_from= "species", values_from= "level_of_invasion")
 
-level_of_invasion_RBU <- merge(RBU, occupancy_RBU_wider, by.x='BEKNAAM', by.y="RBU")
+level_of_invasion_RBU <- merge(RBU, occupancy_RBU_wider, by.x='RBU', by.y="RBU")
 
 #export output
-st_write(level_of_invasion_RBSU,"./data/interim/level_of_invasion_RBSU.geojson", append=FALSE)
-st_write(level_of_invasion_RBU, "./data/interim/level_of_invasion_RBU.geojson", append=FALSE)
+st_write(level_of_invasion_RBSU,"~/Github/riparias-prep/data/interim/level_of_invasion_RBSU.geojson", append=FALSE)
+st_write(level_of_invasion_RBU, "~/Github/riparias-prep/data/interim/level_of_invasion_RBU.geojson", append=FALSE)
 
-write.csv(occupancy_RBU, './data/interim/level_of_invasion_RBU.csv', row.names=FALSE)
-write.csv(occupancy_RBSU, './data/interim/level_of_invasion_RBSU.csv', row.names=FALSE)
-
+write.csv(occupancy_RBU, '~/Github/riparias-prep/data/interim/level_of_invasion_RBU.csv', row.names=FALSE)
+write.csv(occupancy_RBSU, '~/Github/riparias-prep/data/interim/level_of_invasion_RBSU.csv', row.names=FALSE)
+```
 

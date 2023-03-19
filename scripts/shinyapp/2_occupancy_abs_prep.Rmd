@@ -54,37 +54,48 @@ EEA_1km_Riparias <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subuni
 #intersect of baseline occurences with RBU####
 baseline_in_RBU <- st_intersection(baseline, RBU)
 
-#in de plaats van st_intersection(baseline, EEA_1km_Riparias)
+#in de plaats van st_intersection(baseline_in_RBU, EEA_1km_Riparias)
 
-a=0
+a<-0
 
 for (species_name in unique(baseline_in_RBU$species)){
-  for (RBU_level in unique(baseline_in_RBU$BV)){
+  for (RBU_level in unique(baseline_in_RBU$RBU)){
   selection <- baseline_in_RBU%>%
         filter(species == species_name)%>%
-        filter(BV == RBU_level)
-  temp <- EEA_1km_Riparias[st_intersects(EEA_1km_Riparias, selection) %>% lengths >0,]
-  temp <- temp %>%
-    mutate(
-      species=species_name,
-      RBU = RBU_level
-    )
-      print(paste0(species_name,' ', dim(selection)))
-      
-  if (a==0) {Spatial_summary_RBU <- temp} else (
-    Spatial_summary_RBU <- rbind(Spatial_summary_RBU, temp)
-  )
+        filter(RBU == RBU_level)
+  if (dim(selection)[1]>0){
+    
+    temp <- EEA_1km_Riparias[st_intersects(EEA_1km_Riparias, selection) %>% lengths >0,] %>%
+      mutate(species=species_name,
+             RBU= RBU_level)
+    print(paste(species_name,RBU_level, dim(selection)))
+    if (a==0)
+      {baseline_in_RBU_EEA_data <- temp} else (
+     baseline_in_RBU_EEA_data <- rbind(baseline_in_RBU_EEA_data, temp)
+      )
+ 
   a<- a+1
-  
+    }
   }
 }
+
+#checking if this was performed correctly
+species_name <- "Procambarus clarkii"
+
+test_EEA <- baseline_in_RBU_EEA_data%>%
+  filter(species==species_name)
+
+test_obs <- baseline%>%
+  filter(species==species_name)
   
+map <- leaflet()%>%
+  addTiles()%>%
+  addPolylines(data=test_EEA, color="green")%>%
+  addCircles(data=test_obs, color="red")
 
-
-baseline_in_RBU_EEA_data <- as.data.frame(baseline_in_RBU_EEA@data)%>%
-  rename(RBU=BEKNAAM)
 
 baseline_per_RBU_EEA <- baseline_in_RBU_EEA_data %>%
+  st_drop_geometry()%>%
   dplyr::select(species, RBU, CELLCODE)%>% 
   group_by (species, RBU)%>%
   mutate(Occupancy = n_distinct(CELLCODE))%>%
@@ -97,13 +108,34 @@ gc()
 
 #intersect of baseline occurences with RBSU####
 
-baseline_in_RBSU <- raster::intersect(baseline, RBSU)
-baseline_in_RBSU_EEA <- raster::intersect(baseline_in_RBSU, EEA_1km)
+baseline_in_RBSU <- st_intersection(baseline, RBSU)
+#in de plaats van st_intersection(baseline_in_RBSU, EEA_1km_Riparias)
 
-baseline_in_RBSU_EEA_data <- as.data.frame(baseline_in_RBSU_EEA@data)%>%
-  rename(RBSU = A0_CODE)
+a<-0
+
+for (species_name in unique(baseline_in_RBSU$species)){
+  for (RBSU_level in unique(baseline_in_RBSU$A0_CODE)){
+  selection <- baseline_in_RBSU%>%
+        filter(species == species_name)%>%
+        filter(A0_CODE == RBSU_level)
+  if (dim(selection)[1]>0){
+    
+    temp <- EEA_1km_Riparias[st_intersects(EEA_1km_Riparias, selection) %>% lengths >0,] %>%
+      mutate(species=species_name,
+             RBSU= RBSU_level)
+    print(paste(species_name,RBSU_level, dim(selection)))
+    if (a==0)
+      {baseline_in_RBSU_EEA_data <- temp} else (
+     baseline_in_RBSU_EEA_data <- rbind(baseline_in_RBSU_EEA_data, temp)
+      )
+ 
+  a<- a+1
+    }
+  }
+}
 
 baseline_per_RBSU_EEA <- baseline_in_RBSU_EEA_data %>%
+  st_drop_geometry()%>%
   dplyr::select(species,RBSU, CELLCODE)%>% 
   group_by (species, RBSU)%>%
   mutate(Occupancy = n_distinct(CELLCODE))%>%
@@ -115,13 +147,33 @@ baseline_per_RBSU_EEA$state <- 'baseline'
 gc()
 
 #intersect of current state occurences with RBU####
-current_in_RBU <- raster::intersect(current_state, RBU)
-current_in_RBU_EEA <- raster::intersect(current_in_RBU, EEA_1km)
+current_in_RBU <- st_intersection(current_state, RBU)
 
-current_in_RBU_EEA_data <- as.data.frame(current_in_RBU_EEA@data)%>%
-  rename(RBU=BEKNAAM)
+a<-0
+
+for (species_name in unique(current_in_RBU$species)){
+  for (RBU_level in unique(current_in_RBU$RBU)){
+  selection <- current_in_RBU%>%
+        filter(species == species_name)%>%
+        filter(RBU == RBU_level)
+  if (dim(selection)[1]>0){
+    
+    temp <- EEA_1km_Riparias[st_intersects(EEA_1km_Riparias, selection) %>% lengths >0,] %>%
+      mutate(species=species_name,
+             RBU= RBU_level)
+    print(paste(species_name,RBU_level, dim(selection)))
+    if (a==0)
+      {current_in_RBU_EEA_data <- temp} else (
+     current_in_RBU_EEA_data <- rbind(current_in_RBU_EEA_data, temp)
+      )
+ 
+  a<- a+1
+    }
+  }
+}
 
 current_per_RBU_EEA <- current_in_RBU_EEA_data %>%
+  st_drop_geometry()%>%
   dplyr::select(species, RBU, CELLCODE)%>% 
   group_by (species, RBU)%>%
   mutate(Occupancy = n_distinct(CELLCODE))%>%
@@ -132,13 +184,33 @@ current_per_RBU_EEA$state <- 'current'
 
 gc()
 #intersect of current state occurences with RBSU####
-current_in_RBSU <- raster::intersect(current_state, RBSU)
-current_in_RBSU_EEA <- raster::intersect(current_in_RBSU, EEA_1km)
+current_in_RBSU <- st_intersection(current_state, RBSU)
 
-current_in_RBSU_EEA_data <- as.data.frame(current_in_RBSU_EEA@data)%>%
-  rename(RBSU=A0_CODE)
+a<-0
+
+for (species_name in unique(current_in_RBSU$species)){
+  for (RBSU_level in unique(current_in_RBSU$A0_CODE)){
+  selection <- current_in_RBSU%>%
+        filter(species == species_name)%>%
+        filter(A0_CODE == RBSU_level)
+  if (dim(selection)[1]>0){
+    
+    temp <- EEA_1km_Riparias[st_intersects(EEA_1km_Riparias, selection) %>% lengths >0,] %>%
+      mutate(species=species_name,
+             RBSU= RBSU_level)
+    print(paste(species_name,RBSU_level, dim(selection)))
+    if (a==0)
+      {current_in_RBSU_EEA_data <- temp} else (
+     current_in_RBSU_EEA_data <- rbind(baseline_in_RBSU_EEA_data, temp)
+      )
+ 
+  a<- a+1
+    }
+  }
+}
 
 current_per_RBSU_EEA <- current_in_RBSU_EEA_data %>%
+  st_drop_geometry()%>%
   dplyr::select(species,RBSU, CELLCODE)%>% 
   group_by (species, RBSU)%>%
   mutate(Occupancy = n_distinct(CELLCODE))%>%
@@ -154,13 +226,13 @@ occupancy_RBU <- rbind(current_per_RBU_EEA, baseline_per_RBU_EEA)
 occupancy_RBSU <- rbind(current_per_RBSU_EEA, baseline_per_RBSU_EEA)
 
 #join occupancy files with observations files
-occupancy_RBSU<- merge(observations_RBSU, occupancy_RBSU,by= c('species', 'RBSU', 'state'),all.x=TRUE)
-occupancy_RBU <- merge(observations_RBU,occupancy_RBU, by= c('species', 'RBU', 'state'),all.x=TRUE)
+occupancy_RBSU2<- merge(observations_RBSU, occupancy_RBSU,by= c('species', 'RBSU', 'state'),all.x=TRUE)
+occupancy_RBU2 <- merge(observations_RBU,occupancy_RBU, by= c('species', 'RBU', 'state'),all.x=TRUE)
 
 #save output####
 
-write.csv(occupancy_RBU, './data/interim/occupancy_abs_RBU.csv', row.names=FALSE)
-write.csv(occupancy_RBSU, './data/interim/occupancy_abs_RBSU.csv', row.names=FALSE)
+write.csv(occupancy_RBU2, '~/GitHub/riparias-prep/data/interim/occupancy_abs_RBU.csv', row.names=FALSE)
+write.csv(occupancy_RBSU2, '~/GitHub/riparias-prep/data/interim/occupancy_abs_RBSU.csv', row.names=FALSE)
 
 #test_barplot####
 
