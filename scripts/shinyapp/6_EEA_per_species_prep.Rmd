@@ -1,0 +1,84 @@
+```{r}
+rm(list=ls())
+
+#This script returns EEA grid per species in geojson format for both states (baseline and current).
+#'@param branch A string referring to the branch on github on which input data is read in
+#'@param current_state geosjon file in WGS 84 projection containing observations from 2010 until now
+#'@param baseline geojson file in WGS 84 projection containing observations from 2010 to 2020
+
+
+#'#load libraries####
+library(leaflet)
+library(sf)
+library(dplyr)
+
+#read in input###
+current_state <- st_read("~/Github/riparias-prep//data/spatial/baseline/current_state.geojson")
+
+baseline <- st_read("~/Github/riparias-prep/data/spatial/baseline/baseline.geojson")
+
+##import EEA 1km file####
+EEA_1km_Riparias <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/EEA_1km_Riparias.geojson")
+
+#intersect of baseline occurences with EEA####
+
+a<-0
+
+for (species_name in unique(baseline$species)){
+  selection <- baseline%>%
+        filter(species == species_name)
+  if (dim(selection)[1]>0){
+    temp <- EEA_1km_Riparias[st_intersects(EEA_1km_Riparias, selection) %>% lengths >0,] %>%
+      mutate(scientific_name=species_name)
+    print(paste(species_name,dim(selection)))
+    if (a==0)
+      {baseline_EEA <- temp} else (
+     baseline_EEA <- rbind(baseline_EEA, temp)
+      )
+ 
+  a<- a+1
+    }
+  }
+
+
+species_EEA_baseline <- baseline_EEA %>%
+  st_drop_geometry()%>%
+  select(scientific_name, CELLCODE)%>%
+  distinct()
+
+EEA_1km_baseline <- merge(EEA_1km_Riparias, species_EEA_baseline, by="CELLCODE")
+
+st_write(EEA_1km_baseline, "~/Github/riparias-prep/data/interim/EEA_per_species_baseline.geojson")
+
+
+#intersect of current occurences with EEA####
+gc()
+
+a<-0
+
+for (species_name in unique(current_state$species)){
+  selection <- current_state%>%
+        filter(species == species_name)
+  if (dim(selection)[1]>0){
+    temp <- EEA_1km_Riparias[st_intersects(EEA_1km_Riparias, selection) %>% lengths >0,] %>%
+      mutate(scientific_name=species_name)
+    print(paste(species_name,dim(selection)))
+    if (a==0)
+      {current_EEA <- temp} else (
+     current_EEA <- rbind(current_EEA, temp)
+      )
+ 
+  a<- a+1
+    }
+  }
+
+
+species_EEA_current <- current_EEA %>%
+  st_drop_geometry()%>%
+  select(scientific_name, CELLCODE)%>%
+  distinct()
+
+EEA_1km_current <- merge(EEA_1km_Riparias, species_EEA_current, by="CELLCODE")
+
+st_write(EEA_1km_current, "~/Github/data/interim/EEA_per_species_current.geojson")
+```
