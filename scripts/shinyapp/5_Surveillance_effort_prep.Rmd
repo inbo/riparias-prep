@@ -65,7 +65,6 @@ Surveillance_per_RBSU$SurveillanceEffortRel <- Surveillance_per_RBSU$n_CellsHigh
 
 #export final column
 write.csv(Surveillance_per_RBSU,"~/Github/riparias-prep/data/interim/Surveillance_effort.csv", row.names=FALSE)
-
 ```
 
   
