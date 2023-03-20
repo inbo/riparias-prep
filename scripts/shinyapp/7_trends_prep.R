@@ -48,13 +48,13 @@ points_1km$eea_cell_code <- apply(sf::st_intersects(EEA_1km,
 
 df_grid <- as.data.frame(points_1km) %>% 
   dplyr::select(-geometry) %>% 
-  group_by(taxonKey, eea_cell_code, year) %>% 
+  group_by(speciesKey, eea_cell_code, year) %>% 
   summarise(obs = n()) 
 
 ## classinfo ####
 taxon_key <-
   points_in_perimeter %>%
-  distinct(taxonKey) %>% 
+  distinct(speciesKey) %>% 
   pull()
 
 spec_names <- data.frame()
