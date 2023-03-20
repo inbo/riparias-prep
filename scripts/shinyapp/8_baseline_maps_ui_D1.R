@@ -14,6 +14,8 @@ library(trias)
 #Reading in data####
 branch <- "50_add_species"
 
+all_pointdata_2000 <- st_read("~/GitHub/riparias-prep/data/spatial/baseline/points_in_perimeter_sel.geojson")
+
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
                                 branch, 
                                 "/data/spatial/baseline/current_state.geojson"),
@@ -60,7 +62,8 @@ occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
 
 occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                   branch,
-                                  "/data/interim/occupancy_rel_RBSU.csv"))
+                                  "/data/interim/occupancy_rel_RBSU.csv"))%>%
+  rename(A0_CODE=RBSU)
 
 Surveillance_effort_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                             branch,
@@ -119,7 +122,7 @@ ui <- navbarPage(
                     dragRange = TRUE),
         checkboxGroupInput("species",
                            "Species",
-                           choices = unique(current_state$scientific_name)
+                           choices = unique(all_pointdata_2000$species)
         )
         ),
       mainPanel(
@@ -135,7 +138,6 @@ ui <- navbarPage(
 ##Occupancy####
 tabPanel('Occupancy',
          titlePanel('Occupancy'),
-         
          sidebarLayout(
            sidebarPanel(
              selectInput("RBUi", "Select a river basin:",
@@ -163,8 +165,13 @@ tabPanel('Occupancy',
                            tabPanel("Relative occupancy", plotOutput("OccRBSUREL"))
                )
              )
-           ))        
-         
+           )),
+         box(' '),
+         box(' '),
+         box("Baseline state for plants: 1/1/2000-31/12/2020"), 
+         box("Baseline state for crayfish:1/1/2000 - 31/12/2015"),
+         box("Current state for plants: 1/1/2021 - present"),
+         box("Current state for crayfish: 1/1/2016 - present")
 )#tabPanel
 
 )#tabsetPanel
@@ -195,8 +202,13 @@ tabPanel('Surveillance',
               plotOutput("graphRBSU")
             )
           )
-        )
-          
+        ),
+        box(' '),
+        box(' '),
+        box("Baseline state for plants: 1/1/2000-31/12/2020"), 
+        box("Baseline state for crayfish:1/1/2000 - 31/12/2015"),
+        box("Current state for plants: 1/1/2021 - present"),
+        box("Current state for crayfish: 1/1/2016 - present")  
         ),#tabPanel,
         tabPanel('Effort',
                  titlePanel('Surveillance effort'),
@@ -219,7 +231,7 @@ tabPanel('Species trends',
          sidebarLayout(
            sidebarPanel(
              selectInput("Species_trends", "Select a species:",
-                         choices = unique(occupancy_RBSU$scientific_name))
+                         choices = unique(occupancy_RBSU$species))
              ),#sidebarPanel
            mainPanel(
              fluidRow(
@@ -253,7 +265,7 @@ tabPanel('Management',
          sidebarLayout(
            sidebarPanel(
              selectInput("Species_loi", "Select a species:",
-                         choices = unique(occupancy_RBSU$scientific_name)),
+                         choices = unique(occupancy_RBSU$species)),
              selectInput("RBSU_loi", "Select a river basin subunit:",
                          choices = unique(centroid_per_RBSU$fullnameRBSU))),#sidebarPanel
            mainPanel(
@@ -279,7 +291,23 @@ tabPanel('Management',
              )#fluidRow,
       
            )#mainPanel
-         )#sidebarLayout
+         ),#sidebarLayout,
+         box(' '),
+         box(' '),
+         box("Baseline state for plants: 1/1/2000-31/12/2020"), 
+         box("Baseline state for crayfish: 1/1/2000 - 31/12/2015"),
+         box("Current state for plants: 1/1/2021 - present"),
+         box("Current state for crayfish: 1/1/2016 - present"),
+         box(' '),
+         box(' '),
+         box('RBSU level, not recorded: relative occupancy equals 0'),
+         box('RBU level, not recorded: relative occupancy equals 0'),
+         box ('RBSU level, scattered occurrences only: 0 < relative occupancy <= 0.10'),
+         box ('RBU level, scattered occurrences only: 0 < relative occupancy <= 0.01'),
+         box ('RBSU level, weakly invaded: 0.10 < relative occupancy <= 0.20'),
+         box ('RBU level, weakly invaded: 0.01 < relative occupancy <= 0.05'),
+         box ('RBSU level, heavily invaded: relative occupancy > 0.20'),
+         box ('RBU level, heavily invaded: relative occupancy > 0.05')
            ),#tabPanel,
          tabPanel('Table',
                   img(src='tabel.png', align = "right", height = 500))
@@ -356,34 +384,31 @@ server <- function(input, output) {
     
   })
   
-  ###Map####
+  ###map####
   output$map <- renderLeaflet({
     
     jaren <- seq(from = min(input$slider), 
                  to = max(input$slider),
                  by = 1)
     
-    current_state_sub <- subset(current_state, 
-                                current_state$year %in% jaren)
-    
-    current_state_sub <- subset(current_state_sub,
-                                current_state_sub$scientific_name %in%
-                                  input$species)
+    all_pointdata_2000_sub <- all_pointdata_2000 %>%
+      filter(year%in%jaren)%>%
+      filter(species%in%input$species)
     
     pal <- colorFactor(palette = c("#1b9e77", "#d95f02", "#636363"),
                        levels = c("ABSENT", "PRESENT", NA))
     
-    leaflet(current_state_sub) %>% 
+    leaflet(all_pointdata_2000_sub) %>% 
       addTiles() %>% 
       addPolylines(data = RBU_laag) %>% 
-      addCircleMarkers(data = current_state_sub,
-                       popup = current_state_sub$popup,
-                       radius = 1,
-                       color = ~pal(current_state_sub@data$occrrnS),
-                       fillColor = ~pal(current_state_sub@data$occrrnS)) %>% 
-      addLegend(data = current_state_sub,
+      addCircleMarkers(data = all_pointdata_2000_sub,
+                       popup = all_pointdata_2000_sub$species,
+                       radius=1,
+                       color = ~pal(all_pointdata_2000_sub$occurrenceStatus),
+                       fillColor = ~pal(all_pointdata_2000_sub$occurrenceStatus)) %>% 
+      addLegend(data = all_pointdata_2000_sub,
                 title = "occurrence Status",
-                values = ~unique(current_state@data$occrrnS),
+                values = c("ABSENT", "PRESENT", NA),
                 pal = pal) %>% 
       setMaxBounds(lng1 = bbox$min[1], 
                    lat1 = bbox$min[2], 
@@ -401,7 +426,7 @@ server <- function(input, output) {
   })
   
   output$OccRBU <-renderPlot ({
-    ggplot(datOcc(), aes(x=scientific_name, y=Occupancy, fill= state)) +
+    ggplot(datOcc(), aes(x=species, y=Occupancy, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
@@ -414,7 +439,7 @@ server <- function(input, output) {
   ###Occupance_RBU_relatief####
   #geom_text(aes(label = signif(CC,2)), hjust = -0.2)
   output$OccRBUREL <-renderPlot ({
-    ggplot(datOcc(), aes(x=scientific_name, y=Occupancy_rel, fill= state)) +
+    ggplot(datOcc(), aes(x=species, y=Occupancy_rel, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
@@ -431,7 +456,7 @@ server <- function(input, output) {
   })
   
   output$OccRBSU <-renderPlot ({
-    ggplot(datOcc2(), aes(x=scientific_name, y=Occupancy, fill= state)) +
+    ggplot(datOcc2(), aes(x=species, y=Occupancy, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
@@ -443,7 +468,7 @@ server <- function(input, output) {
   ###Occupance_RBSU_relatief####
   #geom_text(aes(label = signif(CC,2)), hjust = -0.2)
   output$OccRBSUREL <-renderPlot ({
-    ggplot(datOcc2(), aes(x=scientific_name, y=Occupancy_rel, fill= state)) +
+    ggplot(datOcc2(), aes(x=species, y=Occupancy_rel, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
@@ -462,7 +487,7 @@ server <- function(input, output) {
   })
   
   output$graphRBU <-renderPlot ({
-    ggplot(datObs(), aes(x=scientific_name, y=n_observations, fill= state)) +
+    ggplot(datObs(), aes(x=species, y=n_observations, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
@@ -479,7 +504,7 @@ server <- function(input, output) {
   })
   
   output$graphRBSU <-renderPlot ({
-    ggplot(datObs2(), aes(x=scientific_name, y=n_observations, fill= state)) +
+    ggplot(datObs2(), aes(x=species, y=n_observations, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
       scale_fill_brewer(palette="Paired")+
@@ -857,7 +882,7 @@ server <- function(input, output) {
       ) %>% lapply(htmltools::HTML)
       
       pal <- colorFactor(palette = c("yellow", "orange", "red", "grey"),
-                         levels = c( "scattered occurences only", "weakly invaded", "heavily invaded", NA))
+                         levels = c( "scattered occurrences only", "weakly invaded", "heavily invaded", NA))
       
       leaflet(level_of_invasion_RBSU_baseline)%>%
         addTiles()%>%
@@ -881,7 +906,7 @@ server <- function(input, output) {
             direction = "auto"))%>%
         addLegend(data = level_of_invasion_color_baseline,
                   title = "Level of invasion",
-                  values = ~c("scattered occurences only", "weakly invaded", "heavily invaded", NA),
+                  values = ~c("scattered occurrences only", "weakly invaded", "heavily invaded", NA),
                   pal = pal)
       
     
@@ -896,7 +921,7 @@ server <- function(input, output) {
     ) %>% lapply(htmltools::HTML)
     
     pal <- colorFactor(palette = c("yellow", "orange", "red", "grey"),
-                       levels = c( "scattered occurences only", "weakly invaded", "heavily invaded", NA))
+                       levels = c( "scattered occurrences only", "weakly invaded", "heavily invaded", NA))
     
     leaflet(level_of_invasion_RBSU_current)%>%
       addTiles()%>%
@@ -920,7 +945,7 @@ server <- function(input, output) {
           direction = "auto"))%>%
       addLegend(data = level_of_invasion_color_current,
                 title = "Level of invasion",
-                values = ~c("scattered occurences only", "weakly invaded", "heavily invaded", NA),
+                values = ~c("scattered occurrences only", "weakly invaded", "heavily invaded", NA),
                 pal = pal)
     
   })
@@ -932,11 +957,11 @@ server <- function(input, output) {
     output$map_baseline_state  <- renderLeaflet({
       
     baseline_state_sub <- subset(baseline_state,
-                                  baseline_state$scientific_name %in%
+                                  baseline_state$species %in%
                                     input$Species_loi)
     
     EEA_per_species_baseline_sub <- subset(EEA_per_species_baseline,
-                                           EEA_per_species_baseline$scientific_name %in%
+                                           EEA_per_species_baseline$species %in%
                                              input$Species_loi)
     leaflet() %>% 
       addTiles() %>% 
@@ -953,11 +978,11 @@ server <- function(input, output) {
   output$map_current_state  <- renderLeaflet({
     
     current_state_sub <- subset(current_state,
-                                 current_state$scientific_name %in%
+                                 current_state$species %in%
                                    input$Species_loi)
     
     EEA_per_species_current_sub <- subset(EEA_per_species_current,
-                                           EEA_per_species_current$scientific_name %in%
+                                           EEA_per_species_current$species %in%
                                              input$Species_loi)
     
     leaflet() %>% 
