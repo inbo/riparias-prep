@@ -1,0 +1,77 @@
+```{r}
+#'This script loads two csv-files (occupancy_RBU.csv and occupancy_RBSU.csv) 
+#'and adds extra columns two the files describing the level of invasion per species per area per state
+#'Four output files are generated:
+#'occupancy_RBU.csv: extra columns describe level of invasion per area and relative occupancy per species per river basin unit per state (baseline or current) 
+#'header observations_RBU.csv: scientific_name,"RBU","state", "n_observations","Occupancy", "Total_cellcode_per_area", "Occupancy_rel", "level_of_invasion"
+#'occupancy_RBSU.csv: extra columns describe level of invasion per area and relative occupancy  per species per river basin subunit per state (baseline or current)
+#'header observations_RBSU.csv: scientific_name,"A0_CODE","state","n_observations", "Occupancy", "Total_cellcode_per_area", Occupancy_rel", "level_of_invasion"
+#'level_of_invasion_RBU.geojson: Per species (column_names) and state (separate column) level of invasion (values) per RBU (rownames) are defined
+#'level_of_invasion_RBSU.geojson Per species (column_names) and state (separate column) level of invasion (values) per RBSU (rownames) are defined
+
+#'@param branch A string referring to the branch on github on which input data is read in
+#'@param RBU geojson file in WGS 84 projection containing polygons at river basin unit level
+#'@param RBSU geojson file in WGS 84 projection containing polygons at river basin subunit level
+#'@param EEA_1km
+
+#!REMARK!: manually remove files "./data/interim/level_of_invasion_RBU.geojson" and "./data/interim/level_of_invasion_RBSU.geojson" before running this script.
+
+rm(list=ls())
+gc()
+
+#import libraries####
+library(leaflet)
+library(sf)
+library(dplyr)
+library(tidyr)
+
+#import data####
+
+##import geojson of RBU and RBSU####
+RBU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson")
+
+RBSU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")
+
+##import relative occupancy####
+occupancy_RBU <- read.csv(paste0("~/Github/riparias-prep/data/interim/occupancy_rel_RBU.csv"))
+occupancy_RBSU <- read.csv(paste0("~/Github/riparias-prep/data/interim/occupancy_rel_RBSU.csv"))
+
+
+#define level of invasion depending on relative occupancy####
+occupancy_RBU <- occupancy_RBU %>%
+  mutate(
+  level_of_invasion = case_when(
+    Occupancy_rel == 0 ~ "not recorded",
+    Occupancy_rel <= 0.01 ~ "scattered occurences only",
+    Occupancy_rel <= 0.05 ~ "weakly invaded",
+    Occupancy_rel > 0.05 ~ "heavily invaded")
+  )
+   
+occupancy_RBSU <- occupancy_RBSU %>%
+  mutate(
+    level_of_invasion = case_when(
+      Occupancy_rel == 0 ~ "not recorded",
+      Occupancy_rel <= 0.10 ~ "scattered occurences only",
+      Occupancy_rel <= 0.20 ~ "weakly invaded",
+      Occupancy_rel > 0.20 ~ "heavily invaded")
+  )
+
+#add level of invasion (as value) per species (as column names) to spatial RBSU layer####
+occupancy_RBSU_temp<- occupancy_RBSU %>% dplyr::select(c('RBSU', 'species', 'state', 'level_of_invasion'))
+occupancy_RBSU_wider <- occupancy_RBSU_temp %>% pivot_wider(names_from= "species", values_from= "level_of_invasion")
+
+level_of_invasion_RBSU <- merge(RBSU, occupancy_RBSU_wider, by.x='A0_CODE', by.y="RBSU")
+
+occupancy_RBU_temp<- occupancy_RBU %>% dplyr::select(c('RBU', 'species', 'state', 'level_of_invasion'))
+occupancy_RBU_wider <- occupancy_RBU_temp %>% pivot_wider(names_from= "species", values_from= "level_of_invasion")
+
+level_of_invasion_RBU <- merge(RBU, occupancy_RBU_wider, by.x='RBU', by.y="RBU")
+
+#export output
+st_write(level_of_invasion_RBSU,"~/Github/riparias-prep/data/interim/level_of_invasion_RBSU.geojson", append=FALSE)
+st_write(level_of_invasion_RBU, "~/Github/riparias-prep/data/interim/level_of_invasion_RBU.geojson", append=FALSE)
+
+write.csv(occupancy_RBU, '~/Github/riparias-prep/data/interim/level_of_invasion_RBU.csv', row.names=FALSE)
+write.csv(occupancy_RBSU, '~/Github/riparias-prep/data/interim/level_of_invasion_RBSU.csv', row.names=FALSE)
+```
+

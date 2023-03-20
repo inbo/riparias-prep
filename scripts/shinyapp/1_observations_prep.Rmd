@@ -25,13 +25,9 @@ library(ggplot2)
 #read in input data####
 branch <- "50_add_species"
 
-current_state<- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
-                                branch,
-                                "/data/spatial/baseline/current_state.geojson"))
+current_state<- st_read(paste0("~/Github/riparias-prep/data/spatial/baseline/current_state.geojson"))
 
-baseline <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
-                           branch,
-                           "/data/spatial/baseline/baseline.geojson"))
+baseline <- st_read(paste0("~/Github/riparias-prep/data/spatial/baseline/baseline.geojson"))
 
 RBU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson")
 
