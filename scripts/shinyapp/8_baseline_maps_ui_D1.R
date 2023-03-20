@@ -56,11 +56,11 @@ bbox <- as.data.frame(RBU_laag@bbox)
 
 occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
                                  branch,
-                                 "/data/interim/occupancy_RBU.csv"))
+                                 "/data/interim/occupancy_rel_RBU.csv"))
 
 occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                   branch,
-                                  "/data/interim/occupancy_RBSU.csv"))
+                                  "/data/interim/occupancy_rel_RBSU.csv"))
 
 Surveillance_effort_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                             branch,

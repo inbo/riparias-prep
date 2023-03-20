@@ -26,7 +26,7 @@ be_species_cube_Riparias <- be_species_cube %>%
   filter(year>=2000)%>%
   inner_join(be_species_info, by= 'speciesKey')%>%
   filter(kingdom == "Plantae")%>%
-  select(eea_cell_code, speciesKey, year)%>%
+  dplyr::select(eea_cell_code, speciesKey, year)%>%
   distinct%>%
   group_by(eea_cell_code, year)%>%
   summarise(totalSpeciesReported=n())%>%
@@ -46,7 +46,7 @@ EEA_searched_per_RBSU <- st_intersection(EEA_high_search_effort, RBSU)%>%
   st_drop_geometry()
 
 Surveillance_per_RBSU <- EEA_searched_per_RBSU%>%
-  select(CELLCODE, Id)%>%
+  dplyr::select(CELLCODE, Id)%>%
   group_by(Id)%>%
   summarise(n_CellsHighEffort=n())
 
@@ -55,7 +55,7 @@ EEA_per_RBSU <- st_intersection(EEA_1km_Riparias, RBSU)%>%
   st_drop_geometry()
 
 Total_EEA_per_RBSU <- EEA_per_RBSU%>%
-  select(CELLCODE, Id)%>%
+  dplyr::select(CELLCODE, Id)%>%
   group_by(Id)%>%
   summarise(n_TotalCells=n())
 
