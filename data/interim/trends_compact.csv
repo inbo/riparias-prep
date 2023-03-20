@@ -173,26 +173,26 @@ taxonKey,year,classKey.x,obs,cobs,ncells,c_ncells,canonicalName,scientificName,k
 5328593,2021,196,275,-16,121,2,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
 5328593,2022,196,252,0,142,0,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
 5328593,2023,196,19,0,11,0,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
-5329260,2004,196,10,96,7,4,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2005,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2006,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2007,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2008,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2009,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2010,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2011,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2012,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2013,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2014,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2015,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2016,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2017,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2018,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2019,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2020,196,0,0,0,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2021,196,278,-16,122,2,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2022,196,251,0,142,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
-5329260,2023,196,19,0,11,0,Egeria densa,Egeria densa Planch.,6,Plantae,196,Liliopsida
+5329263,2004,196,10,96,7,4,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2005,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2006,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2007,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2008,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2009,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2010,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2011,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2012,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2013,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2014,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2015,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2016,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2017,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2018,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2019,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2020,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2021,196,278,-16,122,2,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2022,196,251,0,142,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2023,196,19,0,11,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
 5361762,2021,220,275,44,121,29,Myriophyllum heterophyllum,Myriophyllum heterophyllum Michx.,6,Plantae,220,Magnoliopsida
 5361762,2022,220,248,0,142,0,Myriophyllum heterophyllum,Myriophyllum heterophyllum Michx.,6,Plantae,220,Magnoliopsida
 5361762,2023,220,19,0,11,0,Myriophyllum heterophyllum,Myriophyllum heterophyllum Michx.,6,Plantae,220,Magnoliopsida
@@ -287,39 +287,37 @@ taxonKey,year,classKey.x,obs,cobs,ncells,c_ncells,canonicalName,scientificName,k
 5421039,2021,220,351,186,141,44,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
 5421039,2022,220,305,0,155,0,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
 5421039,2023,220,21,0,11,0,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-6070603,2001,220,6,58,3,3,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2002,220,0,0,0,0,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2003,220,2,94,1,1,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2004,220,0,0,0,0,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2005,220,0,0,0,0,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2006,220,0,0,0,0,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2007,220,2,-1,1,0,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2008,220,2,43,1,1,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2009,220,0,0,0,0,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2010,220,0,0,0,0,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2011,220,8,20,3,3,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2012,220,2,104,1,1,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2013,220,10,34,3,3,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2014,220,6,122,3,3,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2015,220,4,4,1,1,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2016,220,10,16,4,4,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2017,220,6,108,3,3,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2018,220,6,108,2,2,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2019,220,14,184,3,3,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2020,220,38,281,8,8,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2021,220,26,149,5,5,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2022,220,20,0,5,0,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6070603,2023,220,0,0,0,0,Mimulus guttatus,Mimulus guttatus Fisch. ex DC.,6,Plantae,220,Magnoliopsida
-6391908,2019,220,2,91,1,1,Persicaria wallichii,Persicaria wallichii Greuter & Burdet,6,Plantae,220,Magnoliopsida
-6391908,2020,220,2,96,1,1,Persicaria wallichii,Persicaria wallichii Greuter & Burdet,6,Plantae,220,Magnoliopsida
-6391908,2021,220,2,47,1,1,Persicaria wallichii,Persicaria wallichii Greuter & Burdet,6,Plantae,220,Magnoliopsida
-6391908,2022,220,0,0,0,0,Persicaria wallichii,Persicaria wallichii Greuter & Burdet,6,Plantae,220,Magnoliopsida
-6391908,2023,220,0,0,0,0,Persicaria wallichii,Persicaria wallichii Greuter & Burdet,6,Plantae,220,Magnoliopsida
-7346102,2022,220,2,0,1,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2001,220,6,58,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2002,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2003,220,2,94,1,1,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2004,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2005,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2006,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2007,220,2,-1,1,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2008,220,2,43,1,1,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2009,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2010,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2011,220,8,20,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2012,220,2,104,1,1,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2013,220,10,34,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2014,220,6,122,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2015,220,4,4,1,1,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2016,220,10,16,4,4,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2017,220,6,108,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2018,220,6,108,2,2,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2019,220,14,184,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2020,220,38,281,8,8,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2021,220,26,149,5,5,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2022,220,22,0,6,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
 7346102,2023,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
 8721209,2021,229,6,0,4,0,Faxonius juvenilis,"Faxonius juvenilis (Hagen, 1870)",1,Animalia,229,Malacostraca
 8721209,2022,229,21,0,15,0,Faxonius juvenilis,"Faxonius juvenilis (Hagen, 1870)",1,Animalia,229,Malacostraca
 8721209,2023,229,12,0,6,0,Faxonius juvenilis,"Faxonius juvenilis (Hagen, 1870)",1,Animalia,229,Malacostraca
+8848208,2019,220,2,91,1,1,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
+8848208,2020,220,2,96,1,1,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
+8848208,2021,220,2,47,1,1,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
+8848208,2022,220,0,0,0,0,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
+8848208,2023,220,0,0,0,0,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
 8930656,2021,229,6,0,4,0,Faxonius immunis,"Faxonius immunis (Hagen, 1870)",1,Animalia,229,Malacostraca
 8930656,2022,229,21,0,15,0,Faxonius immunis,"Faxonius immunis (Hagen, 1870)",1,Animalia,229,Malacostraca
 8930656,2023,229,12,0,6,0,Faxonius immunis,"Faxonius immunis (Hagen, 1870)",1,Animalia,229,Malacostraca
