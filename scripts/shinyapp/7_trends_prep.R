@@ -18,7 +18,7 @@ crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 #read in input data####
 branch <- "50_add_species"
 
-current_state<- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
+current_state <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                branch,
                                "/data/spatial/baseline/current_state.geojson"))
 
@@ -26,11 +26,7 @@ baseline <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                            branch,
                            "/data/spatial/baseline/baseline.geojson"))
 
-removed <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
-                          branch,
-                          "/data/spatial/baseline/points_in_perimeter_sel.geojson"))
-
-points_in_perimeter <- rbind(current_state, baseline, removed)
+points_in_perimeter <- rbind(current_state, baseline)
 
 EEA_1km <- st_read("data/spatial/Riparias_subunits/EEA_1km_Riparias.geojson") %>% 
   st_transform(crs_wgs) %>% 
