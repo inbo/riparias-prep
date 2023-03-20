@@ -97,20 +97,21 @@ df_bl <-
 ## timeseries ####
 df_cc <- 
   df_grid %>%
-  group_by(taxonKey) %>%
+  group_by(speciesKey) %>%
   distinct(eea_cell_code) %>%
   ungroup()
 df_begin_year <- 
   df_grid %>%
-  group_by(taxonKey) %>%
+  group_by(speciesKey) %>%
   summarize(begin_year = min(year))
+
 df_cc <- 
   df_cc %>%
-  left_join(df_begin_year, by = "taxonKey") %>%
-  select(taxonKey, begin_year, eea_cell_code)
-make_time_series <- function(eea_cell_code, taxonKey, begin_year, last_year ) {
+  left_join(df_begin_year, by = "speciesKey") %>%
+  select(speciesKey, begin_year, eea_cell_code)
+make_time_series <- function(eea_cell_code, speciesKey, begin_year, last_year ) {
   expand_grid(eea_cell_code = eea_cell_code,
-              taxonKey = taxonKey,
+              speciesKey = speciesKey,
               year = seq(from = begin_year, to = last_year))
   
 }
@@ -122,14 +123,14 @@ df_ts <- pmap_dfr(df_cc,
 
 df_ts <- 
   df_ts %>%
-  left_join(df_grid %>% select(taxonKey, year, eea_cell_code, obs), 
-            by = c("taxonKey", "year", "eea_cell_code"))
+  left_join(df_grid %>% select(speciesKey, year, eea_cell_code, obs), 
+            by = c("speciesKey", "year", "eea_cell_code"))
 
 df_ts <- 
   df_ts %>%
   left_join(spec_names %>% 
               select(taxonKey, classKey), 
-            by = "taxonKey")
+            by = c("speciesKey" = "taxonKey"))
 ## observer bias ####
 df_ts <- 
   df_ts %>%
@@ -146,7 +147,7 @@ df_ts <-
          pa_obs = if_else(obs > 0, 1, 0))
 df_ts <-
   df_ts %>%
-  select(taxonKey, 
+  select(speciesKey, 
          year, 
          eea_cell_code, 
          obs, 
@@ -158,7 +159,7 @@ df_ts <-
 ## modelling prep ####
 df_ts_compact <-
   df_ts %>%
-  group_by(taxonKey, year, classKey) %>%
+  group_by(speciesKey, year, classKey) %>%
   summarise(
     obs = sum(obs),
     cobs = sum(cobs),
@@ -169,7 +170,8 @@ df_ts_compact <-
 
 df_ts_compact <-
   df_ts_compact %>%
-  left_join(spec_names, by = "taxonKey")
+  left_join(spec_names, by = c("speciesKey" = "taxonKey")) %>% 
+  rename(taxonKey = speciesKey)
 
 # export ####
 write_csv(df_ts_compact, "./data/interim/trends_compact.csv")
