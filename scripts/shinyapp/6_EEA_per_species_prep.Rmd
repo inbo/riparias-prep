@@ -43,7 +43,7 @@ for (species_name in unique(baseline$species)){
 
 species_EEA_baseline <- baseline_EEA %>%
   st_drop_geometry()%>%
-  select(scientific_name, CELLCODE)%>%
+  dplyr::select(scientific_name, CELLCODE)%>%
   distinct()
 
 EEA_1km_baseline <- merge(EEA_1km_Riparias, species_EEA_baseline, by="CELLCODE")
@@ -75,10 +75,10 @@ for (species_name in unique(current_state$species)){
 
 species_EEA_current <- current_EEA %>%
   st_drop_geometry()%>%
-  select(scientific_name, CELLCODE)%>%
+  dplyr::select(scientific_name, CELLCODE)%>%
   distinct()
 
 EEA_1km_current <- merge(EEA_1km_Riparias, species_EEA_current, by="CELLCODE")
 
-st_write(EEA_1km_current, "~/Github/data/interim/EEA_per_species_current.geojson")
+st_write(EEA_1km_current, "~/Github/riparias-prep/data/interim/EEA_per_species_current.geojson")
 ```

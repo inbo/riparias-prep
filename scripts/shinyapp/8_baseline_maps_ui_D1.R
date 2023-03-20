@@ -12,7 +12,7 @@ library(trias)
 # Only packages installed from GitHub with devtools::install_github, in version 1.4 (or later) of devtools, are supported. Packages installed with an earlier version of devtools must be reinstalled with the later version before you can deploy your application. If you get an error such as “PackageSourceError” when you attempt to deploy, check that you have installed all the packages from Github with devtools 1.4 or later.
 
 #Reading in data####
-branch <- "master"
+branch <- "50_add_species"
 
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
                                 branch, 
@@ -26,12 +26,12 @@ baseline_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
 
 RBU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
                            branch, 
-                           "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"), 
+                           "/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson"), 
                     stringsAsFactors = FALSE)
 
 RBSU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
                             branch,
-                            "/data/spatial/Riparias_subunits/Final_RSU_RIPARIAS_baseline.geojson"),
+                            "/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson"),
                      stringsAsFactors = FALSE)
 
 EEA_per_species_baseline <- st_as_sf(
