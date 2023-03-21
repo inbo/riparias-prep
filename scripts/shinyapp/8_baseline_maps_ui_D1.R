@@ -16,7 +16,7 @@ branch <- "master"
 
 all_pointdata_2000 <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                      branch, 
-                                     "data/spatial/baseline/points_in_perimeter_sel.geojson"))
+                                     "/data/spatial/baseline/points_in_perimeter_sel.geojson"))
 
 current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
                                 branch, 
