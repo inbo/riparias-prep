@@ -1,0 +1,14 @@
+name: D1_riparias_dev
+title: D1_riparias_dev
+username:
+account: iasspeciesdashboard
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6228634
+bundleId: 6986718
+url: https://iasspeciesdashboard.shinyapps.io/D1_riparias_dev/
+when: 1679396042.8704
+lastSyncTime: 1679396042.87046
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: 0_baseline_maps_prep.Rmd|1_observations_prep.Rmd|2_occupancy_abs_prep.Rmd|3_occupancy_rel_prep.Rmd|4_level_of_invasion_prep.Rmd|5_Surveillance_effort_prep.Rmd|6_EEA_per_species_prep.Rmd|7_trends_prep.R|centroid_per_RSBU.csv|compare_maps_riparias.Rmd|gbif_download2023-03-13.csv|gbif_download2023-03-14.csv|gbif_download2023-03-17.csv|gbif_download2023-03-20.csv
