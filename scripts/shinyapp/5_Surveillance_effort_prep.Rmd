@@ -1,0 +1,70 @@
+```{r}
+rm(list=ls())
+
+#load libraries####
+library(leaflet)
+library(sf)
+library(dplyr)
+
+#read in data####
+be_species_cube <- read.csv("~/Github/riparias-prep/data/input/be_species_cube.csv")
+be_species_info <- read.csv("~/Github/riparias-prep/data/input/be_species_info.csv")
+
+#Riparias area####
+RBU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson")
+
+RBSU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")
+
+
+##import EEA 1km file####
+EEA_1km_Riparias <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/EEA_1km_Riparias.geojson")
+
+#select those eea cells with more than 100 occurences of plants within Riparias area
+#no filter based on year?
+be_species_cube_Riparias <- be_species_cube %>%
+  filter(eea_cell_code %in% EEA_1km_Riparias$CELLCODE)%>%
+  filter(year>=2000)%>%
+  inner_join(be_species_info, by= 'speciesKey')%>%
+  filter(kingdom == "Plantae")%>%
+  dplyr::select(eea_cell_code, speciesKey, year)%>%
+  distinct%>%
+  group_by(eea_cell_code, year)%>%
+  summarise(totalSpeciesReported=n())%>%
+  group_by(eea_cell_code)%>%
+  summarise(max_SpeciesReported= max(totalSpeciesReported))%>%
+  filter(max_SpeciesReported>100)%>%
+  rename(CELLCODE = eea_cell_code)
+
+#create layer with only these cells####
+EEA_high_search_effort <- EEA_1km_Riparias%>%
+  filter(CELLCODE%in%be_species_cube_Riparias$CELLCODE)
+
+st_write(EEA_high_search_effort, "~/Github/riparias-prep/data/interim/EEA_high_search_effort.geojson")
+
+#calculate number of cells with high surveillance effort per RBSU
+EEA_searched_per_RBSU <- st_intersection(EEA_high_search_effort, RBSU)%>%
+  st_drop_geometry()
+
+Surveillance_per_RBSU <- EEA_searched_per_RBSU%>%
+  dplyr::select(CELLCODE, Id)%>%
+  group_by(Id)%>%
+  summarise(n_CellsHighEffort=n())
+
+#calculate number of total cells per RBSU
+EEA_per_RBSU <- st_intersection(EEA_1km_Riparias, RBSU)%>%
+  st_drop_geometry()
+
+Total_EEA_per_RBSU <- EEA_per_RBSU%>%
+  dplyr::select(CELLCODE, Id)%>%
+  group_by(Id)%>%
+  summarise(n_TotalCells=n())
+
+#join both columns
+Surveillance_per_RBSU <- merge(Surveillance_per_RBSU, Total_EEA_per_RBSU, by= 'Id')
+Surveillance_per_RBSU$SurveillanceEffortRel <- Surveillance_per_RBSU$n_CellsHighEffort/Surveillance_per_RBSU$n_TotalCells
+
+#export final column
+write.csv(Surveillance_per_RBSU,"~/Github/riparias-prep/data/interim/Surveillance_effort.csv", row.names=FALSE)
+```
+
+  

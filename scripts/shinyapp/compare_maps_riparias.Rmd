@@ -1,0 +1,64 @@
+---
+title: "Untitled"
+author: "jasmijn_hillaert"
+date: "2023-03-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+#vergelijken beschikbare kaarten RBU en RBSU gebied 
+
+#Inladen libraries
+library(sf)
+library(leaflet)
+library(dplyr)
+
+branch <- "50_add_species"
+
+#RBU gebied
+
+RBU <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
+                      branch,                      "/data/spatial/perimeter/Riparias_Official_StudyArea.geojson"))
+
+RBSU2 <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/New_RSU_RIPARIAS_12_02_2021.shp")
+
+RBSU2 <- st_transform(RBSU2, crs=4326)
+
+leaflet()%>% 
+  addTiles()%>% 
+  addPolylines(data=RBU, color="green")%>%
+  addPolylines(data=RBSU2, color= "red")
+
+
+#-> duidelijk probleem want RBU en RBSU2 overlappen niet. Normaal moeten de grenzen van RBSU2 mooi overlappen met RBU
+
+#Nieuwe laag voor RBU maken op basis van RBSU2 (parameter BV)
+
+RBSU2 <- st_make_valid(RBSU2)
+
+RBU2 <- RBSU2 %>%
+  mutate(RBU= case_when(
+    BV=='Dile'~'Dijle - Dyle',
+    BV=="Dyle"~'Dijle - Dyle',
+    BV=="Senne"~"Zenne - Senne",
+    BV=="Marcq"~"Mark - Marcq"
+    ))%>%
+  st_set_precision(0) %>% 
+  group_by(RBU)%>%
+  summarize(geometry = st_union(geometry))
+
+factpal_RBSU <- colorFactor(topo.colors(55),RBSU2$A0_CODE)
+factpal_RBU <- colorFactor(topo.colors(3), RBU2$RBU)
+
+leaflet()%>% 
+  addTiles()%>% 
+  addPolylines(data=RBSU2, color="red")%>%
+  addPolygons(data=RBU2, fillColor= ~factpal_RBU(RBU))
+
+#-> er lijken kleine gaatjes binnen de RBU laag te zitten, wass omdat de RBSU laag niet mooi aansluitend was
+#wegschrijven nieuwe lagen
+st_write(RBSU2, "~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")
+st_write(RBU2, "~/Github/riparias-prep/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson")
+```
+
+
