@@ -74,7 +74,8 @@ Surveillance_effort_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-pr
 full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
                                   branch, 
                                   "/data/input/Full_name_per_RBSU.csv"), sep=";")
-
+table_core <- read.csv("~/GitHub/riparias-prep/data/input/core_area_species.txt", sep=";")
+table_pest_free <- read.csv("~/GitHub/riparias-prep/data/input/pest_free_area_species.txt", sep=";")
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
 Surveillance_effort_RBSU <- merge(Surveillance_effort_RBSU, full_name_RBSU, by= 'Id', all.x=TRUE)
 centroid_per_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
@@ -312,7 +313,13 @@ tabPanel('Management',
          box ('RBU level, heavily invaded: relative occupancy > 0.05')
            ),#tabPanel,
          tabPanel('Table',
-                  img(src='tabel.png', align = "right", height = 500))
+                  box('Core area species (aquatic plants)'),
+                  tableOutput('table_core'),
+                  box('Pest free area species (riparian species)'),
+                  tableOutput('table_pest_free'),
+                  box('baseline: 2000-2015'),
+                  box('target: 2026')
+         )
          )#tabsetPanel
 ##Site-level monitoring####
          ),#tabPanel
@@ -874,6 +881,9 @@ server <- function(input, output) {
       print(gam_plot)
     }
   })
+  ##Management##
+  output$table_core <- renderTable(table_core)
+  output$table_pest_free <- renderTable(table_pest_free)
   ##Level of invasion####
   ###Level of invasion baseline####
     output$map_level_of_invasion_baseline <- renderLeaflet({
