@@ -76,9 +76,9 @@ full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
                                   "/data/input/Full_name_per_RBSU.csv"), sep=";")
 
 table_core <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
-                              branch, "/data/input/core_area_species.txt", sep=";"))
+                              branch, "/data/input/core_area_species.txt"), sep=";")
 table_pest_free <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                   branch, "/data/input/pest_free_area_species.txt", sep=";"))
+                                   branch, "/data/input/pest_free_area_species.txt"), sep=";")
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
 Surveillance_effort_RBSU <- merge(Surveillance_effort_RBSU, full_name_RBSU, by= 'Id', all.x=TRUE)
 centroid_per_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
