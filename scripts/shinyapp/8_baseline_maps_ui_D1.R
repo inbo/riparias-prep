@@ -12,7 +12,7 @@ library(trias)
 # Only packages installed from GitHub with devtools::install_github, in version 1.4 (or later) of devtools, are supported. Packages installed with an earlier version of devtools must be reinstalled with the later version before you can deploy your application. If you get an error such as “PackageSourceError” when you attempt to deploy, check that you have installed all the packages from Github with devtools 1.4 or later.
 
 #Reading in data####
-branch <- "master"
+branch <- "55_management_table"
 
 all_pointdata_2000 <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                      branch, 
@@ -74,8 +74,11 @@ Surveillance_effort_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-pr
 full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
                                   branch, 
                                   "/data/input/Full_name_per_RBSU.csv"), sep=";")
-table_core <- read.csv("~/GitHub/riparias-prep/data/input/core_area_species.txt", sep=";")
-table_pest_free <- read.csv("~/GitHub/riparias-prep/data/input/pest_free_area_species.txt", sep=";")
+
+table_core <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
+                              branch, "/data/input/core_area_species.txt", sep=";"))
+table_pest_free <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
+                                   branch, "/data/input/pest_free_area_species.txt", sep=";"))
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
 Surveillance_effort_RBSU <- merge(Surveillance_effort_RBSU, full_name_RBSU, by= 'Id', all.x=TRUE)
 centroid_per_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
