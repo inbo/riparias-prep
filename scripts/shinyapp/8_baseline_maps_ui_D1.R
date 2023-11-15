@@ -10,7 +10,7 @@ library(trias)
 #possible cause of failure concerning trias package:
 # Only packages installed from GitHub with devtools::install_github, in version 1.4 (or later) of devtools, are supported. Packages installed with an earlier version of devtools must be reinstalled with the later version before you can deploy your application. If you get an error such as “PackageSourceError” when you attempt to deploy, check that you have installed all the packages from Github with devtools 1.4 or later.
 
-#Reading in data####
+#Import data####
 branch <- "55_management_table"
 
 ##Maps####
@@ -33,6 +33,23 @@ RBU_laag <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
 RBSU_laag <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                             branch,
                             "/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson"))
+##Occupancy and observations####
+occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
+                                 branch,
+                                 "/data/interim/occupancy_rel_RBU.csv"))
+
+occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
+                                  branch,
+                                  "/data/interim/occupancy_rel_RBSU.csv"))%>%
+  rename(A0_CODE=RBSU)
+
+Surveillance_effort_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
+                                            branch,
+                                            "/data/interim/Surveillance_effort.csv"))
+
+full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
+                                  branch, 
+                                  "/data/input/Full_name_per_RBSU.csv"), sep=";")
 
 ##Surveillance effort####
 EEA_per_species_baseline <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
@@ -47,6 +64,13 @@ EEA_surveillance_effort <- st_read(paste0("https://github.com/inbo/riparias-prep
                         branch,
                         "/data/interim/EEA_high_search_effort.geojson"))
 
+## Management - summarizing table####
+table_core <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
+                              branch, "/data/input/core_area_species.txt"), sep=";")
+
+table_pest_free <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
+                                   branch, "/data/input/pest_free_area_species.txt"), sep=";")
+
 ##Management - maps: Level of invasion####
 level_of_invasion_RBSU <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                                          branch,
@@ -59,29 +83,7 @@ level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU%>%
 
 bbox <- st_bbox(RBU_laag)
 
-##Occupancy and observations####
-occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                 branch,
-                                 "/data/interim/occupancy_rel_RBU.csv"))
 
-occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
-                                  branch,
-                                  "/data/interim/occupancy_rel_RBSU.csv"))%>%
-                                  rename(A0_CODE=RBSU)
-
-Surveillance_effort_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
-                                            branch,
-                                            "/data/interim/Surveillance_effort.csv"))
-
-full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                  branch, 
-                                  "/data/input/Full_name_per_RBSU.csv"), sep=";")
-
-table_core <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
-                              branch, "/data/input/core_area_species.txt"), sep=";")
-
-table_pest_free <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                   branch, "/data/input/pest_free_area_species.txt"), sep=";")
 ##Add RBSU name to dataframes####
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
 Surveillance_effort_RBSU <- merge(Surveillance_effort_RBSU, full_name_RBSU, by= 'Id', all.x=TRUE)
@@ -418,7 +420,7 @@ server <- function(input, output) {
     pal <- colorFactor(palette = c("#1b9e77", "#d95f02", "#636363"),
                        levels = c("ABSENT", "PRESENT", NA))
     
-    leaflet() %>% 
+    leaflet(all_pointdata_2000_sub) %>% 
       addTiles() %>% 
       addPolylines(data = RBU_laag) %>% 
       addCircleMarkers(data = all_pointdata_2000_sub,
@@ -892,10 +894,11 @@ server <- function(input, output) {
       print(gam_plot)
     }
   })
-  ##Management##
+  ##Management####
+  ###Summarizing_table####
   output$table_core <- renderTable(table_core)
   output$table_pest_free <- renderTable(table_pest_free)
-  ##Level of invasion####
+  ###Level of invasion####
   ###Level of invasion baseline####
     output$map_level_of_invasion_baseline <- renderLeaflet({
       
