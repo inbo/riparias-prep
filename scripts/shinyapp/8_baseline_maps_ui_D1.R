@@ -1,7 +1,6 @@
 library(shiny)
 library(shinydashboard)
 library(leaflet)
-library(rgdal)
 library(dplyr)
 library(ggplot2)
 library(sf)
@@ -14,50 +13,53 @@ library(trias)
 #Reading in data####
 branch <- "55_management_table"
 
+##Maps####
 all_pointdata_2000 <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                      branch, 
                                      "/data/spatial/baseline/points_in_perimeter_sel.geojson"))
 
-current_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+current_state <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                                 branch, 
-                                "/data/spatial/baseline/current_state.geojson"),
-                         stringsAsFactors = FALSE)
+                                "/data/spatial/baseline/current_state.geojson"))
 
-baseline_state <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+baseline_state <- st_read (paste0("https://github.com/inbo/riparias-prep/raw/",
                                  branch,
-                                 "/data/spatial/baseline/baseline.geojson"),
-                          stringsAsFactors = FALSE)
+                                 "/data/spatial/baseline/baseline.geojson"))
 
-RBU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+RBU_laag <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                            branch, 
-                           "/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson"), 
-                    stringsAsFactors = FALSE)
+                           "/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson"))
 
-RBSU_laag <- readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+RBSU_laag <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                             branch,
-                            "/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson"),
-                     stringsAsFactors = FALSE)
+                            "/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson"))
 
-EEA_per_species_baseline <- st_as_sf(
-              readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+##Surveillance effort####
+EEA_per_species_baseline <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                              branch,
-                             "/data/interim/EEA_per_species_baseline.geojson")))
+                             "/data/interim/EEA_per_species_baseline.geojson"))
 
-EEA_per_species_current <- st_as_sf(
-              readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+EEA_per_species_current <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                              branch,
-                             "/data/interim/EEA_per_species_current.geojson")))
-EEA_surveillance_effort <- st_as_sf(
-                        readOGR(paste0("https://github.com/inbo/riparias-prep/raw/",
+                             "/data/interim/EEA_per_species_current.geojson"))
+
+EEA_surveillance_effort <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                         branch,
-                        "/data/interim/EEA_high_search_effort.geojson")))
-level_of_invasion_RBSU <- st_as_sf(readOGR(paste0("https://github.com/inbo/riparias-prep/raw/", branch,"/data/interim/level_of_invasion_RBSU.geojson")))
+                        "/data/interim/EEA_high_search_effort.geojson"))
 
-level_of_invasion_RBSU_current <- level_of_invasion_RBSU%>%filter(state=='current')
-level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU%>%filter(state=='baseline')
+##Management - maps: Level of invasion####
+level_of_invasion_RBSU <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
+                                         branch,
+                                         "/data/interim/level_of_invasion_RBSU.geojson"))
 
-bbox <- as.data.frame(RBU_laag@bbox)
+level_of_invasion_RBSU_current <- level_of_invasion_RBSU%>%
+  filter(state=='current')
+level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU%>%
+  filter(state=='baseline')
 
+bbox <- st_bbox(RBU_laag)
+
+##Occupancy and observations####
 occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
                                  branch,
                                  "/data/interim/occupancy_rel_RBU.csv"))
@@ -65,7 +67,7 @@ occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
 occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                   branch,
                                   "/data/interim/occupancy_rel_RBSU.csv"))%>%
-  rename(A0_CODE=RBSU)
+                                  rename(A0_CODE=RBSU)
 
 Surveillance_effort_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                             branch,
@@ -77,26 +79,32 @@ full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
 
 table_core <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
                               branch, "/data/input/core_area_species.txt"), sep=";")
+
 table_pest_free <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
                                    branch, "/data/input/pest_free_area_species.txt"), sep=";")
+##Add RBSU name to dataframes####
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
 Surveillance_effort_RBSU <- merge(Surveillance_effort_RBSU, full_name_RBSU, by= 'Id', all.x=TRUE)
 centroid_per_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
                                      branch,
                                      "/data/input/centroid_per_RBSU_versie2.csv"))
+
 centroid_per_RBSU <- merge(centroid_per_RBSU, full_name_RBSU, by='Id', all.x=TRUE)
 
 level_of_invasion_RBSU_current <- merge (level_of_invasion_RBSU_current, full_name_RBSU,by= 'Id', all.x=TRUE)
 level_of_invasion_RBSU_baseline <- merge(level_of_invasion_RBSU_baseline, full_name_RBSU, by= 'Id', all.x=TRUE)
 
-level_of_invasion_color_current <- as.data.frame(level_of_invasion_RBSU_current)
-level_of_invasion_color_baseline <- as.data.frame(level_of_invasion_RBSU_baseline)
+level_of_invasion_color_current <- level_of_invasion_RBSU_current %>%
+                                    st_drop_geometry()
+
+level_of_invasion_color_baseline <- level_of_invasion_RBSU_baseline%>%
+                                    st_drop_geometry()
 
 df_ts_compact <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
                                  branch,
                                  "/data/interim/trends_compact.csv"))
 
-## Calculate evaluation years ####
+##Calculate evaluation years ####
 evaluation_years <- seq(from = as.integer(format(Sys.Date(), "%Y")) - 4,
                         to = as.integer(format(Sys.Date(), "%Y")) - 1)
 
@@ -410,7 +418,7 @@ server <- function(input, output) {
     pal <- colorFactor(palette = c("#1b9e77", "#d95f02", "#636363"),
                        levels = c("ABSENT", "PRESENT", NA))
     
-    leaflet(all_pointdata_2000_sub) %>% 
+    leaflet() %>% 
       addTiles() %>% 
       addPolylines(data = RBU_laag) %>% 
       addCircleMarkers(data = all_pointdata_2000_sub,
@@ -422,10 +430,10 @@ server <- function(input, output) {
                 title = "occurrence Status",
                 values = c("ABSENT", "PRESENT", NA),
                 pal = pal) %>% 
-      setMaxBounds(lng1 = bbox$min[1], 
-                   lat1 = bbox$min[2], 
-                   lng2 = bbox$max[1], 
-                   lat2 = bbox$max[2])
+      setMaxBounds(lng1 = bbox[1], 
+                   lat1 = bbox[2], 
+                   lng2 = bbox[3], 
+                   lat2 = bbox[4])
   })
   
   ##occupancy####
