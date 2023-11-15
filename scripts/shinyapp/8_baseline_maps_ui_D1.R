@@ -6,6 +6,7 @@ library(ggplot2)
 library(sf)
 library(stringr)
 library(trias) 
+library(readxl)
 
 #possible cause of failure concerning trias package:
 # Only packages installed from GitHub with devtools::install_github, in version 1.4 (or later) of devtools, are supported. Packages installed with an earlier version of devtools must be reinstalled with the later version before you can deploy your application. If you get an error such as “PackageSourceError” when you attempt to deploy, check that you have installed all the packages from Github with devtools 1.4 or later.
@@ -32,7 +33,8 @@ RBU_laag <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
 
 RBSU_laag <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
                             branch,
-                            "/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson"))
+                            "/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson"))
+
 ##Occupancy and observations####
 occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
                                  branch,
@@ -65,11 +67,7 @@ EEA_surveillance_effort <- st_read(paste0("https://github.com/inbo/riparias-prep
                         "/data/interim/EEA_high_search_effort.geojson"))
 
 ## Management - summarizing table####
-table_core <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
-                              branch, "/data/input/core_area_species.txt"), sep=";")
-
-table_pest_free <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                   branch, "/data/input/pest_free_area_species.txt"), sep=";")
+table_summarizing_management <- read_excel('~/GitHub/riparias-prep/data/interim/summarizing_management_table.xlsx')
 
 ##Management - maps: Level of invasion####
 level_of_invasion_RBSU <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
@@ -326,12 +324,7 @@ tabPanel('Management',
          box ('RBU level, heavily invaded: relative occupancy > 0.05')
            ),#tabPanel,
          tabPanel('Table',
-                  box('Core area species (aquatic plants)'),
-                  tableOutput('table_core'),
-                  box('Pest free area species (riparian species)'),
-                  tableOutput('table_pest_free'),
-                  box('baseline: 2000-2015'),
-                  box('target: 2026')
+                  tableOutput('table_summarizing_management')
          )
          )#tabsetPanel
 ##Site-level monitoring####
@@ -896,8 +889,7 @@ server <- function(input, output) {
   })
   ##Management####
   ###Summarizing_table####
-  output$table_core <- renderTable(table_core)
-  output$table_pest_free <- renderTable(table_pest_free)
+  output$table_summarizing_management <- renderTable(table_summarizing_management)
   ###Level of invasion####
   ###Level of invasion baseline####
     output$map_level_of_invasion_baseline <- renderLeaflet({

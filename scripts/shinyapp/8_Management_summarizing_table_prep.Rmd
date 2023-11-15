@@ -1,0 +1,70 @@
+---
+title: "Management_summarizing_table.Rmd"
+author: "jasmijn_hillaert"
+date: "2023-11-15"
+output: html_document
+---
+```{r }
+#'This script returns two csv fiels:
+#'observations_RBU.csv : number of observations per species per river basin unit per state (baseline or current) 
+#'header observations_RBU.csv: scientific_name,"RBU","n_observations","state"
+#'observations_RBSU.csv : number of observations per species per river basin subunit per state (baseline or current)
+#'header observations_RBSU.csv: scientific_name,"A0_CODE","n_observations","state"
+#'
+#'@param branch A string referring to the branch on github on which input data is read in
+#'@param current_state geosjon file in WGS 84 projection containing observations referring to 'current state'
+#'@param baseline geojson file in WGS 84 projection containing observations referring to 'baseline state'
+#'@param RBU geojson file containing polygons at river basin unit level
+#'@param RBSU geojson file containing polygons at river basin subunit level
+
+rm(list=ls())
+
+#loading libraries####
+library(dplyr)
+library(readxl)
+library(sf)
+library(tidyr)
+library(openxlsx)
+
+#import data
+table_targets <- read_excel('~/GitHub/riparias-prep/data/input/summarizing_management_table.xlsx')
+occupancy_rel_RBSU <- read.csv ('~/GitHub/riparias-prep/data/interim/occupancy_rel_RBSU.csv')
+RBSU_laag <- st_read("~/GitHub/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")
+
+RBSU_laag <- RBSU_laag %>%
+  st_drop_geometry()%>%
+  select(A0_CODE, BV)%>%
+  mutate(RBU= case_when(BV == "Senne" ~ "Zenne - Senne",
+                        BV == "Dyle" ~ "Dijle - Dyle",
+                        BV == "Dile" ~ "Dijle - Dyle",
+                        BV == "Marcq" ~ "Mark - Marcq"),
+        RBSU= as.integer(A0_CODE))%>%
+  select(RBSU, RBU)
+    
+
+  
+```
+
+
+```{r }
+#Summarize number of RBSU per RBU in which a species is present
+
+output_table <- occupancy_rel_RBSU %>%
+  select(RBSU, species, state, n_observations) %>%
+  left_join(y= RBSU_laag, by= c("RBSU"))%>%
+  group_by(RBU, species, state)%>%
+  summarise(count=n())%>%
+  filter(species%in%unique(table_targets$species))%>%
+  rename(c("Time period" = "state", "Status" = "count"))%>%
+  ungroup()%>%
+  select(species, RBU, `Time period`, Status)
+
+output_table <- rbind(output_table, table_targets)
+
+output_table <- output_table%>%
+  spread(key=`Time period`, value = Status)%>% 
+    mutate_at(c(3,4), ~replace_na(.,"0"))
+
+write.xlsx(output_table, '~/GitHub/riparias-prep/data/interim/summarizing_management_table.xlsx')
+
+```
