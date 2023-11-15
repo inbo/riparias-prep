@@ -1,4 +1,4 @@
-species;Dijle_Baseline;Dijle_Target;Mark_Baseline;Mark_Target;Zenne_Baseline;Zenne_Target
-Hydrocotyle ranunculoides;11;<= 5;0;<=1;8;<=6
-Ludwigia grandiflora;10;<=5;1;<=1;4;<=6
-Myriophyllum aquaticum;7;<=5;1;<=1;10;<=6
+species;Dijle (Baseline);Dijle (Target);Mark (Baseline);Mark (Target);Zenne (Baseline);Zenne (Target)
+Hydrocotyle ranunculoides;11;\u2264 5;0;\u2264 1;8;\u2264 6
+Ludwigia grandiflora;10;\u2264 5;1;\u2264 1;4;\u2264 6
+Myriophyllum aquaticum;7;\u2264 5;1;\u2264 1;10;\u2264 6

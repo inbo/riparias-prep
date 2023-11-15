@@ -1,3 +1,3 @@
-species;Dijle_Baseline;Dijle_Target;Mark_Baseline;Mark_Target;Zenne_Baseline;Zenne_Target
-Impatiens glandulifera;23;<=17;3;<=2;27;<=21
-Heracleum mantegazzianum;22;<=17;3;<=2;22;<=21
+species;Dijle (Baseline);Dijle (Target);Mark (Baseline);Mark (Target);Zenne (Baseline);Zenne (Target)
+Impatiens glandulifera;23;\u2264 17;3;\u2264 2;27;\u2264 21
+Heracleum mantegazzianum;22;\u2264 17;3;\u2264 2;22;\u2264 21
