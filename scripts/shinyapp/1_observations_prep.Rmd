@@ -7,8 +7,8 @@
 #'header observations_RBSU.csv: scientific_name,"A0_CODE","n_observations","state"
 #'
 #'@param branch A string referring to the branch on github on which input data is read in
-#'@param current_state geosjon file in WGS 84 projection containing observations from 2010 until now
-#'@param baseline geojson file in WGS 84 projection containing observations from 2010 to 2020
+#'@param current_state geosjon file in WGS 84 projection containing observations referring to 'current state'
+#'@param baseline geojson file in WGS 84 projection containing observations referring to 'baseline state'
 #'@param RBU geojson file containing polygons at river basin unit level
 #'@param RBSU geojson file containing polygons at river basin subunit level
 
@@ -23,7 +23,7 @@ library(ggplot2)
 
 
 #read in input data####
-branch <- "50_add_species"
+branch <- "55_management_table"
 
 current_state<- st_read(paste0("~/Github/riparias-prep/data/spatial/baseline/current_state.geojson"))
 
@@ -34,17 +34,15 @@ RBU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBU_RIPARI
 RBSU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")%>%
   rename(RBSU = A0_CODE)
 
-
-
 #intersect of baseline occurences with RBU####
 baseline_in_RBU <- st_intersection(baseline, RBU)
 
 baseline_per_RBU <- baseline_in_RBU %>%
+  st_drop_geometry()%>%
   dplyr::select(species, RBU)%>%
   group_by (species, RBU)%>%
   count(species)%>%
   rename(n_observations=n)%>%
-  st_drop_geometry()%>%
   mutate(state="baseline")
 
 #intersect of baseline occurences with RBSU####
@@ -52,22 +50,22 @@ baseline_per_RBU <- baseline_in_RBU %>%
 baseline_in_RBSU <- st_intersection(baseline, RBSU)
 
 baseline_per_RBSU <- baseline_in_RBSU %>%
+  st_drop_geometry()%>%
   dplyr::select(species, RBSU)%>%
   group_by (species, RBSU)%>%
   count(species)%>%
   rename(n_observations=n)%>%
-  st_drop_geometry()%>%
   mutate(state="baseline")
 
 #intersect of current state occurences with RBU####
 current_in_RBU <- st_intersection(current_state, RBU)
 
 current_per_RBU <- current_in_RBU %>%
+  st_drop_geometry()%>%
   dplyr::select(species, RBU)%>%
   group_by (species, RBU)%>%
   count(species)%>%
   rename(n_observations=n)%>%
-  st_drop_geometry()%>%
   mutate(state="current")
 
 #intersect of current state occurences with RBSU####
@@ -104,7 +102,7 @@ p<-ggplot(data= overview_RBU_DIJLE, aes(x=species, y=n_observations, fill= state
 
 #check intersections
 
-leaflet() %>% 
+test <- leaflet() %>% 
   addTiles() %>% 
   addPolygons(data=RBSU, color="black")%>%
   addPolylines(data=RBU, color= "green")
