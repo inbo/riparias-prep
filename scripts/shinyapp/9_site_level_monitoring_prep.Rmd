@@ -36,12 +36,15 @@ monitoring_data_summary <- monitoring_data %>%
 #test_to_create_plot_for_one_species
 species <- "Hydrocotyle ranunculoides"
 
-##Two lines are added to the dataframe for time period 'after management (2026)' &  'afterlife (2031)' but count zero, so these are also visualised on the x-axis
+##Extra lines are added to the dataframe for time period 'after management (2026)' &  'afterlife (2031)' but count zero per species, so these are also visualised on the x-axis
 ##Remove the following rows in case data is available per site for 'after management (2026)' &  'afterlife (2031)'
-Time_period<- c('after management (2026)', 'afterlife (2031)')
-species <- c(species, species)
-DAFOR <- c('Absent', 'Absent')
-count <- c(0,0)
+Time_period<- c(rep(c('after management (2026)', 'afterlife (2031)'), 
+                    length(unique(monitoring_data_summary$species))))
+species <- c(rep(unique(monitoring_data_summary$species), each= 2))
+DAFOR <- c(rep(c('Absent', 'Absent'), 
+                    length(unique(monitoring_data_summary$species))))
+count <- c(rep(c(0,0), 
+                    length(unique(monitoring_data_summary$species))))
 
 extra_time_periods <- data.frame(Time_period, species, DAFOR, count)
 
@@ -65,5 +68,4 @@ show(test)
 
 #export sub_data
 write.csv(sub_data, '~/GitHub/riparias-prep/data/interim/dafor_monitoring.csv', row.names=FALSE)
-  
 ```
