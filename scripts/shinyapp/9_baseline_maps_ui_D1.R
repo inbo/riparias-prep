@@ -43,7 +43,7 @@ occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
 occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                   branch,
                                   "/data/interim/occupancy_rel_RBSU.csv"))%>%
-  rename(A0_CODE=RBSU)
+                                  rename(A0_CODE=RBSU)
 
 Surveillance_effort_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                             branch,
@@ -63,8 +63,8 @@ EEA_per_species_current <- st_read(paste0("https://github.com/inbo/riparias-prep
                              "/data/interim/EEA_per_species_current.geojson"))
 
 EEA_surveillance_effort <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
-                        branch,
-                        "/data/interim/EEA_high_search_effort.geojson"))
+                            branch,
+                            "/data/interim/EEA_high_search_effort.geojson"))
 
 ## Management - summarizing table####
 table_summarizing_management <- read_excel('~/GitHub/riparias-prep/data/interim/summarizing_management_table.xlsx')
@@ -81,6 +81,10 @@ level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU%>%
 
 bbox <- st_bbox(RBU_laag)
 
+##Site-level monitoring ####
+dafor_monitoring <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
+                                    branch,
+                                    "/data/interim/dafor_monitoring.csv"))
 
 ##Add RBSU name to dataframes####
 occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
@@ -529,8 +533,8 @@ server <- function(input, output) {
     
   })
   
-  ###Site-level monitoring###
-  ###########################
+##Site-level monitoring####
+###DAFOR####
   output$DAFOR <- renderPlot ({
     specie <- c(rep("baseline" , 6) , rep("target" , 6))
     DAFOR <- rep(c("Dominant" , "Abundant" , "Frequent", "Occasional", "Rare", "Absent") , 4)
@@ -543,7 +547,8 @@ server <- function(input, output) {
     labs(x='Time')+
     theme_bw()
   })
-  
+
+###CPUE####
   output$CPUE <- renderPlot ({
     df2 <- data.frame(location=rep(c("site 1", "site 2", "site 3"), each=2),
                       dose=rep(c("baseline", "target"),3),
