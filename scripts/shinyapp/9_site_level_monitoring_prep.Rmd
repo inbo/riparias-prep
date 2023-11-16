@@ -64,6 +64,6 @@ test <- ggplot(sub_data,
 show(test)
 
 #export sub_data
-write.csv(sub_data, '~/GitHub/riparias-prep/data/interim/dafor_monitoring.csv')
+write.csv(sub_data, '~/GitHub/riparias-prep/data/interim/dafor_monitoring.csv', row.names=FALSE)
   
 ```
