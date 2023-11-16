@@ -336,12 +336,8 @@ tabPanel('Management',
         tabPanel('Site-level monitoring',
                  sidebarLayout(
                    sidebarPanel(
-                     selectInput("Species_loi", "Select a species:",
-                                 choices = c( 'Hydrocotyle ranunculoides',
-                                 'Ludwigia grandiflora',
-                                 'Myriophyllum aquaticum',
-                                 'Impatiens glandulifera',
-                                 'Heracleum mantegazzianum')
+                     selectInput("Species_dafor", "Select a species:",
+                                 choices = unique(dafor_monitoring$species)
                                  )),
                    mainPanel(
                      fluidRow(
@@ -354,7 +350,7 @@ tabPanel('Management',
                    ),#sidebarlayout
                  sidebarLayout(
                    sidebarPanel(
-                     selectInput("Species_loi", "Select a species:",
+                     selectInput("Species_cpue", "Select a species:",
                                  choices = c( "Orconectes virilis",
                                               "Procambarus clarkii",
                                               "P. fallax")
@@ -535,17 +531,23 @@ server <- function(input, output) {
   
 ##Site-level monitoring####
 ###DAFOR####
+  dat_dafor <-reactive({
+    test5 <- dafor_monitoring[(dafor_monitoring$species == input$Species_dafor),]
+    test5
+  })
+  
   output$DAFOR <- renderPlot ({
-    specie <- c(rep("baseline" , 6) , rep("target" , 6))
-    DAFOR <- rep(c("Dominant" , "Abundant" , "Frequent", "Occasional", "Rare", "Absent") , 4)
-    value <- abs(rnorm(12 , 0 , 15))
-    data <- data.frame(specie,DAFOR,value)
-    
-    ggplot(data, aes(fill=DAFOR, y=value, x=specie)) + 
-    geom_bar(position="stack", stat="identity")+
-    labs(y='Number of sites')+
-    labs(x='Time')+
-    theme_bw()
+    ggplot(dat_dafor(), 
+           aes(fill=DAFOR, 
+               y=count, 
+               x=factor(Time_period,
+                        level = c('before management',
+                                  'after management (2026)',
+                                  'afterlife (2031)')))) + 
+      geom_bar(position="stack", stat="identity")+
+      labs(y='Number of sites')+
+      labs(x='Time period')+
+      theme_bw()
   })
 
 ###CPUE####
