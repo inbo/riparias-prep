@@ -5,17 +5,12 @@ date: "2023-11-15"
 output: html_document
 ---
 ```{r }
-#'This script returns two csv fiels:
-#'observations_RBU.csv : number of observations per species per river basin unit per state (baseline or current) 
-#'header observations_RBU.csv: scientific_name,"RBU","n_observations","state"
-#'observations_RBSU.csv : number of observations per species per river basin subunit per state (baseline or current)
-#'header observations_RBSU.csv: scientific_name,"A0_CODE","n_observations","state"
+#'This script returns one excel file 'summarizing_management_table.xlsx':
+#This is an Excel file so that the symbol "≤" can be correctly stored and uploaded in Rshiny, this symbol can not be stored in a csv file.
 #'
-#'@param branch A string referring to the branch on github on which input data is read in
-#'@param current_state geosjon file in WGS 84 projection containing observations referring to 'current state'
-#'@param baseline geojson file in WGS 84 projection containing observations referring to 'baseline state'
-#'@param RBU geojson file containing polygons at river basin unit level
-#'@param RBSU geojson file containing polygons at river basin subunit level
+#'@param Targets_management_table.xlsx excel file describing project targets per species per RBU
+#'@param occupancy_rel_RBSU.csv csv file descibing observations and occupancy per species per RBSU
+#'@param RBSU_RIPARIAS_12_02_2021.geojson geojson file containing polygons at river basin subunit level, which is necessary to link each RBSU to an RBU
 
 rm(list=ls())
 
@@ -27,10 +22,11 @@ library(tidyr)
 library(openxlsx)
 
 #import data
-table_targets <- read_excel('~/GitHub/riparias-prep/data/input/summarizing_management_table.xlsx')
+table_targets <- read_excel('~/GitHub/riparias-prep/data/input/Targets_management_table.xlsx')
 occupancy_rel_RBSU <- read.csv ('~/GitHub/riparias-prep/data/interim/occupancy_rel_RBSU.csv')
 RBSU_laag <- st_read("~/GitHub/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")
 
+#Cleaning up RBSU_laag so a table is obtained linking an RBSU code to an RBU.
 RBSU_laag <- RBSU_laag %>%
   st_drop_geometry()%>%
   select(A0_CODE, BV)%>%
@@ -59,12 +55,15 @@ output_table <- occupancy_rel_RBSU %>%
   ungroup()%>%
   select(species, RBU, `Time period`, Status)
 
+#paste all time periods (baseline, current and target) into one table
 output_table <- rbind(output_table, table_targets)
 
+#Replace NA by 0 in the table
 output_table <- output_table%>%
   spread(key=`Time period`, value = Status)%>% 
     mutate_at(c(3,4), ~replace_na(.,"0"))
 
+#export output_table
 write.xlsx(output_table, '~/GitHub/riparias-prep/data/interim/summarizing_management_table.xlsx')
 
 ```
