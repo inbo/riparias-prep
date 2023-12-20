@@ -1,3 +1,4 @@
+# 0. Packages ####
 library(shiny)
 library(shinydashboard)
 library(leaflet)
@@ -8,182 +9,168 @@ library(stringr)
 library(trias) 
 library(readxl)
 
-#possible cause of failure concerning trias package:
-# Only packages installed from GitHub with devtools::install_github, in version 1.4 (or later) of devtools, are supported. Packages installed with an earlier version of devtools must be reinstalled with the later version before you can deploy your application. If you get an error such as “PackageSourceError” when you attempt to deploy, check that you have installed all the packages from Github with devtools 1.4 or later.
+# Note: possible cause of failure concerning trias package. Only packages installed from GitHub with devtools::install_github, in version 1.4 (or later) of devtools, are supported. Packages installed with an earlier version of devtools must be reinstalled with the later version before you can deploy your application. If you get an error such as “PackageSourceError” when you attempt to deploy, check that you have installed all the packages from Github with devtools 1.4 or later.
 
-#Import data####
+# 1. Import data ####
+repo <- "https://github.com/inbo/riparias-prep/raw/"
 branch <- "55_management_table"
 
-##Maps####
-all_pointdata_2000 <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
-                                     branch, 
+## Maps ####
+all_pointdata_2000 <- st_read(paste0(repo, branch,
                                      "/data/spatial/baseline/points_in_perimeter_sel.geojson"))
 
-current_state <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                branch, 
+current_state <- st_read(paste0(repo, branch,
                                 "/data/spatial/baseline/current_state.geojson"))
 
-baseline_state <- st_read (paste0("https://github.com/inbo/riparias-prep/raw/",
-                                  branch,
+baseline_state <- st_read (paste0(repo, branch,
                                   "/data/spatial/baseline/baseline.geojson"))
 
-RBU_laag <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
-                           branch, 
+RBU_laag <- st_read(paste0(repo, branch,
                            "/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson"))
 
-RBSU_laag <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
-                            branch,
+RBSU_laag <- st_read(paste0(repo, branch,
                             "/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson"))
 
-##Occupancy and observations####
-occupancy_RBU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                 branch,
+## Occupancy and observations ####
+occupancy_RBU <- read.csv(paste0(repo, branch,
                                  "/data/interim/occupancy_rel_RBU.csv"))
 
-occupancy_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
-                                  branch,
-                                  "/data/interim/occupancy_rel_RBSU.csv"))%>%
-  rename(A0_CODE=RBSU)
+occupancy_RBSU <- read.csv(paste0(repo, branch,
+                                  "/data/interim/occupancy_rel_RBSU.csv")) %>%
+  rename(A0_CODE = RBSU)
 
-Surveillance_effort_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
-                                            branch,
+Surveillance_effort_RBSU <- read.csv(paste0(repo, branch,
                                             "/data/interim/Surveillance_effort.csv"))
 
-full_name_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                  branch, 
-                                  "/data/input/Full_name_per_RBSU.csv"), sep=";")
+full_name_RBSU <- read.csv(paste0(repo, branch,
+                                  "/data/input/Full_name_per_RBSU.csv"), sep = ";")
 
-##Surveillance effort####
-EEA_per_species_baseline <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                           branch,
+## Surveillance effort ####
+EEA_per_species_baseline <- st_read(paste0(repo, branch,
                                            "/data/interim/EEA_per_species_baseline.geojson"))
 
-EEA_per_species_current <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                          branch,
+EEA_per_species_current <- st_read(paste0(repo, branch,
                                           "/data/interim/EEA_per_species_current.geojson"))
 
-EEA_surveillance_effort <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                          branch,
+EEA_surveillance_effort <- st_read(paste0(repo, branch,
                                           "/data/interim/EEA_high_search_effort.geojson"))
 
-## Management - summarizing table####
-# table_summarizing_management <- read_excel(paste0("https://github.com/inbo/riparias-prep/raw/",
+## Management - summarizing table ####
+
+# table_summarizing_management <- read_excel(paste0(repo,
 #                                                   branch,
 #                                                   "/data/interim/summarizing_management_table.xlsx"))
 
-##Management - maps: Level of invasion####
-level_of_invasion_RBSU <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                         branch,
+## Management - maps: Level of invasion ####
+level_of_invasion_RBSU <- st_read(paste0(repo, branch,
                                          "/data/interim/level_of_invasion_RBSU.geojson"))
 
-level_of_invasion_RBSU_current <- level_of_invasion_RBSU%>%
-  filter(state=='current')
-level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU%>%
-  filter(state=='baseline')
+level_of_invasion_RBSU_current <- level_of_invasion_RBSU %>%
+  filter(state == 'current')
+
+level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU %>%
+  filter(state == 'baseline')
 
 bbox <- st_bbox(RBU_laag)
 
-##Site-level monitoring ####
-dafor_monitoring <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/", 
-                                    branch,
+## Site-level monitoring ####
+dafor_monitoring <- read.csv(paste0(repo, branch,
                                     "/data/interim/dafor_monitoring.csv"))
 
-##Add RBSU name to dataframes####
-occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x='A0_CODE', by.y='Id', all.x=TRUE)
-Surveillance_effort_RBSU <- merge(Surveillance_effort_RBSU, full_name_RBSU, by= 'Id', all.x=TRUE)
-centroid_per_RBSU <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                     branch,
+## Add RBSU name to dataframes ####
+occupancy_RBSU <- merge(occupancy_RBSU, full_name_RBSU, by.x = 'A0_CODE', by.y = 'Id', all.x = TRUE)
+Surveillance_effort_RBSU <- merge(Surveillance_effort_RBSU, full_name_RBSU, by = 'Id', all.x = TRUE)
+centroid_per_RBSU <- read.csv(paste0(repo, branch,
                                      "/data/input/centroid_per_RBSU_versie2.csv"))
+centroid_per_RBSU <- merge(centroid_per_RBSU, full_name_RBSU, by = 'Id', all.x = TRUE)
 
-centroid_per_RBSU <- merge(centroid_per_RBSU, full_name_RBSU, by='Id', all.x=TRUE)
-
-level_of_invasion_RBSU_current <- merge (level_of_invasion_RBSU_current, full_name_RBSU,by= 'Id', all.x=TRUE)
-level_of_invasion_RBSU_baseline <- merge(level_of_invasion_RBSU_baseline, full_name_RBSU, by= 'Id', all.x=TRUE)
+level_of_invasion_RBSU_current <- merge(level_of_invasion_RBSU_current, full_name_RBSU,
+                                        by = 'Id', all.x = TRUE)
+level_of_invasion_RBSU_baseline <- merge(level_of_invasion_RBSU_baseline, full_name_RBSU,
+                                         by = 'Id', all.x = TRUE)
 
 level_of_invasion_color_current <- level_of_invasion_RBSU_current %>%
   st_drop_geometry()
 
-level_of_invasion_color_baseline <- level_of_invasion_RBSU_baseline%>%
+level_of_invasion_color_baseline <- level_of_invasion_RBSU_baseline %>%
   st_drop_geometry()
 
-df_ts_compact <- read.csv(paste0("https://github.com/inbo/riparias-prep/raw/",
-                                 branch,
+df_ts_compact <- read.csv(paste0(repo, branch,
                                  "/data/interim/trends_compact.csv"))
 
-##Calculate evaluation years ####
+## Calculate evaluation years ####
 evaluation_years <- seq(from = as.integer(format(Sys.Date(), "%Y")) - 4,
                         to = as.integer(format(Sys.Date(), "%Y")) - 1)
 
 maxjaar <- as.integer(format(Sys.Date(), "%Y"))
 
-#Userinterface####
+# 2. User Interface ####
 
 ui <- navbarPage(
-  title = "Riparias D1",
-  #header= 
-  #  fluidRow(
-  #  box(width = 12, 
-  #    img(src='Riparias_Logo.png', align = "right", height = 90)
-  #)
-  #),
+  title = div(img(src = "logoLIFEsimple.jpg", height = 30),
+              img(src = "logoRIPsimple.png", height = 30),
+              "D1 dashboard"),
   
   ## Home ####
   tabPanel("Home",
-           box(HTML("<b>Welcome</b> to the RIPARIAS D1 dashboard. <br>
-                    Here partners can track the project progress."))),
-  ##Distribution####
+           box(HTML("<h1>Welcome to the RIPARIAS dashboard</h1><p>This dashboard gathers data related to work performed within the <a href=https://www.riparias.be/>LIFE RIPARIAS project</a> (LIFE19 NAT/BE/000953). It allows project partners to consult basic information, and to track the project’s progress.</p><h3>On data & development</h3><p>Most information shown on these webpages is publicly available through <a href=https://www.gbif.org/>GBIF</a>, but some is internally stored on our systems. Data are analysed and visualised using <a href=https://shiny.posit.co/>Shiny for R</a>. The Git repository is accessible <a href=https://github.com/inbo/riparias-prep>here</a>.</p><h3>On species</h3><p>The dashboard relates to all species of the <a href=https://www.gbif.org/dataset/fd004d9a-2ea4-4244-bb60-0df508d20a15>RIPARIAS target species list</a>.</p><h3>Contact</h3><p>The dashboard is maintained by the Research Institute for Nature and Forest (INBO), as part of action D1. The contact address for inquiries or suggestions is <a href=mailto:faunabeheer@inbo.be>faunabeheer@inbo.be</a>.</p>"))),
+  
+  ## Distribution ####
   tabPanel("Distribution",
            tabsetPanel(
+             ### Maps ####
              tabPanel('Maps',
-                      titlePanel('Maps'),
                       sidebarLayout(
                         sidebarPanel(
-                          sliderInput("slider", 
-                                      "Years", 
-                                      2000, 
-                                      lubridate::year(Sys.Date()), 
-                                      1,
-                                      value = c(2010, 2020),
+                          sliderInput("slider", "Years", 
+                                      2000, lubridate::year(Sys.Date()), 1,
+                                      value = c(2021, lubridate::year(Sys.Date())),
+                                      # default: from project start to now
                                       dragRange = TRUE),
-                          checkboxGroupInput("species",
-                                             "Species",
-                                             choices = unique(all_pointdata_2000$species)
-                          )
-                        ),
+                          checkboxGroupInput("species", "Species",
+                                             choices = sort(unique(all_pointdata_2000$species))),
+                          width = 3 # Out of 12
+                          ),
                         mainPanel(
                           fluidRow(
                             box(width = 12,
-                                "test extra test",
-                                uiOutput("text1"),
-                                leafletOutput("map", height = 600)
+HTML("<p>The <b>map</b> below shows observations of species within the selected timeframe. The <b>RIPARIAS project area</b> is shown in blue.</p>"),
+                            uiOutput("text1"),
+                            leafletOutput("map", height = 600)
+                            )
                             )
                           )
                         )
-                      )
-             ),#tabpanel
-             ##Occupancy####
+                      ),
+             ### Occupancy ####
              tabPanel('Occupancy',
-                      titlePanel('Occupancy'),
                       sidebarLayout(
                         sidebarPanel(
                           selectInput("RBUi", "Select a river basin:",
-                                      choices = unique(occupancy_RBU$RBU))
-                        ),
+                                      choices = unique(occupancy_RBU$RBU)),
+                          width = 3 # Out of 12
+                          ),
                         mainPanel(
                           fluidRow(
+                            box(width = 12,
+HTML("<p><b>Occupancy</b>, or: the number of grid cells with observations of the species (<a href=https://www.eea.europa.eu/data-and-maps/figures/eea-reference-grids>EEA</a> 1-km² grid). Expressed as the <b>absolute</b> number of occupied cells, or <b>relative</b> to the number of cells in the river basin. Divided between periods.</p><p>
+<li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
+<i>Current</i> period from <b>2021-present</b>.</li>
+<li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>.
+<i>Current</i> period from <b>2016-present</b>.</li>
+     </p>")),
                             tabsetPanel(
                               tabPanel("Absolute occupancy", plotOutput("OccRBU")),
                               tabPanel("Relative occupancy", plotOutput("OccRBUREL"))
                             )
                           )
                         )),
-                      
-                      
                       sidebarLayout(
                         sidebarPanel(
                           selectInput("RBSUi", " Select a river basin subunit:",
-                                      choices = unique(occupancy_RBSU$fullnameRBSU))
-                        ),
+                                      choices = unique(occupancy_RBSU$fullnameRBSU)),
+                          width = 3 # Out of 12
+                          ),
                         mainPanel(
                           fluidRow(
                             tabsetPanel(type = "tabs",
@@ -192,49 +179,44 @@ ui <- navbarPage(
                             )
                           )
                         )),
-                      box(' '),
-                      box(' '),
-                      box("Baseline state for plants: 1/1/2000-31/12/2020"), 
-                      box("Baseline state for crayfish:1/1/2000 - 31/12/2015"),
-                      box("Current state for plants: 1/1/2021 - present"),
-                      box("Current state for crayfish: 1/1/2016 - present")
-             )#tabPanel
-             
+             )
            )#tabsetPanel
   ),#tabPanel
+
   ##Surveillance####
   tabPanel('Surveillance',
            tabsetPanel(
+             ##Observations####
              tabPanel('Observations',
-                      titlePanel('Observations'),
                       sidebarLayout(
-                        
                         sidebarPanel(
                           selectInput("RBUi2", "Select a river basin:",
-                                      choices = unique(occupancy_RBU$RBU))
+                                      choices = unique(occupancy_RBU$RBU)),
+                          width = 3 # Out of 12
                         ),
                         mainPanel(
+                          fluidRow(box(width = 12,
+HTML("<p>The number of <b>observations</b>. Presence as well as absence. <em>[Desirable?] [Distinguish in graph?] [Note: would entire page not better fit under 'Distribution', between 'Maps' and 'Occupancy'?]</em> Divided between periods.</p><p>
+<li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
+<i>Current</i> period from <b>2021-present</b>.</li>
+<li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>.
+<i>Current</i> period from <b>2016-present</b>.</li>
+     </p>"))),
                           plotOutput("graphRBU")
                         )
                       ),
                       sidebarLayout(
-                        
                         sidebarPanel(
                           selectInput("RBSUi2", "Select a river basin subunit:",
-                                      choices = unique(occupancy_RBSU$fullnameRBSU))
+                                      choices = unique(occupancy_RBSU$fullnameRBSU)),
+                          width = 3 # Out of 12
                         ),
                         mainPanel(
                           fluidRow(
                             plotOutput("graphRBSU")
                           )
                         )
-                      ),
-                      box(' '),
-                      box(' '),
-                      box("Baseline state for plants: 1/1/2000-31/12/2020"), 
-                      box("Baseline state for crayfish:1/1/2000 - 31/12/2015"),
-                      box("Current state for plants: 1/1/2021 - present"),
-                      box("Current state for crayfish: 1/1/2016 - present")  
+                      ) 
              ),#tabPanel,
              tabPanel('Effort',
                       titlePanel('Surveillance effort'),
@@ -372,36 +354,35 @@ ui <- navbarPage(
                )#fluidRow
              )#mainPanel
            )#Sidebarlayout
-  ),#tabPanel
-  img(src='Riparias_Logo.png', align = "right", height = 90)
+  )
 )
 
+# 3. Server ####
 
-
-#Server####
 server <- function(input, output) { 
   ##Maps####
   ###Text1####
   output$text1 <- renderUI({
-    text <- "Select at least one species to display observations"
+    text <- "Select at least one species to display observations."
     if(length(input$species) == 1){
-      text <- HTML(paste0(em(input$species), " observations between ", 
-                          strong(input$slider[1]), " & ", 
-                          strong(input$slider[2])))
+      text <- HTML(paste0("Currently showing ",
+                          strong(em(input$species)), " observations from ", 
+                          strong(input$slider[1]), " to ", strong(input$slider[2]), "."))
     }
     if(length(input$species) == 2){
-      text <- HTML(paste0(em(paste(input$species, collapse = " & ")), 
-                          " observations between ", 
-                          strong(input$slider[1]), " & ", 
-                          strong(input$slider[2])))
+      text <- HTML(paste0("Currently showing ",
+                          strong(em(paste(input$species, collapse = " & "))),
+                          " observations from ",
+                          strong(input$slider[1]), " to ", strong(input$slider[2]), "."))
     }
     if(length(input$species) > 2){
       last_species <- input$species[length(input$species)]
       species <- subset(input$species, !input$species %in% last_species)
-      text <- HTML(paste0(em(paste(species, collapse = ", ")), " & ", 
-                          em(last_species) , " observations between ", 
-                          strong(input$slider[1]), " & ", 
-                          strong(input$slider[2])))
+      text <- HTML(paste0("Currently showing ",
+                          strong(em(paste(species, collapse = ", "))), " & ", 
+                          strong(em(last_species)),
+                          " observations from ", 
+                          strong(input$slider[1]), " to ", strong(input$slider[2]), "."))
     }
     print(text)
     
