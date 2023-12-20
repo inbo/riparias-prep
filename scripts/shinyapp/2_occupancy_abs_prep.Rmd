@@ -33,8 +33,6 @@ RBSU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPA
 observations_RBU <- read.csv('~/Github/riparias-prep/data/interim/observations_RBU.csv')
 observations_RBSU <- read.csv('~/Github/riparias-prep/data/interim/observations_RBSU.csv')
 
-
-
 ##define correct projection####
 
 ##import EEA 1km file####

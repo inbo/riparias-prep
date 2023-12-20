@@ -3,9 +3,11 @@ rm(list=ls())
 
 #This script returns EEA grid per species in geojson format for both states (baseline and current).
 #'@param branch A string referring to the branch on github on which input data is read in
-#'@param current_state geosjon file in WGS 84 projection containing observations from 2010 until now
-#'@param baseline geojson file in WGS 84 projection containing observations from 2010 to 2020
+#'@param current_state geosjon file in WGS 84 projection containing observations referring to 'current' period
+#'@param baseline geojson file in WGS 84 projection containing observations referring to 'baseline' period
 
+rm(list=ls())
+gc()
 
 #'#load libraries####
 library(leaflet)
@@ -48,6 +50,7 @@ species_EEA_baseline <- baseline_EEA %>%
 
 EEA_1km_baseline <- merge(EEA_1km_Riparias, species_EEA_baseline, by="CELLCODE")
 
+#manually remove the file first before running this line of code
 st_write(EEA_1km_baseline, "~/Github/riparias-prep/data/interim/EEA_per_species_baseline.geojson")
 
 
