@@ -108,7 +108,7 @@ maxjaar <- as.integer(format(Sys.Date(), "%Y"))
 
 ui <- navbarPage(
   title = div(img(src = "logoLIFEsimple.jpg", height = 30),
-              img(src = "logoRIPsimple.png", height = 30),
+              img(src = "logoRIP_transparant.png", height = 30),
               "D1 dashboard"),
   
   ## Home ####
@@ -119,7 +119,8 @@ ui <- navbarPage(
   tabPanel("Distribution",
            tabsetPanel(
              ### Maps ####
-             tabPanel('Maps',
+             tabPanel('Maps'
+                        ,
                       sidebarLayout(
                         sidebarPanel(
                           sliderInput("slider", "Years", 
@@ -134,7 +135,7 @@ ui <- navbarPage(
                         mainPanel(
                           fluidRow(
                             box(width = 12,
-HTML("<p>The <b>map</b> below shows observations of species within the selected timeframe. The <b>RIPARIAS project area</b> is shown in blue.</p>"),
+HTML("<p>The <b>map</b> below shows observations of species within the selected timeframe. The <b>RIPARIAS project area</b> is displayed.</p>"),
                             uiOutput("text1"),
                             leafletOutput("map", height = 600)
                             )
@@ -144,6 +145,56 @@ HTML("<p>The <b>map</b> below shows observations of species within the selected 
                       ),
              ### Occupancy ####
              tabPanel('Occupancy',
+                      
+                      tags$head(
+                        tags$style(HTML("
+                        
+      /* Geselecteerde optie als de lijst is geopend */
+  .well select.form-control option:checked {
+    background-color: #00a491; /* groene achtergrond */
+    color: white; /* witte tekst */
+  }
+  
+    /* Sidebar background color with opacity */
+          .well {
+            background-color: #ffffff;
+            padding: 15px;
+          }
+          
+    /* Sidebar text color */
+          .well .control-label, .well h3, .well h4 {
+            color: #00a491;
+          }                    
+                        
+    /* Standaard achtergrondkleur voor selectInput */
+         .well select.form-control, .well h3, .well h4 {
+          background-color: #00a491; /* witte achtergrond */
+          color: #00a491; /* groene tekstkleur */
+          border: 1px solid #007c66; /* groene rand */
+        }
+  
+  /* Achtergrondkleur bij focus (wanneer aangeklikt) */
+  .well select.form-control:focus {
+    background-color: #00a491; /* groene achtergrond */
+    color: white; /* witte tekst */
+    border: 1px solid #007c66; /* groene rand */
+  }
+
+  /* Opties in de keuzelijst */
+  .well select.form-control option {
+    background-color: #ffffff; /* witte achtergrond voor opties */
+    color: #00a491; /* groene tekst */
+  }
+  
+  /* Optie bij hover in keuzemenu */
+  .well select.form-control option:hover {
+    background-color: #007c66; /* donkere groene achtergrond bij hover */
+    color: white; /* witte tekst */
+  }
+  
+
+"))
+                      ),
                       sidebarLayout(
                         sidebarPanel(
                           selectInput("RBUi", "Select a river basin:",
@@ -354,7 +405,27 @@ HTML("<p>The number of <b>observations</b>. Presence as well as absence. <em>[De
                )#fluidRow
              )#mainPanel
            )#Sidebarlayout
-  )
+  ),
+tags$head(
+  tags$style(HTML("
+      /* Change navbar background color */
+      .navbar-default {
+        background-color: #00a491;  /* Dark green background */
+        border-color: #00a491;
+      }
+      /* Change text color */
+      .navbar-default .navbar-brand {
+        color: white;
+      }
+      .navbar-default .navbar-nav > li > a {
+        color: white;
+      }
+      /* Change color on hover */
+      .navbar-default .navbar-nav > li > a:hover {
+        color: #FFD700;  /* Golden hover color */
+      }
+    "))
+)
 )
 
 # 3. Server ####
@@ -399,12 +470,12 @@ server <- function(input, output) {
       filter(year%in%jaren)%>%
       filter(species%in%input$species)
     
-    pal <- colorFactor(palette = c("#1b9e77", "#d95f02", "#636363"),
+    pal <- colorFactor(palette = c("#00a491", "#d95f02", "#636363"),
                        levels = c("ABSENT", "PRESENT", NA))
     
     leaflet(all_pointdata_2000_sub) %>% 
-      addTiles() %>% 
-      addPolylines(data = RBU_laag) %>% 
+      addProviderTiles(providers$CartoDB.Positron) %>% 
+      addPolylines(data = RBU_laag, color= "#00a491", opacity=1) %>% 
       addCircleMarkers(data = all_pointdata_2000_sub,
                        popup = all_pointdata_2000_sub$species,
                        radius=1,
@@ -433,7 +504,7 @@ server <- function(input, output) {
     ggplot(datOcc(), aes(x=species, y=Occupancy, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
-      scale_fill_brewer(palette="Paired")+
+      scale_fill_manual(values=c("#99d8c9","#00a491"))+
       coord_flip()+ 
       labs(y = "Absolute occupancy (1km² grid cells)")+ 
       labs(x = "Species")
@@ -446,7 +517,7 @@ server <- function(input, output) {
     ggplot(datOcc(), aes(x=species, y=Occupancy_rel, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
-      scale_fill_brewer(palette="Paired")+
+      scale_fill_manual(values=c("#99d8c9","#00a491"))+
       coord_flip()+ 
       labs(y = "Relative occupancy")+ 
       labs(x = "Species")
@@ -463,7 +534,7 @@ server <- function(input, output) {
     ggplot(datOcc2(), aes(x=species, y=Occupancy, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
-      scale_fill_brewer(palette="Paired")+
+      scale_fill_manual(values=c("#99d8c9","#00a491"))+
       coord_flip()+ 
       labs(y = "Absolute occupancy (1km² grid cells)")+ 
       labs(x = "Species")
@@ -475,7 +546,7 @@ server <- function(input, output) {
     ggplot(datOcc2(), aes(x=species, y=Occupancy_rel, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
-      scale_fill_brewer(palette="Paired")+
+      scale_fill_manual(values=c("#99d8c9","#00a491"))+
       coord_flip()+ 
       labs(y = "Relative occupancy")+ 
       labs(x = "Species")
@@ -494,7 +565,7 @@ server <- function(input, output) {
     ggplot(datObs(), aes(x=species, y=n_observations, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
-      scale_fill_brewer(palette="Paired")+
+      scale_fill_manual(values=c("#99d8c9","#00a491"))+
       coord_flip()+ 
       labs(y = "Number of observations")+ 
       labs(x = "Species")
@@ -511,7 +582,7 @@ server <- function(input, output) {
     ggplot(datObs2(), aes(x=species, y=n_observations, fill= state)) +
       geom_bar(stat="identity", position=position_dodge())+
       theme_minimal() +
-      scale_fill_brewer(palette="Paired")+
+      scale_fill_manual(values=c("#99d8c9","#00a491"))+
       coord_flip()+ 
       labs(y = "Number of observations")+ 
       labs(x = "Species")
