@@ -143,6 +143,39 @@ HTML("<p>The <b>map</b> below shows observations of species within the selected 
                           )
                         )
                       ),
+
+                ###Observations####    
+                tabPanel('Observations',
+                                 sidebarLayout(
+                                   sidebarPanel(
+                                     selectInput("RBUi2", "Select a river basin:",
+                                                 choices = unique(occupancy_RBU$RBU)),
+                                     width = 3 # Out of 12
+                                   ),
+                                   mainPanel(
+                                     fluidRow(box(width = 12,
+                                                  HTML("<p>The number of <b>observations</b>. Presence as well as absence. <em>[Desirable?] [Distinguish in graph?] [Note: would entire page not better fit under 'Distribution', between 'Maps' and 'Occupancy'?]</em> Divided between periods.</p><p>
+<li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
+<i>Current</i> period from <b>2021-present</b>.</li>
+<li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>.
+<i>Current</i> period from <b>2016-present</b>.</li>
+     </p>"))),
+                                     plotOutput("graphRBU")
+                                   )
+                                 ),
+                                 sidebarLayout(
+                                   sidebarPanel(
+                                     selectInput("RBSUi2", "Select a river basin subunit:",
+                                                 choices = unique(occupancy_RBSU$fullnameRBSU)),
+                                     width = 3 # Out of 12
+                                   ),
+                                   mainPanel(
+                                     fluidRow(
+                                       plotOutput("graphRBSU")
+                                     )
+                                   )
+                                 ) 
+                      ),
              ### Occupancy ####
              tabPanel('Occupancy',
                       
@@ -230,7 +263,57 @@ HTML("<p><b>Occupancy</b>, or: the number of grid cells with observations of the
                             )
                           )
                         )),
-             )
+             ),
+
+tabPanel('Level of invasion',
+         titlePanel('Level of invasion'),
+         sidebarLayout(
+           sidebarPanel(
+             selectInput("Species_loi", "Select a species:",
+                         choices = unique(occupancy_RBSU$species)),
+             selectInput("RBSU_loi", "Select a river basin subunit:",
+                         choices = unique(centroid_per_RBSU$fullnameRBSU))),#sidebarPanel
+           mainPanel(
+             fluidRow(
+               box(
+                 title='baseline state',
+                 leafletOutput("map_level_of_invasion_baseline")
+               ),
+               box(
+                 title='current state',
+                 leafletOutput("map_level_of_invasion_current")
+               )
+             ),#fluidRow,
+             fluidRow(
+               box(
+                 title='baseline state',
+                 leafletOutput("map_baseline_state")
+               ),
+               box(
+                 title='current state',
+                 leafletOutput("map_current_state")
+               )
+             )#fluidRow,
+             
+           )#mainPanel
+         ),#sidebarLayout,
+         box(' '),
+         box(' '),
+         box("Baseline state for plants: 1/1/2000-31/12/2020"), 
+         box("Baseline state for crayfish: 1/1/2000 - 31/12/2015"),
+         box("Current state for plants: 1/1/2021 - present"),
+         box("Current state for crayfish: 1/1/2016 - present"),
+         box(' '),
+         box(' '),
+         box('RBSU level, not recorded: relative occupancy equals 0'),
+         box('RBU level, not recorded: relative occupancy equals 0'),
+         box ('RBSU level, scattered occurrences only: 0 < relative occupancy <= 0.10'),
+         box ('RBU level, scattered occurrences only: 0 < relative occupancy <= 0.01'),
+         box ('RBSU level, weakly invaded: 0.10 < relative occupancy <= 0.20'),
+         box ('RBU level, weakly invaded: 0.01 < relative occupancy <= 0.05'),
+         box ('RBSU level, heavily invaded: relative occupancy > 0.20'),
+         box ('RBU level, heavily invaded: relative occupancy > 0.05')
+),
            )#tabsetPanel
   ),#tabPanel
 
@@ -238,37 +321,7 @@ HTML("<p><b>Occupancy</b>, or: the number of grid cells with observations of the
   tabPanel('Surveillance',
            tabsetPanel(
              ##Observations####
-             tabPanel('Observations',
-                      sidebarLayout(
-                        sidebarPanel(
-                          selectInput("RBUi2", "Select a river basin:",
-                                      choices = unique(occupancy_RBU$RBU)),
-                          width = 3 # Out of 12
-                        ),
-                        mainPanel(
-                          fluidRow(box(width = 12,
-HTML("<p>The number of <b>observations</b>. Presence as well as absence. <em>[Desirable?] [Distinguish in graph?] [Note: would entire page not better fit under 'Distribution', between 'Maps' and 'Occupancy'?]</em> Divided between periods.</p><p>
-<li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
-<i>Current</i> period from <b>2021-present</b>.</li>
-<li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>.
-<i>Current</i> period from <b>2016-present</b>.</li>
-     </p>"))),
-                          plotOutput("graphRBU")
-                        )
-                      ),
-                      sidebarLayout(
-                        sidebarPanel(
-                          selectInput("RBSUi2", "Select a river basin subunit:",
-                                      choices = unique(occupancy_RBSU$fullnameRBSU)),
-                          width = 3 # Out of 12
-                        ),
-                        mainPanel(
-                          fluidRow(
-                            plotOutput("graphRBSU")
-                          )
-                        )
-                      ) 
-             ),#tabPanel,
+             #tabPanel,
              tabPanel('Effort',
                       titlePanel('Surveillance effort'),
                       fluidRow(
@@ -317,61 +370,12 @@ HTML("<p>The number of <b>observations</b>. Presence as well as absence. <em>[De
            )#sidebarLayout
   ),#tabPanel
   ##Management####
-  tabPanel('Management',
-           tabsetPanel(
-             tabPanel('Maps',
-                      titlePanel('Level of invasion'),
-                      sidebarLayout(
-                        sidebarPanel(
-                          selectInput("Species_loi", "Select a species:",
-                                      choices = unique(occupancy_RBSU$species)),
-                          selectInput("RBSU_loi", "Select a river basin subunit:",
-                                      choices = unique(centroid_per_RBSU$fullnameRBSU))),#sidebarPanel
-                        mainPanel(
-                          fluidRow(
-                            box(
-                              title='baseline state',
-                              leafletOutput("map_level_of_invasion_baseline")
-                            ),
-                            box(
-                              title='current state',
-                              leafletOutput("map_level_of_invasion_current")
-                            )
-                          ),#fluidRow,
-                          fluidRow(
-                            box(
-                              title='baseline state',
-                              leafletOutput("map_baseline_state")
-                            ),
-                            box(
-                              title='current state',
-                              leafletOutput("map_current_state")
-                            )
-                          )#fluidRow,
-                          
-                        )#mainPanel
-                      ),#sidebarLayout,
-                      box(' '),
-                      box(' '),
-                      box("Baseline state for plants: 1/1/2000-31/12/2020"), 
-                      box("Baseline state for crayfish: 1/1/2000 - 31/12/2015"),
-                      box("Current state for plants: 1/1/2021 - present"),
-                      box("Current state for crayfish: 1/1/2016 - present"),
-                      box(' '),
-                      box(' '),
-                      box('RBSU level, not recorded: relative occupancy equals 0'),
-                      box('RBU level, not recorded: relative occupancy equals 0'),
-                      box ('RBSU level, scattered occurrences only: 0 < relative occupancy <= 0.10'),
-                      box ('RBU level, scattered occurrences only: 0 < relative occupancy <= 0.01'),
-                      box ('RBSU level, weakly invaded: 0.10 < relative occupancy <= 0.20'),
-                      box ('RBU level, weakly invaded: 0.01 < relative occupancy <= 0.05'),
-                      box ('RBSU level, heavily invaded: relative occupancy > 0.20'),
-                      box ('RBU level, heavily invaded: relative occupancy > 0.05')
-             ),#tabPanel,
+  tabPanel('Management'
+             #tabPanel,
              # tabPanel('Table',
              #          tableOutput('table_summarizing_management')
              # )
-           )#tabsetPanel
+           #tabsetPanel
            ##Site-level monitoring####
   ),#tabPanel
   tabPanel('Site-level monitoring',
