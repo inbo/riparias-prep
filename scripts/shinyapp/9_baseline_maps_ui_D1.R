@@ -104,6 +104,21 @@ evaluation_years <- seq(from = as.integer(format(Sys.Date(), "%Y")) - 4,
 
 maxjaar <- as.integer(format(Sys.Date(), "%Y"))
 
+
+tags$head(
+  tags$style(HTML("
+    .custom-box {
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #cccccc;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+  "))
+)
+
 # 2. User Interface ####
 
 ui <- navbarPage(
@@ -113,7 +128,51 @@ ui <- navbarPage(
   
   ## Home ####
   tabPanel("Home",
-           box(HTML("<h1>Welcome to the RIPARIAS dashboard</h1><p>This dashboard gathers data related to work performed within the <a href=https://www.riparias.be/>LIFE RIPARIAS project</a> (LIFE19 NAT/BE/000953). It allows project partners to consult basic information, and to track the project’s progress.</p><h3>On data & development</h3><p>Most information shown on these webpages is publicly available through <a href=https://www.gbif.org/>GBIF</a>, but some is internally stored on our systems. Data are analysed and visualised using <a href=https://shiny.posit.co/>Shiny for R</a>. The Git repository is accessible <a href=https://github.com/inbo/riparias-prep>here</a>.</p><h3>On species</h3><p>The dashboard relates to all species of the <a href=https://www.gbif.org/dataset/fd004d9a-2ea4-4244-bb60-0df508d20a15>RIPARIAS target species list</a>.</p><h3>Contact</h3><p>The dashboard is maintained by the Research Institute for Nature and Forest (INBO), as part of action D1. The contact address for inquiries or suggestions is <a href=mailto:faunabeheer@inbo.be>faunabeheer@inbo.be</a>.</p>"))),
+           fluidPage(
+             
+             tags$head(
+               tags$style(HTML("
+      .custom-box {
+        background-color: #f0f0f0;  /* Light grey background */
+        border-radius: 10px;       /* Rounded corners */
+        padding: 15px;            /* Inner spacing */
+        margin-top: 20px;         /* Space above the box */
+        margin-bottom: 20px;      /* Space below the box */
+        border: 1px solid #cccccc; /* Optional border */
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+      }
+    "))),
+               
+             box(
+               width = 12,
+               class = "custom-box",
+               HTML(
+                 "<h1>Welcome to the RIPARIAS Dashboard</h1>
+               <p>This dashboard gathers data related to work performed within the 
+               <a href='https://www.riparias.be/' target='_blank'>LIFE RIPARIAS project</a> (LIFE19 NAT/BE/000953). 
+               It allows project partners to consult basic information, and to track the project’s progress.</p>
+               
+               <h3>On Data & Development</h3>
+               <p>Most information shown on these webpages is publicly available through 
+               <a href='https://www.gbif.org/' target='_blank'>GBIF</a>, but some is internally stored on our systems. 
+               Data are analysed and visualised using 
+               <a href='https://shiny.posit.co/' target='_blank'>Shiny for R</a>. 
+               The Git repository is accessible 
+               <a href='https://github.com/inbo/riparias-prep' target='_blank'>here</a>.</p>
+               
+               <h3>On Species</h3>
+               <p>The dashboard relates to all species of the 
+               <a href='https://www.gbif.org/dataset/fd004d9a-2ea4-4244-bb60-0df508d20a15' target='_blank'>
+               RIPARIAS target species list</a>.</p>
+               
+               <h3>Contact</h3>
+               <p>The dashboard is maintained by the Research Institute for Nature and Forest (INBO), as part of action D1. 
+               The contact address for inquiries or suggestions is 
+               <a href='mailto:faunabeheer@inbo.be'>faunabeheer@inbo.be</a>.</p>"
+               )
+             )
+           )
+  ),
   
   ## Distribution ####
   tabPanel("Distribution",
@@ -145,37 +204,56 @@ HTML("<p>The <b>map</b> below shows observations of species within the selected 
                       ),
 
                 ###Observations####    
-                tabPanel('Observations',
-                                 sidebarLayout(
-                                   sidebarPanel(
-                                     selectInput("RBUi2", "Select a river basin:",
-                                                 choices = unique(occupancy_RBU$RBU)),
-                                     width = 3 # Out of 12
-                                   ),
-                                   mainPanel(
-                                     fluidRow(box(width = 12,
-                                                  HTML("<p>The number of <b>observations</b>. Presence as well as absence. <em>[Desirable?] [Distinguish in graph?] [Note: would entire page not better fit under 'Distribution', between 'Maps' and 'Occupancy'?]</em> Divided between periods.</p><p>
-<li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
-<i>Current</i> period from <b>2021-present</b>.</li>
-<li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>.
-<i>Current</i> period from <b>2016-present</b>.</li>
-     </p>"))),
-                                     plotOutput("graphRBU")
-                                   )
-                                 ),
-                                 sidebarLayout(
-                                   sidebarPanel(
-                                     selectInput("RBSUi2", "Select a river basin subunit:",
-                                                 choices = unique(occupancy_RBSU$fullnameRBSU)),
-                                     width = 3 # Out of 12
-                                   ),
-                                   mainPanel(
-                                     fluidRow(
-                                       plotOutput("graphRBSU")
-                                     )
-                                   )
-                                 ) 
-                      ),
+tabPanel(
+  "Observations",
+  fluidPage(
+    # Add the descriptive text box with rounded edges and grey background
+    box(
+      width = 12,
+      class = "custom-box",
+      HTML("<p>The number of <b>observations</b>. Presence as well as absence. 
+            Divided between periods.</p>
+            <p>
+            <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
+            <i>Current</i> period from <b>2021-present</b>.</li>
+            <li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>. 
+            <i>Current</i> period from <b>2016-present</b>.</li>
+            </p>")
+    ),
+    # First sidebar layout for river basin
+    sidebarLayout(
+      sidebarPanel(
+        selectInput(
+          "RBUi2", 
+          "Select a river basin:",
+          choices = unique(occupancy_RBU$RBU)
+        ),
+        width = 3
+      ),
+      mainPanel(
+        fluidRow(
+          plotOutput("graphRBU")
+        )
+      )
+    ),
+    # Second sidebar layout for river basin subunit
+    sidebarLayout(
+      sidebarPanel(
+        selectInput(
+          "RBSUi2", 
+          "Select a river basin subunit:",
+          choices = unique(occupancy_RBSU$fullnameRBSU)
+        ),
+        width = 3
+      ),
+      mainPanel(
+        fluidRow(
+          plotOutput("graphRBSU")
+        )
+      )
+    )
+  )
+),
              ### Occupancy ####
              tabPanel('Occupancy',
                       

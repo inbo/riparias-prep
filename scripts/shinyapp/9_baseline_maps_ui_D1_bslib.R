@@ -110,45 +110,54 @@ maxjaar <- as.integer(format(Sys.Date(), "%Y"))
 
 ui <- page_navbar(
   
-  theme = bs_theme(version=5,
-    #bg = "#FDF7F7", 
-    #fg = "#101010", 
+  theme = bs_theme(
+    bg = "#FDF7F7", 
+    fg = "#101010", 
     primary = "#00a491", 
-    #base_font = font_google("Prompt"),
-    #code_font = font_google("JetBrains Mono")
+    base_font = font_google("Roboto"),
+    code_font = font_google("Barlow Semi Condensed")
   ),
   
-  title = div(img(src = "logoLIFEsimple.jpg", height = 30),
-              img(src = "logoRIP_transparant.png", height = 30),
-              "D1 dashboard"),
+  #title = div(#img(src = "logoLIFEsimple.jpg", height = 30),
+              #img(src = "logoRIP_transparant.png", height = 30),
+              #"D1 dashboard"),
   bg="#00a491",
   underline=TRUE,
   
   ## Home ####
   tabPanel("Home",
            fluidPage(
+                     
              box(
                width = 12,
                HTML(
-                 "<h1>Welcome to the RIPARIAS dashboard</h1>
-                 <p>This dashboard gathers data related to work performed within the 
-                 <a href=https://www.riparias.be/>LIFE RIPARIAS project</a> (LIFE19 NAT/BE/000953). 
-                 It allows project partners to consult basic information, and to track the project’s progress.</p>
-                 <h3>On data & development</h3>
-                 <p>Most information shown on these webpages is publicly available through 
-                 <a href=https://www.gbif.org/>GBIF</a>, but some is internally stored on our systems. 
-                 Data are analysed and visualised using <a href=https://shiny.posit.co/>Shiny for R</a>. 
-                 The Git repository is accessible <a href=https://github.com/inbo/riparias-prep>here</a>.</p>
-                 <h3>On species</h3>
-                 <p>The dashboard relates to all species of the 
-                 <a href=https://www.gbif.org/dataset/fd004d9a-2ea4-4244-bb60-0df508d20a15>RIPARIAS target species list</a>.</p>
-                 <h3>Contact</h3>
-                 <p>The dashboard is maintained by the Research Institute for Nature and Forest (INBO), as part of action D1. 
-                 The contact address for inquiries or suggestions is 
-                 <a href=mailto:faunabeheer@inbo.be>faunabeheer@inbo.be</a>.</p>"
+                 "<h1>Welcome to the RIPARIAS Dashboard</h1>
+               <p>This dashboard gathers data related to work performed within the 
+               <a href='https://www.riparias.be/' target='_blank'>LIFE RIPARIAS project</a> (LIFE19 NAT/BE/000953). 
+               It allows project partners to consult basic information, and to track the project’s progress.</p>
+               
+               <h3>On Data & Development</h3>
+               <p>Most information shown on these webpages is publicly available through 
+               <a href='https://www.gbif.org/' target='_blank'>GBIF</a>, but some is internally stored on our systems. 
+               Data are analysed and visualised using 
+               <a href='https://shiny.posit.co/' target='_blank'>Shiny for R</a>. 
+               The Git repository is accessible 
+               <a href='https://github.com/inbo/riparias-prep' target='_blank'>here</a>.</p>
+               
+               <h3>On Species</h3>
+               <p>The dashboard relates to all species of the 
+               <a href='https://www.gbif.org/dataset/fd004d9a-2ea4-4244-bb60-0df508d20a15' target='_blank'>
+               RIPARIAS target species list</a>.</p>
+               
+               <h3>Contact</h3>
+               <p>The dashboard is maintained by the Research Institute for Nature and Forest (INBO), as part of action D1. 
+               The contact address for inquiries or suggestions is 
+               <a href='mailto:faunabeheer@inbo.be'>faunabeheer@inbo.be</a>.</p>"
                )
              )
-           )),
+           )
+           )
+  ,
   
 
   
