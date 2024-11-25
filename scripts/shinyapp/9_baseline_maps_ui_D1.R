@@ -274,34 +274,43 @@ tabPanel(
             <i>Current</i> period from <b>2016-present</b>.</li>
             </p>")
     ),
-    # First sidebar layout for river basin
-    sidebarLayout(
-      sidebarPanel(
-        selectInput(
-          "RBUi2", 
-          "Select a river basin:",
-          choices = unique(occupancy_RBU$RBU)
+    # First sidebar layout for river basin in a custom box
+    box(
+      width = 12,
+      class = "custom-box",
+      title = "Select River Basin", # Title for the box
+      fluidRow(
+        column(
+          width = 3,
+          selectInput(
+            "RBUi2", 
+            "Select a river basin:",
+            choices = unique(occupancy_RBU$RBU)
+          )
         ),
-        width = 3
-      ),
-      mainPanel(
-        fluidRow(
+        column(
+          width = 9,
           plotOutput("graphRBU")
         )
       )
     ),
-    # Second sidebar layout for river basin subunit
-    sidebarLayout(
-      sidebarPanel(
-        selectInput(
-          "RBSUi2", 
-          "Select a river basin subunit:",
-          choices = unique(occupancy_RBSU$fullnameRBSU)
+    
+    # Second sidebar layout for river basin subunit in a custom box
+    box(
+      width = 12,
+      class = "custom-box",
+      title = "Select River Basin Subunit", # Title for the box
+      fluidRow(
+        column(
+          width = 3,
+          selectInput(
+            "RBSUi2", 
+            "Select a river basin subunit:",
+            choices = unique(occupancy_RBSU$fullnameRBSU)
+          )
         ),
-        width = 3
-      ),
-      mainPanel(
-        fluidRow(
+        column(
+          width = 9,
           plotOutput("graphRBSU")
         )
       )
