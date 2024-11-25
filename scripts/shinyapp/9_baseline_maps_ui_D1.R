@@ -141,6 +141,51 @@ ui <- navbarPage(
         border: 1px solid #cccccc; /* Optional border */
         box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
       }
+      
+      
+         /* Geselecteerde optie als de lijst is geopend */
+        .well select.form-control option:checked {
+          background-color: #00a491; /* groene achtergrond */
+          color: white; /* witte tekst */
+        }
+  
+    /* Sidebar background color with opacity */
+          .well {
+            background-color: #ffffff;
+            padding: 15px;
+          }
+          
+    /* Sidebar text color */
+          .well .control-label, .well h3, .well h4 {
+            color: #00a491;
+          }                    
+                        
+    /* Standaard achtergrondkleur voor selectInput */
+         .well select.form-control, .well h3, .well h4 {
+          background-color: #00a491; /* witte achtergrond */
+          color: #00a491; /* groene tekstkleur */
+          border: 1px solid #007c66; /* groene rand */
+        }
+  
+  /* Achtergrondkleur bij focus (wanneer aangeklikt) */
+  .well select.form-control:focus {
+    background-color: #00a491; /* groene achtergrond */
+    color: white; /* witte tekst */
+    border: 1px solid #007c66; /* groene rand */
+  }
+
+  /* Opties in de keuzelijst */
+  .well select.form-control option {
+    background-color: #ffffff; /* witte achtergrond voor opties */
+    color: #00a491; /* groene tekst */
+  }
+  
+  /* Optie bij hover in keuzemenu */
+  .well select.form-control option:hover {
+    background-color: #007c66; /* donkere groene achtergrond bij hover */
+    color: white; /* witte tekst */
+  }
+  
     "))),
                
              box(
@@ -178,7 +223,16 @@ ui <- navbarPage(
   tabPanel("Distribution",
            tabsetPanel(
              ### Maps ####
-             tabPanel('Maps'
+             tabPanel('Maps',
+                      
+                      titlePanel('Maps'),
+                      
+                      box(
+                        width = 12,
+                        class = "custom-box",
+                      HTML("<p>The <b>map</b> below shows observations of species within the selected timeframe. The <b>RIPARIAS project area</b> is displayed.</p>")
+                      )
+                      
                         ,
                       sidebarLayout(
                         sidebarPanel(
@@ -194,7 +248,6 @@ ui <- navbarPage(
                         mainPanel(
                           fluidRow(
                             box(width = 12,
-HTML("<p>The <b>map</b> below shows observations of species within the selected timeframe. The <b>RIPARIAS project area</b> is displayed.</p>"),
                             uiOutput("text1"),
                             leafletOutput("map", height = 600)
                             )
@@ -206,6 +259,7 @@ HTML("<p>The <b>map</b> below shows observations of species within the selected 
                 ###Observations####    
 tabPanel(
   "Observations",
+  titlePanel('Observations'),
   fluidPage(
     # Add the descriptive text box with rounded edges and grey background
     box(
@@ -256,56 +310,19 @@ tabPanel(
 ),
              ### Occupancy ####
              tabPanel('Occupancy',
+                      titlePanel('Occupancy'),
                       
-                      tags$head(
-                        tags$style(HTML("
-                        
-      /* Geselecteerde optie als de lijst is geopend */
-  .well select.form-control option:checked {
-    background-color: #00a491; /* groene achtergrond */
-    color: white; /* witte tekst */
-  }
-  
-    /* Sidebar background color with opacity */
-          .well {
-            background-color: #ffffff;
-            padding: 15px;
-          }
-          
-    /* Sidebar text color */
-          .well .control-label, .well h3, .well h4 {
-            color: #00a491;
-          }                    
-                        
-    /* Standaard achtergrondkleur voor selectInput */
-         .well select.form-control, .well h3, .well h4 {
-          background-color: #00a491; /* witte achtergrond */
-          color: #00a491; /* groene tekstkleur */
-          border: 1px solid #007c66; /* groene rand */
-        }
-  
-  /* Achtergrondkleur bij focus (wanneer aangeklikt) */
-  .well select.form-control:focus {
-    background-color: #00a491; /* groene achtergrond */
-    color: white; /* witte tekst */
-    border: 1px solid #007c66; /* groene rand */
-  }
-
-  /* Opties in de keuzelijst */
-  .well select.form-control option {
-    background-color: #ffffff; /* witte achtergrond voor opties */
-    color: #00a491; /* groene tekst */
-  }
-  
-  /* Optie bij hover in keuzemenu */
-  .well select.form-control option:hover {
-    background-color: #007c66; /* donkere groene achtergrond bij hover */
-    color: white; /* witte tekst */
-  }
-  
-
-"))
+                      box(
+                        width = 12,
+                        class = "custom-box",
+                        HTML("<p><b>Occupancy</b>, or: the number of grid cells with observations of the species (<a href=https://www.eea.europa.eu/data-and-maps/figures/eea-reference-grids>EEA</a> 1-km² grid). Expressed as the <b>absolute</b> number of occupied cells, or <b>relative</b> to the number of cells in the river basin. Divided between periods.</p><p>
+<li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
+<i>Current</i> period from <b>2021-present</b>.</li>
+<li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>.
+<i>Current</i> period from <b>2016-present</b>.</li>
+     </p>")
                       ),
+                      
                       sidebarLayout(
                         sidebarPanel(
                           selectInput("RBUi", "Select a river basin:",
@@ -314,13 +331,6 @@ tabPanel(
                           ),
                         mainPanel(
                           fluidRow(
-                            box(width = 12,
-HTML("<p><b>Occupancy</b>, or: the number of grid cells with observations of the species (<a href=https://www.eea.europa.eu/data-and-maps/figures/eea-reference-grids>EEA</a> 1-km² grid). Expressed as the <b>absolute</b> number of occupied cells, or <b>relative</b> to the number of cells in the river basin. Divided between periods.</p><p>
-<li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
-<i>Current</i> period from <b>2021-present</b>.</li>
-<li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>.
-<i>Current</i> period from <b>2016-present</b>.</li>
-     </p>")),
                             tabsetPanel(
                               tabPanel("Absolute occupancy", plotOutput("OccRBU")),
                               tabPanel("Relative occupancy", plotOutput("OccRBUREL"))
@@ -345,6 +355,47 @@ HTML("<p><b>Occupancy</b>, or: the number of grid cells with observations of the
 
 tabPanel('Level of invasion',
          titlePanel('Level of invasion'),
+         
+         box(
+           width = 12,
+           HTML('
+<div class="custom-box">
+                  <div style="display: flex; justify-content: space-between; gap: 10px;">
+                  <!-- Column 1: Plants -->
+                  <div style="flex: 1; padding: 10px;">
+                  <h4>Plants</h4>
+                  <p>Baseline state: 1/1/2000 - 31/12/2020</p>
+                  <p>Current state: 1/1/2021 - present</p>
+                  </div>
+                  <!-- Column 2: Crayfish -->
+                  <div style="flex: 1; padding: 10px;">
+                  <h4>Crayfish</h4>
+                  <p>Baseline state: 1/1/2000 - 31/12/2015</p>
+                  <p>Current state: 1/1/2016 - present</p>
+                  </div>
+                  <!-- Column 3: RBSU -->
+                  <div style="flex: 1; padding: 10px;">
+                  <h4>RBSU</h4>
+                  <p>Not recorded: relative occupancy equals 0</p>
+                  <p>Scattered occurrences only: 0 < relative occupancy ≤ 0.10</p>
+                  <p>Weakly invaded: 0.10 < relative occupancy ≤ 0.20</p>
+                  <p>Heavily invaded: relative occupancy > 0.20</p>
+                  </div>
+                  <!-- Column 4: RBU -->
+                  <div style="flex: 1; padding: 10px;">
+                  <h4>RBU</h4>
+                  <p>Not recorded: relative occupancy equals 0</p>
+                  <p>Scattered occurrences only: 0 < relative occupancy ≤ 0.01</p>
+                  <p>Weakly invaded: 0.01 < relative occupancy ≤ 0.05</p>
+                  <p>Heavily invaded: relative occupancy > 0.05</p>
+                  </div>
+                  </div>
+                  </div>"
+                  ')
+
+),
+           
+           
          sidebarLayout(
            sidebarPanel(
              selectInput("Species_loi", "Select a species:",
@@ -375,22 +426,7 @@ tabPanel('Level of invasion',
              
            )#mainPanel
          ),#sidebarLayout,
-         box(' '),
-         box(' '),
-         box("Baseline state for plants: 1/1/2000-31/12/2020"), 
-         box("Baseline state for crayfish: 1/1/2000 - 31/12/2015"),
-         box("Current state for plants: 1/1/2021 - present"),
-         box("Current state for crayfish: 1/1/2016 - present"),
-         box(' '),
-         box(' '),
-         box('RBSU level, not recorded: relative occupancy equals 0'),
-         box('RBU level, not recorded: relative occupancy equals 0'),
-         box ('RBSU level, scattered occurrences only: 0 < relative occupancy <= 0.10'),
-         box ('RBU level, scattered occurrences only: 0 < relative occupancy <= 0.01'),
-         box ('RBSU level, weakly invaded: 0.10 < relative occupancy <= 0.20'),
-         box ('RBU level, weakly invaded: 0.01 < relative occupancy <= 0.05'),
-         box ('RBSU level, heavily invaded: relative occupancy > 0.20'),
-         box ('RBU level, heavily invaded: relative occupancy > 0.05')
+
 ),
            )#tabsetPanel
   ),#tabPanel
