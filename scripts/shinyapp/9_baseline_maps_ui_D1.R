@@ -244,7 +244,7 @@ ui <- navbarPage(
                  width = 3,
                  div(class = "custom-box4",
                      img(src = "image3.jpg", class = "custom-image"),
-                     p(" by \u00A9 Arnoud Monty")
+                     p(tags$i("Procambarus clarkii")," by \u00A9 Arnoud Monty")
                  )
                ),
                column(
