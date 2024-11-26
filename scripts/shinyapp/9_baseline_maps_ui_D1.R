@@ -142,12 +142,44 @@ ui <- navbarPage(
         box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
       }
       
+          .custom-box2 {
+      background-color: #ffffff;       /* White background */
+      border-radius: 10px;            /* Rounded corners */
+      padding: 15px;                 /* Inner spacing */
+      margin-top: 20px;              /* Space above the box */
+      margin-bottom: 20px;           /* Space below the box */
+      border: 4px solid  #00a491;     /* Thick border with color #007c66 */
+      box-shadow: 2px 2px 10px rgba(0, 164, 145, 0.5); /* Teal-green shadow */
+          }
+          
+                .custom-box3 {
+      background-image: url('background2.jpg'); /* Correct syntax for background image */
+      background-size: cover;                 /* Ensures the image covers the entire box */
+      background-repeat: no-repeat;          /* Prevents tiling */
+      background-position: center;           /* Centers the image */
+      color: #ffffff;                        /* Makes the text white */
+      border-radius: 10px;                    /* Rounded corners */
+      padding: 15px;                         /* Inner spacing */
+      margin-top: 20px;                      /* Space above the box */
+      margin-bottom: 20px;                   /* Space below the box */
+      border: 4px solid #00a491;             /* Thick border with color #00a491 */
+      box-shadow: 2px 2px 10px rgba(0, 164, 145, 0.5); /* Teal-green shadow */
+    }
+    .custom-box4 {
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        border: 1px solid #cccccc;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
       
-         /* Geselecteerde optie als de lijst is geopend */
-        .well select.form-control option:checked {
-          background-color: #00a491; /* groene achtergrond */
-          color: white; /* witte tekst */
-        }
+    .custom-image {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
   
     /* Sidebar background color with opacity */
           .well {
@@ -160,37 +192,13 @@ ui <- navbarPage(
             color: #00a491;
           }                    
                         
-    /* Standaard achtergrondkleur voor selectInput */
-         .well select.form-control, .well h3, .well h4 {
-          background-color: #00a491; /* witte achtergrond */
-          color: #00a491; /* groene tekstkleur */
-          border: 1px solid #007c66; /* groene rand */
-        }
-  
-  /* Achtergrondkleur bij focus (wanneer aangeklikt) */
-  .well select.form-control:focus {
-    background-color: #00a491; /* groene achtergrond */
-    color: white; /* witte tekst */
-    border: 1px solid #007c66; /* groene rand */
-  }
-
-  /* Opties in de keuzelijst */
-  .well select.form-control option {
-    background-color: #ffffff; /* witte achtergrond voor opties */
-    color: #00a491; /* groene tekst */
-  }
-  
-  /* Optie bij hover in keuzemenu */
-  .well select.form-control option:hover {
-    background-color: #007c66; /* donkere groene achtergrond bij hover */
-    color: white; /* witte tekst */
-  }
+ 
   
     "))),
                
              box(
                width = 12,
-               class = "custom-box",
+               class = "custom-box2",
                HTML(
                  "<h1>Welcome to the RIPARIAS Dashboard</h1>
                <p>This dashboard gathers data related to work performed within the 
@@ -215,8 +223,41 @@ ui <- navbarPage(
                The contact address for inquiries or suggestions is 
                <a href='mailto:faunabeheer@inbo.be'>faunabeheer@inbo.be</a>.</p>"
                )
+             ),
+             
+             fluidRow(
+               column(
+                 width = 3, # Each column takes 3/12 of the row
+                 div(class = "custom-box4",
+                     img(src = "image1.jpg", class = "custom-image"),
+                     p(tags$i("Houttuynia cordata "), "by \u00A9 Meneerke bloem")
+                 )
+               ),
+               column(
+                 width = 3,
+                 div(class = "custom-box4",
+                     img(src = "image2.jpeg", class = "custom-image"),
+                     p(tags$i("Erythranthe guttata"))
+                 )
+               ),
+               column(
+                 width = 3,
+                 div(class = "custom-box4",
+                     img(src = "image3.jpg", class = "custom-image"),
+                     p(" by \u00A9 Arnoud Monty")
+                 )
+               ),
+               column(
+                 width = 3,
+                 div(class = "custom-box4",
+                     img(src = "image4.jpg", class = "custom-image"),
+                     p(tags$i("Zizania latifolia ")," by \u00A9 Dido Gosse")
+                 )
+               )
              )
            )
+           
+           
   ),
   
   ## Distribution ####
@@ -277,8 +318,8 @@ tabPanel(
     # First sidebar layout for river basin in a custom box
     box(
       width = 12,
-      class = "custom-box",
-      title = "Select River Basin", # Title for the box
+      class = "custom-box2",
+      title = "At River Basin Level", # Title for the box
       fluidRow(
         column(
           width = 3,
@@ -298,8 +339,8 @@ tabPanel(
     # Second sidebar layout for river basin subunit in a custom box
     box(
       width = 12,
-      class = "custom-box",
-      title = "Select River Basin Subunit", # Title for the box
+      class = "custom-box2",
+      title = "At River Basin Subunit Level", # Title for the box
       fluidRow(
         column(
           width = 3,
