@@ -236,7 +236,7 @@ ui <- navbarPage(
                column(
                  width = 3,
                  div(class = "custom-box4",
-                     img(src = "image2.jpeg", class = "custom-image"),
+                     img(src = "image2.jpg", class = "custom-image"),
                      p(tags$i("Erythranthe guttata"))
                  )
                ),
