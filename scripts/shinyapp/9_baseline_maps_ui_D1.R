@@ -265,37 +265,40 @@ ui <- navbarPage(
            tabsetPanel(
              ### Maps ####
              tabPanel('Maps',
-                      
-                      titlePanel('Maps'),
-                      
+                titlePanel('Maps'),
+                   fluidPage(    
+                     # Add the descriptive text box with rounded edges and grey background
                       box(
                         width = 12,
                         class = "custom-box",
-                      HTML("<p>The <b>map</b> below shows observations of species within the selected timeframe. The <b>RIPARIAS project area</b> is displayed.</p>")
+                        HTML("<p>The <b>map</b> below shows observations of species within the selected timeframe. The <b>RIPARIAS                          project area</b> is displayed.</p>")
                       )
-                      
-                        ,
-                      sidebarLayout(
-                        sidebarPanel(
-                          sliderInput("slider", "Years", 
-                                      2000, lubridate::year(Sys.Date()), 1,
-                                      value = c(2021, lubridate::year(Sys.Date())),
-                                      # default: from project start to now
-                                      dragRange = TRUE),
-                          checkboxGroupInput("species", "Species",
-                                             choices = sort(unique(all_pointdata_2000$species))),
-                          width = 3 # Out of 12
+                      ,
+                      # First sidebar layout 
+                      box(
+                        width = 12,
+                        class = "custom-box2",
+                        title = "Map of observations within Riparias study area", # Title for the box
+                        fluidRow(
+                          column(
+                            width = 3,
+                            sliderInput("slider", "Years", 
+                                        2000, lubridate::year(Sys.Date()), 1,
+                                        value = c(2021, lubridate::year(Sys.Date())),
+                                        # default: from project start to now
+                                        dragRange = TRUE),
+                            checkboxGroupInput("species", "Species",
+                                               choices = sort(unique(all_pointdata_2000$species)))
                           ),
-                        mainPanel(
-                          fluidRow(
-                            box(width = 12,
+                          column(
+                            width = 9,
                             uiOutput("text1"),
                             leafletOutput("map", height = 600)
-                            )
-                            )
                           )
                         )
-                      ),
+                      )
+                   )
+             ),
 
                 ###Observations####    
 tabPanel(
@@ -361,7 +364,7 @@ tabPanel(
              ### Occupancy ####
              tabPanel('Occupancy',
                       titlePanel('Occupancy'),
-                      
+                      fluidPage(
                       box(
                         width = 12,
                         class = "custom-box",
@@ -373,36 +376,50 @@ tabPanel(
      </p>")
                       ),
                       
-                      sidebarLayout(
-                        sidebarPanel(
-                          selectInput("RBUi", "Select a river basin:",
-                                      choices = unique(occupancy_RBU$RBU)),
-                          width = 3 # Out of 12
+                      box(
+                        width = 12,
+                        class = "custom-box2",
+                        title = "At River Basin Level", # Title for the box
+                        fluidRow(
+                          column(
+                            width = 3,
+                            selectInput("RBUi", "Select a river basin:",
+                                        choices = unique(occupancy_RBU$RBU)),
+  
                           ),
-                        mainPanel(
-                          fluidRow(
-                            tabsetPanel(
-                              tabPanel("Absolute occupancy", plotOutput("OccRBU")),
-                              tabPanel("Relative occupancy", plotOutput("OccRBUREL"))
+                          column(
+                            width = 9,
+                            fluidRow(
+                              tabsetPanel(type = "tabs",
+                                tabPanel("Absolute occupancy", plotOutput("OccRBU")),
+                                tabPanel("Relative occupancy", plotOutput("OccRBUREL"))
+                              )
+                            )))),
+                      
+                      box(
+                        width = 12,
+                        class = "custom-box2",
+                        title = "At River Basin Level", # Title for the box
+                        fluidRow(
+                          column(
+                            width = 3,
+                            selectInput("RBSUi", " Select a river basin subunit:",
+                                        choices = unique(occupancy_RBSU$fullnameRBSU)),
+                            
+                          ),
+                          column(
+                            width = 9,
+                            fluidRow(
+                              tabsetPanel(type = "tabs",
+                                          tabPanel("Absolute occupancy", plotOutput("OccRBSU")),
+                                          tabPanel("Relative occupancy", plotOutput("OccRBSUREL"))
+                                    )
+                                  )
+                                )
+                              )
                             )
                           )
-                        )),
-                      sidebarLayout(
-                        sidebarPanel(
-                          selectInput("RBSUi", " Select a river basin subunit:",
-                                      choices = unique(occupancy_RBSU$fullnameRBSU)),
-                          width = 3 # Out of 12
-                          ),
-                        mainPanel(
-                          fluidRow(
-                            tabsetPanel(type = "tabs",
-                                        tabPanel("Absolute occupancy", plotOutput("OccRBSU")),
-                                        tabPanel("Relative occupancy", plotOutput("OccRBSUREL"))
-                            )
-                          )
-                        )),
-             ),
-
+                        ),
 tabPanel('Level of invasion',
          titlePanel('Level of invasion'),
          
