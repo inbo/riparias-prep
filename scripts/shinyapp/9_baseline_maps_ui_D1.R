@@ -56,10 +56,7 @@ EEA_surveillance_effort <- st_read(paste0(repo, branch,
                                           "/data/interim/EEA_high_search_effort.geojson"))
 
 ## Management - summarizing table ####
-
-# table_summarizing_management <- read_excel(paste0(repo,
-#                                                   branch,
-#                                                   "/data/interim/summarizing_management_table.xlsx"))
+table_summarizing_management <- read_excel("~/GitHub/riparias-prep/data/interim/summarizing_management_table.xlsx")
 
 ## Management - maps: Level of invasion ####
 level_of_invasion_RBSU <- st_read(paste0(repo, branch,
@@ -566,11 +563,13 @@ box(
            )#sidebarLayout
   ),#tabPanel
   ##Management####
-  tabPanel('Management'
+  tabPanel('Management',
              #tabPanel,
-             # tabPanel('Table',
-             #          tableOutput('table_summarizing_management')
-             # )
+             tabPanel('Table',
+                      fluidPage(
+                      tableOutput('table_summarizing_management')
+                      )
+             )
            #tabsetPanel
            ##Site-level monitoring####
   ),#tabPanel
@@ -1156,7 +1155,7 @@ server <- function(input, output) {
   })
   ##Management####
   ###Summarizing_table####
-  #output$table_summarizing_management <- renderTable(table_summarizing_management)
+  output$table_summarizing_management <- renderTable(table_summarizing_management)
   ###Level of invasion####
   ###Level of invasion baseline####
   output$map_level_of_invasion_baseline <- renderLeaflet({
