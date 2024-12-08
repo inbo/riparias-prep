@@ -508,12 +508,18 @@ box(
 
   ##Surveillance####
   tabPanel('Surveillance',
-           tabsetPanel(
-             ##Observations####
-             #tabPanel,
-             tabPanel('Effort',
-                      titlePanel('Surveillance effort'),
-                      fluidRow(
+           titlePanel('Surveillance effort'),
+           fluidPage(
+             box(
+               width = 12,
+               class = "custom-box",
+               HTML("<p>Surveillance as measure
+            </p>")
+             ),
+           box(
+             width = 12,
+             class = "custom-box2",
+             fluidRow(
                         box(
                           'Percentage of EEA cells (1km²) per river basin subunit with heigh surveillance effort for plant species',
                           plotOutput("Plot_surveillance_effort_RBSU", height=600)
@@ -523,9 +529,10 @@ box(
                           leafletOutput("map_EEA_surveillance_effort", height=600)
                         )
                       )#fluidrow
-             )#tabPanel Effort
+             )
+           )#tabPanel Effort
            )#tabsetPanel 
-  ),#tabPanel Surveillance
+  ,#tabPanel Surveillance
   ##Species trends####
   tabPanel('Species trends',
            titlePanel('Species trends'),
@@ -824,7 +831,7 @@ server <- function(input, output) {
   
   output$Plot_surveillance_effort_RBSU <-renderPlot ({
     ggplot(Surveillance_effort_RBSU, aes(x=fullnameRBSU, y=SurveillanceEffortRel)) +
-      geom_bar(stat="identity")+
+      geom_bar(stat="identity", fill = "#00a491")+
       coord_flip()+ 
       labs(y = "Percentage of EEA 1 km² cells with high surveillance effort")+ 
       labs(x = "River basin subunit")
@@ -839,7 +846,7 @@ server <- function(input, output) {
   output$map_EEA_surveillance_effort <- renderLeaflet ({
     leaflet(EEA_surveillance_effort) %>% 
       addTiles() %>% 
-      addPolygons(color="grey")
+      addPolygons(color="#00a491", weight=1)
     
     
   })
