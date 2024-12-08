@@ -510,7 +510,7 @@ box(
              box(
                width = 12,
                class = "custom-box",
-               HTML("<p>Surveillance as measure
+               HTML("<p>Under development. Soon a new measure of surveillance effort will be applied.
             </p>")
              ),
            box(
@@ -603,6 +603,15 @@ box(
            ##Site-level monitoring####
   ),#tabPanel
   tabPanel('Site-level monitoring',
+           fluidPage(
+             box(
+               width = 12,
+               class = "custom-box",
+               HTML("In those areas where management is performed, monitoring surveys are organised before and after management to assess its impact. The crayfish data presents dummy data.")),
+             
+             box(
+               width = 12,
+               class = "custom-box2",
            sidebarLayout(
              sidebarPanel(
                selectInput("Species_dafor", "Select a species:",
@@ -616,7 +625,12 @@ box(
                  )#box
                )#fluidRow
              )#mainPanel
-           ),#sidebarlayout
+           )
+           )
+           ,#sidebarlayout
+           box(
+             width = 12,
+             class = "custom-box2",
            sidebarLayout(
              sidebarPanel(
                selectInput("Species_cpue", "Select a species:",
@@ -633,7 +647,10 @@ box(
                )#fluidRow
              )#mainPanel
            )#Sidebarlayout
-  ),
+           )
+  )
+  )
+,
 tags$head(
   tags$style(HTML("
       /* Change navbar background color */
