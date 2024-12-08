@@ -328,18 +328,16 @@ tabPanel(
       width = 12,
       class = "custom-box2",
       title = "At River Basin Level", # Title for the box
-      fluidRow(
-        column(
-          width = 3,
-          selectInput(
-            "RBUi2", 
-            "Select a river basin:",
-            choices = unique(occupancy_RBU$RBU)
-          )
+      sidebarLayout(
+        sidebarPanel(
+          selectInput("RBUi2", "Select a river basin:",
+                      choices = unique(occupancy_RBU$RBU)),
+          width = 3 # Out of 12
         ),
-        column(
-          width = 9,
+        mainPanel(
+          fluidRow(
           plotOutput("graphRBU")
+          )
         )
       )
     ),
@@ -349,18 +347,16 @@ tabPanel(
       width = 12,
       class = "custom-box2",
       title = "At River Basin Subunit Level", # Title for the box
-      fluidRow(
-        column(
-          width = 3,
-          selectInput(
-            "RBSUi2", 
-            "Select a river basin subunit:",
-            choices = unique(occupancy_RBSU$fullnameRBSU)
-          )
+      sidebarLayout(
+        sidebarPanel(
+          selectInput("RBSUi2", "Select a river basin subunit:",
+                      choices = unique(occupancy_RBSU$fullnameRBSU)),
+          width = 3 # Out of 12
         ),
-        column(
-          width = 9,
-          plotOutput("graphRBSU")
+        mainPanel(
+          fluidRow(
+            plotOutput("graphRBSU")
+          )
         )
       )
     )
@@ -385,43 +381,42 @@ tabPanel(
                         width = 12,
                         class = "custom-box2",
                         title = "At River Basin Level", # Title for the box
-                        fluidRow(
-                          column(
-                            width = 3,
+                        
+                        sidebarLayout(
+                          sidebarPanel(
                             selectInput("RBUi", "Select a river basin:",
                                         choices = unique(occupancy_RBU$RBU)),
-  
+                            width = 3 # Out of 12
                           ),
-                          column(
-                            width = 9,
+                          mainPanel(
                             fluidRow(
-                              tabsetPanel(type = "tabs",
+                              tabsetPanel(
                                 tabPanel("Absolute occupancy", plotOutput("OccRBU")),
                                 tabPanel("Relative occupancy", plotOutput("OccRBUREL"))
                               )
-                            )))),
+                            )
+                          ))
+                        
+                        ),
                       
                       box(
                         width = 12,
                         class = "custom-box2",
-                        title = "At River Basin Level", # Title for the box
-                        fluidRow(
-                          column(
-                            width = 3,
+                        title = "At River Basin Subunit Level", # Title for the box
+                        sidebarLayout(
+                          sidebarPanel(
                             selectInput("RBSUi", " Select a river basin subunit:",
                                         choices = unique(occupancy_RBSU$fullnameRBSU)),
-                            
+                            width = 3 # Out of 12
                           ),
-                          column(
-                            width = 9,
+                          mainPanel(
                             fluidRow(
                               tabsetPanel(type = "tabs",
                                           tabPanel("Absolute occupancy", plotOutput("OccRBSU")),
                                           tabPanel("Relative occupancy", plotOutput("OccRBSUREL"))
-                                    )
-                                  )
-                                )
                               )
+                            )
+                          ))
                             )
                           )
                         ),
