@@ -533,46 +533,63 @@ box(
   ##Species trends####
   tabPanel('Species trends',
            titlePanel('Species trends'),
-           sidebarLayout(
-             sidebarPanel(
-               selectInput("Species_trends", "Select a species:",
-                           choices = unique(occupancy_RBSU$species))
-             ),#sidebarPanel
-             mainPanel(
-               fluidRow(
-                 box(
-                   title='Observations',
-                   plotOutput("plot_trends_obs")
-                 ),
-                 box(
-                   title='Observations-corrected',
-                   plotOutput("plot_trends_obs_cor")
-                 )
-               ),#fluidRow,
-               fluidRow(
-                 box(
-                   title='Occupancy',
-                   plotOutput("plot_trends_occ")
-                 ),
-                 box(
-                   title='Occupancy-corrected',
-                   plotOutput("plot_trends_occ_cor")
-                 )
-               )#fluidRow,
-             )#mainPanel
-           )#sidebarLayout
-  ),#tabPanel
+           fluidPage(
+             box(
+               width = 12,
+               class = "custom-box",
+               HTML('<p>
+                      An overview of the  <a href="https://trias-project.github.io/indicators/" target="_blank">
+                      TRIAS indicators
+                    </a>, per species in Riparias project area.
+                    </p>')
+             ),
+            
+             box(
+               width = 12,
+               class = "custom-box2", 
+               
+               sidebarLayout(
+                 sidebarPanel(
+                   selectInput("Species_trends", "Select a species:",
+                               choices = unique(occupancy_RBSU$species))
+                 ),#sidebarPanel
+                 mainPanel(
+                   fluidRow(
+                     box(
+                       title='Observations',
+                       plotOutput("plot_trends_obs")
+                     ),
+                     box(
+                       title='Observations-corrected',
+                       plotOutput("plot_trends_obs_cor")
+                     )
+                   ),#fluidRow,
+                   fluidRow(
+                     box(
+                       title='Occupancy',
+                       plotOutput("plot_trends_occ")
+                     ),
+                     box(
+                       title='Occupancy-corrected',
+                       plotOutput("plot_trends_occ_cor")
+                     )
+                   )#fluidRow,
+                 )#mainPanel
+               )#sidebarLayout
+             )
+           )
+    ),#tabPanel
   ##Management####
   tabPanel('Management',
            tabsetPanel(
              #tabPanel,
              tabPanel('Table',
-                      titlePanel('Management Target Table'),
+                      titlePanel('Management Table (current versus target state)'),
                       fluidPage(
                         box(
                           width = 12,
                           class = "custom-box",
-                          HTML('Per river basin, the number of river basin subunits where the species is present in the current state (2021-present) is displayed. For illustration, the baseline and target number are also mentioned.')),
+                          HTML('Per river basin, the number of river basin subunits where the species is present in the current state (2021-present) is displayed. The baseline and target number are also mentioned.')),
                         
                         box(
                           width = 12,
