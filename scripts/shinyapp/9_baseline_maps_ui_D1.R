@@ -564,12 +564,24 @@ box(
   ),#tabPanel
   ##Management####
   tabPanel('Management',
+           tabsetPanel(
              #tabPanel,
              tabPanel('Table',
+                      titlePanel('Management Target Table'),
                       fluidPage(
+                        box(
+                          width = 12,
+                          class = "custom-box",
+                          HTML('Per river basin, the number of river basin subunits where the species is present in the current state (2021-present) is displayed. For illustration, the baseline and target number are also mentioned.')),
+                        
+                        box(
+                          width = 12,
+                          class = "custom-box2",
                       tableOutput('table_summarizing_management')
                       )
              )
+           )
+           )
            #tabsetPanel
            ##Site-level monitoring####
   ),#tabPanel
