@@ -314,7 +314,7 @@ tabPanel(
     box(
       width = 12,
       class = "custom-box",
-      HTML("<p>The number of <b>observations</b>. Presence as well as absence. 
+      HTML("<p>The number of <b>observations</b> per species. Presence as well as absence. 
             Divided between periods.</p>
             <p>
             <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
@@ -427,37 +427,41 @@ tabPanel('Level of invasion',
            width = 12,
            HTML('
 <div class="custom-box">
-                  <div style="display: flex; justify-content: space-between; gap: 10px;">
-                  <!-- Column 1: Plants -->
-                  <div style="flex: 1; padding: 10px;">
-                  <h4>Plants</h4>
-                  <p>Baseline state: 1/1/2000 - 31/12/2020</p>
-                  <p>Current state: 1/1/2021 - present</p>
-                  </div>
-                  <!-- Column 2: Crayfish -->
-                  <div style="flex: 1; padding: 10px;">
-                  <h4>Crayfish</h4>
-                  <p>Baseline state: 1/1/2000 - 31/12/2015</p>
-                  <p>Current state: 1/1/2016 - present</p>
-                  </div>
-                  <!-- Column 3: RBSU -->
-                  <div style="flex: 1; padding: 10px;">
-                  <h4>RBSU</h4>
-                  <p>Not recorded: relative occupancy equals 0</p>
-                  <p>Scattered occurrences only: 0 < relative occupancy ≤ 0.10</p>
-                  <p>Weakly invaded: 0.10 < relative occupancy ≤ 0.20</p>
-                  <p>Heavily invaded: relative occupancy > 0.20</p>
-                  </div>
-                  <!-- Column 4: RBU -->
-                  <div style="flex: 1; padding: 10px;">
-                  <h4>RBU</h4>
-                  <p>Not recorded: relative occupancy equals 0</p>
-                  <p>Scattered occurrences only: 0 < relative occupancy ≤ 0.01</p>
-                  <p>Weakly invaded: 0.01 < relative occupancy ≤ 0.05</p>
-                  <p>Heavily invaded: relative occupancy > 0.05</p>
-                  </div>
-                  </div>
-                  </div>"
+  <!-- Introductory text -->
+  <p>Level of invasion is based on relative occupancy (the number of grid cells with observations of the species (<a href=https://www.eea.europa.eu/data-and-maps/figures/eea-reference-grids>EEA</a> 1-km² grid), relative</b> to the number of cells in the river basin or river basin subunit. Level of invasion is scale dependent (at river basin or river basin subunit level). Baseline and current period differ between plants and crayfish.</p>
+  
+  <!-- Periods for plants and crayfish -->
+  <ul>
+    <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
+    <i>Current</i> period from <b>2021-present</b>.</li>
+    <li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>. 
+    <i>Current</i> period from <b>2016-present</b>.</li>
+  </ul>
+  
+  <!-- Flex container for the additional columns -->
+  <div style="display: flex; justify-content: space-between; gap: 10px;">
+    
+    <!-- Column 3: RBSU -->
+    <div style="flex: 1; padding: 10px;">
+      <h4>River Basin Subunit Level</h4>
+      <p>Not recorded: relative occupancy equals 0</p>
+      <p>Scattered occurrences only: 0 < relative occupancy ≤ 0.10</p>
+      <p>Weakly invaded: 0.10 < relative occupancy ≤ 0.20</p>
+      <p>Heavily invaded: relative occupancy > 0.20</p>
+    </div>
+    
+    <!-- Column 4: RBU -->
+    <div style="flex: 1; padding: 10px;">
+      <h4>River Basin Unit Level</h4>
+      <p>Not recorded: relative occupancy equals 0</p>
+      <p>Scattered occurrences only: 0 < relative occupancy ≤ 0.01</p>
+      <p>Weakly invaded: 0.01 < relative occupancy ≤ 0.05</p>
+      <p>Heavily invaded: relative occupancy > 0.05</p>
+    </div>
+
+  </div>
+</div>
+
                   ')
 
 ),
@@ -475,21 +479,21 @@ box(
            mainPanel(
              fluidRow(
                box(
-                 title='baseline state',
+                 title='baseline state - level of invasion',
                  leafletOutput("map_level_of_invasion_baseline")
                ),
                box(
-                 title='current state',
+                 title='current state - level of invasion',
                  leafletOutput("map_level_of_invasion_current")
                )
              ),#fluidRow,
              fluidRow(
                box(
-                 title='baseline state',
+                 title='baseline state - observations in detail',
                  leafletOutput("map_baseline_state")
                ),
                box(
-                 title='current state',
+                 title='current state - observations in detail',
                  leafletOutput("map_current_state")
                )
              )#fluidRow,
@@ -1269,6 +1273,7 @@ server <- function(input, output) {
                        color="blue")
     
   })
+  
   
   center <- reactive({
     subset(centroid_per_RBSU, fullnameRBSU == input$RBSU_loi) 
