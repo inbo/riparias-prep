@@ -278,24 +278,29 @@ ui <- navbarPage(
                       box(
                         width = 12,
                         class = "custom-box2",
-                        title = "Map of observations within Riparias study area", # Title for the box
-                        fluidRow(
-                          column(
-                            width = 3,
+                        title = "Map of observations within Riparias project area", # Title for the box
+                        
+                        sidebarLayout(
+                          sidebarPanel(
                             sliderInput("slider", "Years", 
                                         2000, lubridate::year(Sys.Date()), 1,
                                         value = c(2021, lubridate::year(Sys.Date())),
                                         # default: from project start to now
                                         dragRange = TRUE),
                             checkboxGroupInput("species", "Species",
-                                               choices = sort(unique(all_pointdata_2000$species)))
+                                               choices = sort(unique(all_pointdata_2000$species))),
+                            width = 3 # Out of 12
                           ),
-                          column(
-                            width = 9,
-                            uiOutput("text1"),
-                            leafletOutput("map", height = 600)
+                          mainPanel(
+                            fluidRow(
+                              box(width = 12,
+                                  uiOutput("text1"),
+                                  leafletOutput("map", height = 600)
+                              )
+                            )
                           )
                         )
+                        
                       )
                    )
              ),
@@ -422,7 +427,7 @@ tabPanel(
                         ),
 tabPanel('Level of invasion',
          titlePanel('Level of invasion'),
-         
+         fluidPage(
          box(
            width = 12,
            HTML('
@@ -461,7 +466,10 @@ tabPanel('Level of invasion',
                   ')
 
 ),
-           
+
+box(
+  width = 12,
+  class = "custom-box2",
            
          sidebarLayout(
            sidebarPanel(
@@ -493,7 +501,8 @@ tabPanel('Level of invasion',
              
            )#mainPanel
          ),#sidebarLayout,
-
+)
+)#fluidPage
 ),
            )#tabsetPanel
   ),#tabPanel
