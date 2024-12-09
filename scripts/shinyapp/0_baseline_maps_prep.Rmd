@@ -34,7 +34,7 @@ gbif_backbone_keys
 
 #add username, email and password of GBIF account to R.environ en herstart Rstudio
 #install.packages("usethis")
-#usethis::edit_r_environ()
+#usethis::edit_r_environ("~/GitHub/riparias-prep/.Renviron")
 
 
 gbif_download <- occ_download(
@@ -124,6 +124,7 @@ baseline_state <- rbind(baseline_state_animals,
 st_write(baseline_state,  "~/GitHub/riparias-prep/data/spatial/baseline/baseline.geojson")
 
 ```
+
 ```{r export update shapes}
 current_state_plants <- points_in_perimeter_sel %>%
     filter(kingdomKey==6)%>%
