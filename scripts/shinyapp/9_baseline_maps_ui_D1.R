@@ -13,6 +13,7 @@ library(readxl)
 
 # 1. Import data ####
 repo <- "https://github.com/inbo/riparias-prep/raw/"
+repo_raw <- "https://raw.githubusercontent.com/inbo/riparias-prep/refs/heads/"
 branch <- "55_management_table"
 
 ## Maps ####
@@ -56,7 +57,10 @@ EEA_surveillance_effort <- st_read(paste0(repo, branch,
                                           "/data/interim/EEA_high_search_effort.geojson"))
 
 ## Management - summarizing table ####
-table_summarizing_management <- read_excel("~/GitHub/riparias-prep/data/interim/summarizing_management_table.xlsx")
+table_summarizing_management <- readr::read_csv2(paste0(repo_raw, branch, 
+                                                  "/data/interim/summarizing_management_table.csv")) %>% 
+  dplyr::mutate(baseline = as.integer(baseline),
+                current = as.integer(current))
 
 ## Management - maps: Level of invasion ####
 level_of_invasion_RBSU <- st_read(paste0(repo, branch,
