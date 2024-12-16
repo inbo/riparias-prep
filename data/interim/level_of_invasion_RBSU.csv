@@ -1,506 +1,546 @@
 "RBSU","species","state","n_observations","Occupancy","Total_cellcode_per_area","Occupancy_rel","level_of_invasion"
-1,"Impatiens glandulifera","current",120,34,107,0.317757009345794,"heavily invaded"
-1,"Hydrocotyle ranunculoides","baseline",1,1,107,0.00934579439252336,"scattered occurrences only"
-1,"Houttuynia cordata","current",1,NA,107,NA,NA
-1,"Impatiens glandulifera","baseline",202,34,107,0.317757009345794,"heavily invaded"
+1,"Zizania latifolia","current",1,NA,107,NA,NA
+1,"Impatiens glandulifera","baseline",77,23,107,0.214953271028037,"heavily invaded"
+1,"Pontederia cordata","current",4,NA,107,NA,NA
 1,"Crassula helmsii","current",1,NA,107,NA,NA
-1,"Heracleum mantegazzianum","baseline",4,4,107,0.0373831775700935,"scattered occurrences only"
-1,"Hydrocotyle ranunculoides","current",1,1,107,0.00934579439252336,"scattered occurrences only"
-1,"Heracleum mantegazzianum","current",9,4,107,0.0373831775700935,"scattered occurrences only"
-2,"Aponogeton distachyos","current",1,NA,95,NA,NA
-2,"Zizania latifolia","current",1,NA,95,NA,NA
-2,"Heracleum mantegazzianum","baseline",3,2,95,0.0210526315789474,"scattered occurrences only"
-2,"Myriophyllum aquaticum","baseline",2,2,95,0.0210526315789474,"scattered occurrences only"
-2,"Impatiens glandulifera","baseline",174,36,95,0.378947368421053,"heavily invaded"
-2,"Hydrocotyle ranunculoides","current",1,1,95,0.0105263157894737,"scattered occurrences only"
-2,"Pontederia cordata","current",3,NA,95,NA,NA
-2,"Ludwigia grandiflora","baseline",1,1,95,0.0105263157894737,"scattered occurrences only"
-2,"Ludwigia grandiflora","current",3,1,95,0.0105263157894737,"scattered occurrences only"
-2,"Myriophyllum aquaticum","current",5,2,95,0.0210526315789474,"scattered occurrences only"
-2,"Impatiens glandulifera","current",20,36,95,0.378947368421053,"heavily invaded"
+1,"Houttuynia cordata","current",2,NA,107,NA,NA
+1,"Myriophyllum aquaticum","current",4,1,107,0.00934579439252336,"scattered occurrences only"
+1,"Heracleum mantegazzianum","current",19,5,107,0.0467289719626168,"scattered occurrences only"
+1,"Myriophyllum aquaticum","baseline",1,1,107,0.00934579439252336,"scattered occurrences only"
+1,"Heracleum mantegazzianum","baseline",9,5,107,0.0467289719626168,"scattered occurrences only"
+1,"Hydrocotyle ranunculoides","current",2,1,107,0.00934579439252336,"scattered occurrences only"
+1,"Impatiens glandulifera","current",156,23,107,0.214953271028037,"heavily invaded"
+1,"Ludwigia peploides","current",5,NA,107,NA,NA
+1,"Hydrocotyle ranunculoides","baseline",1,1,107,0.00934579439252336,"scattered occurrences only"
+1,"Lysichiton americanus","current",2,NA,107,NA,NA
+2,"Aponogeton distachyos","current",2,NA,95,NA,NA
+2,"Heracleum mantegazzianum","baseline",12,5,95,0.0526315789473684,"scattered occurrences only"
+2,"Heracleum mantegazzianum","current",15,5,95,0.0526315789473684,"scattered occurrences only"
+2,"Pontederia cordata","current",4,NA,95,NA,NA
+2,"Myriophyllum aquaticum","current",11,2,95,0.0210526315789474,"scattered occurrences only"
+2,"Zizania latifolia","current",2,NA,95,NA,NA
+2,"Impatiens glandulifera","baseline",48,15,95,0.157894736842105,"weakly invaded"
+2,"Impatiens glandulifera","current",23,15,95,0.157894736842105,"weakly invaded"
 2,"Hydrocotyle ranunculoides","baseline",1,1,95,0.0105263157894737,"scattered occurrences only"
-2,"Houttuynia cordata","current",3,NA,95,NA,NA
-2,"Heracleum mantegazzianum","current",8,2,95,0.0210526315789474,"scattered occurrences only"
-3,"Houttuynia cordata","current",1,NA,69,NA,NA
-3,"Heracleum mantegazzianum","current",1,NA,69,NA,NA
-3,"Impatiens glandulifera","baseline",53,12,69,0.173913043478261,"weakly invaded"
+2,"Koenigia polystachya","current",1,NA,95,NA,NA
+2,"Houttuynia cordata","current",4,NA,95,NA,NA
+2,"Ludwigia grandiflora","baseline",2,1,95,0.0105263157894737,"scattered occurrences only"
+2,"Myriophyllum aquaticum","baseline",2,2,95,0.0210526315789474,"scattered occurrences only"
+2,"Hydrocotyle ranunculoides","current",3,1,95,0.0105263157894737,"scattered occurrences only"
+2,"Ludwigia grandiflora","current",4,1,95,0.0105263157894737,"scattered occurrences only"
+2,"Lysichiton americanus","current",1,NA,95,NA,NA
+3,"Impatiens glandulifera","current",1,9,69,0.130434782608696,"weakly invaded"
 3,"Pontederia cordata","current",2,NA,69,NA,NA
-3,"Impatiens glandulifera","current",1,12,69,0.173913043478261,"weakly invaded"
-4,"Myriophyllum aquaticum","current",2,1,59,0.0169491525423729,"scattered occurrences only"
+3,"Heracleum mantegazzianum","current",2,1,69,0.0144927536231884,"scattered occurrences only"
+3,"Heracleum mantegazzianum","baseline",2,1,69,0.0144927536231884,"scattered occurrences only"
+3,"Impatiens glandulifera","baseline",34,9,69,0.130434782608696,"weakly invaded"
+3,"Houttuynia cordata","current",1,NA,69,NA,NA
 4,"Pontederia cordata","current",4,NA,59,NA,NA
+4,"Myriophyllum aquaticum","current",1,1,59,0.0169491525423729,"scattered occurrences only"
+4,"Lysichiton americanus","current",1,NA,59,NA,NA
+4,"Houttuynia cordata","current",1,NA,59,NA,NA
 4,"Myriophyllum aquaticum","baseline",1,1,59,0.0169491525423729,"scattered occurrences only"
 4,"Hydrocotyle ranunculoides","current",1,NA,59,NA,NA
-4,"Houttuynia cordata","current",1,NA,59,NA,NA
-4,"Impatiens glandulifera","baseline",8,4,59,0.0677966101694915,"scattered occurrences only"
-5,"Impatiens glandulifera","baseline",15,11,51,0.215686274509804,"heavily invaded"
-5,"Heracleum mantegazzianum","current",6,NA,51,NA,NA
-5,"Lysichiton americanus","current",1,NA,51,NA,NA
 5,"Erythranthe guttata","baseline",1,1,51,0.0196078431372549,"scattered occurrences only"
-6,"Ludwigia grandiflora","current",2,NA,74,NA,NA
-6,"Myriophyllum aquaticum","current",1,NA,74,NA,NA
-6,"Hydrocotyle ranunculoides","baseline",2,2,74,0.027027027027027,"scattered occurrences only"
-6,"Impatiens glandulifera","current",5,24,74,0.324324324324324,"heavily invaded"
-6,"Petasites japonicus","baseline",3,1,74,0.0135135135135135,"scattered occurrences only"
-6,"Heracleum mantegazzianum","baseline",8,8,74,0.108108108108108,"weakly invaded"
-6,"Lysichiton americanus","current",1,1,74,0.0135135135135135,"scattered occurrences only"
-6,"Hydrocotyle ranunculoides","current",1,2,74,0.027027027027027,"scattered occurrences only"
-6,"Lysichiton americanus","baseline",1,1,74,0.0135135135135135,"scattered occurrences only"
+5,"Lysichiton americanus","current",1,NA,51,NA,NA
+5,"Heracleum mantegazzianum","current",10,NA,51,NA,NA
+5,"Impatiens glandulifera","baseline",2,2,51,0.0392156862745098,"scattered occurrences only"
+6,"Heracleum mantegazzianum","baseline",11,9,74,0.121621621621622,"weakly invaded"
 6,"Petasites japonicus","current",1,1,74,0.0135135135135135,"scattered occurrences only"
-6,"Impatiens glandulifera","baseline",172,24,74,0.324324324324324,"heavily invaded"
-6,"Heracleum mantegazzianum","current",14,8,74,0.108108108108108,"weakly invaded"
-7,"Procambarus clarkii","current",1,1,116,0.00862068965517241,"scattered occurrences only"
-7,"Impatiens glandulifera","baseline",372,39,116,0.336206896551724,"heavily invaded"
-7,"Myriophyllum aquaticum","current",1,1,116,0.00862068965517241,"scattered occurrences only"
-7,"Saururus cernuus","current",1,NA,116,NA,NA
-7,"Impatiens glandulifera","current",67,39,116,0.336206896551724,"heavily invaded"
-7,"Lysichiton americanus","current",1,NA,116,NA,NA
-7,"Crassula helmsii","current",2,1,116,0.00862068965517241,"scattered occurrences only"
-7,"Procambarus clarkii","baseline",3,1,116,0.00862068965517241,"scattered occurrences only"
-7,"Hydrocotyle ranunculoides","baseline",2,2,116,0.0172413793103448,"scattered occurrences only"
-7,"Heracleum mantegazzianum","baseline",8,7,116,0.0603448275862069,"scattered occurrences only"
-7,"Ludwigia peploides","current",1,NA,116,NA,NA
-7,"Heracleum mantegazzianum","current",14,7,116,0.0603448275862069,"scattered occurrences only"
-7,"Ludwigia grandiflora","current",1,1,116,0.00862068965517241,"scattered occurrences only"
-7,"Pontederia cordata","baseline",1,1,116,0.00862068965517241,"scattered occurrences only"
-7,"Hydrocotyle ranunculoides","current",1,2,116,0.0172413793103448,"scattered occurrences only"
-7,"Crassula helmsii","baseline",1,1,116,0.00862068965517241,"scattered occurrences only"
-7,"Houttuynia cordata","current",2,NA,116,NA,NA
-7,"Ludwigia grandiflora","baseline",1,1,116,0.00862068965517241,"scattered occurrences only"
+6,"Impatiens glandulifera","current",5,20,74,0.27027027027027,"heavily invaded"
+6,"Petasites japonicus","baseline",3,1,74,0.0135135135135135,"scattered occurrences only"
+6,"Lysichiton americanus","current",1,1,74,0.0135135135135135,"scattered occurrences only"
+6,"Heracleum mantegazzianum","current",24,9,74,0.121621621621622,"weakly invaded"
+6,"Lysichiton americanus","baseline",2,1,74,0.0135135135135135,"scattered occurrences only"
+6,"Myriophyllum aquaticum","current",1,NA,74,NA,NA
+6,"Ludwigia grandiflora","current",2,NA,74,NA,NA
+6,"Impatiens glandulifera","baseline",111,20,74,0.27027027027027,"heavily invaded"
+6,"Hydrocotyle ranunculoides","baseline",2,2,74,0.027027027027027,"scattered occurrences only"
+6,"Hydrocotyle ranunculoides","current",3,2,74,0.027027027027027,"scattered occurrences only"
+7,"Crassula helmsii","baseline",3,2,116,0.0172413793103448,"scattered occurrences only"
+7,"Heracleum mantegazzianum","baseline",9,8,116,0.0689655172413793,"scattered occurrences only"
+7,"Hydrocotyle ranunculoides","baseline",7,3,116,0.0258620689655172,"scattered occurrences only"
+7,"Ludwigia grandiflora","current",2,1,116,0.00862068965517241,"scattered occurrences only"
 7,"Pontederia cordata","current",3,1,116,0.00862068965517241,"scattered occurrences only"
 7,"Myriophyllum aquaticum","baseline",1,1,116,0.00862068965517241,"scattered occurrences only"
-8,"Petasites japonicus","current",1,1,108,0.00925925925925926,"scattered occurrences only"
-8,"Lysichiton americanus","current",2,2,108,0.0185185185185185,"scattered occurrences only"
-8,"Myriophyllum aquaticum","current",1,1,108,0.00925925925925926,"scattered occurrences only"
-8,"Aponogeton distachyos","current",1,NA,108,NA,NA
-8,"Impatiens glandulifera","baseline",298,31,108,0.287037037037037,"heavily invaded"
-8,"Impatiens glandulifera","current",31,31,108,0.287037037037037,"heavily invaded"
-8,"Procambarus clarkii","current",1,NA,108,NA,NA
-8,"Crassula helmsii","current",2,1,108,0.00925925925925926,"scattered occurrences only"
-8,"Crassula helmsii","baseline",1,1,108,0.00925925925925926,"scattered occurrences only"
-8,"Myriophyllum aquaticum","baseline",1,1,108,0.00925925925925926,"scattered occurrences only"
-8,"Heracleum mantegazzianum","current",5,8,108,0.0740740740740741,"scattered occurrences only"
-8,"Petasites japonicus","baseline",1,1,108,0.00925925925925926,"scattered occurrences only"
-8,"Heracleum mantegazzianum","baseline",12,8,108,0.0740740740740741,"scattered occurrences only"
-8,"Lysichiton americanus","baseline",4,2,108,0.0185185185185185,"scattered occurrences only"
+7,"Lysichiton americanus","current",2,NA,116,NA,NA
+7,"Pontederia cordata","baseline",1,1,116,0.00862068965517241,"scattered occurrences only"
+7,"Saururus cernuus","current",1,NA,116,NA,NA
+7,"Procambarus clarkii","current",2,1,116,0.00862068965517241,"scattered occurrences only"
+7,"Myriophyllum aquaticum","current",3,1,116,0.00862068965517241,"scattered occurrences only"
+7,"Ludwigia peploides","current",1,NA,116,NA,NA
+7,"Aponogeton distachyos","baseline",1,1,116,0.00862068965517241,"scattered occurrences only"
+7,"Procambarus clarkii","baseline",3,1,116,0.00862068965517241,"scattered occurrences only"
+7,"Crassula helmsii","current",4,2,116,0.0172413793103448,"scattered occurrences only"
+7,"Ludwigia grandiflora","baseline",1,1,116,0.00862068965517241,"scattered occurrences only"
+7,"Hydrocotyle ranunculoides","current",2,3,116,0.0258620689655172,"scattered occurrences only"
+7,"Houttuynia cordata","current",2,NA,116,NA,NA
+7,"Heracleum mantegazzianum","current",21,8,116,0.0689655172413793,"scattered occurrences only"
+7,"Impatiens glandulifera","current",149,24,116,0.206896551724138,"heavily invaded"
+7,"Impatiens glandulifera","baseline",72,24,116,0.206896551724138,"heavily invaded"
+8,"Impatiens glandulifera","current",66,20,108,0.185185185185185,"weakly invaded"
 8,"Pontederia cordata","current",2,NA,108,NA,NA
 8,"Ludwigia grandiflora","baseline",1,1,108,0.00925925925925926,"scattered occurrences only"
-9,"Myriophyllum aquaticum","current",1,NA,70,NA,NA
+8,"Lysichiton americanus","current",7,2,108,0.0185185185185185,"scattered occurrences only"
+8,"Hydrocotyle ranunculoides","baseline",1,1,108,0.00925925925925926,"scattered occurrences only"
+8,"Lysichiton americanus","baseline",4,2,108,0.0185185185185185,"scattered occurrences only"
+8,"Crassula helmsii","current",2,1,108,0.00925925925925926,"scattered occurrences only"
+8,"Crassula helmsii","baseline",1,1,108,0.00925925925925926,"scattered occurrences only"
+8,"Heracleum mantegazzianum","current",9,10,108,0.0925925925925926,"scattered occurrences only"
+8,"Aponogeton distachyos","current",1,NA,108,NA,NA
+8,"Impatiens glandulifera","baseline",117,20,108,0.185185185185185,"weakly invaded"
+8,"Petasites japonicus","current",2,1,108,0.00925925925925926,"scattered occurrences only"
+8,"Heracleum mantegazzianum","baseline",18,10,108,0.0925925925925926,"scattered occurrences only"
+8,"Petasites japonicus","baseline",1,1,108,0.00925925925925926,"scattered occurrences only"
+8,"Myriophyllum aquaticum","baseline",1,1,108,0.00925925925925926,"scattered occurrences only"
+8,"Myriophyllum aquaticum","current",2,1,108,0.00925925925925926,"scattered occurrences only"
+8,"Koenigia polystachya","current",1,NA,108,NA,NA
+8,"Procambarus clarkii","current",2,NA,108,NA,NA
+9,"Zizania latifolia","current",1,1,70,0.0142857142857143,"scattered occurrences only"
 9,"Ludwigia grandiflora","current",3,NA,70,NA,NA
-9,"Crassula helmsii","current",4,3,70,0.0428571428571429,"scattered occurrences only"
-9,"Crassula helmsii","baseline",5,3,70,0.0428571428571429,"scattered occurrences only"
-9,"Lysichiton americanus","baseline",2,2,70,0.0285714285714286,"scattered occurrences only"
-9,"Impatiens glandulifera","baseline",63,16,70,0.228571428571429,"heavily invaded"
-9,"Heracleum mantegazzianum","current",10,3,70,0.0428571428571429,"scattered occurrences only"
-9,"Houttuynia cordata","current",1,NA,70,NA,NA
-9,"Pontederia cordata","current",1,NA,70,NA,NA
-9,"Impatiens glandulifera","current",17,16,70,0.228571428571429,"heavily invaded"
-9,"Heracleum mantegazzianum","baseline",3,3,70,0.0428571428571429,"scattered occurrences only"
-9,"Hydrocotyle ranunculoides","baseline",8,3,70,0.0428571428571429,"scattered occurrences only"
 9,"Zizania latifolia","baseline",1,1,70,0.0142857142857143,"scattered occurrences only"
+9,"Houttuynia cordata","current",1,NA,70,NA,NA
+9,"Impatiens glandulifera","current",26,14,70,0.2,"weakly invaded"
+9,"Impatiens glandulifera","baseline",33,14,70,0.2,"weakly invaded"
+9,"Crassula helmsii","baseline",5,3,70,0.0428571428571429,"scattered occurrences only"
+9,"Crassula helmsii","current",7,3,70,0.0428571428571429,"scattered occurrences only"
+9,"Heracleum mantegazzianum","current",24,6,70,0.0857142857142857,"scattered occurrences only"
+9,"Lysichiton americanus","baseline",2,2,70,0.0285714285714286,"scattered occurrences only"
+9,"Pontederia cordata","current",1,NA,70,NA,NA
 9,"Petasites japonicus","current",1,NA,70,NA,NA
-9,"Hydrocotyle ranunculoides","current",3,3,70,0.0428571428571429,"scattered occurrences only"
-10,"Procambarus clarkii","current",6,NA,85,NA,NA
-10,"Saururus cernuus","current",1,NA,85,NA,NA
+9,"Lysichiton americanus","current",1,2,70,0.0285714285714286,"scattered occurrences only"
+9,"Myriophyllum aquaticum","current",1,NA,70,NA,NA
+9,"Hydrocotyle ranunculoides","current",7,6,70,0.0857142857142857,"scattered occurrences only"
+9,"Hydrocotyle ranunculoides","baseline",21,6,70,0.0857142857142857,"scattered occurrences only"
+9,"Heracleum mantegazzianum","baseline",8,6,70,0.0857142857142857,"scattered occurrences only"
 10,"Pontederia cordata","current",6,NA,85,NA,NA
-10,"Myriophyllum aquaticum","current",1,1,85,0.0117647058823529,"scattered occurrences only"
+10,"Procambarus clarkii","current",9,NA,85,NA,NA
+10,"Impatiens glandulifera","current",20,11,85,0.129411764705882,"weakly invaded"
+10,"Heracleum mantegazzianum","baseline",50,12,85,0.141176470588235,"weakly invaded"
 10,"Crassula helmsii","baseline",1,1,85,0.0117647058823529,"scattered occurrences only"
-10,"Impatiens glandulifera","baseline",78,16,85,0.188235294117647,"weakly invaded"
-10,"Heracleum mantegazzianum","baseline",43,10,85,0.117647058823529,"weakly invaded"
-10,"Myriophyllum aquaticum","baseline",1,1,85,0.0117647058823529,"scattered occurrences only"
-10,"Heracleum mantegazzianum","current",20,10,85,0.117647058823529,"weakly invaded"
-10,"Impatiens glandulifera","current",20,16,85,0.188235294117647,"weakly invaded"
 10,"Lagarosiphon major","current",1,NA,85,NA,NA
-11,"Hydrocotyle ranunculoides","baseline",1,1,112,0.00892857142857143,"scattered occurrences only"
-11,"Hydrocotyle ranunculoides","current",2,1,112,0.00892857142857143,"scattered occurrences only"
-11,"Impatiens glandulifera","current",257,29,112,0.258928571428571,"heavily invaded"
-11,"Heracleum mantegazzianum","baseline",30,14,112,0.125,"weakly invaded"
-11,"Heracleum mantegazzianum","current",33,14,112,0.125,"weakly invaded"
+10,"Myriophyllum aquaticum","baseline",1,1,85,0.0117647058823529,"scattered occurrences only"
+10,"Myriophyllum aquaticum","current",2,1,85,0.0117647058823529,"scattered occurrences only"
+10,"Heracleum mantegazzianum","current",39,12,85,0.141176470588235,"weakly invaded"
+10,"Impatiens glandulifera","baseline",39,11,85,0.129411764705882,"weakly invaded"
+10,"Saururus cernuus","current",1,NA,85,NA,NA
+11,"Impatiens glandulifera","current",273,29,112,0.258928571428571,"heavily invaded"
 11,"Erythranthe guttata","current",1,2,112,0.0178571428571429,"scattered occurrences only"
+11,"Heracleum mantegazzianum","current",41,14,112,0.125,"weakly invaded"
 11,"Erythranthe guttata","baseline",2,2,112,0.0178571428571429,"scattered occurrences only"
+11,"Impatiens glandulifera","baseline",100,29,112,0.258928571428571,"heavily invaded"
+11,"Hydrocotyle ranunculoides","current",6,1,112,0.00892857142857143,"scattered occurrences only"
+11,"Heracleum mantegazzianum","baseline",30,14,112,0.125,"weakly invaded"
+11,"Hydrocotyle ranunculoides","baseline",1,1,112,0.00892857142857143,"scattered occurrences only"
 11,"Myriophyllum aquaticum","baseline",1,1,112,0.00892857142857143,"scattered occurrences only"
-11,"Impatiens glandulifera","baseline",99,29,112,0.258928571428571,"heavily invaded"
-12,"Hydrocotyle ranunculoides","baseline",1,1,63,0.0158730158730159,"scattered occurrences only"
-12,"Heracleum mantegazzianum","current",2,3,63,0.0476190476190476,"scattered occurrences only"
-12,"Heracleum mantegazzianum","baseline",3,3,63,0.0476190476190476,"scattered occurrences only"
+12,"Impatiens glandulifera","baseline",144,19,63,0.301587301587302,"heavily invaded"
+12,"Pontederia cordata","current",1,NA,63,NA,NA
 12,"Crassula helmsii","current",6,2,63,0.0317460317460317,"scattered occurrences only"
 12,"Crassula helmsii","baseline",2,2,63,0.0317460317460317,"scattered occurrences only"
-12,"Koenigia polystachya","current",1,1,63,0.0158730158730159,"scattered occurrences only"
-12,"Impatiens glandulifera","current",189,18,63,0.285714285714286,"heavily invaded"
+12,"Hydrocotyle ranunculoides","baseline",1,1,63,0.0158730158730159,"scattered occurrences only"
+12,"Koenigia polystachya","current",1,NA,63,NA,NA
+12,"Heracleum mantegazzianum","current",3,3,63,0.0476190476190476,"scattered occurrences only"
+12,"Heracleum mantegazzianum","baseline",4,3,63,0.0476190476190476,"scattered occurrences only"
 12,"Lysichiton americanus","current",1,NA,63,NA,NA
-12,"Impatiens glandulifera","baseline",180,18,63,0.285714285714286,"heavily invaded"
-12,"Pontederia cordata","current",1,NA,63,NA,NA
-13,"Impatiens glandulifera","baseline",187,18,56,0.321428571428571,"heavily invaded"
-13,"Heracleum mantegazzianum","current",2,5,56,0.0892857142857143,"scattered occurrences only"
+12,"Impatiens glandulifera","current",212,19,63,0.301587301587302,"heavily invaded"
 13,"Heracleum mantegazzianum","baseline",7,5,56,0.0892857142857143,"scattered occurrences only"
-13,"Hydrocotyle ranunculoides","baseline",18,4,56,0.0714285714285714,"scattered occurrences only"
-13,"Impatiens glandulifera","current",126,18,56,0.321428571428571,"heavily invaded"
-13,"Crassula helmsii","current",2,1,56,0.0178571428571429,"scattered occurrences only"
 13,"Crassula helmsii","baseline",18,1,56,0.0178571428571429,"scattered occurrences only"
-14,"Petasites japonicus","baseline",1,1,82,0.0121951219512195,"scattered occurrences only"
+13,"Hydrocotyle ranunculoides","baseline",18,4,56,0.0714285714285714,"scattered occurrences only"
+13,"Impatiens glandulifera","current",159,17,56,0.303571428571429,"heavily invaded"
+13,"Crassula helmsii","current",2,1,56,0.0178571428571429,"scattered occurrences only"
+13,"Impatiens glandulifera","baseline",147,17,56,0.303571428571429,"heavily invaded"
+13,"Heracleum mantegazzianum","current",5,5,56,0.0892857142857143,"scattered occurrences only"
 14,"Myriophyllum aquaticum","current",4,1,82,0.0121951219512195,"scattered occurrences only"
-14,"Myriophyllum aquaticum","baseline",2,1,82,0.0121951219512195,"scattered occurrences only"
-14,"Impatiens glandulifera","baseline",2,2,82,0.024390243902439,"scattered occurrences only"
-14,"Impatiens glandulifera","current",6,2,82,0.024390243902439,"scattered occurrences only"
-14,"Hydrocotyle ranunculoides","baseline",1,1,82,0.0121951219512195,"scattered occurrences only"
-14,"Heracleum mantegazzianum","baseline",77,20,82,0.24390243902439,"heavily invaded"
 14,"Houttuynia cordata","current",1,NA,82,NA,NA
-14,"Heracleum mantegazzianum","current",72,20,82,0.24390243902439,"heavily invaded"
-15,"Heracleum mantegazzianum","current",4,8,41,0.195121951219512,"weakly invaded"
+14,"Myriophyllum aquaticum","baseline",2,1,82,0.0121951219512195,"scattered occurrences only"
+14,"Impatiens glandulifera","current",11,2,82,0.024390243902439,"scattered occurrences only"
+14,"Heracleum mantegazzianum","baseline",77,20,82,0.24390243902439,"heavily invaded"
+14,"Petasites japonicus","baseline",1,1,82,0.0121951219512195,"scattered occurrences only"
+14,"Heracleum mantegazzianum","current",99,20,82,0.24390243902439,"heavily invaded"
+14,"Impatiens glandulifera","baseline",2,2,82,0.024390243902439,"scattered occurrences only"
+14,"Hydrocotyle ranunculoides","baseline",1,1,82,0.0121951219512195,"scattered occurrences only"
+15,"Impatiens glandulifera","current",208,15,41,0.365853658536585,"heavily invaded"
 15,"Erythranthe guttata","baseline",2,2,41,0.0487804878048781,"scattered occurrences only"
-15,"Ludwigia grandiflora","current",4,4,41,0.0975609756097561,"scattered occurrences only"
-15,"Heracleum mantegazzianum","baseline",17,8,41,0.195121951219512,"weakly invaded"
-15,"Impatiens glandulifera","current",162,15,41,0.365853658536585,"heavily invaded"
 15,"Ludwigia grandiflora","baseline",16,4,41,0.0975609756097561,"scattered occurrences only"
 15,"Impatiens glandulifera","baseline",100,15,41,0.365853658536585,"heavily invaded"
-16,"Crassula helmsii","current",4,4,66,0.0606060606060606,"scattered occurrences only"
-16,"Hydrocotyle ranunculoides","baseline",10,3,66,0.0454545454545455,"scattered occurrences only"
+15,"Ludwigia grandiflora","current",5,4,41,0.0975609756097561,"scattered occurrences only"
+15,"Heracleum mantegazzianum","baseline",16,7,41,0.170731707317073,"weakly invaded"
+15,"Heracleum mantegazzianum","current",13,7,41,0.170731707317073,"weakly invaded"
 16,"Heracleum mantegazzianum","baseline",33,9,66,0.136363636363636,"weakly invaded"
-16,"Heracleum mantegazzianum","current",23,9,66,0.136363636363636,"weakly invaded"
-16,"Impatiens glandulifera","current",37,6,66,0.0909090909090909,"scattered occurrences only"
-16,"Erythranthe guttata","baseline",2,2,66,0.0303030303030303,"scattered occurrences only"
-16,"Impatiens glandulifera","baseline",11,6,66,0.0909090909090909,"scattered occurrences only"
+16,"Heracleum mantegazzianum","current",27,9,66,0.136363636363636,"weakly invaded"
+16,"Impatiens glandulifera","current",44,6,66,0.0909090909090909,"scattered occurrences only"
 16,"Hydrocotyle ranunculoides","current",1,3,66,0.0454545454545455,"scattered occurrences only"
+16,"Crassula helmsii","current",5,4,66,0.0606060606060606,"scattered occurrences only"
+16,"Hydrocotyle ranunculoides","baseline",10,3,66,0.0454545454545455,"scattered occurrences only"
+16,"Impatiens glandulifera","baseline",11,6,66,0.0909090909090909,"scattered occurrences only"
+16,"Erythranthe guttata","baseline",2,2,66,0.0303030303030303,"scattered occurrences only"
 16,"Crassula helmsii","baseline",7,4,66,0.0606060606060606,"scattered occurrences only"
-17,"Procambarus virginalis","current",19,NA,48,NA,NA
-17,"Impatiens glandulifera","baseline",28,5,48,0.104166666666667,"weakly invaded"
-17,"Crassula helmsii","current",7,1,48,0.0208333333333333,"scattered occurrences only"
-17,"Crassula helmsii","baseline",2,1,48,0.0208333333333333,"scattered occurrences only"
-17,"Impatiens glandulifera","current",74,5,48,0.104166666666667,"weakly invaded"
-17,"Heracleum mantegazzianum","baseline",93,10,48,0.208333333333333,"heavily invaded"
-17,"Heracleum mantegazzianum","current",87,10,48,0.208333333333333,"heavily invaded"
+17,"Heracleum mantegazzianum","current",107,10,48,0.208333333333333,"heavily invaded"
 17,"Lysichiton americanus","current",2,NA,48,NA,NA
+17,"Crassula helmsii","current",14,1,48,0.0208333333333333,"scattered occurrences only"
+17,"Heracleum mantegazzianum","baseline",92,10,48,0.208333333333333,"heavily invaded"
+17,"Impatiens glandulifera","current",103,5,48,0.104166666666667,"weakly invaded"
 17,"Ludwigia grandiflora","baseline",1,1,48,0.0208333333333333,"scattered occurrences only"
+17,"Procambarus virginalis","current",27,3,48,0.0625,"scattered occurrences only"
+17,"Crassula helmsii","baseline",2,1,48,0.0208333333333333,"scattered occurrences only"
+17,"Impatiens glandulifera","baseline",28,5,48,0.104166666666667,"weakly invaded"
+17,"Houttuynia cordata","current",1,NA,48,NA,NA
+18,"Heracleum mantegazzianum","baseline",59,11,74,0.148648648648649,"weakly invaded"
 18,"Ludwigia grandiflora","baseline",52,9,74,0.121621621621622,"weakly invaded"
-18,"Hydrocotyle ranunculoides","current",7,1,74,0.0135135135135135,"scattered occurrences only"
+18,"Impatiens glandulifera","current",41,7,74,0.0945945945945946,"scattered occurrences only"
 18,"Impatiens glandulifera","baseline",17,7,74,0.0945945945945946,"scattered occurrences only"
-18,"Impatiens glandulifera","current",38,7,74,0.0945945945945946,"scattered occurrences only"
-18,"Heracleum mantegazzianum","baseline",61,11,74,0.148648648648649,"weakly invaded"
-18,"Ludwigia grandiflora","current",6,9,74,0.121621621621622,"weakly invaded"
-18,"Heracleum mantegazzianum","current",41,11,74,0.148648648648649,"weakly invaded"
-18,"Erythranthe guttata","baseline",2,1,74,0.0135135135135135,"scattered occurrences only"
 18,"Hydrocotyle ranunculoides","baseline",1,1,74,0.0135135135135135,"scattered occurrences only"
-19,"Myriophyllum aquaticum","current",3,4,94,0.0425531914893617,"scattered occurrences only"
-19,"Myriophyllum aquaticum","baseline",6,4,94,0.0425531914893617,"scattered occurrences only"
-19,"Hydrocotyle ranunculoides","current",6,2,94,0.0212765957446809,"scattered occurrences only"
-19,"Crassula helmsii","baseline",4,1,94,0.0106382978723404,"scattered occurrences only"
-19,"Aponogeton distachyos","baseline",1,1,94,0.0106382978723404,"scattered occurrences only"
-19,"Crassula helmsii","current",2,1,94,0.0106382978723404,"scattered occurrences only"
-19,"Impatiens glandulifera","current",3,4,94,0.0425531914893617,"scattered occurrences only"
-19,"Impatiens glandulifera","baseline",7,4,94,0.0425531914893617,"scattered occurrences only"
-19,"Ludwigia grandiflora","current",1,5,94,0.0531914893617021,"scattered occurrences only"
-19,"Ludwigia grandiflora","baseline",18,5,94,0.0531914893617021,"scattered occurrences only"
-19,"Lysichiton americanus","current",2,NA,94,NA,NA
-19,"Pontederia cordata","current",1,3,94,0.0319148936170213,"scattered occurrences only"
+18,"Erythranthe guttata","baseline",2,1,74,0.0135135135135135,"scattered occurrences only"
+18,"Hydrocotyle ranunculoides","current",9,1,74,0.0135135135135135,"scattered occurrences only"
+18,"Heracleum mantegazzianum","current",53,11,74,0.148648648648649,"weakly invaded"
+18,"Ludwigia grandiflora","current",6,9,74,0.121621621621622,"weakly invaded"
+19,"Pontederia cordata","current",2,3,94,0.0319148936170213,"scattered occurrences only"
 19,"Hydrocotyle ranunculoides","baseline",2,2,94,0.0212765957446809,"scattered occurrences only"
-19,"Heracleum mantegazzianum","current",27,7,94,0.074468085106383,"scattered occurrences only"
-19,"Heracleum mantegazzianum","baseline",12,7,94,0.074468085106383,"scattered occurrences only"
+19,"Aponogeton distachyos","baseline",1,1,94,0.0106382978723404,"scattered occurrences only"
+19,"Lysichiton americanus","current",2,NA,94,NA,NA
+19,"Hydrocotyle ranunculoides","current",9,2,94,0.0212765957446809,"scattered occurrences only"
+19,"Heracleum mantegazzianum","current",34,7,94,0.074468085106383,"scattered occurrences only"
+19,"Ludwigia grandiflora","baseline",18,5,94,0.0531914893617021,"scattered occurrences only"
+19,"Impatiens glandulifera","baseline",7,4,94,0.0425531914893617,"scattered occurrences only"
+19,"Aponogeton distachyos","current",1,1,94,0.0106382978723404,"scattered occurrences only"
 19,"Pontederia cordata","baseline",6,3,94,0.0319148936170213,"scattered occurrences only"
-19,"Erythranthe guttata","current",1,NA,94,NA,NA
-20,"Lysichiton americanus","baseline",1,1,101,0.0099009900990099,"scattered occurrences only"
-20,"Heracleum mantegazzianum","baseline",70,15,101,0.148514851485149,"weakly invaded"
-20,"Hydrocotyle ranunculoides","current",1,NA,101,NA,NA
-20,"Impatiens glandulifera","current",13,7,101,0.0693069306930693,"scattered occurrences only"
-20,"Heracleum mantegazzianum","current",40,15,101,0.148514851485149,"weakly invaded"
-20,"Impatiens glandulifera","baseline",14,7,101,0.0693069306930693,"scattered occurrences only"
+19,"Heracleum mantegazzianum","baseline",12,7,94,0.074468085106383,"scattered occurrences only"
+19,"Myriophyllum aquaticum","baseline",6,4,94,0.0425531914893617,"scattered occurrences only"
+19,"Erythranthe guttata","current",2,NA,94,NA,NA
+19,"Crassula helmsii","current",3,1,94,0.0106382978723404,"scattered occurrences only"
+19,"Impatiens glandulifera","current",3,4,94,0.0425531914893617,"scattered occurrences only"
+19,"Crassula helmsii","baseline",4,1,94,0.0106382978723404,"scattered occurrences only"
+19,"Myriophyllum aquaticum","current",3,4,94,0.0425531914893617,"scattered occurrences only"
+19,"Ludwigia grandiflora","current",1,5,94,0.0531914893617021,"scattered occurrences only"
+20,"Impatiens glandulifera","current",17,7,101,0.0693069306930693,"scattered occurrences only"
 20,"Ludwigia grandiflora","baseline",2,1,101,0.0099009900990099,"scattered occurrences only"
-21,"Crassula helmsii","baseline",3,2,114,0.0175438596491228,"scattered occurrences only"
-21,"Pontederia cordata","current",3,1,114,0.0087719298245614,"scattered occurrences only"
-21,"Impatiens glandulifera","baseline",62,17,114,0.149122807017544,"weakly invaded"
-21,"Pontederia cordata","baseline",1,1,114,0.0087719298245614,"scattered occurrences only"
-21,"Heracleum mantegazzianum","current",37,8,114,0.0701754385964912,"scattered occurrences only"
-21,"Heracleum mantegazzianum","baseline",36,8,114,0.0701754385964912,"scattered occurrences only"
-21,"Ludwigia grandiflora","current",5,4,114,0.0350877192982456,"scattered occurrences only"
-21,"Koenigia polystachya","current",1,1,114,0.0087719298245614,"scattered occurrences only"
-21,"Impatiens glandulifera","current",105,17,114,0.149122807017544,"weakly invaded"
-21,"Procambarus clarkii","current",57,2,114,0.0175438596491228,"scattered occurrences only"
-21,"Hydrocotyle ranunculoides","baseline",3,2,114,0.0175438596491228,"scattered occurrences only"
-21,"Ludwigia grandiflora","baseline",5,4,114,0.0350877192982456,"scattered occurrences only"
-21,"Procambarus clarkii","baseline",3,2,114,0.0175438596491228,"scattered occurrences only"
-21,"Koenigia polystachya","baseline",1,1,114,0.0087719298245614,"scattered occurrences only"
-21,"Crassula helmsii","current",1,2,114,0.0175438596491228,"scattered occurrences only"
+20,"Heracleum mantegazzianum","baseline",70,15,101,0.148514851485149,"weakly invaded"
+20,"Heracleum mantegazzianum","current",47,15,101,0.148514851485149,"weakly invaded"
+20,"Impatiens glandulifera","baseline",14,7,101,0.0693069306930693,"scattered occurrences only"
+20,"Ludwigia grandiflora","current",2,1,101,0.0099009900990099,"scattered occurrences only"
+20,"Lysichiton americanus","baseline",1,1,101,0.0099009900990099,"scattered occurrences only"
+20,"Hydrocotyle ranunculoides","current",1,NA,101,NA,NA
+20,"Crassula helmsii","current",1,NA,101,NA,NA
+21,"Pontederia cordata","current",5,1,114,0.0087719298245614,"scattered occurrences only"
+21,"Impatiens glandulifera","current",138,17,114,0.149122807017544,"weakly invaded"
+21,"Ludwigia grandiflora","current",8,3,114,0.0263157894736842,"scattered occurrences only"
+21,"Procambarus clarkii","current",88,2,114,0.0175438596491228,"scattered occurrences only"
 21,"Myriophyllum aquaticum","baseline",3,3,114,0.0263157894736842,"scattered occurrences only"
-21,"Erythranthe guttata","current",2,NA,114,NA,NA
+21,"Procambarus clarkii","baseline",3,2,114,0.0175438596491228,"scattered occurrences only"
+21,"Pontederia cordata","baseline",1,1,114,0.0087719298245614,"scattered occurrences only"
+21,"Heracleum mantegazzianum","baseline",35,8,114,0.0701754385964912,"scattered occurrences only"
+21,"Koenigia polystachya","baseline",1,1,114,0.0087719298245614,"scattered occurrences only"
+21,"Impatiens glandulifera","baseline",61,17,114,0.149122807017544,"weakly invaded"
+21,"Erythranthe guttata","current",3,NA,114,NA,NA
 21,"Petasites japonicus","baseline",2,1,114,0.0087719298245614,"scattered occurrences only"
-22,"Heracleum mantegazzianum","baseline",3,2,65,0.0307692307692308,"scattered occurrences only"
-22,"Impatiens glandulifera","current",13,3,65,0.0461538461538462,"scattered occurrences only"
+21,"Koenigia polystachya","current",1,1,114,0.0087719298245614,"scattered occurrences only"
+21,"Ludwigia grandiflora","baseline",4,3,114,0.0263157894736842,"scattered occurrences only"
+21,"Hydrocotyle ranunculoides","baseline",3,2,114,0.0175438596491228,"scattered occurrences only"
+21,"Heracleum mantegazzianum","current",52,8,114,0.0701754385964912,"scattered occurrences only"
+21,"Crassula helmsii","baseline",3,2,114,0.0175438596491228,"scattered occurrences only"
+21,"Crassula helmsii","current",1,2,114,0.0175438596491228,"scattered occurrences only"
+22,"Hydrocotyle ranunculoides","current",3,2,65,0.0307692307692308,"scattered occurrences only"
+22,"Myriophyllum aquaticum","current",23,5,65,0.0769230769230769,"scattered occurrences only"
 22,"Crassula helmsii","current",1,1,65,0.0153846153846154,"scattered occurrences only"
-22,"Ludwigia grandiflora","current",3,NA,65,NA,NA
-22,"Myriophyllum aquaticum","baseline",10,5,65,0.0769230769230769,"scattered occurrences only"
+22,"Heracleum mantegazzianum","baseline",3,2,65,0.0307692307692308,"scattered occurrences only"
 22,"Elodea densa","baseline",2,2,65,0.0307692307692308,"scattered occurrences only"
-22,"Hydrocotyle ranunculoides","baseline",2,2,65,0.0307692307692308,"scattered occurrences only"
-22,"Heracleum mantegazzianum","current",5,2,65,0.0307692307692308,"scattered occurrences only"
+22,"Ludwigia grandiflora","current",3,NA,65,NA,NA
 22,"Impatiens glandulifera","baseline",4,3,65,0.0461538461538462,"scattered occurrences only"
-22,"Crassula helmsii","baseline",2,1,65,0.0153846153846154,"scattered occurrences only"
-22,"Hydrocotyle ranunculoides","current",2,2,65,0.0307692307692308,"scattered occurrences only"
-22,"Myriophyllum aquaticum","current",17,5,65,0.0769230769230769,"scattered occurrences only"
-23,"Crassula helmsii","current",21,4,175,0.0228571428571429,"scattered occurrences only"
+22,"Impatiens glandulifera","current",18,3,65,0.0461538461538462,"scattered occurrences only"
+22,"Myriophyllum aquaticum","baseline",10,5,65,0.0769230769230769,"scattered occurrences only"
+22,"Crassula helmsii","baseline",4,1,65,0.0153846153846154,"scattered occurrences only"
+22,"Hydrocotyle ranunculoides","baseline",2,2,65,0.0307692307692308,"scattered occurrences only"
+22,"Heracleum mantegazzianum","current",8,2,65,0.0307692307692308,"scattered occurrences only"
+23,"Ludwigia grandiflora","current",25,8,175,0.0457142857142857,"scattered occurrences only"
+23,"Impatiens glandulifera","baseline",68,28,175,0.16,"weakly invaded"
+23,"Crassula helmsii","baseline",11,4,175,0.0228571428571429,"scattered occurrences only"
 23,"Ludwigia grandiflora","baseline",19,8,175,0.0457142857142857,"scattered occurrences only"
 23,"Pontederia cordata","baseline",1,1,175,0.00571428571428571,"scattered occurrences only"
-23,"Heracleum mantegazzianum","baseline",21,10,175,0.0571428571428571,"scattered occurrences only"
-23,"Crassula helmsii","baseline",12,4,175,0.0228571428571429,"scattered occurrences only"
-23,"Ludwigia grandiflora","current",15,8,175,0.0457142857142857,"scattered occurrences only"
-23,"Heracleum mantegazzianum","current",21,10,175,0.0571428571428571,"scattered occurrences only"
 23,"Erythranthe guttata","baseline",1,1,175,0.00571428571428571,"scattered occurrences only"
-23,"Houttuynia cordata","current",1,NA,175,NA,NA
-23,"Myriophyllum aquaticum","current",16,13,175,0.0742857142857143,"scattered occurrences only"
-23,"Hydrocotyle ranunculoides","current",1,11,175,0.0628571428571429,"scattered occurrences only"
-23,"Hydrocotyle ranunculoides","baseline",48,11,175,0.0628571428571429,"scattered occurrences only"
-23,"Impatiens glandulifera","current",200,29,175,0.165714285714286,"weakly invaded"
-23,"Erythranthe guttata","current",1,1,175,0.00571428571428571,"scattered occurrences only"
-23,"Impatiens glandulifera","baseline",69,29,175,0.165714285714286,"weakly invaded"
+23,"Impatiens glandulifera","current",225,28,175,0.16,"weakly invaded"
+23,"Crassula helmsii","current",23,4,175,0.0228571428571429,"scattered occurrences only"
+23,"Myriophyllum aquaticum","current",24,13,175,0.0742857142857143,"scattered occurrences only"
+23,"Hydrocotyle ranunculoides","current",2,12,175,0.0685714285714286,"scattered occurrences only"
+23,"Erythranthe guttata","current",4,1,175,0.00571428571428571,"scattered occurrences only"
 23,"Myriophyllum aquaticum","baseline",40,13,175,0.0742857142857143,"scattered occurrences only"
+23,"Houttuynia cordata","current",1,NA,175,NA,NA
+23,"Hydrocotyle ranunculoides","baseline",49,12,175,0.0685714285714286,"scattered occurrences only"
+23,"Heracleum mantegazzianum","current",25,10,175,0.0571428571428571,"scattered occurrences only"
+23,"Heracleum mantegazzianum","baseline",21,10,175,0.0571428571428571,"scattered occurrences only"
+24,"Impatiens glandulifera","baseline",2,2,58,0.0344827586206897,"scattered occurrences only"
 24,"Procambarus clarkii","baseline",2,2,58,0.0344827586206897,"scattered occurrences only"
-24,"Impatiens glandulifera","baseline",1,1,58,0.0172413793103448,"scattered occurrences only"
-24,"Myriophyllum aquaticum","baseline",5,2,58,0.0344827586206897,"scattered occurrences only"
+24,"Impatiens glandulifera","current",1,2,58,0.0344827586206897,"scattered occurrences only"
 24,"Myriophyllum aquaticum","current",2,2,58,0.0344827586206897,"scattered occurrences only"
 24,"Crassula helmsii","current",1,NA,58,NA,NA
-24,"Impatiens glandulifera","current",1,1,58,0.0172413793103448,"scattered occurrences only"
-25,"Hydrocotyle ranunculoides","current",2,NA,68,NA,NA
-25,"Heracleum mantegazzianum","baseline",1,1,68,0.0147058823529412,"scattered occurrences only"
-25,"Impatiens glandulifera","current",1,4,68,0.0588235294117647,"scattered occurrences only"
-25,"Impatiens glandulifera","baseline",5,4,68,0.0588235294117647,"scattered occurrences only"
-25,"Myriophyllum aquaticum","baseline",1,1,68,0.0147058823529412,"scattered occurrences only"
-25,"Procambarus clarkii","baseline",8,3,68,0.0441176470588235,"scattered occurrences only"
-25,"Procambarus clarkii","current",29,3,68,0.0441176470588235,"scattered occurrences only"
+24,"Myriophyllum aquaticum","baseline",5,2,58,0.0344827586206897,"scattered occurrences only"
 25,"Ludwigia grandiflora","baseline",10,2,68,0.0294117647058824,"scattered occurrences only"
+25,"Ludwigia grandiflora","current",17,2,68,0.0294117647058824,"scattered occurrences only"
+25,"Impatiens glandulifera","baseline",5,4,68,0.0588235294117647,"scattered occurrences only"
+25,"Procambarus clarkii","current",40,2,68,0.0294117647058824,"scattered occurrences only"
 25,"Myriophyllum aquaticum","current",1,1,68,0.0147058823529412,"scattered occurrences only"
-25,"Ludwigia grandiflora","current",10,2,68,0.0294117647058824,"scattered occurrences only"
-26,"Impatiens glandulifera","current",14,10,98,0.102040816326531,"weakly invaded"
-26,"Crassula helmsii","current",1,NA,98,NA,NA
-26,"Impatiens glandulifera","baseline",29,10,98,0.102040816326531,"weakly invaded"
+25,"Hydrocotyle ranunculoides","current",2,NA,68,NA,NA
+25,"Impatiens glandulifera","current",2,4,68,0.0588235294117647,"scattered occurrences only"
+25,"Heracleum mantegazzianum","baseline",1,1,68,0.0147058823529412,"scattered occurrences only"
+25,"Myriophyllum aquaticum","baseline",1,1,68,0.0147058823529412,"scattered occurrences only"
+25,"Procambarus clarkii","baseline",8,2,68,0.0294117647058824,"scattered occurrences only"
 26,"Pontederia cordata","current",1,NA,98,NA,NA
+26,"Procambarus clarkii","current",1,NA,98,NA,NA
+26,"Impatiens glandulifera","current",20,10,98,0.102040816326531,"weakly invaded"
 26,"Heracleum mantegazzianum","baseline",1,1,98,0.0102040816326531,"scattered occurrences only"
-27,"Ludwigia grandiflora","baseline",1,1,48,0.0208333333333333,"scattered occurrences only"
-27,"Hydrocotyle ranunculoides","baseline",2,1,48,0.0208333333333333,"scattered occurrences only"
+26,"Impatiens glandulifera","baseline",32,10,98,0.102040816326531,"weakly invaded"
+26,"Crassula helmsii","current",1,NA,98,NA,NA
+27,"Impatiens glandulifera","current",29,2,48,0.0416666666666667,"scattered occurrences only"
 27,"Myriophyllum aquaticum","baseline",1,1,48,0.0208333333333333,"scattered occurrences only"
-27,"Impatiens glandulifera","current",28,2,48,0.0416666666666667,"scattered occurrences only"
+27,"Heracleum mantegazzianum","current",2,NA,48,NA,NA
+27,"Ludwigia grandiflora","baseline",1,1,48,0.0208333333333333,"scattered occurrences only"
 27,"Impatiens glandulifera","baseline",3,2,48,0.0416666666666667,"scattered occurrences only"
-27,"Heracleum mantegazzianum","current",1,NA,48,NA,NA
-28,"Hydrocotyle ranunculoides","current",2,4,82,0.0487804878048781,"scattered occurrences only"
-28,"Heracleum mantegazzianum","current",7,1,82,0.0121951219512195,"scattered occurrences only"
-28,"Impatiens glandulifera","baseline",13,6,82,0.0731707317073171,"scattered occurrences only"
-28,"Impatiens glandulifera","current",75,6,82,0.0731707317073171,"scattered occurrences only"
-28,"Ludwigia grandiflora","current",1,NA,82,NA,NA
+27,"Hydrocotyle ranunculoides","current",1,1,48,0.0208333333333333,"scattered occurrences only"
+27,"Hydrocotyle ranunculoides","baseline",2,1,48,0.0208333333333333,"scattered occurrences only"
+28,"Pontederia cordata","current",1,NA,82,NA,NA
+28,"Heracleum mantegazzianum","current",20,1,82,0.0121951219512195,"scattered occurrences only"
+28,"Hydrocotyle ranunculoides","baseline",14,5,82,0.0609756097560976,"scattered occurrences only"
+28,"Hydrocotyle ranunculoides","current",3,5,82,0.0609756097560976,"scattered occurrences only"
+28,"Impatiens glandulifera","baseline",15,7,82,0.0853658536585366,"scattered occurrences only"
+28,"Impatiens glandulifera","current",76,7,82,0.0853658536585366,"scattered occurrences only"
+28,"Ludwigia peploides","current",2,NA,82,NA,NA
 28,"Heracleum mantegazzianum","baseline",1,1,82,0.0121951219512195,"scattered occurrences only"
-28,"Hydrocotyle ranunculoides","baseline",13,4,82,0.0487804878048781,"scattered occurrences only"
-29,"Impatiens glandulifera","baseline",1,1,72,0.0138888888888889,"scattered occurrences only"
-29,"Impatiens glandulifera","current",3,1,72,0.0138888888888889,"scattered occurrences only"
-29,"Crassula helmsii","current",1,NA,72,NA,NA
-29,"Hydrocotyle ranunculoides","current",1,NA,72,NA,NA
-29,"Pontederia cordata","current",2,NA,72,NA,NA
 29,"Lysichiton americanus","baseline",1,1,72,0.0138888888888889,"scattered occurrences only"
-30,"Impatiens glandulifera","current",2,3,45,0.0666666666666667,"scattered occurrences only"
+29,"Heracleum mantegazzianum","current",1,NA,72,NA,NA
+29,"Hydrocotyle ranunculoides","current",1,NA,72,NA,NA
+29,"Impatiens glandulifera","current",4,2,72,0.0277777777777778,"scattered occurrences only"
+29,"Crassula helmsii","current",1,NA,72,NA,NA
+29,"Pontederia cordata","current",2,NA,72,NA,NA
+29,"Impatiens glandulifera","baseline",2,2,72,0.0277777777777778,"scattered occurrences only"
 30,"Pontederia cordata","current",1,NA,45,NA,NA
 30,"Impatiens glandulifera","baseline",3,3,45,0.0666666666666667,"scattered occurrences only"
+30,"Impatiens glandulifera","current",2,3,45,0.0666666666666667,"scattered occurrences only"
+30,"Ludwigia grandiflora","current",1,NA,45,NA,NA
 31,"Ludwigia grandiflora","baseline",2,1,49,0.0204081632653061,"scattered occurrences only"
-31,"Ludwigia grandiflora","current",6,1,49,0.0204081632653061,"scattered occurrences only"
 31,"Hydrocotyle ranunculoides","current",1,NA,49,NA,NA
+31,"Ludwigia grandiflora","current",13,1,49,0.0204081632653061,"scattered occurrences only"
 31,"Impatiens glandulifera","current",3,1,49,0.0204081632653061,"scattered occurrences only"
 31,"Impatiens glandulifera","baseline",1,1,49,0.0204081632653061,"scattered occurrences only"
+32,"Impatiens glandulifera","baseline",16,10,56,0.178571428571429,"weakly invaded"
+32,"Impatiens glandulifera","current",12,10,56,0.178571428571429,"weakly invaded"
 32,"Myriophyllum aquaticum","current",1,NA,56,NA,NA
+32,"Heracleum mantegazzianum","current",2,1,56,0.0178571428571429,"scattered occurrences only"
+32,"Pontederia cordata","current",1,NA,56,NA,NA
 32,"Heracleum mantegazzianum","baseline",1,1,56,0.0178571428571429,"scattered occurrences only"
-32,"Impatiens glandulifera","current",7,10,56,0.178571428571429,"weakly invaded"
-32,"Impatiens glandulifera","baseline",15,10,56,0.178571428571429,"weakly invaded"
-33,"Impatiens glandulifera","current",8,8,49,0.163265306122449,"weakly invaded"
-33,"Heracleum mantegazzianum","current",2,3,49,0.0612244897959184,"scattered occurrences only"
-33,"Heracleum mantegazzianum","baseline",4,3,49,0.0612244897959184,"scattered occurrences only"
-33,"Pontederia cordata","current",1,NA,49,NA,NA
-33,"Impatiens glandulifera","baseline",15,8,49,0.163265306122449,"weakly invaded"
-33,"Elodea densa","current",2,NA,49,NA,NA
-33,"Ludwigia grandiflora","current",2,NA,49,NA,NA
-33,"Crassula helmsii","baseline",1,1,49,0.0204081632653061,"scattered occurrences only"
 33,"Crassula helmsii","current",6,1,49,0.0204081632653061,"scattered occurrences only"
 33,"Myriophyllum aquaticum","current",3,NA,49,NA,NA
+33,"Pontederia cordata","current",1,NA,49,NA,NA
+33,"Heracleum mantegazzianum","current",2,3,49,0.0612244897959184,"scattered occurrences only"
+33,"Impatiens glandulifera","baseline",19,8,49,0.163265306122449,"weakly invaded"
+33,"Crassula helmsii","baseline",1,1,49,0.0204081632653061,"scattered occurrences only"
+33,"Ludwigia grandiflora","current",2,NA,49,NA,NA
+33,"Heracleum mantegazzianum","baseline",4,3,49,0.0612244897959184,"scattered occurrences only"
 33,"Erythranthe guttata","baseline",1,1,49,0.0204081632653061,"scattered occurrences only"
-34,"Impatiens glandulifera","current",3,7,66,0.106060606060606,"weakly invaded"
-34,"Heracleum mantegazzianum","baseline",2,2,66,0.0303030303030303,"scattered occurrences only"
-34,"Houttuynia cordata","current",1,NA,66,NA,NA
+33,"Elodea densa","current",2,NA,49,NA,NA
+33,"Impatiens glandulifera","current",14,8,49,0.163265306122449,"weakly invaded"
 34,"Pontederia cordata","current",4,NA,66,NA,NA
+34,"Houttuynia cordata","current",1,NA,66,NA,NA
+34,"Impatiens glandulifera","current",7,7,66,0.106060606060606,"weakly invaded"
 34,"Aponogeton distachyos","current",1,NA,66,NA,NA
 34,"Impatiens glandulifera","baseline",11,7,66,0.106060606060606,"weakly invaded"
-35,"Myriophyllum aquaticum","current",1,NA,39,NA,NA
-35,"Lagarosiphon major","current",1,NA,39,NA,NA
-35,"Impatiens glandulifera","baseline",15,11,39,0.282051282051282,"heavily invaded"
-35,"Heracleum mantegazzianum","baseline",2,2,39,0.0512820512820513,"scattered occurrences only"
-35,"Ludwigia grandiflora","current",1,NA,39,NA,NA
-35,"Heracleum mantegazzianum","current",1,2,39,0.0512820512820513,"scattered occurrences only"
-35,"Impatiens glandulifera","current",15,11,39,0.282051282051282,"heavily invaded"
+34,"Heracleum mantegazzianum","baseline",2,2,66,0.0303030303030303,"scattered occurrences only"
+35,"Impatiens glandulifera","baseline",16,12,39,0.307692307692308,"heavily invaded"
 35,"Hydrocotyle ranunculoides","current",1,NA,39,NA,NA
+35,"Heracleum mantegazzianum","current",4,2,39,0.0512820512820513,"scattered occurrences only"
 35,"Crassula helmsii","current",1,NA,39,NA,NA
+35,"Myriophyllum aquaticum","current",1,NA,39,NA,NA
+35,"Heracleum mantegazzianum","baseline",2,2,39,0.0512820512820513,"scattered occurrences only"
 35,"Pontederia cordata","current",1,NA,39,NA,NA
-36,"Heracleum mantegazzianum","baseline",1,1,42,0.0238095238095238,"scattered occurrences only"
-36,"Hydrocotyle ranunculoides","baseline",1,1,42,0.0238095238095238,"scattered occurrences only"
-36,"Impatiens glandulifera","current",64,10,42,0.238095238095238,"heavily invaded"
-36,"Impatiens glandulifera","baseline",28,10,42,0.238095238095238,"heavily invaded"
-36,"Lysichiton americanus","current",2,1,42,0.0238095238095238,"scattered occurrences only"
+35,"Ludwigia grandiflora","current",1,NA,39,NA,NA
+35,"Lagarosiphon major","current",1,NA,39,NA,NA
+35,"Impatiens glandulifera","current",24,12,39,0.307692307692308,"heavily invaded"
 36,"Houttuynia cordata","current",1,NA,42,NA,NA
+36,"Pontederia cordata","current",1,NA,42,NA,NA
+36,"Myriophyllum aquaticum","current",1,NA,42,NA,NA
+36,"Impatiens glandulifera","baseline",40,12,42,0.285714285714286,"heavily invaded"
+36,"Impatiens glandulifera","current",75,12,42,0.285714285714286,"heavily invaded"
+36,"Hydrocotyle ranunculoides","baseline",1,1,42,0.0238095238095238,"scattered occurrences only"
 36,"Lysichiton americanus","baseline",2,1,42,0.0238095238095238,"scattered occurrences only"
-36,"Heracleum mantegazzianum","current",3,1,42,0.0238095238095238,"scattered occurrences only"
-37,"Hydrocotyle ranunculoides","current",4,NA,83,NA,NA
-37,"Saururus cernuus","current",1,NA,83,NA,NA
-37,"Elodea densa","current",1,NA,83,NA,NA
-37,"Lysichiton americanus","current",1,NA,83,NA,NA
-37,"Heracleum mantegazzianum","current",14,2,83,0.0240963855421687,"scattered occurrences only"
-37,"Myriophyllum aquaticum","baseline",1,1,83,0.0120481927710843,"scattered occurrences only"
-37,"Aponogeton distachyos","current",1,NA,83,NA,NA
-37,"Crassula helmsii","current",4,NA,83,NA,NA
-37,"Houttuynia cordata","current",1,NA,83,NA,NA
-37,"Impatiens glandulifera","baseline",10,5,83,0.0602409638554217,"scattered occurrences only"
-37,"Impatiens glandulifera","current",27,5,83,0.0602409638554217,"scattered occurrences only"
-37,"Pontederia cordata","current",6,NA,83,NA,NA
+36,"Lysichiton americanus","current",2,1,42,0.0238095238095238,"scattered occurrences only"
+36,"Heracleum mantegazzianum","current",6,1,42,0.0238095238095238,"scattered occurrences only"
+36,"Heracleum mantegazzianum","baseline",1,1,42,0.0238095238095238,"scattered occurrences only"
+37,"Lysichiton americanus","current",2,NA,83,NA,NA
 37,"Heracleum mantegazzianum","baseline",2,2,83,0.0240963855421687,"scattered occurrences only"
-38,"Heracleum mantegazzianum","current",13,3,113,0.0265486725663717,"scattered occurrences only"
-38,"Crassula helmsii","baseline",1,1,113,0.00884955752212389,"scattered occurrences only"
-38,"Impatiens glandulifera","baseline",38,20,113,0.176991150442478,"weakly invaded"
-38,"Impatiens glandulifera","current",141,20,113,0.176991150442478,"weakly invaded"
-38,"Heracleum mantegazzianum","baseline",3,3,113,0.0265486725663717,"scattered occurrences only"
-38,"Erythranthe guttata","current",2,NA,113,NA,NA
+37,"Impatiens glandulifera","baseline",10,5,83,0.0602409638554217,"scattered occurrences only"
+37,"Myriophyllum aquaticum","baseline",1,1,83,0.0120481927710843,"scattered occurrences only"
+37,"Impatiens glandulifera","current",31,5,83,0.0602409638554217,"scattered occurrences only"
+37,"Heracleum mantegazzianum","current",26,2,83,0.0240963855421687,"scattered occurrences only"
+37,"Saururus cernuus","current",1,NA,83,NA,NA
+37,"Elodea densa","current",3,NA,83,NA,NA
+37,"Hydrocotyle ranunculoides","current",4,NA,83,NA,NA
+37,"Houttuynia cordata","current",1,NA,83,NA,NA
+37,"Pontederia cordata","current",8,NA,83,NA,NA
+37,"Crassula helmsii","current",4,NA,83,NA,NA
+37,"Aponogeton distachyos","current",1,NA,83,NA,NA
 38,"Myriophyllum aquaticum","baseline",1,1,113,0.00884955752212389,"scattered occurrences only"
-39,"Erythranthe guttata","baseline",2,1,44,0.0227272727272727,"scattered occurrences only"
-39,"Impatiens glandulifera","current",118,10,44,0.227272727272727,"heavily invaded"
-39,"Ludwigia grandiflora","baseline",1,1,44,0.0227272727272727,"scattered occurrences only"
+38,"Crassula helmsii","baseline",1,1,113,0.00884955752212389,"scattered occurrences only"
+38,"Heracleum mantegazzianum","baseline",3,3,113,0.0265486725663717,"scattered occurrences only"
+38,"Myriophyllum aquaticum","current",2,1,113,0.00884955752212389,"scattered occurrences only"
+38,"Heracleum mantegazzianum","current",16,3,113,0.0265486725663717,"scattered occurrences only"
+38,"Impatiens glandulifera","baseline",38,20,113,0.176991150442478,"weakly invaded"
+38,"Crassula helmsii","current",1,1,113,0.00884955752212389,"scattered occurrences only"
+38,"Impatiens glandulifera","current",163,20,113,0.176991150442478,"weakly invaded"
+38,"Erythranthe guttata","current",6,NA,113,NA,NA
 39,"Myriophyllum aquaticum","baseline",1,1,44,0.0227272727272727,"scattered occurrences only"
-39,"Impatiens glandulifera","baseline",20,10,44,0.227272727272727,"heavily invaded"
-39,"Hydrocotyle ranunculoides","baseline",1,1,44,0.0227272727272727,"scattered occurrences only"
+39,"Erythranthe guttata","current",8,1,44,0.0227272727272727,"scattered occurrences only"
 39,"Heracleum mantegazzianum","current",1,NA,44,NA,NA
-40,"Crassula helmsii","current",3,2,54,0.037037037037037,"scattered occurrences only"
-40,"Impatiens glandulifera","baseline",43,18,54,0.333333333333333,"heavily invaded"
-40,"Heracleum mantegazzianum","current",1,3,54,0.0555555555555556,"scattered occurrences only"
-40,"Crassula helmsii","baseline",4,2,54,0.037037037037037,"scattered occurrences only"
-40,"Myriophyllum aquaticum","current",2,1,54,0.0185185185185185,"scattered occurrences only"
-40,"Myriophyllum aquaticum","baseline",1,1,54,0.0185185185185185,"scattered occurrences only"
-40,"Heracleum mantegazzianum","baseline",5,3,54,0.0555555555555556,"scattered occurrences only"
-40,"Impatiens glandulifera","current",115,18,54,0.333333333333333,"heavily invaded"
+39,"Impatiens glandulifera","baseline",20,10,44,0.227272727272727,"heavily invaded"
+39,"Erythranthe guttata","baseline",2,1,44,0.0227272727272727,"scattered occurrences only"
+39,"Impatiens glandulifera","current",133,10,44,0.227272727272727,"heavily invaded"
+39,"Ludwigia grandiflora","baseline",1,1,44,0.0227272727272727,"scattered occurrences only"
+39,"Hydrocotyle ranunculoides","baseline",1,1,44,0.0227272727272727,"scattered occurrences only"
 40,"Hydrocotyle ranunculoides","baseline",1,1,54,0.0185185185185185,"scattered occurrences only"
-41,"Heracleum mantegazzianum","current",14,10,70,0.142857142857143,"weakly invaded"
-41,"Myriophyllum aquaticum","baseline",1,1,70,0.0142857142857143,"scattered occurrences only"
-41,"Impatiens glandulifera","baseline",57,17,70,0.242857142857143,"heavily invaded"
-41,"Erythranthe guttata","baseline",5,2,70,0.0285714285714286,"scattered occurrences only"
-41,"Lysichiton americanus","current",1,1,70,0.0142857142857143,"scattered occurrences only"
-41,"Heracleum mantegazzianum","baseline",23,10,70,0.142857142857143,"weakly invaded"
+40,"Heracleum mantegazzianum","baseline",5,3,54,0.0555555555555556,"scattered occurrences only"
+40,"Crassula helmsii","baseline",4,2,54,0.037037037037037,"scattered occurrences only"
+40,"Myriophyllum aquaticum","baseline",1,1,54,0.0185185185185185,"scattered occurrences only"
+40,"Myriophyllum aquaticum","current",3,1,54,0.0185185185185185,"scattered occurrences only"
+40,"Heracleum mantegazzianum","current",3,3,54,0.0555555555555556,"scattered occurrences only"
+40,"Impatiens glandulifera","baseline",43,18,54,0.333333333333333,"heavily invaded"
+40,"Crassula helmsii","current",3,2,54,0.037037037037037,"scattered occurrences only"
+40,"Erythranthe guttata","current",1,NA,54,NA,NA
+40,"Impatiens glandulifera","current",132,18,54,0.333333333333333,"heavily invaded"
 41,"Lysichiton americanus","baseline",2,1,70,0.0142857142857143,"scattered occurrences only"
-41,"Impatiens glandulifera","current",107,17,70,0.242857142857143,"heavily invaded"
-42,"Erythranthe guttata","current",15,1,56,0.0178571428571429,"scattered occurrences only"
-42,"Myriophyllum aquaticum","current",22,1,56,0.0178571428571429,"scattered occurrences only"
-42,"Heracleum mantegazzianum","current",8,9,56,0.160714285714286,"weakly invaded"
-42,"Impatiens glandulifera","baseline",36,9,56,0.160714285714286,"weakly invaded"
-42,"Koenigia polystachya","baseline",1,1,56,0.0178571428571429,"scattered occurrences only"
+41,"Myriophyllum aquaticum","baseline",1,1,70,0.0142857142857143,"scattered occurrences only"
+41,"Impatiens glandulifera","baseline",59,17,70,0.242857142857143,"heavily invaded"
+41,"Erythranthe guttata","current",1,2,70,0.0285714285714286,"scattered occurrences only"
+41,"Heracleum mantegazzianum","current",15,10,70,0.142857142857143,"weakly invaded"
+41,"Heracleum mantegazzianum","baseline",23,10,70,0.142857142857143,"weakly invaded"
+41,"Lysichiton americanus","current",1,1,70,0.0142857142857143,"scattered occurrences only"
+41,"Impatiens glandulifera","current",113,17,70,0.242857142857143,"heavily invaded"
+41,"Erythranthe guttata","baseline",5,2,70,0.0285714285714286,"scattered occurrences only"
+42,"Myriophyllum aquaticum","current",25,1,56,0.0178571428571429,"scattered occurrences only"
 42,"Erythranthe guttata","baseline",23,1,56,0.0178571428571429,"scattered occurrences only"
 42,"Zizania latifolia","current",23,NA,56,NA,NA
-42,"Heracleum mantegazzianum","baseline",17,9,56,0.160714285714286,"weakly invaded"
+42,"Koenigia polystachya","baseline",1,1,56,0.0178571428571429,"scattered occurrences only"
+42,"Heracleum mantegazzianum","current",11,9,56,0.160714285714286,"weakly invaded"
+42,"Erythranthe guttata","current",20,1,56,0.0178571428571429,"scattered occurrences only"
+42,"Impatiens glandulifera","current",47,9,56,0.160714285714286,"weakly invaded"
 42,"Myriophyllum aquaticum","baseline",8,1,56,0.0178571428571429,"scattered occurrences only"
+42,"Heracleum mantegazzianum","baseline",17,9,56,0.160714285714286,"weakly invaded"
 42,"Hydrocotyle ranunculoides","baseline",1,1,56,0.0178571428571429,"scattered occurrences only"
-42,"Impatiens glandulifera","current",38,9,56,0.160714285714286,"weakly invaded"
-43,"Impatiens glandulifera","current",6,12,47,0.25531914893617,"heavily invaded"
-43,"Impatiens glandulifera","baseline",18,12,47,0.25531914893617,"heavily invaded"
+42,"Impatiens glandulifera","baseline",36,9,56,0.160714285714286,"weakly invaded"
+43,"Impatiens glandulifera","current",8,12,47,0.25531914893617,"heavily invaded"
+43,"Myriophyllum aquaticum","current",1,NA,47,NA,NA
 43,"Heracleum mantegazzianum","baseline",27,17,47,0.361702127659574,"heavily invaded"
+43,"Impatiens glandulifera","baseline",18,12,47,0.25531914893617,"heavily invaded"
+43,"Heracleum mantegazzianum","current",21,17,47,0.361702127659574,"heavily invaded"
 43,"Petasites japonicus","current",1,NA,47,NA,NA
-43,"Heracleum mantegazzianum","current",15,17,47,0.361702127659574,"heavily invaded"
-44,"Erythranthe guttata","current",10,3,72,0.0416666666666667,"scattered occurrences only"
-44,"Heracleum mantegazzianum","current",5,19,72,0.263888888888889,"heavily invaded"
-44,"Lysichiton americanus","current",1,1,72,0.0138888888888889,"scattered occurrences only"
-44,"Pontederia cordata","baseline",1,1,72,0.0138888888888889,"scattered occurrences only"
-44,"Petasites japonicus","current",2,NA,72,NA,NA
+44,"Lysichiton americanus","current",2,1,72,0.0138888888888889,"scattered occurrences only"
 44,"Procambarus clarkii","current",3,NA,72,NA,NA
-44,"Heracleum mantegazzianum","baseline",28,19,72,0.263888888888889,"heavily invaded"
 44,"Lagarosiphon major","baseline",1,1,72,0.0138888888888889,"scattered occurrences only"
+44,"Petasites japonicus","current",2,NA,72,NA,NA
+44,"Zizania latifolia","current",1,NA,72,NA,NA
+44,"Erythranthe guttata","current",11,3,72,0.0416666666666667,"scattered occurrences only"
 44,"Lysichiton americanus","baseline",1,1,72,0.0138888888888889,"scattered occurrences only"
-44,"Impatiens glandulifera","current",17,14,72,0.194444444444444,"weakly invaded"
-44,"Impatiens glandulifera","baseline",25,14,72,0.194444444444444,"weakly invaded"
+44,"Heracleum mantegazzianum","current",15,19,72,0.263888888888889,"heavily invaded"
+44,"Pontederia cordata","baseline",1,1,72,0.0138888888888889,"scattered occurrences only"
+44,"Impatiens glandulifera","current",22,14,72,0.194444444444444,"weakly invaded"
 44,"Erythranthe guttata","baseline",12,3,72,0.0416666666666667,"scattered occurrences only"
+44,"Heracleum mantegazzianum","baseline",28,19,72,0.263888888888889,"heavily invaded"
+44,"Impatiens glandulifera","baseline",25,14,72,0.194444444444444,"weakly invaded"
+45,"Heracleum mantegazzianum","current",32,9,34,0.264705882352941,"heavily invaded"
 45,"Heracleum mantegazzianum","baseline",28,9,34,0.264705882352941,"heavily invaded"
-45,"Heracleum mantegazzianum","current",18,9,34,0.264705882352941,"heavily invaded"
-46,"Myriophyllum aquaticum","baseline",2,2,90,0.0222222222222222,"scattered occurrences only"
-46,"Crassula helmsii","baseline",2,1,90,0.0111111111111111,"scattered occurrences only"
-46,"Heracleum mantegazzianum","current",17,25,90,0.277777777777778,"heavily invaded"
-46,"Erythranthe guttata","baseline",1,1,90,0.0111111111111111,"scattered occurrences only"
-46,"Lysichiton americanus","current",1,NA,90,NA,NA
-46,"Hydrocotyle ranunculoides","baseline",1,1,90,0.0111111111111111,"scattered occurrences only"
-46,"Impatiens glandulifera","baseline",19,11,90,0.122222222222222,"weakly invaded"
-46,"Procambarus clarkii","current",2,NA,90,NA,NA
-46,"Ludwigia grandiflora","current",1,NA,90,NA,NA
-46,"Heracleum mantegazzianum","baseline",50,25,90,0.277777777777778,"heavily invaded"
-46,"Houttuynia cordata","baseline",2,2,90,0.0222222222222222,"scattered occurrences only"
 46,"Saururus cernuus","current",1,NA,90,NA,NA
-47,"Heracleum mantegazzianum","baseline",62,14,41,0.341463414634146,"heavily invaded"
-47,"Lysichiton americanus","current",1,NA,41,NA,NA
+46,"Crassula helmsii","baseline",2,1,90,0.0111111111111111,"scattered occurrences only"
+46,"Myriophyllum aquaticum","baseline",2,2,90,0.0222222222222222,"scattered occurrences only"
+46,"Ludwigia grandiflora","current",1,NA,90,NA,NA
+46,"Procambarus clarkii","current",2,NA,90,NA,NA
+46,"Houttuynia cordata","baseline",2,2,90,0.0222222222222222,"scattered occurrences only"
+46,"Aponogeton distachyos","current",1,NA,90,NA,NA
+46,"Heracleum mantegazzianum","baseline",50,25,90,0.277777777777778,"heavily invaded"
+46,"Hydrocotyle ranunculoides","baseline",1,1,90,0.0111111111111111,"scattered occurrences only"
+46,"Lysichiton americanus","current",1,NA,90,NA,NA
+46,"Heracleum mantegazzianum","current",25,25,90,0.277777777777778,"heavily invaded"
+46,"Impatiens glandulifera","baseline",19,11,90,0.122222222222222,"weakly invaded"
+46,"Erythranthe guttata","baseline",1,1,90,0.0111111111111111,"scattered occurrences only"
 47,"Myriophyllum aquaticum","current",7,3,41,0.0731707317073171,"scattered occurrences only"
-47,"Heracleum mantegazzianum","current",56,14,41,0.341463414634146,"heavily invaded"
-47,"Impatiens glandulifera","current",26,4,41,0.0975609756097561,"scattered occurrences only"
 47,"Myriophyllum aquaticum","baseline",13,3,41,0.0731707317073171,"scattered occurrences only"
+47,"Heracleum mantegazzianum","current",98,14,41,0.341463414634146,"heavily invaded"
+47,"Heracleum mantegazzianum","baseline",62,14,41,0.341463414634146,"heavily invaded"
 47,"Impatiens glandulifera","baseline",44,4,41,0.0975609756097561,"scattered occurrences only"
+47,"Lysichiton americanus","current",1,NA,41,NA,NA
+47,"Impatiens glandulifera","current",31,4,41,0.0975609756097561,"scattered occurrences only"
+47,"Pontederia cordata","current",2,1,41,0.024390243902439,"scattered occurrences only"
 47,"Pontederia cordata","baseline",3,1,41,0.024390243902439,"scattered occurrences only"
-48,"Impatiens glandulifera","baseline",4,2,71,0.028169014084507,"scattered occurrences only"
-48,"Impatiens glandulifera","current",8,2,71,0.028169014084507,"scattered occurrences only"
-48,"Heracleum mantegazzianum","current",61,16,71,0.225352112676056,"heavily invaded"
-48,"Heracleum mantegazzianum","baseline",85,16,71,0.225352112676056,"heavily invaded"
-48,"Myriophyllum aquaticum","current",3,NA,71,NA,NA
 48,"Petasites japonicus","baseline",2,1,71,0.0140845070422535,"scattered occurrences only"
 48,"Petasites japonicus","current",3,1,71,0.0140845070422535,"scattered occurrences only"
-49,"Impatiens glandulifera","current",31,16,85,0.188235294117647,"weakly invaded"
-49,"Lysichiton americanus","baseline",2,2,85,0.0235294117647059,"scattered occurrences only"
-49,"Heracleum mantegazzianum","current",112,32,85,0.376470588235294,"heavily invaded"
-49,"Hydrocotyle ranunculoides","current",3,NA,85,NA,NA
-49,"Impatiens glandulifera","baseline",41,16,85,0.188235294117647,"weakly invaded"
-49,"Heracleum mantegazzianum","baseline",197,32,85,0.376470588235294,"heavily invaded"
+48,"Heracleum mantegazzianum","current",96,16,71,0.225352112676056,"heavily invaded"
+48,"Myriophyllum aquaticum","current",2,NA,71,NA,NA
+48,"Heracleum mantegazzianum","baseline",85,16,71,0.225352112676056,"heavily invaded"
+48,"Impatiens glandulifera","current",9,2,71,0.028169014084507,"scattered occurrences only"
+48,"Impatiens glandulifera","baseline",4,2,71,0.028169014084507,"scattered occurrences only"
 49,"Crassula helmsii","current",2,NA,85,NA,NA
+49,"Impatiens glandulifera","current",39,16,85,0.188235294117647,"weakly invaded"
+49,"Lysichiton americanus","current",15,2,85,0.0235294117647059,"scattered occurrences only"
 49,"Pontederia cordata","baseline",1,1,85,0.0117647058823529,"scattered occurrences only"
 49,"Petasites japonicus","current",1,NA,85,NA,NA
-49,"Lysichiton americanus","current",12,2,85,0.0235294117647059,"scattered occurrences only"
-50,"Impatiens glandulifera","baseline",54,16,65,0.246153846153846,"heavily invaded"
-50,"Pontederia cordata","baseline",3,2,65,0.0307692307692308,"scattered occurrences only"
-50,"Hydrocotyle ranunculoides","current",2,NA,65,NA,NA
-50,"Crassula helmsii","current",3,2,65,0.0307692307692308,"scattered occurrences only"
-50,"Crassula helmsii","baseline",4,2,65,0.0307692307692308,"scattered occurrences only"
-50,"Ludwigia grandiflora","baseline",25,4,65,0.0615384615384615,"scattered occurrences only"
-50,"Impatiens glandulifera","current",114,16,65,0.246153846153846,"heavily invaded"
-50,"Pontederia cordata","current",6,2,65,0.0307692307692308,"scattered occurrences only"
-50,"Heracleum mantegazzianum","current",158,19,65,0.292307692307692,"heavily invaded"
-50,"Heracleum mantegazzianum","baseline",120,19,65,0.292307692307692,"heavily invaded"
+49,"Heracleum mantegazzianum","baseline",197,32,85,0.376470588235294,"heavily invaded"
+49,"Lysichiton americanus","baseline",2,2,85,0.0235294117647059,"scattered occurrences only"
+49,"Heracleum mantegazzianum","current",201,32,85,0.376470588235294,"heavily invaded"
+49,"Impatiens glandulifera","baseline",41,16,85,0.188235294117647,"weakly invaded"
+49,"Hydrocotyle ranunculoides","current",7,NA,85,NA,NA
+50,"Pontederia cordata","current",9,2,65,0.0307692307692308,"scattered occurrences only"
 50,"Erythranthe guttata","baseline",3,3,65,0.0461538461538462,"scattered occurrences only"
+50,"Crassula helmsii","baseline",4,2,65,0.0307692307692308,"scattered occurrences only"
+50,"Pontederia cordata","baseline",3,2,65,0.0307692307692308,"scattered occurrences only"
+50,"Heracleum mantegazzianum","current",197,19,65,0.292307692307692,"heavily invaded"
+50,"Impatiens glandulifera","baseline",54,16,65,0.246153846153846,"heavily invaded"
+50,"Ludwigia grandiflora","current",22,4,65,0.0615384615384615,"scattered occurrences only"
 50,"Procambarus clarkii","current",3,NA,65,NA,NA
+50,"Ludwigia grandiflora","baseline",25,4,65,0.0615384615384615,"scattered occurrences only"
+50,"Heracleum mantegazzianum","baseline",120,19,65,0.292307692307692,"heavily invaded"
+50,"Impatiens glandulifera","current",135,16,65,0.246153846153846,"heavily invaded"
+50,"Crassula helmsii","current",5,2,65,0.0307692307692308,"scattered occurrences only"
 50,"Erythranthe guttata","current",1,3,65,0.0461538461538462,"scattered occurrences only"
-50,"Ludwigia grandiflora","current",14,4,65,0.0615384615384615,"scattered occurrences only"
-51,"Crassula helmsii","baseline",2,1,89,0.0112359550561798,"scattered occurrences only"
-51,"Houttuynia cordata","baseline",2,2,89,0.0224719101123595,"scattered occurrences only"
-51,"Procambarus acutus","baseline",1,1,89,0.0112359550561798,"scattered occurrences only"
-51,"Impatiens glandulifera","baseline",129,37,89,0.415730337078652,"heavily invaded"
-51,"Heracleum mantegazzianum","current",29,13,89,0.146067415730337,"weakly invaded"
-51,"Heracleum mantegazzianum","baseline",36,13,89,0.146067415730337,"weakly invaded"
-51,"Impatiens glandulifera","current",216,37,89,0.415730337078652,"heavily invaded"
-51,"Hydrocotyle ranunculoides","current",3,3,89,0.0337078651685393,"scattered occurrences only"
-51,"Myriophyllum aquaticum","baseline",9,3,89,0.0337078651685393,"scattered occurrences only"
-51,"Pontederia cordata","current",2,1,89,0.0112359550561798,"scattered occurrences only"
-51,"Pontederia cordata","baseline",1,1,89,0.0112359550561798,"scattered occurrences only"
-51,"Petasites japonicus","current",1,NA,89,NA,NA
-51,"Lysichiton americanus","baseline",3,2,89,0.0224719101123595,"scattered occurrences only"
-51,"Lysichiton americanus","current",1,2,89,0.0224719101123595,"scattered occurrences only"
+50,"Hydrocotyle ranunculoides","current",2,NA,65,NA,NA
 51,"Ludwigia grandiflora","baseline",1,1,89,0.0112359550561798,"scattered occurrences only"
+51,"Heracleum mantegazzianum","current",52,13,89,0.146067415730337,"weakly invaded"
+51,"Pontederia cordata","current",4,1,89,0.0112359550561798,"scattered occurrences only"
+51,"Impatiens glandulifera","current",278,37,89,0.415730337078652,"heavily invaded"
+51,"Houttuynia cordata","baseline",2,2,89,0.0224719101123595,"scattered occurrences only"
+51,"Myriophyllum aquaticum","baseline",9,3,89,0.0337078651685393,"scattered occurrences only"
+51,"Myriophyllum aquaticum","current",1,3,89,0.0337078651685393,"scattered occurrences only"
+51,"Ludwigia grandiflora","current",2,1,89,0.0112359550561798,"scattered occurrences only"
+51,"Heracleum mantegazzianum","baseline",36,13,89,0.146067415730337,"weakly invaded"
+51,"Impatiens glandulifera","baseline",127,37,89,0.415730337078652,"heavily invaded"
+51,"Crassula helmsii","current",5,1,89,0.0112359550561798,"scattered occurrences only"
+51,"Petasites japonicus","current",2,NA,89,NA,NA
+51,"Lysichiton americanus","baseline",3,2,89,0.0224719101123595,"scattered occurrences only"
+51,"Pontederia cordata","baseline",1,1,89,0.0112359550561798,"scattered occurrences only"
+51,"Crassula helmsii","baseline",2,1,89,0.0112359550561798,"scattered occurrences only"
+51,"Hydrocotyle ranunculoides","current",3,3,89,0.0337078651685393,"scattered occurrences only"
+51,"Lysichiton americanus","current",1,2,89,0.0224719101123595,"scattered occurrences only"
 51,"Hydrocotyle ranunculoides","baseline",6,3,89,0.0337078651685393,"scattered occurrences only"
-52,"Impatiens glandulifera","current",15,5,77,0.0649350649350649,"scattered occurrences only"
+51,"Procambarus acutus","baseline",1,1,89,0.0112359550561798,"scattered occurrences only"
+52,"Impatiens glandulifera","current",20,5,77,0.0649350649350649,"scattered occurrences only"
 52,"Heracleum mantegazzianum","baseline",5,5,77,0.0649350649350649,"scattered occurrences only"
 52,"Impatiens glandulifera","baseline",7,5,77,0.0649350649350649,"scattered occurrences only"
-53,"Impatiens glandulifera","baseline",36,14,151,0.0927152317880795,"scattered occurrences only"
-53,"Ludwigia grandiflora","current",9,2,151,0.0132450331125828,"scattered occurrences only"
-53,"Myriophyllum aquaticum","baseline",2,2,151,0.0132450331125828,"scattered occurrences only"
-53,"Erythranthe guttata","baseline",1,1,151,0.00662251655629139,"scattered occurrences only"
-53,"Myriophyllum aquaticum","current",3,2,151,0.0132450331125828,"scattered occurrences only"
-53,"Impatiens glandulifera","current",205,14,151,0.0927152317880795,"scattered occurrences only"
-53,"Pontederia cordata","current",1,NA,151,NA,NA
-53,"Heracleum mantegazzianum","baseline",5,5,151,0.033112582781457,"scattered occurrences only"
+53,"Heracleum mantegazzianum","current",13,5,151,0.033112582781457,"scattered occurrences only"
 53,"Petasites japonicus","current",1,NA,151,NA,NA
+53,"Impatiens glandulifera","baseline",36,14,151,0.0927152317880795,"scattered occurrences only"
+53,"Heracleum mantegazzianum","baseline",5,5,151,0.033112582781457,"scattered occurrences only"
 53,"Ludwigia grandiflora","baseline",2,2,151,0.0132450331125828,"scattered occurrences only"
-53,"Heracleum mantegazzianum","current",9,5,151,0.033112582781457,"scattered occurrences only"
-54,"Myriophyllum aquaticum","current",1,1,33,0.0303030303030303,"scattered occurrences only"
-54,"Lagarosiphon major","current",2,NA,33,NA,NA
-54,"Impatiens glandulifera","current",32,1,33,0.0303030303030303,"scattered occurrences only"
+53,"Erythranthe guttata","baseline",1,1,151,0.00662251655629139,"scattered occurrences only"
+53,"Myriophyllum aquaticum","baseline",2,2,151,0.0132450331125828,"scattered occurrences only"
+53,"Pontederia cordata","current",1,NA,151,NA,NA
+53,"Myriophyllum aquaticum","current",5,2,151,0.0132450331125828,"scattered occurrences only"
+53,"Impatiens glandulifera","current",229,14,151,0.0927152317880795,"scattered occurrences only"
+53,"Ludwigia grandiflora","current",11,2,151,0.0132450331125828,"scattered occurrences only"
 54,"Ludwigia grandiflora","baseline",1,1,33,0.0303030303030303,"scattered occurrences only"
+54,"Lagarosiphon major","current",2,NA,33,NA,NA
 54,"Heracleum mantegazzianum","baseline",1,1,33,0.0303030303030303,"scattered occurrences only"
-54,"Elodea densa","current",2,NA,33,NA,NA
+54,"Ludwigia grandiflora","current",3,1,33,0.0303030303030303,"scattered occurrences only"
 54,"Myriophyllum aquaticum","baseline",1,1,33,0.0303030303030303,"scattered occurrences only"
-54,"Impatiens glandulifera","baseline",1,1,33,0.0303030303030303,"scattered occurrences only"
-54,"Ludwigia grandiflora","current",1,1,33,0.0303030303030303,"scattered occurrences only"
-55,"Myriophyllum aquaticum","baseline",1,1,32,0.03125,"scattered occurrences only"
+54,"Elodea densa","current",3,NA,33,NA,NA
+54,"Myriophyllum aquaticum","current",1,1,33,0.0303030303030303,"scattered occurrences only"
+54,"Impatiens glandulifera","baseline",3,2,33,0.0606060606060606,"scattered occurrences only"
+54,"Impatiens glandulifera","current",33,2,33,0.0606060606060606,"scattered occurrences only"
+55,"Lagarosiphon major","current",1,NA,32,NA,NA
 55,"Myriophyllum aquaticum","current",1,1,32,0.03125,"scattered occurrences only"
-55,"Impatiens glandulifera","current",17,4,32,0.125,"weakly invaded"
 55,"Impatiens glandulifera","baseline",15,4,32,0.125,"weakly invaded"
+55,"Impatiens glandulifera","current",24,4,32,0.125,"weakly invaded"
+55,"Myriophyllum aquaticum","baseline",1,1,32,0.03125,"scattered occurrences only"

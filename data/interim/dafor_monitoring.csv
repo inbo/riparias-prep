@@ -4,18 +4,31 @@
 "before management","Hydrocotyle ranunculoides","Frequent (5-25%)",2
 "before management","Hydrocotyle ranunculoides","Occasional (<5%)",2
 "before management","Hydrocotyle ranunculoides","Rare (<5%)",1
-"before management","Impatiens glandulifera","Abundant (25-50%)",1
-"before management","Impatiens glandulifera","Frequent (5-25%)",1
+"before management","Impatiens glandulifera","Abundant (25-50%)",51
+"before management","Impatiens glandulifera","Abundant / Dominant (depending on quadrat)",2
+"before management","Impatiens glandulifera","Dominant (> 50%)",33
+"before management","Impatiens glandulifera","Frequent (5-25%)",64
+"before management","Impatiens glandulifera","Frequent to Dominant",1
+"before management","Impatiens glandulifera","Occasional (<5%)",5
+"before management","Impatiens glandulifera","Rare (<5%)",43
 "before management","Ludwigia grandiflora","Frequent (5-25%)",1
 "before management","Ludwigia grandiflora","Occasional (<5%)",1
-"before management","Ludwigia grandiflora","Rare (<5%)",1
 "before management","Ludwigia peploides","Rare (<5%)",1
 "before management","Myriophyllum aquaticum","Abundant (25-50%)",1
 "before management","Myriophyllum aquaticum","Dominant (> 50%)",4
 "before management","Myriophyllum aquaticum","Frequent (5-25%)",2
 "before management","Myriophyllum aquaticum","Rare (<5%)",1
+"before management","Reuzenbalsemien / Impatiens glandulifera","A / Abundant/ 25% - 50%",101
+"before management","Reuzenbalsemien / Impatiens glandulifera","D / Dominant / >50%",49
+"before management","Reuzenbalsemien / Impatiens glandulifera","F / Frequent / 5% - 25%",123
+"before management","Reuzenbalsemien / Impatiens glandulifera","O / Occasional / >5%",53
+"before management","Reuzenberenklauw / Heracleum mantegazzianum","A / Abundant/ 25% - 50%",3
+"before management","Reuzenberenklauw / Heracleum mantegazzianum","D / Dominant / >50%",1
+"before management","Reuzenberenklauw / Heracleum mantegazzianum","O / Occasional / >5%",7
 "before management","Zizania latifolia","Dominant (> 50%)",1
 "before management","Zizania latifolia","Occasional (<5%)",2
+"before management","brede waterpest","F / Frequent / 5% - 25%",1
+"before management","smalle waterpest","F / Frequent / 5% - 25%",1
 "after management (2026)","Hydrocotyle ranunculoides","Absent",0
 "afterlife (2031)","Hydrocotyle ranunculoides","Absent",0
 "after management (2026)","Impatiens glandulifera","Absent",0
@@ -26,5 +39,15 @@
 "afterlife (2031)","Ludwigia peploides","Absent",0
 "after management (2026)","Myriophyllum aquaticum","Absent",0
 "afterlife (2031)","Myriophyllum aquaticum","Absent",0
+"after management (2026)","Reuzenbalsemien / Impatiens glandulifera","Absent",0
+"afterlife (2031)","Reuzenbalsemien / Impatiens glandulifera","Absent",0
+"after management (2026)","Reuzenberenklauw / Heracleum mantegazzianum","Absent",0
+"afterlife (2031)","Reuzenberenklauw / Heracleum mantegazzianum","Absent",0
 "after management (2026)","Zizania latifolia","Absent",0
 "afterlife (2031)","Zizania latifolia","Absent",0
+"after management (2026)","brede waterpest","Absent",0
+"afterlife (2031)","brede waterpest","Absent",0
+"after management (2026)","smalle waterpest","Absent",0
+"afterlife (2031)","smalle waterpest","Absent",0
+"after management (2026)",NA,"Absent",0
+"afterlife (2031)",NA,"Absent",0
