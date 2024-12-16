@@ -5,7 +5,7 @@ account: iasspeciesdashboard
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 6228634
-bundleId: 9487282
+bundleId: 9527378
 url: https://iasspeciesdashboard.shinyapps.io/D1_riparias_dev/
 asMultiple: FALSE
 asStatic: FALSE
