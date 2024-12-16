@@ -14,7 +14,7 @@ library(readxl)
 # 1. Import data ####
 repo <- "https://github.com/inbo/riparias-prep/raw/"
 repo_raw <- "https://raw.githubusercontent.com/inbo/riparias-prep/refs/heads/"
-branch <- "55_management_table"
+branch <- "master"
 
 ## Maps ####
 all_pointdata_2000 <- st_read(paste0(repo, branch,
