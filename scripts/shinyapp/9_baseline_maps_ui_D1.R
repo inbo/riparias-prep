@@ -14,7 +14,7 @@ library(readxl)
 # 1. Import data ####
 repo <- "https://github.com/inbo/riparias-prep/raw/"
 repo_raw <- "https://raw.githubusercontent.com/inbo/riparias-prep/refs/heads/"
-branch <- "master"
+branch <- "74_fixes_dashboard"
 
 ## Maps ####
 all_pointdata_2000 <- st_read(paste0(repo, branch,
@@ -844,15 +844,15 @@ server <- function(input, output) {
     test5 <- dafor_monitoring[(dafor_monitoring$species == input$Species_dafor),]
     test5
   })
-  
+
   output$DAFOR <- renderPlot ({
     ggplot(dat_dafor(), 
            aes(fill=DAFOR, 
                y=count, 
                x=factor(Time_period,
-                        level = c('before management',
-                                  'after management (2026)',
-                                  'afterlife (2031)')))) + 
+                        levels = c('before management',
+                                 'after management',
+                                 'afterlife')))) + 
       geom_bar(position="stack", stat="identity")+
       labs(y='Number of sites')+
       labs(x='Time period')+

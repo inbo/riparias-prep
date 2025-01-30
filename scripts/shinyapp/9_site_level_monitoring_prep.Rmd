@@ -25,6 +25,30 @@ monitoring_data <- read_sheet("19oivHE5ljX0F4W8KtxpfQM_cPobogOM0US1W6edtLHw",
                       sheet = "plants",
                       col_types = "c")
 
+monitoring_data <- monitoring_data%>%
+  mutate(`Invasive species`= replace(`Invasive species`, `Invasive species`=="Reuzenbalsemien / Impatiens glandulifera", "Impatiens glandulifera"))%>%
+  mutate(`Invasive species`= replace(`Invasive species`, `Invasive species`=="Reuzenberenklauw / Heracleum mantegazzianum", "Heracleum mantegazzianum"))%>%
+  mutate(`Invasive species`= replace(`Invasive species`, `Invasive species`=="brede waterpest", "Elodea canadensis"))%>%
+  mutate(`Invasive species`= replace(`Invasive species`, `Invasive species`=="smalle waterpest", "Elodea nuttallii"))%>%
+  mutate(DAFOR = replace(DAFOR, DAFOR=="O / Occasional / >5%", "Occasional (<5%)" ))%>%
+  mutate(DAFOR = replace(DAFOR, DAFOR=="F / Frequent / 5% - 25%", "Frequent (5-25%)"))%>%
+  mutate(DAFOR = replace(DAFOR, DAFOR=="A / Abundant/ 25% - 50%" , "Abundant (25-50%)"))%>%
+  mutate(DAFOR = replace(DAFOR, DAFOR=="D / Dominant / >50%" , "Dominant (> 50%)" ))%>%
+  mutate(DAFOR = replace(DAFOR, DAFOR=="Occasional (<5%)" , "Rare (<5%)" ))%>%
+  mutate(DAFOR = factor(DAFOR, levels=c( 
+            "Absent", 
+            "Rare (<5%)" ,
+            "Frequent (5-25%)", 
+            "Abundant (25-50%)",
+            "Frequent to Dominant" ,
+            "Abundant / Dominant (depending on quadrat)", 
+            "Dominant (> 50%)" )))
+  
+
+#check data
+unique(monitoring_data$`Invasive species`)
+unique(monitoring_data$DAFOR)
+
 #Cleaning up monitoring data
 monitoring_data_summary <- monitoring_data %>%
   select(Time_period, `Invasive species`, DAFOR)%>%
@@ -38,7 +62,7 @@ species <- "Hydrocotyle ranunculoides"
 
 ##Extra lines are added to the dataframe for time period 'after management (2026)' &  'afterlife (2031)' but count zero per species, so these are also visualised on the x-axis
 ##Remove the following rows in case data is available per site for 'after management (2026)' &  'afterlife (2031)'
-Time_period<- c(rep(c('after management (2026)', 'afterlife (2031)'), 
+Time_period<- c(rep(c('after management', 'afterlife'), 
                     length(unique(monitoring_data_summary$species))))
 species <- c(rep(unique(monitoring_data_summary$species), each= 2))
 DAFOR <- c(rep(c('Absent', 'Absent'), 
@@ -57,8 +81,8 @@ test <- ggplot(sub_data,
                    y=count, 
                    x=factor(Time_period,
                             level = c('before management',
-                                      'after management (2026)',
-                                      'afterlife (2031)')))) + 
+                                      'after management',
+                                      'afterlife')))) + 
     geom_bar(position="stack", stat="identity")+
     labs(y='Number of sites')+
     labs(x='Time period')+
