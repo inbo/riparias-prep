@@ -611,7 +611,7 @@ box(
              box(
                width = 12,
                class = "custom-box",
-               HTML("In those areas where management is performed, monitoring surveys are organised before and after management to assess its impact. The crayfish data presents dummy data.")),
+               HTML("In those areas where management is performed, monitoring surveys are organised before and after management to assess its impact. After management surveys are anticipated to occur in 2026. Afterlife surveys in 2031.")),
              
              box(
                width = 12,
