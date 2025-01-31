@@ -16,7 +16,7 @@ crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 
 # Read data ####
 #read in input data####
-branch <- "50_add_species"
+branch <- "74_fixes_dashboard"
 
 current_state <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                branch,
