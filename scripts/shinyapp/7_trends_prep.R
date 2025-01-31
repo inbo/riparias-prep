@@ -19,8 +19,8 @@ crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 branch <- "74_fixes_dashboard"
 
 current_state <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
-                               branch,
-                               "/data/spatial/baseline/current_state.geojson"))
+                                branch,
+                                "/data/spatial/baseline/current_state.geojson"))
 
 baseline <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
                            branch,
@@ -37,10 +37,10 @@ EEA_1km <- st_read("data/spatial/Riparias_subunits/EEA_1km_Riparias.geojson") %>
 
 points_1km <- points_in_perimeter
 points_1km$eea_cell_code <- apply(sf::st_intersects(EEA_1km, 
-                                               points_in_perimeter, 
-                                               sparse = FALSE), 2, 
-                             function(col) {EEA_1km[which(col),
-                             ]$CELLCODE})
+                                                    points_in_perimeter, 
+                                                    sparse = FALSE), 2, 
+                                  function(col) {EEA_1km[which(col),
+                                  ]$CELLCODE})
 
 df_grid <- as.data.frame(points_1km) %>% 
   dplyr::select(-geometry) %>% 
@@ -75,17 +75,30 @@ for(k in taxon_key){
 }
 
 ## baseline ####
-df_bl <- read_csv(
-  file = "https://raw.githubusercontent.com/trias-project/occ-cube-alien/master/data/processed/be_classes_cube.csv",
-  col_types = cols(
-    year = col_double(),
-    eea_cell_code = col_character(),
-    classKey = col_double(),
-    n = col_double(),
-    min_coord_uncertainty = col_double()
-  ),
-  na = ""
-)
+# download de nieuwe versie van de classes cube en lees deze in
+# creëer de query
+query <- "SELECT \"year\", GBIF_EEARGCode( 1000, decimalLatitude, decimalLongitude, COALESCE(coordinateUncertaintyInMeters, 1000) ) AS eeaCellCode, classKey, class, familyKey, family, COUNT(*) AS occurrences, MIN(COALESCE(coordinateUncertaintyInMeters, 1000)) AS minCoordinateUncertaintyInMeters, MIN(GBIF_TemporalUncertainty(eventDate)) AS minTemporalUncertainty, IF(ISNULL(classKey), NULL, SUM(COUNT(*)) OVER (PARTITION BY classKey)) AS classCount FROM occurrence WHERE occurrenceStatus = 'PRESENT' AND (continent = 'EUROPE' OR countrycode = 'BE') AND \"year\" >= 1900 AND hasCoordinate = TRUE AND familyKey IS NOT NULL AND NOT ARRAY_CONTAINS(issue, 'ZERO_COORDINATE') AND NOT ARRAY_CONTAINS(issue, 'COORDINATE_OUT_OF_RANGE') AND NOT ARRAY_CONTAINS(issue, 'COORDINATE_INVALID') AND NOT ARRAY_CONTAINS(issue, 'COUNTRY_COORDINATE_MISMATCH') AND (LOWER(identificationVerificationStatus) NOT IN ( 'unverified', 'unvalidated', 'not validated', 'under validation', 'not able to validate', 'control could not be conclusive due to insufficient knowledge', 'uncertain', 'unconfirmed', 'unconfirmed - not reviewed', 'validation requested' ) OR identificationVerificationStatus IS NULL)AND classKey IN (<--nubkeys-->)AND coordinateUncertaintyInMeters <= 10000GROUP BY \"year\", eeaCellCode, classKey, class, familyKey, family ORDER BY \"year\" DESC, eeaCellCode ASC, familyKey ASC;"
+
+# bepaal de classes die in de baseline zitten
+classes <- spec_names$classKey %>% 
+  unique() %>% 
+  paste(collapse = ", ")
+
+# voeg de classes toe aan de query
+query <- gsub("<--nubkeys-->", classes, query)
+
+# download de classes cube
+df_bl <- occ_download_sql(q = query, 
+                          format = "SQL_TSV_ZIP",
+                          email = Sys.getenv("gbif_email"),
+                          user = Sys.getenv("gbif_user"),
+                          pwd = Sys.getenv("gbif_pwd"))
+
+occ_download_wait(df_bl)
+
+df_bl_raw <- occ_download_get(cube, overwrite = TRUE) %>%
+  occ_download_import() 
+
 df_bl <-
   df_bl %>%
   rename(cobs = n)
