@@ -96,6 +96,10 @@ points_in_perimeter_sel <- points_in_perimeter %>%
 
 points_in_perimeter_sel<- points_in_perimeter_sel%>%
   filter(!identificationVerificationStatus %in% c('unverified','not validated'))
+
+if(file.exists("~/GitHub/riparias-prep/data/spatial/baseline/points_in_perimeter_sel.geojson")){
+  file.remove("~/GitHub/riparias-prep/data/spatial/baseline/points_in_perimeter_sel.geojson")
+}
   
 st_write(points_in_perimeter_sel,  "~/GitHub/riparias-prep/data/spatial/baseline/points_in_perimeter_sel.geojson")
 ```
@@ -120,6 +124,9 @@ baseline_state_animals <- points_in_perimeter_sel%>%
 baseline_state <- rbind(baseline_state_animals,
                        baseline_state_plants)
 
+if(file.exists("~/GitHub/riparias-prep/data/spatial/baseline/baseline.geojson")){
+  file.remove("~/GitHub/riparias-prep/data/spatial/baseline/baseline.geojson")
+}
 
 st_write(baseline_state,  "~/GitHub/riparias-prep/data/spatial/baseline/baseline.geojson")
 
@@ -138,6 +145,10 @@ current_state_animals <- points_in_perimeter_sel%>%
 
 current_state <- rbind(current_state_animals,
                        current_state_plants)
+
+if(file.exists("~/GitHub/riparias-prep/data/spatial/baseline/current_state.geojson")){
+  file.remove("~/GitHub/riparias-prep/data/spatial/baseline/current_state.geojson")
+}
 
 st_write(current_state,  "~/GitHub/riparias-prep/data/spatial/baseline/current_state.geojson")
 ```
