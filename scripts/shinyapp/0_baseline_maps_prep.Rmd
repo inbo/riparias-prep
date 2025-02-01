@@ -29,12 +29,13 @@ gbif_backbone_keys <-
 
 gbif_backbone_keys
 ```
+
 ```{r}
 #download occurences from species from GBIF
 
 #add username, email and password of GBIF account to R.environ en herstart Rstudio
-#install.packages("usethis")
-#usethis::edit_r_environ("~/GitHub/riparias-prep/.Renviron")
+install.packages("usethis")
+usethis::edit_r_environ("~/GitHub/riparias-prep/.Renviron")
 
 
 gbif_download <- occ_download(
@@ -51,8 +52,11 @@ write.csv(as.character(occ_download_meta(gbif_download)),
           paste0("gbif_download", Sys.Date(), ".csv"))
 
 a <- occ_download_get(gbif_download, overwrite=TRUE)%>%
-  occ_download_import()%>%
-  filter(!is.na(decimalLongitude), !is.na(decimalLatitude)) 
+  occ_download_import()
+
+a <- a %>%
+  drop_na(decimalLatitude)%>%
+  drop_na(decimalLongitude)
 ```
 
 ```{r get perimeter shape, include = FALSE}
@@ -113,7 +117,7 @@ leaflet(points_in_perimeter) %>%
 ```{r export baseline shapes}
 baseline_state_plants <- points_in_perimeter_sel %>%
     filter(kingdomKey==6)%>%
-    filter(year<2021)%>%
+    filter(year<2023)%>%
     filter(occurrenceStatus!='ABSENT')
 
 baseline_state_animals <- points_in_perimeter_sel%>%
@@ -135,7 +139,7 @@ st_write(baseline_state,  "~/GitHub/riparias-prep/data/spatial/baseline/baseline
 ```{r export update shapes}
 current_state_plants <- points_in_perimeter_sel %>%
     filter(kingdomKey==6)%>%
-    filter(year>=2021)%>%
+    filter(year>=2023)%>%
     filter(occurrenceStatus!='ABSENT')
 
 current_state_animals <- points_in_perimeter_sel%>%
