@@ -514,8 +514,7 @@ box(
              box(
                width = 12,
                class = "custom-box",
-               HTML("<p>Under development. Soon a new measure of surveillance effort will be applied.
-            </p>")
+               HTML("<p> An EEA grid cell is considered highly surveilled if more than 10 observations of the Riparias checklist species have been reported since 2020. </p>")
              ),
            box(
              width = 12,
@@ -893,9 +892,10 @@ server <- function(input, output) {
   #) %>% lapply(htmltools::HTML)
   
   output$map_EEA_surveillance_effort <- renderLeaflet ({
-    leaflet(EEA_surveillance_effort) %>% 
+    leaflet() %>% 
       addTiles() %>% 
-      addPolygons(color="#00a491", weight=1)
+      addPolygons(data = EEA_surveillance_effort, color= "#00a491")%>%
+      addPolylines(data = RBU_laag, color= "#00a491", opacity=1)
     
     
   })
