@@ -6,9 +6,8 @@ library(leaflet)
 library(sf)
 library(dplyr)
 
-#read in data####
-be_species_cube <- read.csv("~/Github/riparias-prep/data/input/be_species_cube.csv")
-be_species_info <- read.csv("~/Github/riparias-prep/data/input/be_species_info.csv")
+#import all observations in Riparias area of the checklist species
+all_observations <- st_read("~/GitHub/riparias-prep/data/spatial/baseline/points_in_perimeter_sel.geojson")
 
 #Riparias area####
 RBU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson")
@@ -19,25 +18,24 @@ RBSU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPA
 ##import EEA 1km file####
 EEA_1km_Riparias <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/EEA_1km_Riparias.geojson")
 
-#select those eea cells with more than 100 occurences of plants within Riparias area
-#no filter based on year?
-be_species_cube_Riparias <- be_species_cube %>%
-  filter(eea_cell_code %in% EEA_1km_Riparias$CELLCODE)%>%
-  filter(year>=2000)%>%
-  inner_join(be_species_info, by= 'speciesKey')%>%
-  filter(kingdom == "Plantae")%>%
-  dplyr::select(eea_cell_code, speciesKey, year)%>%
-  distinct%>%
-  group_by(eea_cell_code, year)%>%
-  summarise(totalSpeciesReported=n())%>%
-  group_by(eea_cell_code)%>%
-  summarise(max_SpeciesReported= max(totalSpeciesReported))%>%
-  filter(max_SpeciesReported>100)%>%
-  rename(CELLCODE = eea_cell_code)
+#intersect with observations and EEA grid
+obs_per_EEA <- st_join(all_observations, EEA_1km_Riparias)
+
+#only filter for observations after 2000
+obs_per_EEA <- obs_per_EEA%>%
+  filter(year>=2020)
+
+summary <- obs_per_EEA %>%
+  group_by(CELLCODE)%>%
+  summarise(Totobservations= n())%>%
+  st_drop_geometry()
+
+summary_morethan25 <- summary%>%
+  filter(Totobservations>25)
 
 #create layer with only these cells####
 EEA_high_search_effort <- EEA_1km_Riparias%>%
-  filter(CELLCODE%in%be_species_cube_Riparias$CELLCODE)
+  filter(CELLCODE%in%summary_morethan25$CELLCODE)
 
 st_write(EEA_high_search_effort, "~/Github/riparias-prep/data/interim/EEA_high_search_effort.geojson")
 
