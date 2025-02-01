@@ -30,12 +30,18 @@ summary <- obs_per_EEA %>%
   summarise(Totobservations= n())%>%
   st_drop_geometry()
 
-summary_morethan25 <- summary%>%
-  filter(Totobservations>25)
+summary_morethan10 <- summary%>%
+  filter(Totobservations>10)
 
 #create layer with only these cells####
 EEA_high_search_effort <- EEA_1km_Riparias%>%
-  filter(CELLCODE%in%summary_morethan25$CELLCODE)
+  filter(CELLCODE%in%summary_morethan10$CELLCODE)
+
+#test_outcome
+map <- leaflet()%>%
+  addTiles()%>%
+  addPolygons(data=EEA_high_search_effort)%>%
+  addPolygons(data=RBU)
 
 st_write(EEA_high_search_effort, "~/Github/riparias-prep/data/interim/EEA_high_search_effort.geojson")
 
