@@ -558,7 +558,10 @@ box(
                       An overview of the  <a href="https://trias-project.github.io/indicators/" target="_blank">
                       TRIAS indicators
                     </a>, per species in Riparias project area. 
-                    Observations: Estimate emerging status per year based on all observations within Riparias project area. Observations-corrected: correcting for observer-bias by taking in account total number of observations of the class per EEA grid cell. Occupancy: Reducing observations data to presence/absence data per EEA grid cell. Occupancy-corrected: Reducing observations data to presence/absence data per EEA grid cell while correcting for observer-bias by taking in account total number of observations of the class per EEA grid cell.
+                    <li><b>Observations</b>: Estimate emerging status per year based on all observations within Riparias project area.</li>
+                    <li><b>Observations-corrected</b>: Correcting for observer-bias by taking in account total number of observations of species class per EEA grid cell.</li> 
+                    <li><b>Occupancy</b>: Reducing observations data to presence/absence data per EEA grid cell.</li>
+                    <li><b>Occupancy-corrected</b>: Reducing observations data to presence/absence data per EEA grid cell while correcting for observer-bias by taking in account total number of observations of the class per EEA grid cell.</li>
                     </p>')
              ),
             
