@@ -605,7 +605,7 @@ box(
                         box(
                           width = 12,
                           class = "custom-box",
-                          HTML('Per river basin, the number of river basin subunits where the species is present in the current state (2021-present) is displayed. The baseline and target number are also mentioned.')),
+                          HTML('Per river basin, the number of river basin subunits where the species is present in the current state (2023-present) is displayed. The baseline and target number are also mentioned.')),
                         
                         box(
                           width = 12,
