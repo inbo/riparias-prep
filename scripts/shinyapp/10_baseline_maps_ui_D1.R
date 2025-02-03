@@ -680,27 +680,6 @@ box(
              )#mainPanel
            )
            )
-           ,#sidebarlayout
-           box(
-             width = 12,
-             class = "custom-box2",
-           sidebarLayout(
-             sidebarPanel(
-               selectInput("Species_cpue", "Select a species:",
-                           choices = c( "Orconectes virilis",
-                                        "Procambarus clarkii",
-                                        "P. fallax")
-               )),
-             mainPanel(
-               fluidRow(
-                 box(
-                   title='Crayfish',
-                   plotOutput("CPUE")
-                 )#box
-               )#fluidRow
-             )#mainPanel
-           )#Sidebarlayout
-           )
   )
   )
 ,
