@@ -8,14 +8,13 @@ library(sf)
 library(stringr)
 library(trias) 
 library(readxl)
-library(bslib)
-
 
 # Note: possible cause of failure concerning trias package. Only packages installed from GitHub with devtools::install_github, in version 1.4 (or later) of devtools, are supported. Packages installed with an earlier version of devtools must be reinstalled with the later version before you can deploy your application. If you get an error such as “PackageSourceError” when you attempt to deploy, check that you have installed all the packages from Github with devtools 1.4 or later.
 
 # 1. Import data ####
 repo <- "https://github.com/inbo/riparias-prep/raw/"
-branch <- "55_management_table"
+repo_raw <- "https://raw.githubusercontent.com/inbo/riparias-prep/refs/heads/"
+branch <- "74_fixes_dashboard"
 
 ## Maps ####
 all_pointdata_2000 <- st_read(paste0(repo, branch,
@@ -58,10 +57,10 @@ EEA_surveillance_effort <- st_read(paste0(repo, branch,
                                           "/data/interim/EEA_high_search_effort.geojson"))
 
 ## Management - summarizing table ####
-
-# table_summarizing_management <- read_excel(paste0(repo,
-#                                                   branch,
-#                                                   "/data/interim/summarizing_management_table.xlsx"))
+table_summarizing_management <- readr::read_csv2(paste0(repo_raw, branch, 
+                                                  "/data/interim/summarizing_management_table.csv")) %>% 
+  dplyr::mutate(baseline = as.integer(baseline),
+                current = as.integer(current))
 
 ## Management - maps: Level of invasion ####
 level_of_invasion_RBSU <- st_read(paste0(repo, branch,
@@ -74,6 +73,19 @@ level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU %>%
   filter(state == 'baseline')
 
 bbox <- st_bbox(RBU_laag)
+
+## Management - iAsset
+iAsset <- read.csv2(paste0(repo, branch,
+                         "/data/input/iAsset_2_2_2025.csv"))
+
+iAsset$longitude = as.numeric(sub("POINT\\(([^ ]+) .*", "\\1", iAsset$GPS))
+
+iAsset$latitude = as.numeric(sub("POINT\\([^ ]+ ([^ ]+)\\)", "\\1", iAsset$GPS))
+
+iAsset <- iAsset %>%
+  drop_na(latitude)
+
+iAsset <- st_as_sf(iAsset, coords=c("longitude", "latitude"), crs = 4326)
 
 ## Site-level monitoring ####
 dafor_monitoring <- read.csv(paste0(repo, branch,
@@ -106,30 +118,101 @@ evaluation_years <- seq(from = as.integer(format(Sys.Date(), "%Y")) - 4,
 
 maxjaar <- as.integer(format(Sys.Date(), "%Y"))
 
+
+tags$head(
+  tags$style(HTML("
+    .custom-box {
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #cccccc;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+  "))
+)
+
 # 2. User Interface ####
 
-ui <- page_navbar(
-  
-  theme = bs_theme(
-    bg = "#FDF7F7", 
-    fg = "#101010", 
-    primary = "#00a491", 
-    base_font = font_google("Roboto"),
-    code_font = font_google("Barlow Semi Condensed")
-  ),
-  
-  #title = div(#img(src = "logoLIFEsimple.jpg", height = 30),
-              #img(src = "logoRIP_transparant.png", height = 30),
-              #"D1 dashboard"),
-  bg="#00a491",
-  underline=TRUE,
+ui <- navbarPage(
+  title = div(img(src = "logoLIFEsimple.jpg", height = 30),
+              img(src = "logoRIP_transparant.png", height = 30),
+              "D1 dashboard"),
   
   ## Home ####
   tabPanel("Home",
            fluidPage(
-                     
+             
+             tags$head(
+               tags$style(HTML("
+      .custom-box {
+        background-color: #f0f0f0;  /* Light grey background */
+        border-radius: 10px;       /* Rounded corners */
+        padding: 15px;            /* Inner spacing */
+        margin-top: 20px;         /* Space above the box */
+        margin-bottom: 20px;      /* Space below the box */
+        border: 1px solid #cccccc; /* Optional border */
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+      }
+      
+          .custom-box2 {
+      background-color: #ffffff;       /* White background */
+      border-radius: 10px;            /* Rounded corners */
+      padding: 15px;                 /* Inner spacing */
+      margin-top: 20px;              /* Space above the box */
+      margin-bottom: 20px;           /* Space below the box */
+      border: 4px solid  #00a491;     /* Thick border with color #007c66 */
+      box-shadow: 2px 2px 10px rgba(0, 164, 145, 0.5); /* Teal-green shadow */
+          }
+          
+                .custom-box3 {
+      background-image: url('background2.jpg'); /* Correct syntax for background image */
+      background-size: cover;                 /* Ensures the image covers the entire box */
+      background-repeat: no-repeat;          /* Prevents tiling */
+      background-position: center;           /* Centers the image */
+      color: #ffffff;                        /* Makes the text white */
+      border-radius: 10px;                    /* Rounded corners */
+      padding: 15px;                         /* Inner spacing */
+      margin-top: 20px;                      /* Space above the box */
+      margin-bottom: 20px;                   /* Space below the box */
+      border: 4px solid #00a491;             /* Thick border with color #00a491 */
+      box-shadow: 2px 2px 10px rgba(0, 164, 145, 0.5); /* Teal-green shadow */
+    }
+    .custom-box4 {
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        border: 1px solid #cccccc;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+      
+    .custom-image {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+  
+    /* Sidebar background color with opacity */
+          .well {
+            background-color: #ffffff;
+            padding: 15px;
+          }
+          
+    /* Sidebar text color */
+          .well .control-label, .well h3, .well h4 {
+            color: #00a491;
+          }                    
+                        
+ 
+  
+    "))),
+               
              box(
                width = 12,
+               class = "custom-box2",
                HTML(
                  "<h1>Welcome to the RIPARIAS Dashboard</h1>
                <p>This dashboard gathers data related to work performed within the 
@@ -154,262 +237,489 @@ ui <- page_navbar(
                The contact address for inquiries or suggestions is 
                <a href='mailto:faunabeheer@inbo.be'>faunabeheer@inbo.be</a>.</p>"
                )
+             ),
+             
+             fluidRow(
+               column(
+                 width = 3, # Each column takes 3/12 of the row
+                 div(class = "custom-box4",
+                     img(src = "image1.jpg", class = "custom-image"),
+                     p(tags$i("Houttuynia cordata "), "by \u00A9 Meneerke bloem")
+                 )
+               ),
+               column(
+                 width = 3,
+                 div(class = "custom-box4",
+                     img(src = "image2.jpg", class = "custom-image"),
+                     p(tags$i("Erythranthe guttata"))
+                 )
+               ),
+               column(
+                 width = 3,
+                 div(class = "custom-box4",
+                     img(src = "image3.JPG", class = "custom-image"),
+                     p(tags$i("Procambarus clarkii")," by \u00A9 Arnoud Monty")
+                 )
+               ),
+               column(
+                 width = 3,
+                 div(class = "custom-box4",
+                     img(src = "image4.jpg", class = "custom-image"),
+                     p(tags$i("Zizania latifolia ")," by \u00A9 Dido Gosse")
+                 )
+               )
              )
            )
-           )
-  ,
+           
+           
+  ),
   
-
-  
-  # ,
-  # 
-  # ## Distribution ####
-
-  nav_panel("Distribution",
-           navset_card_tab(
+  ## Distribution ####
+  tabPanel("Distribution",
+           tabsetPanel(
              ### Maps ####
-             nav_panel(title = "Maps", p("First tab content.")),
-             nav_panel(title = "Two", p("Second tab content."))
-           )))
-#              nav_panel('Maps'
-#                       ,
-#                       sidebarLayout(
-#                         sidebarPanel(
-#                           sliderInput("slider", "Years",
-#                                       2000, lubridate::year(Sys.Date()), 1,
-#                                       value = c(2021, lubridate::year(Sys.Date())),
-#                                       # default: from project start to now
-#                                       dragRange = TRUE),
-#                           checkboxGroupInput("species", "Species",
-#                                              choices = sort(unique(all_pointdata_2000$species))),
-#                           width = 3 # Out of 12
-#                           ),
-#                         mainPanel(
-#                           fluidRow(
-#                             box(width = 12,
-# HTML("<p>The <b>map</b> below shows observations of species within the selected timeframe. The <b>RIPARIAS project area</b> is displayed.</p>"),
-#                             uiOutput("text1"),
-#                             leafletOutput("map", height = 600)
-#                             )
-#                             )
-#                           )
-#                         )
-#                       ),
-# #              ### Occupancy ####
-#              navset_card_tab(
-#                sidebarLayout(
-#                         sidebarPanel(
-#                           selectInput("RBUi", "Select a river basin:",
-#                                       choices = unique(occupancy_RBU$RBU)),
-#                           width = 3 # Out of 12
-#                           ),
-#                         mainPanel(
-#                           fluidRow(
-#                             box(width = 12,
-# HTML("<p><b>Occupancy</b>, or: the number of grid cells with observations of the species (<a href=https://www.eea.europa.eu/data-and-maps/figures/eea-reference-grids>EEA</a> 1-km² grid). Expressed as the <b>absolute</b> number of occupied cells, or <b>relative</b> to the number of cells in the river basin. Divided between periods.</p><p>
-# <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>.
-# <i>Current</i> period from <b>2021-present</b>.</li>
-# <li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>.
-# <i>Current</i> period from <b>2016-present</b>.</li>
-#      </p>")),
-#                             navset_tab(
-#                               nav_panel("Absolute occupancy", plotOutput("OccRBU")),
-#                               nav_panel("Relative occupancy", plotOutput("OccRBUREL"))
-#                             )
-#                           )
-#                         )),
-#                       sidebarLayout(
-#                         sidebarPanel(
-#                           selectInput("RBSUi", " Select a river basin subunit:",
-#                                       choices = unique(occupancy_RBSU$fullnameRBSU)),
-#                           width = 3 # Out of 12
-#                           ),
-#                         mainPanel(
-#                           fluidRow(
-#                             navset_tab(type = "tabs",
-#                                         nav_panel("Absolute occupancy", plotOutput("OccRBSU")),
-#                                         nav_panel("Relative occupancy", plotOutput("OccRBSUREL"))
-#                             )
-#                           )
-#                         )),
-#              )
-#          )#navset_tab
-# )#nav_panel
+             tabPanel('Maps',
+                titlePanel('Maps'),
+                   fluidPage(    
+                     # Add the descriptive text box with rounded edges and grey background
+                      box(
+                        width = 12,
+                        class = "custom-box",
+                        HTML("<p>The <b>map</b> below shows observations of species within the selected timeframe. The <b>RIPARIAS                          project area</b> is displayed.</p>")
+                      )
+                      ,
+                      # First sidebar layout 
+                      box(
+                        width = 12,
+                        class = "custom-box2",
+                        title = "Map of observations within Riparias project area", # Title for the box
+                        
+                        sidebarLayout(
+                          sidebarPanel(
+                            sliderInput("slider", "Years", 
+                                        2000, lubridate::year(Sys.Date()), 1,
+                                        value = c(2021, lubridate::year(Sys.Date())),
+                                        # default: from project start to now
+                                        dragRange = TRUE),
+                            checkboxGroupInput("species", "Species",
+                                               choices = sort(unique(all_pointdata_2000$species))),
+                            width = 3 # Out of 12
+                          ),
+                          mainPanel(
+                            fluidRow(
+                              box(width = 12,
+                                  uiOutput("text1"),
+                                  leafletOutput("map", height = 600)
+                              )
+                            )
+                          )
+                        )
+                        
+                      )
+                   )
+             ),
 
-#   ##Surveillance####
-#   nav_panel('Surveillance',
-#            navset_tab(
-#              ##Observations####
-#              nav_panel('Observations',
-#                       sidebarLayout(
-#                         sidebarPanel(
-#                           selectInput("RBUi2", "Select a river basin:",
-#                                       choices = unique(occupancy_RBU$RBU)),
-#                           width = 3 # Out of 12
-#                         ),
-#                         mainPanel(
-#                           fluidRow(box(width = 12,
-# HTML("<p>The number of <b>observations</b>. Presence as well as absence. <em>[Desirable?] [Distinguish in graph?] [Note: would entire page not better fit under 'Distribution', between 'Maps' and 'Occupancy'?]</em> Divided between periods.</p><p>
-# <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
-# <i>Current</i> period from <b>2021-present</b>.</li>
-# <li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>.
-# <i>Current</i> period from <b>2016-present</b>.</li>
-#      </p>"))),
-#                           plotOutput("graphRBU")
-#                         )
-#                       ),
-#                       sidebarLayout(
-#                         sidebarPanel(
-#                           selectInput("RBSUi2", "Select a river basin subunit:",
-#                                       choices = unique(occupancy_RBSU$fullnameRBSU)),
-#                           width = 3 # Out of 12
-#                         ),
-#                         mainPanel(
-#                           fluidRow(
-#                             plotOutput("graphRBSU")
-#                           )
-#                         )
-#                       ) 
-#              ),#nav_panel,
-#              nav_panel('Effort',
-#                       titlePanel('Surveillance effort'),
-#                       fluidRow(
-#                         box(
-#                           'Percentage of EEA cells (1km²) per river basin subunit with heigh surveillance effort for plant species',
-#                           plotOutput("Plot_surveillance_effort_RBSU", height=600)
-#                         ),
-#                         box(
-#                           'Distribution of EEA cells (1km²) with high surveillance effort for plant species',
-#                           leafletOutput("map_EEA_surveillance_effort", height=600)
-#                         )
-#                       )#fluidrow
-#              )#nav_panel Effort
-#            )#navset_tab 
-#   ),#nav_panel Surveillance
-#   ##Species trends####
-#   nav_panel('Species trends',
-#            titlePanel('Species trends'),
-#            sidebarLayout(
-#              sidebarPanel(
-#                selectInput("Species_trends", "Select a species:",
-#                            choices = unique(occupancy_RBSU$species))
-#              ),#sidebarPanel
-#              mainPanel(
-#                fluidRow(
-#                  box(
-#                    title='Observations',
-#                    plotOutput("plot_trends_obs")
-#                  ),
-#                  box(
-#                    title='Observations-corrected',
-#                    plotOutput("plot_trends_obs_cor")
-#                  )
-#                ),#fluidRow,
-#                fluidRow(
-#                  box(
-#                    title='Occupancy',
-#                    plotOutput("plot_trends_occ")
-#                  ),
-#                  box(
-#                    title='Occupancy-corrected',
-#                    plotOutput("plot_trends_occ_cor")
-#                  )
-#                )#fluidRow,
-#              )#mainPanel
-#            )#sidebarLayout
-#   ),#nav_panel
-#   ##Management####
-#   nav_panel('Management',
-#            navset_tab(
-#              nav_panel('Maps',
-#                       titlePanel('Level of invasion'),
-#                       sidebarLayout(
-#                         sidebarPanel(
-#                           selectInput("Species_loi", "Select a species:",
-#                                       choices = unique(occupancy_RBSU$species)),
-#                           selectInput("RBSU_loi", "Select a river basin subunit:",
-#                                       choices = unique(centroid_per_RBSU$fullnameRBSU))),#sidebarPanel
-#                         mainPanel(
-#                           fluidRow(
-#                             box(
-#                               title='baseline state',
-#                               leafletOutput("map_level_of_invasion_baseline")
-#                             ),
-#                             box(
-#                               title='current state',
-#                               leafletOutput("map_level_of_invasion_current")
-#                             )
-#                           ),#fluidRow,
-#                           fluidRow(
-#                             box(
-#                               title='baseline state',
-#                               leafletOutput("map_baseline_state")
-#                             ),
-#                             box(
-#                               title='current state',
-#                               leafletOutput("map_current_state")
-#                             )
-#                           )#fluidRow,
-#                           
-#                         )#mainPanel
-#                       ),#sidebarLayout,
-#                       box(' '),
-#                       box(' '),
-#                       box("Baseline state for plants: 1/1/2000-31/12/2020"), 
-#                       box("Baseline state for crayfish: 1/1/2000 - 31/12/2015"),
-#                       box("Current state for plants: 1/1/2021 - present"),
-#                       box("Current state for crayfish: 1/1/2016 - present"),
-#                       box(' '),
-#                       box(' '),
-#                       box('RBSU level, not recorded: relative occupancy equals 0'),
-#                       box('RBU level, not recorded: relative occupancy equals 0'),
-#                       box ('RBSU level, scattered occurrences only: 0 < relative occupancy <= 0.10'),
-#                       box ('RBU level, scattered occurrences only: 0 < relative occupancy <= 0.01'),
-#                       box ('RBSU level, weakly invaded: 0.10 < relative occupancy <= 0.20'),
-#                       box ('RBU level, weakly invaded: 0.01 < relative occupancy <= 0.05'),
-#                       box ('RBSU level, heavily invaded: relative occupancy > 0.20'),
-#                       box ('RBU level, heavily invaded: relative occupancy > 0.05')
-#              ),#nav_panel,
-#              # nav_panel('Table',
-#              #          tableOutput('table_summarizing_management')
-#              # )
-#            )#navset_tab
-#            ##Site-level monitoring####
-#   ),#nav_panel
-#   nav_panel('Site-level monitoring',
-#            sidebarLayout(
-#              sidebarPanel(
-#                selectInput("Species_dafor", "Select a species:",
-#                            choices = unique(dafor_monitoring$species)
-#                )),
-#              mainPanel(
-#                fluidRow(
-#                  box(
-#                    title='Plants',
-#                    plotOutput("DAFOR")
-#                  )#box
-#                )#fluidRow
-#              )#mainPanel
-#            ),#sidebarlayout
-#            sidebarLayout(
-#              sidebarPanel(
-#                selectInput("Species_cpue", "Select a species:",
-#                            choices = c( "Orconectes virilis",
-#                                         "Procambarus clarkii",
-#                                         "P. fallax")
-#                )),
-#              mainPanel(
-#                fluidRow(
-#                  box(
-#                    title='Crayfish',
-#                    plotOutput("CPUE")
-#                  )#box
-#                )#fluidRow
-#              )#mainPanel
-#            )#Sidebarlayout
-#   ),
-# nav_spacer()
-# )
+                ###Observations####    
+tabPanel(
+  "Observations",
+  titlePanel('Observations'),
+  fluidPage(
+    # Add the descriptive text box with rounded edges and grey background
+    box(
+      width = 12,
+      class = "custom-box",
+      HTML("<p>The number of <b>observations</b> per species. Presence as well as absence. 
+            Divided between periods.</p>
+            <p>
+            <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2022</b>. 
+            <i>Current</i> period from <b>2023-present</b>.</li>
+            <li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>. 
+            <i>Current</i> period from <b>2016-present</b>.</li>
+            </p>")
+    ),
+    # First sidebar layout for river basin in a custom box
+    box(
+      width = 12,
+      class = "custom-box2",
+      title = "At River Basin Level", # Title for the box
+      sidebarLayout(
+        sidebarPanel(
+          selectInput("RBUi2", "Select a river basin:",
+                      choices = unique(occupancy_RBU$RBU)),
+          width = 3 # Out of 12
+        ),
+        mainPanel(
+          fluidRow(
+          plotOutput("graphRBU")
+          )
+        )
+      )
+    ),
+    
+    # Second sidebar layout for river basin subunit in a custom box
+    box(
+      width = 12,
+      class = "custom-box2",
+      title = "At River Basin Subunit Level", # Title for the box
+      sidebarLayout(
+        sidebarPanel(
+          selectInput("RBSUi2", "Select a river basin subunit:",
+                      choices = unique(occupancy_RBSU$fullnameRBSU)),
+          width = 3 # Out of 12
+        ),
+        mainPanel(
+          fluidRow(
+            plotOutput("graphRBSU")
+          )
+        )
+      )
+    )
+  )
+),
+             ### Occupancy ####
+             tabPanel('Occupancy',
+                      titlePanel('Occupancy'),
+                      fluidPage(
+                      box(
+                        width = 12,
+                        class = "custom-box",
+                        HTML("<p><b>Occupancy</b>, or: the number of grid cells with observations of the species (<a href=https://www.eea.europa.eu/data-and-maps/figures/eea-reference-grids>EEA</a> 1-km² grid). Expressed as the <b>absolute</b> number of occupied cells, or <b>relative</b> to the number of cells in the river basin. Divided between periods.</p><p>
+<li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2022</b>. 
+<i>Current</i> period from <b>2023-present</b>.</li>
+<li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>.
+<i>Current</i> period from <b>2016-present</b>.</li>
+     </p>")
+                      ),
+                      
+                      box(
+                        width = 12,
+                        class = "custom-box2",
+                        title = "At River Basin Level", # Title for the box
+                        
+                        sidebarLayout(
+                          sidebarPanel(
+                            selectInput("RBUi", "Select a river basin:",
+                                        choices = unique(occupancy_RBU$RBU)),
+                            width = 3 # Out of 12
+                          ),
+                          mainPanel(
+                            fluidRow(
+                              tabsetPanel(
+                                tabPanel("Absolute occupancy", plotOutput("OccRBU")),
+                                tabPanel("Relative occupancy", plotOutput("OccRBUREL"))
+                              )
+                            )
+                          ))
+                        
+                        ),
+                      
+                      box(
+                        width = 12,
+                        class = "custom-box2",
+                        title = "At River Basin Subunit Level", # Title for the box
+                        sidebarLayout(
+                          sidebarPanel(
+                            selectInput("RBSUi", " Select a river basin subunit:",
+                                        choices = unique(occupancy_RBSU$fullnameRBSU)),
+                            width = 3 # Out of 12
+                          ),
+                          mainPanel(
+                            fluidRow(
+                              tabsetPanel(type = "tabs",
+                                          tabPanel("Absolute occupancy", plotOutput("OccRBSU")),
+                                          tabPanel("Relative occupancy", plotOutput("OccRBSUREL"))
+                              )
+                            )
+                          ))
+                            )
+                          )
+                        ),
+tabPanel('Level of invasion',
+         titlePanel('Level of invasion'),
+         fluidPage(
+         box(
+           width = 12,
+           HTML('
+<div class="custom-box">
+  <!-- Introductory text -->
+  <p>Level of invasion is based on relative occupancy (the number of grid cells with observations of the species (<a href=https://www.eea.europa.eu/data-and-maps/figures/eea-reference-grids>EEA</a> 1-km² grid), relative</b> to the number of cells in the river basin or river basin subunit. Level of invasion is scale dependent (at river basin or river basin subunit level). Baseline and current period differ between plants and crayfish.</p>
+  
+  <!-- Periods for plants and crayfish -->
+  <ul>
+    <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2022</b>. 
+    <i>Current</i> period from <b>2023-present</b>.</li>
+    <li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>. 
+    <i>Current</i> period from <b>2016-present</b>.</li>
+  </ul>
+  
+  <!-- Flex container for the additional columns -->
+  <div style="display: flex; justify-content: space-between; gap: 10px;">
+    
+    <!-- Column 3: RBSU -->
+    <div style="flex: 1; padding: 10px;">
+      <h4>River Basin Subunit Level</h4>
+      <p>Not recorded: relative occupancy equals 0</p>
+      <p>Scattered occurrences only: 0 < relative occupancy ≤ 0.10</p>
+      <p>Weakly invaded: 0.10 < relative occupancy ≤ 0.20</p>
+      <p>Heavily invaded: relative occupancy > 0.20</p>
+    </div>
+    
+    <!-- Column 4: RBU -->
+    <div style="flex: 1; padding: 10px;">
+      <h4>River Basin Unit Level</h4>
+      <p>Not recorded: relative occupancy equals 0</p>
+      <p>Scattered occurrences only: 0 < relative occupancy ≤ 0.01</p>
+      <p>Weakly invaded: 0.01 < relative occupancy ≤ 0.05</p>
+      <p>Heavily invaded: relative occupancy > 0.05</p>
+    </div>
+
+  </div>
+</div>
+
+                  ')
+
+),
+
+box(
+  width = 12,
+  class = "custom-box2",
+           
+         sidebarLayout(
+           sidebarPanel(
+             selectInput("Species_loi", "Select a species:",
+                         choices = unique(occupancy_RBSU$species)),
+             selectInput("RBSU_loi", "Select a river basin subunit:",
+                         choices = unique(centroid_per_RBSU$fullnameRBSU))),#sidebarPanel
+           mainPanel(
+             fluidRow(
+               box(
+                 title='baseline state - level of invasion',
+                 leafletOutput("map_level_of_invasion_baseline")
+               ),
+               box(
+                 title='current state - level of invasion',
+                 leafletOutput("map_level_of_invasion_current")
+               )
+             ),#fluidRow,
+             fluidRow(
+               box(
+                 title='baseline state - observations in detail',
+                 leafletOutput("map_baseline_state")
+               ),
+               box(
+                 title='current state - observations in detail',
+                 leafletOutput("map_current_state")
+               )
+             )#fluidRow,
+             
+           )#mainPanel
+         ),#sidebarLayout,
+)
+)#fluidPage
+),
+           )#tabsetPanel
+  ),#tabPanel
+
+  ##Surveillance####
+  tabPanel('Surveillance',
+           titlePanel('Surveillance effort'),
+           fluidPage(
+             box(
+               width = 12,
+               class = "custom-box",
+               HTML("<p> An EEA grid cell is considered highly surveilled if more than 10 observations of the Riparias checklist species have been reported since 2020. </p>")
+             ),
+           box(
+             width = 12,
+             class = "custom-box2",
+             fluidRow(
+                        box(
+                          'Percentage of EEA cells (1km²) per river basin subunit with heigh surveillance effort for plant species',
+                          plotOutput("Plot_surveillance_effort_RBSU", height=600)
+                        ),
+                        box(
+                          'Distribution of EEA cells (1km²) with high surveillance effort for plant species',
+                          leafletOutput("map_EEA_surveillance_effort", height=600)
+                        )
+                      )#fluidrow
+             )
+           )#tabPanel Effort
+           )#tabsetPanel 
+  ,#tabPanel Surveillance
+  ##Species trends####
+  tabPanel('Species trends',
+           titlePanel('Species trends'),
+           fluidPage(
+             box(
+               width = 12,
+               class = "custom-box",
+               HTML('<p>
+                      An overview of the  <a href="https://trias-project.github.io/indicators/" target="_blank">
+                      TRIAS indicators
+                    </a>, per species in Riparias project area.
+                    </p>')
+             ),
+            
+             box(
+               width = 12,
+               class = "custom-box2", 
+               
+               sidebarLayout(
+                 sidebarPanel(
+                   selectInput("Species_trends", "Select a species:",
+                               choices = unique(occupancy_RBSU$species))
+                 ),#sidebarPanel
+                 mainPanel(
+                   fluidRow(
+                     box(
+                       title='Observations',
+                       plotOutput("plot_trends_obs")
+                     ),
+                     box(
+                       title='Observations-corrected',
+                       plotOutput("plot_trends_obs_cor")
+                     )
+                   ),#fluidRow,
+                   fluidRow(
+                     box(
+                       title='Occupancy',
+                       plotOutput("plot_trends_occ")
+                     ),
+                     box(
+                       title='Occupancy-corrected',
+                       plotOutput("plot_trends_occ_cor")
+                     )
+                   )#fluidRow,
+                 )#mainPanel
+               )#sidebarLayout
+             )
+           )
+    ),#tabPanel
+  ##Management####
+  tabPanel('Management',
+           tabsetPanel(
+             #tabPanel,
+             tabPanel('Table',
+                      titlePanel('Management Table (current versus target state)'),
+                      fluidPage(
+                        box(
+                          width = 12,
+                          class = "custom-box",
+                          HTML('Per river basin, the number of river basin subunits where the species is present in the current state (2021-present) is displayed. The baseline and target number are also mentioned.')),
+                        
+                        box(
+                          width = 12,
+                          class = "custom-box2",
+                      tableOutput('table_summarizing_management')
+                      )
+             )
+           )
+           ,
+
+             #tabPanel,
+             tabPanel('Management maps',
+                      titlePanel('Managment maps'),
+                      
+                      
+                      
+                      fluidPage(
+                        box(
+                          width = 12,
+                          class = "custom-box",
+                          HTML('Per species, locations are displayed where management is performed in the framework of LIFE RIPARIAS within the LIFE RIPARIAS project area. Hover over a location to find out: (i) management date (ii) amount removed and (iii) unit of expression.')),
+                        
+                        box(
+                          width = 12,
+                          class = "custom-box2",
+                          
+                          sidebarLayout(
+                            sidebarPanel(
+                              selectInput("Species_iAsset", "Select a species:",
+                                          choices = unique(iAsset$Species)),
+                              selectInput("RBSU_mm", "Select a river basin subunit:",
+                                          choices = unique(centroid_per_RBSU$fullnameRBS))
+                            ),#sidebarPanel
+                            mainPanel(
+                          leafletOutput('iAsset_maps')
+                        )
+                      )
+                    )
+                  )
+                 )
+                 )
+           #tabsetPanel
+           ##Site-level monitoring####
+  ),#tabPanel
+  tabPanel('Site-level monitoring',
+           fluidPage(
+             box(
+               width = 12,
+               class = "custom-box",
+               HTML("In those areas where management is performed, monitoring surveys are organised before and after management to assess its impact. After management surveys are anticipated to occur in 2026. Afterlife surveys in 2031.")),
+             
+             box(
+               width = 12,
+               class = "custom-box2",
+           sidebarLayout(
+             sidebarPanel(
+               selectInput("Species_dafor", "Select a species:",
+                           choices = unique(dafor_monitoring$species)
+               )),
+             mainPanel(
+               fluidRow(
+                 box(
+                   title='Plants',
+                   plotOutput("DAFOR")
+                 )#box
+               )#fluidRow
+             )#mainPanel
+           )
+           )
+           ,#sidebarlayout
+           box(
+             width = 12,
+             class = "custom-box2",
+           sidebarLayout(
+             sidebarPanel(
+               selectInput("Species_cpue", "Select a species:",
+                           choices = c( "Orconectes virilis",
+                                        "Procambarus clarkii",
+                                        "P. fallax")
+               )),
+             mainPanel(
+               fluidRow(
+                 box(
+                   title='Crayfish',
+                   plotOutput("CPUE")
+                 )#box
+               )#fluidRow
+             )#mainPanel
+           )#Sidebarlayout
+           )
+  )
+  )
+,
+tags$head(
+  tags$style(HTML("
+      /* Change navbar background color */
+      .navbar-default {
+        background-color: #00a491;  /* Dark green background */
+        border-color: #00a491;
+      }
+      /* Change text color */
+      .navbar-default .navbar-brand {
+        color: white;
+      }
+      .navbar-default .navbar-nav > li > a {
+        color: white;
+      }
+      /* Change color on hover */
+      .navbar-default .navbar-nav > li > a:hover {
+        color: #FFD700;  /* Golden hover color */
+      }
+    "))
+)
+)
 
 # 3. Server ####
 
@@ -578,15 +888,15 @@ server <- function(input, output) {
     test5 <- dafor_monitoring[(dafor_monitoring$species == input$Species_dafor),]
     test5
   })
-  
+
   output$DAFOR <- renderPlot ({
     ggplot(dat_dafor(), 
            aes(fill=DAFOR, 
                y=count, 
                x=factor(Time_period,
-                        level = c('before management',
-                                  'after management (2026)',
-                                  'afterlife (2031)')))) + 
+                        levels = c('before management',
+                                 'after management',
+                                 'afterlife')))) + 
       geom_bar(position="stack", stat="identity")+
       labs(y='Number of sites')+
       labs(x='Time period')+
@@ -614,7 +924,7 @@ server <- function(input, output) {
   
   output$Plot_surveillance_effort_RBSU <-renderPlot ({
     ggplot(Surveillance_effort_RBSU, aes(x=fullnameRBSU, y=SurveillanceEffortRel)) +
-      geom_bar(stat="identity")+
+      geom_bar(stat="identity", fill = "#00a491")+
       coord_flip()+ 
       labs(y = "Percentage of EEA 1 km² cells with high surveillance effort")+ 
       labs(x = "River basin subunit")
@@ -627,9 +937,10 @@ server <- function(input, output) {
   #) %>% lapply(htmltools::HTML)
   
   output$map_EEA_surveillance_effort <- renderLeaflet ({
-    leaflet(EEA_surveillance_effort) %>% 
-      addTiles() %>% 
-      addPolygons(color="grey")
+    leaflet() %>% 
+      addProviderTiles(providers$CartoDB.Positron) %>% 
+      addPolygons(data = EEA_surveillance_effort, color= "#00a491")%>%
+      addPolylines(data = RBU_laag, color= "#00a491", opacity=1)
     
     
   })
@@ -939,7 +1250,38 @@ server <- function(input, output) {
   })
   ##Management####
   ###Summarizing_table####
-  #output$table_summarizing_management <- renderTable(table_summarizing_management)
+  output$table_summarizing_management <- renderTable(table_summarizing_management)
+  
+  ##Management####
+  ##Managment map####
+  
+
+  
+  output$iAsset_maps  <- renderLeaflet({
+    
+    iAsset_sub <- subset(iAsset,
+                                 iAsset$Species %in%
+                                   input$Species_iAsset)
+    
+
+    leaflet() %>% 
+      addProviderTiles(providers$CartoDB.Positron) %>%
+      addPolygons(data=RBSU, color="grey", fill= NA)%>%
+      addCircleMarkers(data = iAsset_sub,
+                       label = ~paste("Date:", Date.time.event, " Quantity:", Quantity, ' Unit:', Unit),
+                       color="#00a491")
+    
+  })
+  
+  center_mm <- reactive({
+    subset(centroid_per_RBSU, fullnameRBSU == input$RBSU_mm) 
+  })
+  
+  observe({
+    leafletProxy('iAsset_maps') %>% 
+      setView(lng =  center_mm()$longitude, lat = center_mm()$latitude, zoom = 11)
+  })
+  
   ###Level of invasion####
   ###Level of invasion baseline####
   output$map_level_of_invasion_baseline <- renderLeaflet({
@@ -1063,6 +1405,7 @@ server <- function(input, output) {
                        color="blue")
     
   })
+  
   
   center <- reactive({
     subset(centroid_per_RBSU, fullnameRBSU == input$RBSU_loi) 
