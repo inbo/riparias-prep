@@ -77,7 +77,7 @@ for(k in taxon_key){
 ## baseline ####
 # download de nieuwe versie van de classes cube en lees deze in
 # creëer de query
-# query <- "SELECT \"year\", GBIF_EEARGCode( 1000, decimalLatitude, decimalLongitude, COALESCE(coordinateUncertaintyInMeters, 1000) ) AS eeaCellCode, classKey, class, familyKey, family, COUNT(*) AS occurrences, MIN(COALESCE(coordinateUncertaintyInMeters, 1000)) AS minCoordinateUncertaintyInMeters, MIN(GBIF_TemporalUncertainty(eventDate)) AS minTemporalUncertainty, IF(ISNULL(classKey), NULL, SUM(COUNT(*)) OVER (PARTITION BY classKey)) AS classCount FROM occurrence WHERE occurrenceStatus = 'PRESENT' AND (continent = 'EUROPE' OR countrycode = 'BE') AND \"year\" >= 2000 AND hasCoordinate = TRUE AND familyKey IS NOT NULL AND NOT ARRAY_CONTAINS(issue, 'ZERO_COORDINATE') AND NOT ARRAY_CONTAINS(issue, 'COORDINATE_OUT_OF_RANGE') AND NOT ARRAY_CONTAINS(issue, 'COORDINATE_INVALID') AND NOT ARRAY_CONTAINS(issue, 'COUNTRY_COORDINATE_MISMATCH') AND (LOWER(identificationVerificationStatus) NOT IN ( 'unverified', 'unvalidated', 'not validated', 'under validation', 'not able to validate', 'control could not be conclusive due to insufficient knowledge', 'uncertain', 'unconfirmed', 'unconfirmed - not reviewed', 'validation requested' ) OR identificationVerificationStatus IS NULL)AND classKey IN (<--nubkeys-->)AND coordinateUncertaintyInMeters <= 10000GROUP BY \"year\", eeaCellCode, classKey, class, familyKey, family ORDER BY \"year\" DESC, eeaCellCode ASC, familyKey ASC;"
+# query <- "SELECT \"year\", GBIF_EEARGCode( 1000, decimalLatitude, decimalLongitude, COALESCE(coordinateUncertaintyInMeters, 1000) ) AS eeaCellCode, classKey, class, COUNT(*) AS occurrences, MIN(COALESCE(coordinateUncertaintyInMeters, 1000)) AS minCoordinateUncertaintyInMeters, MIN(GBIF_TemporalUncertainty(eventDate)) AS minTemporalUncertainty FROM occurrence WHERE occurrenceStatus = 'PRESENT' AND countrycode = 'BE' AND \"year\" >= 2000 AND hasCoordinate = TRUE AND NOT ARRAY_CONTAINS(issue, 'ZERO_COORDINATE') AND NOT ARRAY_CONTAINS(issue, 'COORDINATE_OUT_OF_RANGE') AND NOT ARRAY_CONTAINS(issue, 'COORDINATE_INVALID') AND NOT ARRAY_CONTAINS(issue, 'COUNTRY_COORDINATE_MISMATCH') AND (LOWER(identificationVerificationStatus) NOT IN ( 'unverified', 'unvalidated', 'not validated', 'under validation', 'not able to validate', 'control could not be conclusive due to insufficient knowledge', 'uncertain', 'unconfirmed', 'unconfirmed - not reviewed', 'validation requested' ) OR identificationVerificationStatus IS NULL)AND classKey IN (<--nubkeys-->)AND coordinateUncertaintyInMeters <= 10000GROUP BY \"year\", eeaCellCode, classKey, class ORDER BY \"year\" DESC, eeaCellCode ASC;"
 # 
 # # bepaal de classes die in de baseline zitten
 # classes <- spec_names$classKey %>% 
@@ -99,12 +99,15 @@ for(k in taxon_key){
 #   occ_download_import() 
 
 # download previous update of the classes cube and read it in
-df_bl_raw <- occ_download_get("0006817-250127130748423", overwrite = TRUE) %>%
+df_bl_raw <- occ_download_get("0006958-250127130748423", overwrite = TRUE) %>%
   occ_download_import() 
 
-df_bl <-
-  df_bl %>%
-  rename(cobs = n)
+# Select gridcells within perimeter
+df_bl <- df_bl_raw %>% 
+  filter(eeacellcode %in% EEA_1km$CELLCODE) %>%
+  rename(cobs = occurrences,
+         eea_cell_code = eeacellcode,
+         classKey = classkey)
 
 ## timeseries ####
 df_cc <- 
@@ -150,6 +153,7 @@ df_ts <-
               select(year, eea_cell_code, classKey, cobs),
             by = c("year", "eea_cell_code", "classKey")) %>%
   mutate(cobs = cobs - obs)
+
 df_ts <-
   df_ts %>%
   replace_na(list(cobs = 0, obs = 0))
