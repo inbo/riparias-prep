@@ -17,6 +17,30 @@ repo <- "https://github.com/inbo/riparias-prep/raw/"
 repo_raw <- "https://raw.githubusercontent.com/inbo/riparias-prep/refs/heads/"
 branch <- "74_fixes_dashboard"
 
+# Function to check if URL is reachable
+is_url_reachable <- function(url) {
+  tryCatch({
+    response <- HEAD(url)
+    status_code(response) == 200
+  }, error = function(e) {
+    FALSE
+  })
+}
+
+# Test if the branch is reachable, otherwise use "master"
+if (is_url_reachable(paste0(repo, branch))) {
+  final_branch <- branch
+} else {
+  final_branch <- "master"
+}
+
+# Use the final_branch in your URL
+final_url <- paste0(repo, final_branch)
+
+# Print the result
+cat("Using branch:", final_branch, "\n")
+cat("Final URL:", final_url, "\n")
+
 ## Maps ####
 all_pointdata_2000 <- st_read(paste0(repo, branch,
                                      "/data/spatial/baseline/points_in_perimeter_sel.geojson"))
