@@ -74,6 +74,19 @@ level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU %>%
 
 bbox <- st_bbox(RBU_laag)
 
+## Management - iAsset
+iAsset <- read.csv2(paste0(repo, branch,
+                         "/data/input/iAsset_2_2_2025.csv"))
+
+iAsset$longitude = as.numeric(sub("POINT\\(([^ ]+) .*", "\\1", iAsset$GPS))
+
+iAsset$latitude = as.numeric(sub("POINT\\([^ ]+ ([^ ]+)\\)", "\\1", iAsset$GPS))
+
+iAsset <- iAsset %>%
+  drop_na(latitude)
+
+iAsset <- st_as_sf(iAsset, coords=c("longitude", "latitude"), crs = 4326)
+
 ## Site-level monitoring ####
 dafor_monitoring <- read.csv(paste0(repo, branch,
                                     "/data/interim/dafor_monitoring.csv"))
@@ -601,7 +614,39 @@ box(
                       )
              )
            )
-           )
+           ,
+
+             #tabPanel,
+             tabPanel('Management maps',
+                      titlePanel('Management maps'),
+                      
+                      
+                      
+                      fluidPage(
+                        box(
+                          width = 12,
+                          class = "custom-box",
+                          HTML('Per species, locations are displayed where management is performed in the framework of LIFE RIPARIAS within the LIFE RIPARIAS project area')),
+                        
+                        box(
+                          width = 12,
+                          class = "custom-box2",
+                          
+                          sidebarLayout(
+                            sidebarPanel(
+                              selectInput("Species_iAsset", "Select a species:",
+                                          choices = unique(iAsset$Species)),
+                              selectInput("RBSU_mm", "Select a river basin subunit:",
+                                          choices = unique(centroid_per_RBSU$fullnameRBS))
+                            ),#sidebarPanel
+                            mainPanel(
+                          leafletOutput('iAsset_maps')
+                        )
+                      )
+                    )
+                  )
+                 )
+                 )
            #tabsetPanel
            ##Site-level monitoring####
   ),#tabPanel
@@ -1206,6 +1251,37 @@ server <- function(input, output) {
   ##Management####
   ###Summarizing_table####
   output$table_summarizing_management <- renderTable(table_summarizing_management)
+  
+  ##Management####
+  ##Managment map####
+  
+
+  
+  output$iAsset_maps  <- renderLeaflet({
+    
+    iAsset_sub <- subset(iAsset,
+                                 iAsset$Species %in%
+                                   input$Species_iAsset)
+    
+
+    leaflet() %>% 
+      addProviderTiles(providers$CartoDB.Positron) %>%
+      addPolygons(data=RBSU, color="grey", fill= NA)%>%
+      addCircleMarkers(data = iAsset_sub,
+                       label = ~paste("Date:", Date.time.event, " Quantity:", Quantity, ' Unit:', Unit),
+                       color="#00a491")
+    
+  })
+  
+  center_mm <- reactive({
+    subset(centroid_per_RBSU, fullnameRBSU == input$RBSU_mm) 
+  })
+  
+  observe({
+    leafletProxy('iAsset_maps') %>% 
+      setView(lng =  center_mm()$longitude, lat = center_mm()$latitude, zoom = 11)
+  })
+  
   ###Level of invasion####
   ###Level of invasion baseline####
   output$map_level_of_invasion_baseline <- renderLeaflet({
