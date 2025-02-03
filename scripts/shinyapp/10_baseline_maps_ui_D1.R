@@ -8,6 +8,7 @@ library(sf)
 library(stringr)
 library(tidyr)
 library(trias) 
+library(httr)
 library(readxl)
 
 # Note: possible cause of failure concerning trias package. Only packages installed from GitHub with devtools::install_github, in version 1.4 (or later) of devtools, are supported. Packages installed with an earlier version of devtools must be reinstalled with the later version before you can deploy your application. If you get an error such as “PackageSourceError” when you attempt to deploy, check that you have installed all the packages from Github with devtools 1.4 or later.
@@ -15,27 +16,30 @@ library(readxl)
 # 1. Import data ####
 repo <- "https://github.com/inbo/riparias-prep/raw/"
 repo_raw <- "https://raw.githubusercontent.com/inbo/riparias-prep/refs/heads/"
+repo_test <- "https://github.com/inbo/riparias-prep/tree/"
 branch <- "74_fixes_dashboard"
 
 # Function to check if URL is reachable
 is_url_reachable <- function(url) {
+  cat("Trying:", url, "\n")
   tryCatch({
     response <- HEAD(url)
     status_code(response) == 200
   }, error = function(e) {
+    cat("Error:", e$message, "\n")
     FALSE
   })
 }
 
 # Test if the branch is reachable, otherwise use "master"
-if (is_url_reachable(paste0(repo, branch))) {
+if (is_url_reachable(paste0(repo_test, branch))) {
   final_branch <- branch
 } else {
   final_branch <- "master"
 }
 
 # Use the final_branch in your URL
-final_url <- paste0(repo, final_branch)
+final_url <- paste0(repo_test, final_branch)
 
 # Print the result
 cat("Using branch:", final_branch, "\n")
