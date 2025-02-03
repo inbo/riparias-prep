@@ -556,7 +556,8 @@ box(
                HTML('<p>
                       An overview of the  <a href="https://trias-project.github.io/indicators/" target="_blank">
                       TRIAS indicators
-                    </a>, per species in Riparias project area.
+                    </a>, per species in Riparias project area. 
+                    Observations: Estimate emerging status per year based on all observations within Riparias project area. Observations-corrected: correcting for observer-bias by taking in account total number of observations of the class per EEA grid cell. Occupancy: Reducing observations data to presence/absence data per EEA grid cell. Occupancy-corrected: Reducing observations data to presence/absence data per EEA grid cell while correcting for observer-bias by taking in account total number of observations of the class per EEA grid cell.
                     </p>')
              ),
             
@@ -1266,7 +1267,7 @@ server <- function(input, output) {
 
     leaflet() %>% 
       addProviderTiles(providers$CartoDB.Positron) %>%
-      addPolygons(data=RBSU, color="grey", fill= NA)%>%
+      addPolygons(data=RBSU_laag, color="grey", fill= NA)%>%
       addCircleMarkers(data = iAsset_sub,
                        label = ~paste("Date:", Date.time.event, " Quantity:", Quantity, ' Unit:', Unit),
                        color="#00a491")
