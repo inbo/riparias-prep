@@ -1,0 +1,36 @@
+```{r prep packages}
+library(tidyverse)
+library(readxl)
+library(stringr)
+```
+
+```{r prep memory}
+rm(list = ls())
+```
+
+```{r read data}
+file <- "./data/input/C2 RapidResponseActionsLog_asof26-02-12.xlsx" # most recent version
+
+raw.pop <- read_excel(file, sheet = 2, skip = 1)
+raw.act <- read_excel(file, sheet = 3, skip = 1)
+```
+
+```{r}
+pop <- raw.pop %>% 
+  filter(group == "plants") %>%
+  mutate(genus = str_extract(species, "^[^ ]+"), .after = "species")
+```
+
+```{r apparent eradication}
+ggplot(pop, aes(x = 1, fill = eradication_status)) +
+  geom_bar(position = "stack") +
+  facet_wrap(~ genus, nrow = 2, ncol = 5) +
+  labs(title = "status as of XX/XX/XXXX",
+       x = NULL,
+       y = "# populations") +
+  scale_x_continuous(breaks = NULL) +
+  guides(fill = guide_legend(title = NULL)) +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        strip.text = element_text(face = "italic"))
+```
