@@ -97,13 +97,56 @@ summ.year <- grid.data %>%
   group_by(year, species) %>% 
   summarize(nr_cells = n_distinct(CELLCODE)) %>% 
   arrange(species, year)
+
+summ.year2 <- grid.data %>% 
+  group_by(year) %>% 
+  summarize(nr_cells = n_distinct(CELLCODE))
 ```
 
 ```{r}
 ggplot() +
   geom_line(data = summ.year, aes(x = year, y = nr_cells, color = species))
 ```
-# NEW CELLCODEs
+
+# NEW CELLCODES (all species)
+
+```{r}
+  spdata <- grid.data %>% 
+  filter(year < 2026) %>% 
+  st_drop_geometry()
+  
+  spdata.21 <- spdata %>% filter(year == 2021) %>% select(CELLCODE) %>% distinct()
+  spdata.22 <- spdata %>% filter(year == 2022) %>% select(CELLCODE) %>% distinct()
+  spdata.23 <- spdata %>% filter(year == 2023) %>% select(CELLCODE) %>% distinct()
+  spdata.24 <- spdata %>% filter(year == 2024) %>% select(CELLCODE) %>% distinct()
+  spdata.25 <- spdata %>% filter(year == 2025) %>% select(CELLCODE) %>% distinct()
+  
+  spdata.new.21 <- spdata.21
+  spdata.new.22 <- anti_join(spdata.22, rbind(spdata.21))
+  spdata.new.23 <- anti_join(spdata.23, rbind(spdata.new.21,
+                                            spdata.new.22))
+  spdata.new.24 <- anti_join(spdata.24, rbind(spdata.new.21,
+                                            spdata.new.22,
+                                            spdata.new.23))
+  spdata.new.25 <- anti_join(spdata.25, rbind(spdata.new.21,
+                                            spdata.new.22,
+                                            spdata.new.23,
+                                            spdata.new.24))
+  cells <- spdata %>%
+    group_by(year) %>%
+    summarize(nr_cells = n_distinct(CELLCODE)) %>%
+    arrange(year)
+  
+  cells$new <- rbind(nrow(spdata.new.21),
+                     nrow(spdata.new.22),
+                     nrow(spdata.new.23),
+                     nrow(spdata.new.24),
+                     nrow(spdata.new.25))
+```
+
+Check : n_distinct(spdata$CELLCODE) moet gelijk zijn aan sum(cells$new)
+
+# NEW CELLCODEs (per species)
 
 ## FUNCTION (for those with full data)
 
