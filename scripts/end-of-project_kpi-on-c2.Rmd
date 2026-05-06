@@ -133,6 +133,8 @@ plot_this_species <- function(DATA){
 
 # PLANT-BASED
 
+= voor waar de eenheid het AANTAL PLANTEN is
+
 ```{r}
 pop.short.1 <- pop %>%
   transmute(popcode,
@@ -189,6 +191,8 @@ ggsave(filename = paste0("./data/output/KPI_", "Lysichiton_",
 ```
 
 # AREA-BASED
+
+= voor waar de eenheid het AANTAL PLANTEN is
 
 ```{r}
 pop.short.2 <- pop %>%
@@ -433,3 +437,41 @@ ggsave(filename = paste0("./data/output/KPI_", "Petasites",
 ```
 
 # KOE
+
+## GENERAL STATICS (all species)
+
+```{r}
+all <- rbind(
+  ziz %>% select(popcode, species, size.rel.bas, size.rel.eop),
+  lys %>% select(popcode, species, size.rel.bas, size.rel.eop),
+  pon %>% select(popcode, species, size.rel.bas, size.rel.eop),
+  # lud, # nog te doen?
+  cra %>% select(popcode, species, size.rel.bas, size.rel.eop),
+  lag %>% select(popcode, species, size.rel.bas, size.rel.eop),
+  ege %>% select(popcode, species, size.rel.bas, size.rel.eop),
+  ery %>% select(popcode, species, size.rel.bas, size.rel.eop),
+  pet %>% select(popcode, species, size.rel.bas, size.rel.eop)
+  # koe # nog te doen?
+  ) %>% 
+  mutate(decline = size.rel.bas - size.rel.eop)
+```
+
+```{r}
+ggplot(data = all) +
+  geom_point(aes(x = popcode, y = size.rel.eop)) +
+  facet_wrap(~ species, nrow = 2, ncol = 4) +
+  theme_bw()
+```
+
+```{r save}
+ggsave(filename = paste0("./data/output/KPI_", "all_", 
+                         Sys.Date(), ".png"),
+                         width = 15, height = 8, units= "cm")
+```
+
+# the acutual kpi
+
+```{r kpi}
+mean(all$decline, na.rm = T)
+```
+

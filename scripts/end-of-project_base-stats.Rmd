@@ -49,21 +49,26 @@ rip <- name_usage(datasetKey = "fd004d9a-2ea4-4244-bb60-0df508d20a15")$data %>%
 ```
 
 ```{r}
-GBIFdata <- occ_download_get(key = "0009927-260430073515954",
-                             path = "./data/interim/adhoc_2026-05_base-stats/",
-                             overwrite = TRUE)
+# GBIFdata <- occ_download_get(key = "0009927-260430073515954",
+#                              path = "./data/interim/adhoc_2026-05_base-stats/",
+#                              overwrite = TRUE)
 ```
 
 ```{r}
-data <- GBIFdata %>%
-  occ_download_import() %>% 
+data.raw <- occ_download_import(key = "0009927-260430073515954",
+                                path = "./data/interim/adhoc_2026-05_base-stats/")
+```
+
+```{r}
+data <- data.raw %>%
   distinct(occurrenceID, .keep_all = TRUE) %>% # get rid of duplicates
   filter(!is.na(decimalLongitude), !is.na(decimalLatitude)) %>% # with coordinates
   filter(occurrenceStatus != 'ABSENT') %>%  # filter out absence data
   # take what you need
   select(gbifID,
-         datasetID, datasetName,
-         eventDate, year,
+         # datasetID, datasetName,
+         # eventDate,
+         year,
          species,
          decimalLatitude, decimalLongitude,
          identificationVerificationStatus) %>%
@@ -92,15 +97,24 @@ ggplot() +
   theme_bw()
 ```
 
-```{r summary year}
-summ.year <- grid.data %>% 
+```{r summaries}
+# aantal hokken per jaar
+summ1 <- grid.data %>% 
+  group_by(year) %>% 
+  summarize(nr_cells = n_distinct(CELLCODE))
+
+# aantal hokken per soort & jaar
+summ2 <- grid.data %>% 
   group_by(year, species) %>% 
   summarize(nr_cells = n_distinct(CELLCODE)) %>% 
   arrange(species, year)
 
-summ.year2 <- grid.data %>% 
-  group_by(year) %>% 
+# aantal hokken per soort
+summ3 <- grid.data %>% 
+  group_by(species) %>% 
   summarize(nr_cells = n_distinct(CELLCODE))
+# de som van nr_cells = # POPULATIES (soort x hok combinaties)
+sum(summ3$nr_cells)
 ```
 
 ```{r}
@@ -109,6 +123,8 @@ ggplot() +
 ```
 
 # NEW CELLCODES (all species)
+
+Analyse van het aantal hokken dat jaarlijks nieuw was, i.e. dat nog in geen enkele van de voorgaande jaren was vastgesteld.
 
 ```{r}
   spdata <- grid.data %>% 
@@ -145,6 +161,20 @@ ggplot() +
 ```
 
 Check : n_distinct(spdata$CELLCODE) moet gelijk zijn aan sum(cells$new)
+
+```{r}
+ggplot(data = cells, aes(x = year)) +
+  geom_col(aes(y = new), color = "grey", fill = "grey") +
+  geom_line(aes(y = nr_cells), color = "red") +
+  geom_point(aes(y = nr_cells), color = "red", size = 3) +
+  ggtitle("all species", "line = all locations, bars = new locations") +
+  labs(x = NULL, y = NULL) +
+  theme_bw()
+```
+
+```{r}
+ggsave(paste0("./data/output/newpops_", "all-species", "_", Sys.Date(), ".png"))
+```
 
 # NEW CELLCODEs (per species)
 
