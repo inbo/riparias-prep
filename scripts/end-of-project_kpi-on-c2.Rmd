@@ -31,48 +31,190 @@ rm(list = ls())
 # DATA
 
 ```{r read data}
-file <- "./data/input/C2 RapidResponseActionsLog_asof26-02-12.xlsx" # most recent version
+file <- "./data/input/C2 RapidResponseActionsLog_asof26-08-04.xlsx" # most recent version
 
 raw.pop <- read_excel(file, sheet = 2, skip = 1)
 raw.act <- read_excel(file, sheet = 3, skip = 1)
 ```
 
-```{r}
+```{r select}
 pop <- raw.pop %>% 
-  filter(group == "plants") %>%
-  mutate(genus = str_extract(species, "^[^ ]+"), .after = "species") %>% 
-  
-  # fix pop_size_quantity
-  mutate(pop_size_quantity = case_when(
-    pop_size_quantity == "N/A" ~ NA_character_,
-    TRUE ~ pop_size_quantity
-  )) %>%
-  mutate(pop_size_quantity = as.numeric(pop_size_quantity)) %>% 
-  
-  # fix pop_size_unit
-  mutate(pop_size_unit = case_when(
-    pop_size_unit == "N/A" ~ NA_character_,
-    TRUE ~ pop_size_unit
-  )) %>% 
-  
-  # fix infested_area_m²
-  mutate(`infested_area_m²` = case_when(
-    `infested_area_m²` == "N/A" ~ NA_character_,
-    `infested_area_m²` == "To check" ~ NA_character_,
-    `infested_area_m²` == "?" ~ NA_character_,
-    `infested_area_m²` == "<1" ~ "1",
-    `infested_area_m²` == "<1" ~ "1",
-    TRUE ~ `infested_area_m²`
-  )) %>% 
-  mutate(`infested_area_m²` = as.numeric(`infested_area_m²`)) %>% 
-  
-  # rename eradication_status
-  mutate(status = eradication_status) %>% 
-  mutate(status = case_when(
-    status == "apparent_eradication" ~ "confirmed",
-    status == "follow_up" ~ "confirmation_needed"
-  ))
+  filter(group == "plants") |> 
+  transmute(
+    popcode,
+    species = str_extract(species, "^[^ ]+"), # genus
+    # latitude,
+    # longitude,
+    # region,
+    before_m2 = `INITIAL_infested_m²`,
+    before_other = INITIAL_size_quantity,
+    before_other_unit = INITIAL_size_unit,
+    after = REMAINING_size,
+    after_unit = REMAINING_size_unit,
+    eradication_status
+    )
 ```
+
+```{r}
+spp <- unique(pop$species)
+```
+
+```{r fix and complete}
+
+# Eg4, Eg5 : assume "<1" ~ 1
+pop$before_m2[pop$before_m2 == "<1"] <- "1"
+
+# Eg3 : data missing, let's assume 3m² (based on wnm.be and field visits)
+pop$before_m2[pop$popcode == "Eg3"] <- "3"
+
+# other
+pop$after[pop$after == "n/a"] <- NA
+
+pop$before_m2 <- as.numeric(pop$before_m2)
+pop$after <- as.numeric(pop$after)
+
+```
+
+# CONVERT ALL TO M²
+
+```{r}
+La.plants.to.m2 <- 1.2 # Vibe
+Lg.plants.to.m2 <- 0.7 # Vibe
+Lg.m3.to.m2     <- 6   # Vibe
+Ch.m3.to.m2     <- 35  # Vibe
+Ed.m3.to.m2     <- 4.6 # Vibe
+Eg.plants.to.m2 <- 0.2 # Vibe
+Pj.plants.to.m2 <- 1.8 # Vibe
+Kp.plants.to.m2 <- 1.0 # Vibe
+```
+
+## 'BEFORE' in M²
+
+```{r}
+pop.m2 <- pop %>%
+  # Lysichiton
+  mutate(before_m2 = ifelse(species == "Lysichiton" &
+                              is.na(before_m2) &
+                              before_other_unit == "plants",
+                            before_other * La.plants.to.m2,
+                            before_m2)) |> 
+  # Ludwigia
+  mutate(before_m2 = ifelse(species == "Ludwigia" &
+                              is.na(before_m2) &
+                              before_other_unit == "plants",
+                            before_other * Lg.plants.to.m2,
+                            before_m2)) |> 
+  mutate(before_m2 = ifelse(species == "Ludwigia" &
+                              is.na(before_m2) &
+                              before_other_unit == "m3",
+                            before_other * Lg.m3.to.m2,
+                            before_m2)) |> 
+  # Crassula
+  mutate(before_m2 = ifelse(species == "Crassula" &
+                              is.na(before_m2) &
+                              before_other_unit == "m3",
+                            before_other * Ch.m3.to.m2,
+                            before_m2)) |> 
+  # Egeria
+  mutate(before_m2 = ifelse(species == "Egeria" &
+                              is.na(before_m2) &
+                              before_other_unit == "m3",
+                            before_other * Ed.m3.to.m2,
+                            before_m2))
+```
+
+## 'AFTER' in M²
+
+```{r}
+pop.m2 <- pop.m2 |> 
+  mutate(after_m2 = NA, .before = after) |>
+  # logic : if considered eradicated, then surface area = 0 m²
+  mutate(after_m2 = ifelse(eradication_status == "ERADICATED",
+                           0,
+                           after_m2)) |>
+  # Lysichiton
+  mutate(after_m2 = ifelse(species == "Lysichiton" &
+                             is.na(after_m2) &
+                             after_unit == "plants",
+                            after * La.plants.to.m2,
+                            after_m2)) |> 
+  # Ludwigia
+  mutate(after_m2 = ifelse(species == "Ludwigia" &
+                             is.na(after_m2) &
+                             after_unit == "m3",
+                            after * Lg.m3.to.m2,
+                            after_m2)) |>
+  # Crassula
+  mutate(after_m2 = ifelse(species == "Crassula" &
+                             is.na(after_m2) &
+                             after_unit == "m3",
+                            after * Ch.m3.to.m2,
+                            after_m2)) |> 
+  # Erythrante
+  mutate(after_m2 = ifelse(species == "Erythranthe" &
+                             is.na(after_m2) &
+                             after_unit == "m2",
+                           after,
+                           after_m2)) |> 
+  mutate(after_m2 = ifelse(species == "Erythranthe" &
+                             is.na(after_m2) &
+                             after_unit == "plants",
+                            after * Eg.plants.to.m2,
+                            after_m2)) |> 
+  # Petasites
+  mutate(after_m2 = ifelse(species == "Petasites" &
+                             is.na(after_m2) &
+                             after_unit == "plants",
+                            after * Pj.plants.to.m2,
+                            after_m2)) |> 
+  # Koenigia
+  mutate(after_m2 = ifelse(species == "Koenigia" &
+                             is.na(after_m2) &
+                             after_unit == "plants",
+                            after * Kp.plants.to.m2,
+                            after_m2))
+```
+
+```{r tdot}
+missing <- pop.m2 |> 
+  filter(is.na(after_m2)) |> 
+  select(popcode) |> 
+  write.csv2("./data/missing_asof26-08-04_td.csv")
+```
+
+```{r strip it}
+pop.strip <- pop.m2 |> 
+  select(popcode,
+         species,
+         before_m2,
+         after_m2) |> 
+  filter(!is.na(after_m2)) |> 
+  mutate(
+    reduction = 1 - (after_m2 / before_m2)
+    ) |> 
+  # accounting for the few populations that seem to have grown
+  mutate(
+    after_m2.cap = ifelse(after_m2 > before_m2,
+                          before_m2,
+                          after_m2), .after = after_m2) |>
+  mutate(
+    reduction.corr = ifelse(reduction < 0,
+                            0,
+                            reduction)
+    )
+```
+
+```{r naive method}
+# using the capped after_m2
+kpi.1 <- 1 - sum(pop.strip$after_m2.cap) / sum(pop.strip$before_m2)
+kpi.1
+```
+
+```{r per-population method}
+# 2do
+```
+
+****************************************************** OLD - TO DELETE
 
 # QUICK OVERVIEW
 
