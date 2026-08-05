@@ -176,10 +176,12 @@ pop.m2 <- pop.m2 |>
 ```
 
 ```{r tdot}
-# missing <- pop.m2 |> 
-#   filter(is.na(after_m2)) |> 
-#   select(popcode) |> 
-#   write.csv2("./data/missing_asof26-08-04_td.csv")
+missing <- pop.m2 |>
+  filter(is.na(after_m2)) |>
+  select(popcode) |>
+  left_join(raw.pop |> select(popcode, region))
+
+write.csv2(missing, "./data/missing_asof26-08-05_td.csv")
 ```
 
 ```{r strip it}
