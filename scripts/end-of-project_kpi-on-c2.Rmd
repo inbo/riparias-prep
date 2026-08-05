@@ -79,7 +79,7 @@ pop$after <- as.numeric(pop$after)
 
 ```{r}
 La.plants.to.m2 <- 1.2 # Vibe
-Lg.plants.to.m2 <- 0.7 # Vibe
+Lp.plants.to.m2 <- 0.7 # Vibe
 Lg.m3.to.m2     <- 6   # Vibe
 Ch.m3.to.m2     <- 35  # Vibe
 Ed.m3.to.m2     <- 4.6 # Vibe
@@ -102,7 +102,7 @@ pop.m2 <- pop %>%
   mutate(before_m2 = ifelse(species == "Ludwigia" &
                               is.na(before_m2) &
                               before_other_unit == "plants",
-                            before_other * Lg.plants.to.m2,
+                            before_other * Lp.plants.to.m2,
                             before_m2)) |> 
   mutate(before_m2 = ifelse(species == "Ludwigia" &
                               is.na(before_m2) &
@@ -176,10 +176,10 @@ pop.m2 <- pop.m2 |>
 ```
 
 ```{r tdot}
-missing <- pop.m2 |> 
-  filter(is.na(after_m2)) |> 
-  select(popcode) |> 
-  write.csv2("./data/missing_asof26-08-04_td.csv")
+# missing <- pop.m2 |> 
+#   filter(is.na(after_m2)) |> 
+#   select(popcode) |> 
+#   write.csv2("./data/missing_asof26-08-04_td.csv")
 ```
 
 ```{r strip it}
@@ -198,11 +198,11 @@ pop.strip <- pop.m2 |>
                           before_m2,
                           after_m2), .after = after_m2) |>
   mutate(
-    reduction.corr = ifelse(reduction < 0,
-                            0,
-                            reduction)
+    reduction.corr = 1 - (after_m2.cap / before_m2)
     )
 ```
+
+# KPI
 
 ```{r naive method}
 # using the capped after_m2
@@ -211,18 +211,23 @@ kpi.1
 ```
 
 ```{r per-population method}
-# 2do
+kpi.2 <- mean(pop.strip$reduction.corr)
+kpi.2
 ```
 
-****************************************************** OLD - TO DELETE
+# OVERVIEW of ERADICATION STATUS
 
-# QUICK OVERVIEW
+```{r}
+# only proceed with the populations that have before/after data
+pop.sel <- pop.strip |> 
+  left_join(raw.pop |> select(popcode, eradication_status), by = "popcode")
+```
 
 ```{r apparent eradication}
-ggplot(pop, aes(x = 1, fill = eradication_status)) +
+ggplot(pop.sel, aes(x = 1, fill = eradication_status)) +
   geom_bar(position = "stack") +
-  facet_wrap(~ genus, nrow = 2, ncol = 5) +
-  labs(title = "status as of 04/03/2026",               # MODIFY
+  facet_wrap(~ species, nrow = 2, ncol = 5) +
+  labs(title = NULL,               # MODIFY
        x = NULL,
        y = "# populations") +
   scale_x_continuous(breaks = NULL) +
@@ -235,18 +240,17 @@ ggplot(pop, aes(x = 1, fill = eradication_status)) +
 ```{r save}
 ggsave(filename = paste0("./data/output/KPI_", "pop_overview_", 
                          Sys.Date(), ".png"),
-                         width = 15, height = 15, units= "cm")
+                         width = 15, height = 10, units= "cm")
 ```
 
 # FUNCTIONS
 
 ```{r}
-plot_this_species <- function(DATA){
+plot_this_absolute <- function(DATA){
   ggplot(DATA, aes(x = popcode)) +
     geom_segment(aes(xend = popcode,
-                     y =    size.rel.bas,
-                     yend = size.rel.eop,
-                     colour = status),
+                     y =    before_m2,
+                     yend = after_m2.cap),
                  arrow = arrow(type = "closed", length = unit(0.15, "cm"))) +
     geom_hline(yintercept = 0.20,
                colour = "red",
@@ -259,361 +263,54 @@ plot_this_species <- function(DATA){
              vjust = 0,
              size = 3.5,
              colour = "red") +
-    scale_colour_manual(values = c(confirmed = "black",
-                                   confirmation_needed = "blue"),
-                        name = NULL) +
     labs(x = NULL,
          y = NULL,
-         title = first(DATA$species)) +
-    theme_bw() +
-    theme(
-      legend.position = "bottom",
-      plot.title = element_text(face = "italic"),
-      axis.text.x = element_text(angle = 90, vjust = 0, hjust = 1))
+         title = NULL) +
+    theme_bw()
+    # theme(
+    #   legend.position = "bottom",
+    #   plot.title = element_text(face = "italic"),
+    #   axis.text.x = element_text(angle = 90, vjust = 0, hjust = 1))
   }
 ```
 
-# PLANT-BASED
-
-= voor waar de eenheid het AANTAL PLANTEN is
-
 ```{r}
-pop.short.1 <- pop %>%
-  transmute(popcode,
-            species,
-            size.unit = pop_size_unit,
-            size.bas = pop_size_quantity, # bas = baseline
-            eradication_status,
-            status,
-            size.eop = NA                 # eop = end-of-project
-            )
-```
-
-## LYS
-
-```{r}
-lys <- pop.short.1 %>% 
-  filter(species == "Lysichiton americanus") %>%  
-  
-  # considered eradicated
-  mutate(size.eop = ifelse(
-    eradication_status == "apparent_eradication", 0, size.eop)) %>%
-  
-  # others, in follow-up phase (ad hoc solutions)
-  mutate(size.eop = case_when(
-    popcode == "La2" ~ 15 - 15,          # all plants
-    popcode == "La5" ~ 200 - 150 - 18,   # removed 2024 + '25
-    popcode == "La7" ~ 70 - 70,          # all plants
-    popcode == "La8" ~ 30 - 30,          # all plants
-    popcode == "La12" ~ 10 - 10,         # all plants
-    popcode == "La14" ~ 7 - 7,           # "
-    popcode == "La15" ~ 30 - 30,         # "
-    popcode == "La17" ~ 10 - 10,         # "
-    popcode == "La18" ~ 30 - 25,         # 2025
-    popcode == "La21" ~ 60 - 60,         # all plants
-    popcode == "La24" ~ 50 - 50,         # all plants
-    popcode == "La25" ~ 2 - 1,           # 2025
-    popcode == "La26" ~ 50 - 50,         # all plants
-    TRUE ~ size.eop
-  )) %>% 
-  
-  mutate(size.rel.bas = size.bas/size.bas,
-         size.rel.eop = size.eop/size.bas) %>% 
-  arrange(size.rel.eop)
+plot_this_relative <- function(DATA){
+  ggplot(DATA, aes(x = popcode)) +
+    geom_segment(aes(xend = popcode,
+                     y =    1,
+                     yend = 1 - reduction.corr),
+                 arrow = arrow(type = "closed", length = unit(0.15, "cm"))) +
+    geom_hline(yintercept = 0.20,
+               colour = "red",
+               linetype = "dashed") +
+    # annotate("text",
+    #          x = 1,
+    #          y = 0.20 + 0.02,
+    #          label = "target",
+    #          hjust = 0,
+    #          vjust = 0,
+    #          size = 3.5,
+    #          colour = "red") +
+    labs(x = NULL,
+         y = NULL,
+         title = NULL) +
+    theme_bw()
+    # theme(
+    #   legend.position = "bottom",
+    #   plot.title = element_text(face = "italic"),
+    #   axis.text.x = element_text(angle = 90, vjust = 0, hjust = 1))
+  }
 ```
 
 ```{r}
-plot_this_species(lys)
+plot_this_absolute(pop.strip)
+plot_this_absolute(pop.strip |> filter(popcode != "Ed3"))
+plot_this_relative(pop.strip)
 ```
 
 ```{r save}
-ggsave(filename = paste0("./data/output/KPI_", "Lysichiton_", 
+ggsave(filename = paste0("./data/output/KPI_", "pop_reduction_", 
                          Sys.Date(), ".png"),
-                         width = 15, height = 8, units= "cm")
+                         width = 20, height = 5, units= "cm")
 ```
-
-# AREA-BASED
-
-= voor waar de eenheid het AANTAL PLANTEN is
-
-```{r}
-pop.short.2 <- pop %>%
-  transmute(popcode,
-            species,
-            size.bas = `infested_area_m²`, # bas = baseline
-            eradication_status,
-            status,
-            size.eop = NA                 # eop = end-of-project
-            )
-```
-
-## ZIZ
-
-```{r}
-ziz <- pop.short.2 %>% 
-  filter(species == "Zizania latifolia") %>%  
-  
-  # considered eradicated
-  mutate(size.eop = ifelse(
-    eradication_status == "apparent_eradication", 0, size.eop)) %>%
-  
-  # others, in follow-up phase (ad hoc solutions)
-  mutate(size.eop = case_when(
-    popcode == "Zl1" ~ 843 - 0.1*843, # dummy
-    popcode == "Zl2" ~ 196.5 - 196.5, # 2024
-    popcode == "Zl4" ~ 1570.9 - 0.1*1570.9, # dummy
-    # popcode == "Zl5" ~ NA_character_,
-    popcode == "Zl6" ~ 1300 - 675, # 2025
-    popcode == "Zl7" ~ 270 - 0.1*270, # dummy
-    popcode == "Zl8" ~ 15 - 15, # 2025
-    TRUE ~ size.eop
-  )) %>% 
-  
-  mutate(size.rel.bas = size.bas/size.bas,
-         size.rel.eop = size.eop/size.bas) %>% 
-  arrange(size.rel.eop)
-```
-
-```{r}
-plot_this_species(ziz)
-```
-
-```{r save}
-ggsave(filename = paste0("./data/output/KPI_", "Zizania", 
-                         Sys.Date(), ".png"),
-                         width = 15, height = 8, units= "cm")
-```
-
-# PON
-
-```{r}
-pon <- pop.short.2 %>% 
-  filter(species == "Pontederia cordata") %>%  
-  
-  # considered eradicated
-  mutate(size.eop = ifelse(
-    eradication_status == "apparent_eradication", 0, size.eop)) %>%
-  
-  # others, in follow-up phase (ad hoc solutions)
-  mutate(size.eop = case_when(
-    popcode == "Pco1" ~ 3 - 3, # all plants
-    popcode == "Pco2" ~ 14.7 - 4, # dummy
-    TRUE ~ size.eop
-  )) %>% 
-  
-  mutate(size.rel.bas = size.bas/size.bas,
-         size.rel.eop = size.eop/size.bas) %>% 
-  arrange(size.rel.eop)
-```
-
-```{r}
-plot_this_species(pon)
-```
-
-```{r save}
-ggsave(filename = paste0("./data/output/KPI_", "Pontederia", 
-                         Sys.Date(), ".png"),
-                         width = 15, height = 8, units= "cm")
-```
-
-# LUD
-
-# CRA
-
-```{r}
-cra <- pop.short.2 %>% 
-  filter(species == "Crassula helmsii") %>%  
-  
-  # considered eradicated
-  mutate(size.eop = ifelse(
-    eradication_status == "apparent_eradication", 0, size.eop)) %>%
-  
-  # others, in follow-up phase (ad hoc solutions)
-  mutate(size.eop = case_when(
-    popcode == "Ch1" ~ 200 - 0.1*200, # dummy
-    popcode == "Ch2" ~ 10 - 10, # all plants
-    popcode == "Ch3" ~ 200 - 200, # all plants
-    popcode == "Ch5" ~ 3 - 0.1*3, # dummy
-    popcode == "Ch6" ~ 40 - 0.1*40, # dummy
-    TRUE ~ size.eop
-  )) %>% 
-  
-  mutate(size.rel.bas = size.bas/size.bas,
-         size.rel.eop = size.eop/size.bas) %>% 
-  arrange(size.rel.eop)
-```
-
-```{r}
-plot_this_species(cra)
-```
-
-```{r save}
-ggsave(filename = paste0("./data/output/KPI_", "Crassula", 
-                         Sys.Date(), ".png"),
-                         width = 15, height = 8, units= "cm")
-```
-
-# LAG
-
-```{r}
-lag <- pop.short.2 %>% 
-  filter(species == "Lagarosiphon major") %>%  
-  
-  # considered eradicated
-  mutate(size.eop = ifelse(
-    eradication_status == "apparent_eradication", 0, size.eop)) %>%
-  
-  # others, in follow-up phase (ad hoc solutions)
-  # mutate(size.eop = case_when(
-  #       TRUE ~ size.eop
-  # )) %>% 
-  
-  mutate(size.rel.bas = size.bas/size.bas,
-         size.rel.eop = size.eop/size.bas) %>% 
-  arrange(size.rel.eop)
-```
-
-```{r}
-plot_this_species(lag)
-```
-
-```{r save}
-ggsave(filename = paste0("./data/output/KPI_", "Lagarosiphon", 
-                         Sys.Date(), ".png"),
-                         width = 15, height = 8, units= "cm")
-```
-
-# EGE
-
-```{r}
-ege <- pop.short.2 %>% 
-  filter(species == "Egeria densa") %>%  
-  
-  # considered eradicated
-  mutate(size.eop = ifelse(
-    eradication_status == "apparent_eradication", 0, size.eop)) %>%
-  
-  # others, in follow-up phase (ad hoc solutions)
-  mutate(size.eop = case_when(
-    popcode == "Ed2" ~ 80 - 0.9*80, # dummy
-    popcode == "Ed3" ~ 2890 - 0.9*2890, # all plants
-    TRUE ~ size.eop
-    )) %>%
-  
-  mutate(size.rel.bas = size.bas/size.bas,
-         size.rel.eop = size.eop/size.bas) %>% 
-  arrange(size.rel.eop)
-```
-
-```{r}
-plot_this_species(ege)
-```
-
-```{r save}
-ggsave(filename = paste0("./data/output/KPI_", "Egeria", 
-                         Sys.Date(), ".png"),
-                         width = 15, height = 8, units= "cm")
-```
-
-# ERY
-
-```{r}
-ery <- pop.short.2 %>% 
-  filter(species == "Erythranthe guttata") %>%  
-  
-  # considered eradicated
-  mutate(size.eop = ifelse(
-    eradication_status == "apparent_eradication", 0, size.eop)) %>%
-  
-  # others, in follow-up phase (ad hoc solutions)
-  mutate(size.eop = case_when(
-    popcode == "Eg1" ~ 10 - 0.95*10, # comment
-    popcode == "Eg2" ~ 200 - 0.95*200, # all plants
-    TRUE ~ size.eop
-    )) %>%
-  
-  mutate(size.rel.bas = size.bas/size.bas,
-         size.rel.eop = size.eop/size.bas) %>% 
-  arrange(size.rel.eop)
-```
-
-```{r}
-plot_this_species(ery)
-```
-
-```{r save}
-ggsave(filename = paste0("./data/output/KPI_", "Erythranthe", 
-                         Sys.Date(), ".png"),
-                         width = 15, height = 8, units= "cm")
-```
-
-# PET
-
-```{r}
-pet <- pop.short.2 %>% 
-  filter(species == "Petasites japonicus") %>%  
-  
-  # considered eradicated
-  mutate(size.eop = ifelse(
-    eradication_status == "apparent_eradication", 0, size.eop)) %>%
-  
-  # others, in follow-up phase (ad hoc solutions)
-  mutate(size.eop = case_when(
-    popcode == "Pj1" ~ 85 - 85, # all plants
-    TRUE ~ size.eop
-    )) %>%
-  
-  mutate(size.rel.bas = size.bas/size.bas,
-         size.rel.eop = size.eop/size.bas) %>% 
-  arrange(size.rel.eop)
-```
-
-```{r}
-plot_this_species(pet)
-```
-
-```{r save}
-ggsave(filename = paste0("./data/output/KPI_", "Petasites", 
-                         Sys.Date(), ".png"),
-                         width = 15, height = 8, units= "cm")
-```
-
-# KOE
-
-## GENERAL STATICS (all species)
-
-```{r}
-all <- rbind(
-  ziz %>% select(popcode, species, size.rel.bas, size.rel.eop),
-  lys %>% select(popcode, species, size.rel.bas, size.rel.eop),
-  pon %>% select(popcode, species, size.rel.bas, size.rel.eop),
-  # lud, # nog te doen?
-  cra %>% select(popcode, species, size.rel.bas, size.rel.eop),
-  lag %>% select(popcode, species, size.rel.bas, size.rel.eop),
-  ege %>% select(popcode, species, size.rel.bas, size.rel.eop),
-  ery %>% select(popcode, species, size.rel.bas, size.rel.eop),
-  pet %>% select(popcode, species, size.rel.bas, size.rel.eop)
-  # koe # nog te doen?
-  ) %>% 
-  mutate(decline = size.rel.bas - size.rel.eop)
-```
-
-```{r}
-ggplot(data = all) +
-  geom_point(aes(x = popcode, y = size.rel.eop)) +
-  facet_wrap(~ species, nrow = 2, ncol = 4) +
-  theme_bw()
-```
-
-```{r save}
-ggsave(filename = paste0("./data/output/KPI_", "all_", 
-                         Sys.Date(), ".png"),
-                         width = 15, height = 8, units= "cm")
-```
-
-# the acutual kpi
-
-```{r kpi}
-mean(all$decline, na.rm = T)
-```
-
