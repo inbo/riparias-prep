@@ -179,9 +179,9 @@ pop.m2 <- pop.m2 |>
 missing <- pop.m2 |>
   filter(is.na(after_m2)) |>
   select(popcode) |>
-  left_join(raw.pop |> select(popcode, region))
+  left_join(raw.pop |> select(popcode, site, region))
 
-write.csv2(missing, "./data/missing_asof26-08-05_td.csv")
+write.csv2(missing, "./data/missing_asof26-08-06_td.csv", row.names = F)
 ```
 
 ```{r strip it}
