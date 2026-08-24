@@ -31,7 +31,7 @@ rm(list = ls())
 # DATA
 
 ```{r read data}
-file <- "./data/input/C2 RapidResponseActionsLog_asof26-08-04.xlsx" # most recent version
+file <- "./data/input/C2 RapidResponseActionsLog_asof26-08-24.xlsx" # most recent version
 
 raw.pop <- read_excel(file, sheet = 2, skip = 1)
 raw.act <- read_excel(file, sheet = 3, skip = 1)
@@ -181,7 +181,7 @@ missing <- pop.m2 |>
   select(popcode) |>
   left_join(raw.pop |> select(popcode, site, region))
 
-write.csv2(missing, "./data/missing_asof26-08-06_td.csv", row.names = F)
+# write.csv2(missing, "./data/missing_asof26-08-06_td.csv", row.names = F)
 ```
 
 ```{r strip it}
