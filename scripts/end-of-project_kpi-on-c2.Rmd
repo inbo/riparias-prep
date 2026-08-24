@@ -206,14 +206,20 @@ pop.strip <- pop.m2 |>
 
 # KPI
 
+```{r}
+# filter extremes
+pop.fin <- pop.strip |>
+  filter(popcode != "Ed3")
+```
+
 ```{r naive method}
 # using the capped after_m2
-kpi.1 <- 1 - sum(pop.strip$after_m2.cap) / sum(pop.strip$before_m2)
+kpi.1 <- 1 - sum(pop.fin$after_m2.cap) / sum(pop.fin$before_m2)
 kpi.1
 ```
 
 ```{r per-population method}
-kpi.2 <- mean(pop.strip$reduction.corr)
+kpi.2 <- mean(pop.fin$reduction.corr)
 kpi.2
 ```
 
@@ -240,9 +246,9 @@ ggplot(pop.sel, aes(x = 1, fill = eradication_status)) +
 ```
 
 ```{r save}
-ggsave(filename = paste0("./data/output/KPI_", "pop_overview_", 
-                         Sys.Date(), ".png"),
-                         width = 15, height = 10, units= "cm")
+# ggsave(filename = paste0("./data/output/KPI_", "pop_overview_", 
+#                          Sys.Date(), ".png"),
+#                          width = 15, height = 10, units= "cm")
 ```
 
 # FUNCTIONS
@@ -312,7 +318,7 @@ plot_this_relative(pop.strip)
 ```
 
 ```{r save}
-ggsave(filename = paste0("./data/output/KPI_", "pop_reduction_", 
-                         Sys.Date(), ".png"),
-                         width = 20, height = 5, units= "cm")
+# ggsave(filename = paste0("./data/output/KPI_", "pop_reduction_", 
+#                          Sys.Date(), ".png"),
+#                          width = 20, height = 5, units= "cm")
 ```
