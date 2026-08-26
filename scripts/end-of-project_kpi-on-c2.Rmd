@@ -22,16 +22,32 @@ Since a project baseline needs to be given as an absolute number, the choice is 
 library(tidyverse)
 library(readxl)
 library(stringr)
+library(sf)
+library(leaflet)
+library(mapview)
 ```
 
 ```{r prep memory}
 rm(list = ls())
 ```
 
+```{r prep handle coordinates}
+dms_to_decimal <- function(dms) {
+    deg_min_sec <- strsplit(dms, "[°'\",]")[[1]]
+    deg <- as.numeric(deg_min_sec[1])
+    min <- as.numeric(deg_min_sec[2])
+    sec <- as.numeric(gsub(",", ".", deg_min_sec[3])) # vervang komma door punt
+    hemisphere <- deg_min_sec[4]
+
+    decimal <- deg + (min / 60) + (sec / 3600)
+    return(decimal)
+  }
+```
+
 # DATA
 
 ```{r read data}
-file <- "./data/input/C2 RapidResponseActionsLog_asof26-08-24.xlsx" # most recent version
+file <- "./data/input/C2 RapidResponseActionsLog_asof26-08-26.xlsx" # most recent version
 
 raw.pop <- read_excel(file, sheet = 2, skip = 1)
 raw.act <- read_excel(file, sheet = 3, skip = 1)
@@ -43,24 +59,73 @@ pop <- raw.pop %>%
   transmute(
     popcode,
     species = str_extract(species, "^[^ ]+"), # genus
-    # latitude,
-    # longitude,
-    # region,
-    before_m2 = `INITIAL_infested_m²`,
-    before_other = INITIAL_size_quantity,
-    before_other_unit = INITIAL_size_unit,
+    before_m2 = `INITIAL_m²`,
+    before_other = INITIAL_other_quantity,
+    before_other_unit = INITIAL_other_unit,
     after = REMAINING_size,
     after_unit = REMAINING_size_unit,
-    eradication_status
+    eradication_status,
+    lat = sapply(latitude, dms_to_decimal),
+    lon = sapply(longitude, dms_to_decimal)
     )
 ```
+
+# MAP
+
+```{r data}
+# rip
+rip <- st_read("./data/spatial/perimeter/Riparias_Official_StudyArea.geojson")
+# pop
+pop.plot <- pop |> st_as_sf(coords = c("lon", "lat"), crs = "+proj=longlat +datum=WGS84")
+```
+
+```{r simple plot}
+ggplot() +
+  geom_sf(data = rip) +
+  geom_sf(data = pop.plot, aes(color = species)) +
+  theme_bw() +
+  theme(
+    legend.position = "right",
+    legend.title = element_blank()
+    )
+
+# ggsave(paste0("./data/output/KPI_pop-locs_plot_", Sys.Date(), ".jpg"))
+```
+
+```{r leaflet}
+# map <-
+leaflet() |> 
+  setView(
+    lng = 4.49,
+    lat = 50.77,
+    # lng = mean(st_coordinates(pop$geometry)[,1]),
+    # lat = mean(st_coordinates(pop$geometry)[,2]),
+    zoom = 10) |> 
+  addTiles(group = "OSM") |> 
+  addPolygons(data = rip,
+              color = "blue",
+              weight = 1.5,
+              fillColor = "blue",
+              fillOpacity = 0.1) |> 
+  addCircleMarkers(data = pop,
+                   radius = 5,
+                   fillColor = "red",
+                   opacity = 1,
+                   fillOpacity = 1,
+                   weight = 0.5,
+                   label = ~popcode)
+  
+# mapshot(map, file = paste0("./data/output/KPI_pop-locs_leaflet_", Sys.Date(), ".jpg"),
+#         remove_controls = c("zoomControl"))
+```
+
+# KPI
 
 ```{r}
 spp <- unique(pop$species)
 ```
 
 ```{r fix and complete}
-
 # Eg4, Eg5 : assume "<1" ~ 1
 pop$before_m2[pop$before_m2 == "<1"] <- "1"
 
@@ -72,7 +137,6 @@ pop$after[pop$after == "n/a"] <- NA
 
 pop$before_m2 <- as.numeric(pop$before_m2)
 pop$after <- as.numeric(pop$after)
-
 ```
 
 # CONVERT ALL TO M²
@@ -80,12 +144,13 @@ pop$after <- as.numeric(pop$after)
 ```{r}
 La.plants.to.m2 <- 1.2 # Vibe
 Lp.plants.to.m2 <- 0.7 # Vibe
-Lg.m3.to.m2     <- 6   # Vibe
+Lp.m3.to.m2     <- 6   # Vibe
 Ch.m3.to.m2     <- 35  # Vibe
 Ed.m3.to.m2     <- 4.6 # Vibe
 Eg.plants.to.m2 <- 0.2 # Vibe
 Pj.plants.to.m2 <- 1.8 # Vibe
 Kp.plants.to.m2 <- 1.0 # Vibe
+Zl.plants.to.m2 <- 0.1 # Vibe
 ```
 
 ## 'BEFORE' in M²
@@ -107,7 +172,7 @@ pop.m2 <- pop %>%
   mutate(before_m2 = ifelse(species == "Ludwigia" &
                               is.na(before_m2) &
                               before_other_unit == "m3",
-                            before_other * Lg.m3.to.m2,
+                            before_other * Lp.m3.to.m2,
                             before_m2)) |> 
   # Crassula
   mutate(before_m2 = ifelse(species == "Crassula" &
@@ -132,47 +197,64 @@ pop.m2 <- pop.m2 |>
   mutate(after_m2 = ifelse(eradication_status == "ERADICATED",
                            0,
                            after_m2)) |>
-  # Lysichiton
+  # if already expressed as m², then take that value
+  mutate(after_m2 = ifelse(after_unit == "m2",
+                           after,
+                           after_m2)) |> 
+  # convert from other units
+  ## Lysichiton
   mutate(after_m2 = ifelse(species == "Lysichiton" &
                              is.na(after_m2) &
                              after_unit == "plants",
                             after * La.plants.to.m2,
                             after_m2)) |> 
-  # Ludwigia
+  ## Ludwigia
   mutate(after_m2 = ifelse(species == "Ludwigia" &
                              is.na(after_m2) &
                              after_unit == "m3",
-                            after * Lg.m3.to.m2,
+                            after * Lp.m3.to.m2,
                             after_m2)) |>
-  # Crassula
+  mutate(after_m2 = ifelse(species == "Ludwigia" &
+                             is.na(after_m2) &
+                             after_unit == "plants",
+                           after * Lp.plants.to.m2,
+                           after_m2)) |> 
+  ## Crassula
   mutate(after_m2 = ifelse(species == "Crassula" &
                              is.na(after_m2) &
                              after_unit == "m3",
                             after * Ch.m3.to.m2,
                             after_m2)) |> 
-  # Erythrante
-  mutate(after_m2 = ifelse(species == "Erythranthe" &
-                             is.na(after_m2) &
-                             after_unit == "m2",
-                           after,
-                           after_m2)) |> 
+  ## Erythrante
   mutate(after_m2 = ifelse(species == "Erythranthe" &
                              is.na(after_m2) &
                              after_unit == "plants",
                             after * Eg.plants.to.m2,
                             after_m2)) |> 
-  # Petasites
+  ## Petasites
   mutate(after_m2 = ifelse(species == "Petasites" &
                              is.na(after_m2) &
                              after_unit == "plants",
                             after * Pj.plants.to.m2,
                             after_m2)) |> 
-  # Koenigia
+  ## Koenigia
   mutate(after_m2 = ifelse(species == "Koenigia" &
                              is.na(after_m2) &
                              after_unit == "plants",
                             after * Kp.plants.to.m2,
-                            after_m2))
+                            after_m2)) |> 
+  ## Zizania
+  mutate(after_m2 = ifelse(species == "Zizania" &
+                             is.na(after_m2) &
+                             after_unit == "plants",
+                           after * Zl.plants.to.m2,
+                           after_m2)) |> 
+  ## Egeria
+  mutate(after_m2 = ifelse(species == "Egeria" &
+                             is.na(after_m2) &
+                             after_unit == "m3",
+                           after * Ed.m3.to.m2,
+                           after_m2))
 ```
 
 ```{r tdot}
@@ -181,7 +263,7 @@ missing <- pop.m2 |>
   select(popcode) |>
   left_join(raw.pop |> select(popcode, site, region))
 
-# write.csv2(missing, "./data/missing_asof26-08-06_td.csv", row.names = F)
+# write.csv2(missing, "./data/missing_asof26-08-_td.csv", row.names = F)
 ```
 
 ```{r strip it}
@@ -207,6 +289,8 @@ pop.strip <- pop.m2 |>
 # KPI
 
 ```{r}
+pop.fin <- pop.strip
+
 # filter extremes
 pop.fin <- pop.strip |>
   filter(popcode != "Ed3")
