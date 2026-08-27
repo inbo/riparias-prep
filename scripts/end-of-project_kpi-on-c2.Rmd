@@ -119,11 +119,28 @@ leaflet() |>
 #         remove_controls = c("zoomControl"))
 ```
 
-# KPI
+# OVERVIEW
 
 ```{r}
 spp <- unique(pop$species)
 ```
+
+```{r}
+ggplot() +
+  geom_bar(data = pop, aes(x = species)) +
+  xlab(NULL) +
+  ylab("# populations") +
+  theme_bw()
+```
+
+```{r}
+ggsave(filename = paste0("./data/output/KPI_overview_pops", Sys.Date(), ".jpg"),
+       width = 20, height = 10, units = "cm")
+```
+
+# KPI
+
+Now, quantitative data is needed.
 
 ```{r fix and complete}
 # Eg4, Eg5 : assume "<1" ~ 1
@@ -344,17 +361,6 @@ plot_this_absolute <- function(DATA){
                      y =    before_m2,
                      yend = after_m2.cap),
                  arrow = arrow(type = "closed", length = unit(0.15, "cm"))) +
-    geom_hline(yintercept = 0.20,
-               colour = "red",
-               linetype = "dashed") +
-    annotate("text",
-             x = 1,
-             y = 0.20 + 0.02,
-             label = "target",
-             hjust = 0,
-             vjust = 0,
-             size = 3.5,
-             colour = "red") +
     labs(x = NULL,
          y = NULL,
          title = NULL) +
@@ -402,7 +408,7 @@ plot_this_relative(pop.strip)
 ```
 
 ```{r save}
-# ggsave(filename = paste0("./data/output/KPI_", "pop_reduction_", 
-#                          Sys.Date(), ".png"),
-#                          width = 20, height = 5, units= "cm")
+ggsave(filename = paste0("./data/output/KPI_", "pop_reduction_",
+                         Sys.Date(), ".png"),
+       width = 35, height = 8, units = "cm")
 ```
