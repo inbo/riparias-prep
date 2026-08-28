@@ -47,14 +47,14 @@ dms_to_decimal <- function(dms) {
 # DATA
 
 ```{r read data}
-file <- "./data/input/C2 RapidResponseActionsLog_asof26-08-26.xlsx" # most recent version
+file <- "./data/input/C2 RapidResponseActionsLog_asof26-08-28.xlsx" # most recent version
 
 raw.pop <- read_excel(file, sheet = 2, skip = 1)
 raw.act <- read_excel(file, sheet = 3, skip = 1)
 ```
 
 ```{r select}
-pop <- raw.pop %>% 
+pop.all <- raw.pop %>% 
   filter(group == "plants") |> 
   transmute(
     popcode,
@@ -65,18 +65,34 @@ pop <- raw.pop %>%
     after = REMAINING_size,
     after_unit = REMAINING_size_unit,
     eradication_status,
+    visit = as.numeric(visit_base),
     lat = sapply(latitude, dms_to_decimal),
     lon = sapply(longitude, dms_to_decimal)
     )
 ```
 
-# MAP
+# EXPLORE
+
+## TAXA
+
+```{r}
+ggplot() +
+  geom_bar(data = pop.all, aes(x = species)) +
+  xlab(NULL) +
+  ylab("# populations") +
+  theme_bw()
+
+# ggsave(filename = paste0("./data/output/KPI_overview_pops", Sys.Date(), ".jpg"),
+#        width = 20, height = 10, units = "cm")
+```
+
+## MAP
 
 ```{r data}
-# rip
 rip <- st_read("./data/spatial/perimeter/Riparias_Official_StudyArea.geojson")
-# pop
-pop.plot <- pop |> st_as_sf(coords = c("lon", "lat"), crs = "+proj=longlat +datum=WGS84")
+
+pop.plot <- pop.all |>
+  st_as_sf(coords = c("lon", "lat"), crs = "+proj=longlat +datum=WGS84")
 ```
 
 ```{r simple plot}
@@ -107,7 +123,7 @@ leaflet() |>
               weight = 1.5,
               fillColor = "blue",
               fillOpacity = 0.1) |> 
-  addCircleMarkers(data = pop,
+  addCircleMarkers(data = pop.all,
                    radius = 5,
                    fillColor = "red",
                    opacity = 1,
@@ -119,47 +135,12 @@ leaflet() |>
 #         remove_controls = c("zoomControl"))
 ```
 
-# OVERVIEW
-
-```{r}
-spp <- unique(pop$species)
-```
-
-```{r}
-ggplot() +
-  geom_bar(data = pop, aes(x = species)) +
-  xlab(NULL) +
-  ylab("# populations") +
-  theme_bw()
-```
-
-```{r}
-ggsave(filename = paste0("./data/output/KPI_overview_pops", Sys.Date(), ".jpg"),
-       width = 20, height = 10, units = "cm")
-```
-
 # KPI
 
 Now, quantitative data is needed.
 
-```{r fix and complete}
-# Eg4, Eg5 : assume "<1" ~ 1
-pop$before_m2[pop$before_m2 == "<1"] <- "1"
-
-# Eg3 : data missing, let's assume 3m² (based on wnm.be and field visits)
-pop$before_m2[pop$popcode == "Eg3"] <- "3"
-
-# other
-pop$after[pop$after == "n/a"] <- NA
-
-pop$before_m2 <- as.numeric(pop$before_m2)
-pop$after <- as.numeric(pop$after)
-```
-
-# CONVERT ALL TO M²
-
-```{r}
-La.plants.to.m2 <- 1.2 # Vibe
+```{r prep conversion factors}
+La.plants.to.m2 <- 0.1 # Vibe # Note 1
 Lp.plants.to.m2 <- 0.7 # Vibe
 Lp.m3.to.m2     <- 6   # Vibe
 Ch.m3.to.m2     <- 35  # Vibe
@@ -168,12 +149,32 @@ Eg.plants.to.m2 <- 0.2 # Vibe
 Pj.plants.to.m2 <- 1.8 # Vibe
 Kp.plants.to.m2 <- 1.0 # Vibe
 Zl.plants.to.m2 <- 0.1 # Vibe
+
+# 1: was initially higher, but feedback from CR that plants were sampled late winter
 ```
 
-## 'BEFORE' in M²
+```{r}
+#  populations that were only managed from summer 2026 cannot be taken along
+pop.kpi <- pop.all |> 
+  filter(!visit == 1)
+
+# Eg4, Eg5 : assume "<1" ~ 1
+pop.kpi$before_m2[pop.kpi$before_m2 == "<1"] <- "1"
+
+# Eg3 : data missing, let's assume 3m² (based on wnm.be and field visits)
+pop.kpi$before_m2[pop.kpi$popcode == "Eg3"] <- "3"
+
+# other
+pop.kpi$after[pop.kpi$after == "n/a"] <- NA
+
+pop.kpi$before_m2 <- as.numeric(pop.kpi$before_m2)
+pop.kpi$after <- as.numeric(pop.kpi$after)
+```
 
 ```{r}
-pop.m2 <- pop %>%
+pop.m2 <- pop.kpi %>%
+  
+  ## 'BEFORE' in M²
   # Lysichiton
   mutate(before_m2 = ifelse(species == "Lysichiton" &
                               is.na(before_m2) &
@@ -202,13 +203,9 @@ pop.m2 <- pop %>%
                               is.na(before_m2) &
                               before_other_unit == "m3",
                             before_other * Ed.m3.to.m2,
-                            before_m2))
-```
+                            before_m2)) |> 
 
-## 'AFTER' in M²
-
-```{r}
-pop.m2 <- pop.m2 |> 
+  ## 'AFTER' in M²
   mutate(after_m2 = NA, .before = after) |>
   # logic : if considered eradicated, then surface area = 0 m²
   mutate(after_m2 = ifelse(eradication_status == "ERADICATED",
@@ -279,12 +276,12 @@ missing <- pop.m2 |>
   filter(is.na(after_m2)) |>
   select(popcode) |>
   left_join(raw.pop |> select(popcode, site, region))
-
-# write.csv2(missing, "./data/missing_asof26-08-_td.csv", row.names = F)
 ```
 
 ```{r strip it}
-pop.strip <- pop.m2 |> 
+pop <- pop.m2 |> 
+  # stump for filtering
+  # filter() |> 
   select(popcode,
          species,
          before_m2,
@@ -305,110 +302,211 @@ pop.strip <- pop.m2 |>
 
 # KPI
 
-```{r}
-pop.fin <- pop.strip
-
-# filter extremes
-pop.fin <- pop.strip |>
-  filter(popcode != "Ed3")
-```
-
-```{r naive method}
+```{r kpi absolute}
 # using the capped after_m2
-kpi.1 <- 1 - sum(pop.fin$after_m2.cap) / sum(pop.fin$before_m2)
+kpi.1 <- 1 - sum(pop$after_m2.cap) / sum(pop$before_m2)
 kpi.1
 ```
 
-```{r per-population method}
-kpi.2 <- mean(pop.fin$reduction.corr)
+```{r relative}
+kpi.2 <- mean(pop$reduction.corr)
 kpi.2
 ```
 
-# OVERVIEW of ERADICATION STATUS
+# ERADICATION STATUS
 
 ```{r}
-# only proceed with the populations that have before/after data
-pop.sel <- pop.strip |> 
-  left_join(raw.pop |> select(popcode, eradication_status), by = "popcode")
-```
+# Calculate total counts for each species and reorder
+pop.bar <- pop.kpi %>%
+  group_by(species) %>%
+  mutate(total = n()) %>%
+  ungroup()
 
-```{r apparent eradication}
-ggplot(pop.sel, aes(x = 1, fill = eradication_status)) +
-  geom_bar(position = "stack") +
-  facet_wrap(~ species, nrow = 2, ncol = 5) +
-  labs(title = NULL,               # MODIFY
+pop.bar$species <- reorder(pop.bar$species,
+                           pop.bar$total,
+                           FUN = sum,
+                           decreasing = TRUE)
+
+pop.bar$eradication_status[pop.bar$eradication_status == "ERADICATED"] <- "absent"
+pop.bar$eradication_status[pop.bar$eradication_status == "not"] <- "still present"
+
+ggplot(pop.bar) +
+  geom_bar(aes(x = species, fill = eradication_status), position = "stack") +
+  labs(title = NULL,
        x = NULL,
        y = "# populations") +
-  scale_x_continuous(breaks = NULL) +
-  guides(fill = guide_legend(title = NULL)) +
   theme_bw() +
   theme(legend.position = "bottom",
+        legend.title = element_blank(),
         strip.text = element_text(face = "italic"))
 ```
 
 ```{r save}
-# ggsave(filename = paste0("./data/output/KPI_", "pop_overview_", 
-#                          Sys.Date(), ".png"),
-#                          width = 15, height = 10, units= "cm")
+ggsave(filename = paste0("./data/output/KPI_", "pop_overview_",
+                         Sys.Date(), ".png"),
+                         width = 20, height = 10, units= "cm")
 ```
 
-# FUNCTIONS
+# REDUCTION
 
-```{r}
-plot_this_absolute <- function(DATA){
-  ggplot(DATA, aes(x = popcode)) +
-    geom_segment(aes(xend = popcode,
-                     y =    before_m2,
-                     yend = after_m2.cap),
-                 arrow = arrow(type = "closed", length = unit(0.15, "cm"))) +
-    labs(x = NULL,
-         y = NULL,
-         title = NULL) +
-    theme_bw()
-    # theme(
-    #   legend.position = "bottom",
-    #   plot.title = element_text(face = "italic"),
-    #   axis.text.x = element_text(angle = 90, vjust = 0, hjust = 1))
-  }
-```
+```{r absolute reduction}
+pop.arr <- pop |> 
+  group_by(popcode) %>%
+  mutate(order_var = before_m2) %>%
+  ungroup()
 
-```{r}
-plot_this_relative <- function(DATA){
-  ggplot(DATA, aes(x = popcode)) +
-    geom_segment(aes(xend = popcode,
-                     y =    1,
-                     yend = 1 - reduction.corr),
-                 arrow = arrow(type = "closed", length = unit(0.15, "cm"))) +
-    geom_hline(yintercept = 0.20,
-               colour = "red",
-               linetype = "dashed") +
-    # annotate("text",
-    #          x = 1,
-    #          y = 0.20 + 0.02,
-    #          label = "target",
-    #          hjust = 0,
-    #          vjust = 0,
-    #          size = 3.5,
-    #          colour = "red") +
-    labs(x = NULL,
-         y = NULL,
-         title = NULL) +
-    theme_bw()
-    # theme(
-    #   legend.position = "bottom",
-    #   plot.title = element_text(face = "italic"),
-    #   axis.text.x = element_text(angle = 90, vjust = 0, hjust = 1))
-  }
-```
+pop.arr$popcode <- reorder(pop.arr$popcode, pop.arr$order_var,
+                           FUN = max,
+                           decreasing = TRUE)
 
-```{r}
-plot_this_absolute(pop.strip)
-plot_this_absolute(pop.strip |> filter(popcode != "Ed3"))
-plot_this_relative(pop.strip)
+ggplot(pop.arr, aes(x = popcode, color = species)) +
+  geom_segment(aes(xend = popcode,
+                   y =    before_m2,
+                   yend = after_m2.cap),
+               arrow = arrow(type = "closed", length = unit(0.15, "cm"))) +
+  labs(x = NULL,
+       y = NULL,
+       title = NULL) +
+  theme_bw() +
+  scale_y_log10() +
+  theme(
+    axis.text.x = element_blank(),  # Remove x-axis labels
+    # axis.ticks.x = element_blank(),  # Remove x-axis ticks
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+    ) +
+  labs(
+    x = "Population",
+    y = "Population size (m²)"
+    )
+
 ```
 
 ```{r save}
-ggsave(filename = paste0("./data/output/KPI_", "pop_reduction_",
+ggsave(filename = paste0("./data/output/KPI_", "pop_reduction_abs_",
                          Sys.Date(), ".png"),
-       width = 35, height = 8, units = "cm")
+       width = 20, height = 10, units = "cm")
+```
+
+```{r}
+pop.arr2 <- pop |>
+  group_by(popcode) %>%
+  mutate(order_var = reduction.corr) %>%
+  ungroup()
+
+pop.arr2$popcode <- reorder(pop.arr2$popcode, pop.arr2$order_var,
+                            FUN = max,
+                            decreasing = TRUE)
+
+ggplot(pop.arr2, aes(x = popcode, color = species)) +
+  geom_segment(aes(xend = popcode,
+                   y =    1,
+                   yend = 1 - reduction.corr),
+               arrow = arrow(type = "closed", length = unit(0.15, "cm"))) +
+    geom_hline(yintercept = 0.20,
+               colour = "red",
+               linetype = "dashed") +
+  labs(x = NULL,
+       y = NULL,
+       title = NULL) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_blank(),  # Remove x-axis labels
+    # axis.ticks.x = element_blank(),  # Remove x-axis ticks
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+    ) +
+  labs(
+    x = "Population",
+    y = "Size (before = 1)"
+    )
+```
+
+```{r save}
+ggsave(filename = paste0("./data/output/KPI_", "pop_reduction_rel_",
+                         Sys.Date(), ".png"),
+       width = 20, height = 10, units = "cm")
+```
+
+# REGRESSIE
+
+Doel: bepalen van interval rond gemiddelde reductie per soort.
+
+Wegens hoge aanwezigheid van 0 en 1 : keuze voor betaregressie;
+
+```{r}
+library(betareg)
+library(boot)
+```
+
+```{r}
+pop.reg.data <- pop |> 
+  filter(!species %in% c(
+    "Lagarosiphon", # exclude those with 3 or less values
+    "Koenigia",
+    "Petasites",
+    "Pontederia"
+    )) |> 
+  select(species, reduction.corr)
+
+model <- betareg(data = pop.reg.data,
+                 reduction.corr ~ species)
+summary(model)
+```
+
+```{r}
+fitted_values <- fitted(model)
+
+mean_by_species <- aggregate(fitted_values,
+                             by = list(species = pop.reg.data$species),
+                             FUN = mean)
+print(mean_by_species)
+```
+
+# ALTERNATIEF : GEMIDDELDE EN ST.ERR
+
+```{r}
+pop.summ.raw <- pop |> 
+  group_by(species) |> 
+  summarize(
+    n = n(),
+    red.mean = mean(reduction.corr),
+    red.std  = sd(reduction.corr)
+    ) |> 
+  mutate(
+    red.se = red.std/sqrt(n)
+    )
+
+pop.summ <- pop.summ.raw |> 
+  select(species, n, red.mean, red.se) |> 
+  filter(n > 3) |> 
+  arrange(desc(red.mean))
+
+pop.summ$species <- fct_reorder(pop.summ$species,
+                                pop.summ$red.mean,
+                                .desc = TRUE)
+
+```
+
+```{r}
+ggplot(data = pop.summ) +
+  geom_pointrange(
+    aes(
+      x = species,
+      y = red.mean,
+      ymin = red.mean - red.se, # estimate-se,
+      ymax = red.mean + red.se, # estimate+se
+      )
+    ) +
+  theme_bw() +
+  labs(
+    x = NULL,
+    y = "Size reduction"
+    )
+```
+
+```{r save}
+ggsave(filename = paste0("./data/output/KPI_", "pop_reduction_mean_",
+                         Sys.Date(), ".png"),
+       width = 10, height = 8, units = "cm")
 ```
