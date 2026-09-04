@@ -43,20 +43,20 @@ rip <- name_usage(datasetKey = "fd004d9a-2ea4-4244-bb60-0df508d20a15")$data %>%
 #   pred_in("country", c("BE")),     # Include other countries in vector, if desired
 #   pred_gte("year", 2021))          # Include earlier year, if desired
 
-# Result as of 2026-05-05 :
-# key = "0009927-260430073515954" (also see the URL of the DOI)
-# DOI = 10.15468/dl.kybcxg
+# Result as of 2026-09-04 :
+# key = "0001245-260903145123482" (also see the URL of the DOI)
+# DOI = 10.15468/dl.rgnxav
 ```
 
 ```{r}
-# GBIFdata <- occ_download_get(key = "0009927-260430073515954",
-#                              path = "./data/interim/adhoc_2026-05_base-stats/",
+# GBIFdata <- occ_download_get(key = "0001245-260903145123482",
+#                              path = "./data/interim/adhoc_2026-09_base-stats/",
 #                              overwrite = TRUE)
 ```
 
 ```{r}
-data.raw <- occ_download_import(key = "0009927-260430073515954",
-                                path = "./data/interim/adhoc_2026-05_base-stats/")
+data.raw <- occ_download_import(key = "0001245-260903145123482",
+                                path = "./data/interim/adhoc_2026-09_base-stats/")
 ```
 
 ```{r}
@@ -113,6 +113,7 @@ summ2 <- grid.data %>%
 summ3 <- grid.data %>% 
   group_by(species) %>% 
   summarize(nr_cells = n_distinct(CELLCODE))
+
 # de som van nr_cells = # POPULATIES (soort x hok combinaties)
 sum(summ3$nr_cells)
 ```
