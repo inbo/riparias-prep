@@ -29,13 +29,13 @@ RBSU_laag <- st_read("~/GitHub/riparias-prep/data/spatial/Riparias_subunits/RBSU
 #Cleaning up RBSU_laag so a table is obtained linking an RBSU code to an RBU.
 RBSU_laag <- RBSU_laag %>%
   st_drop_geometry()%>%
-  select(A0_CODE, BV)%>%
+  dplyr::select(A0_CODE, BV)%>%
   mutate(RBU= case_when(BV == "Senne" ~ "Zenne - Senne",
                         BV == "Dyle" ~ "Dijle - Dyle",
                         BV == "Dile" ~ "Dijle - Dyle",
                         BV == "Marcq" ~ "Mark - Marcq"),
         RBSU= as.integer(A0_CODE))%>%
-  select(RBSU, RBU)
+  dplyr::select(RBSU, RBU)
     
 
   
@@ -46,14 +46,14 @@ RBSU_laag <- RBSU_laag %>%
 #Summarize number of RBSU per RBU in which a species is present
 
 output_table <- occupancy_rel_RBSU %>%
-  select(RBSU, species, state, n_observations) %>%
+  dplyr::select(RBSU, species, state, n_observations) %>%
   left_join(y= RBSU_laag, by= c("RBSU"))%>%
   group_by(RBU, species, state)%>%
   summarise(count=n())%>%
   filter(species%in%unique(table_targets$species))%>%
   rename(c("Time period" = "state", "Status" = "count"))%>%
   ungroup()%>%
-  select(species, RBU, `Time period`, Status)
+  dplyr::select(species, RBU, `Time period`, Status)
 
 #paste all time periods (baseline, current and target) into one table
 output_table <- rbind(output_table, table_targets)

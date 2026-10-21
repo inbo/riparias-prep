@@ -6,7 +6,9 @@ library(dplyr)
 library(ggplot2)
 library(sf)
 library(stringr)
+library(tidyr)
 library(trias) 
+library(httr)
 library(readxl)
 
 # Note: possible cause of failure concerning trias package. Only packages installed from GitHub with devtools::install_github, in version 1.4 (or later) of devtools, are supported. Packages installed with an earlier version of devtools must be reinstalled with the later version before you can deploy your application. If you get an error such as “PackageSourceError” when you attempt to deploy, check that you have installed all the packages from Github with devtools 1.4 or later.
@@ -14,7 +16,34 @@ library(readxl)
 # 1. Import data ####
 repo <- "https://github.com/inbo/riparias-prep/raw/"
 repo_raw <- "https://raw.githubusercontent.com/inbo/riparias-prep/refs/heads/"
-branch <- "master"
+repo_test <- "https://github.com/inbo/riparias-prep/tree/"
+branch <- "74_fixes_dashboard"
+
+# Function to check if URL is reachable
+is_url_reachable <- function(url) {
+  cat("Trying:", url, "\n")
+  tryCatch({
+    response <- HEAD(url)
+    status_code(response) == 200
+  }, error = function(e) {
+    cat("Error:", e$message, "\n")
+    FALSE
+  })
+}
+
+# Test if the branch is reachable, otherwise use "master"
+if (is_url_reachable(paste0(repo_test, branch))) {
+  final_branch <- branch
+} else {
+  final_branch <- "master"
+}
+
+# Use the final_branch in your URL
+final_url <- paste0(repo_test, final_branch)
+
+# Print the result
+cat("Using branch:", final_branch, "\n")
+cat("Final URL:", final_url, "\n")
 
 ## Maps ####
 all_pointdata_2000 <- st_read(paste0(repo, branch,
@@ -73,6 +102,19 @@ level_of_invasion_RBSU_baseline <- level_of_invasion_RBSU %>%
   filter(state == 'baseline')
 
 bbox <- st_bbox(RBU_laag)
+
+## Management - iAsset
+iAsset <- read.csv2(paste0(repo, branch,
+                         "/data/input/iAsset_2_2_2025.csv"))
+
+iAsset$longitude = as.numeric(sub("POINT\\(([^ ]+) .*", "\\1", iAsset$GPS))
+
+iAsset$latitude = as.numeric(sub("POINT\\([^ ]+ ([^ ]+)\\)", "\\1", iAsset$GPS))
+
+iAsset <- iAsset %>%
+  drop_na(latitude)
+
+iAsset <- st_as_sf(iAsset, coords=c("longitude", "latitude"), crs = 4326)
 
 ## Site-level monitoring ####
 dafor_monitoring <- read.csv(paste0(repo, branch,
@@ -318,8 +360,8 @@ tabPanel(
       HTML("<p>The number of <b>observations</b> per species. Presence as well as absence. 
             Divided between periods.</p>
             <p>
-            <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
-            <i>Current</i> period from <b>2021-present</b>.</li>
+            <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2022</b>. 
+            <i>Current</i> period from <b>2023-present</b>.</li>
             <li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>. 
             <i>Current</i> period from <b>2016-present</b>.</li>
             </p>")
@@ -371,8 +413,8 @@ tabPanel(
                         width = 12,
                         class = "custom-box",
                         HTML("<p><b>Occupancy</b>, or: the number of grid cells with observations of the species (<a href=https://www.eea.europa.eu/data-and-maps/figures/eea-reference-grids>EEA</a> 1-km² grid). Expressed as the <b>absolute</b> number of occupied cells, or <b>relative</b> to the number of cells in the river basin. Divided between periods.</p><p>
-<li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
-<i>Current</i> period from <b>2021-present</b>.</li>
+<li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2022</b>. 
+<i>Current</i> period from <b>2023-present</b>.</li>
 <li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>.
 <i>Current</i> period from <b>2016-present</b>.</li>
      </p>")
@@ -433,8 +475,8 @@ tabPanel('Level of invasion',
   
   <!-- Periods for plants and crayfish -->
   <ul>
-    <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2020</b>. 
-    <i>Current</i> period from <b>2021-present</b>.</li>
+    <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2022</b>. 
+    <i>Current</i> period from <b>2023-present</b>.</li>
     <li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>. 
     <i>Current</i> period from <b>2016-present</b>.</li>
   </ul>
@@ -514,8 +556,7 @@ box(
              box(
                width = 12,
                class = "custom-box",
-               HTML("<p>Under development. Soon a new measure of surveillance effort will be applied.
-            </p>")
+               HTML("<p> An EEA grid cell is considered highly surveilled if more than 10 observations of the Riparias checklist species have been reported since 2020. </p>")
              ),
            box(
              width = 12,
@@ -544,7 +585,11 @@ box(
                HTML('<p>
                       An overview of the  <a href="https://trias-project.github.io/indicators/" target="_blank">
                       TRIAS indicators
-                    </a>, per species in Riparias project area.
+                    </a>, per species in Riparias project area. 
+                    <li><b>Observations</b>: Estimate emerging status per year based on all <i>observations</i> within Riparias project area.</li>
+                    <li><b>Observations-corrected</b>: Estimate emerging status per year based on all <i>observations</i> within Riparias project area, correcting for observer-bias by taking in account total number of observations of species class per EEA grid cell.</li> 
+                    <li><b>Occupancy</b>: Estimate emerging status per year based on <i>occupancy</i> within Riparias project area.</li>
+                    <li><b>Occupancy-corrected</b>: Estimate emerging status per year based on <i>occupancy</i> within Riparias project area, correcting for observer-bias by taking in account total number of observations of species class per EEA grid cell.</li>
                     </p>')
              ),
             
@@ -593,7 +638,7 @@ box(
                         box(
                           width = 12,
                           class = "custom-box",
-                          HTML('Per river basin, the number of river basin subunits where the species is present in the current state (2021-present) is displayed. The baseline and target number are also mentioned.')),
+                          HTML('Per river basin, the number of river basin subunits where the species is present in the current state (2023-present) is displayed. The baseline and target number are also mentioned.')),
                         
                         box(
                           width = 12,
@@ -602,7 +647,39 @@ box(
                       )
              )
            )
-           )
+           ,
+
+             #tabPanel,
+             tabPanel('Management maps',
+                      titlePanel('Managment maps'),
+                      
+                      
+                      
+                      fluidPage(
+                        box(
+                          width = 12,
+                          class = "custom-box",
+                          HTML('Per species, locations are displayed where management is performed in the framework of LIFE RIPARIAS within the LIFE RIPARIAS project area. Hover over a location to find out: (i) management date (ii) amount removed and (iii) unit of expression.')),
+                        
+                        box(
+                          width = 12,
+                          class = "custom-box2",
+                          
+                          sidebarLayout(
+                            sidebarPanel(
+                              selectInput("Species_iAsset", "Select a species:",
+                                          choices = unique(iAsset$Species)),
+                              selectInput("RBSU_mm", "Select a river basin subunit:",
+                                          choices = unique(centroid_per_RBSU$fullnameRBS))
+                            ),#sidebarPanel
+                            mainPanel(
+                          leafletOutput('iAsset_maps')
+                        )
+                      )
+                    )
+                  )
+                 )
+                 )
            #tabsetPanel
            ##Site-level monitoring####
   ),#tabPanel
@@ -611,7 +688,7 @@ box(
              box(
                width = 12,
                class = "custom-box",
-               HTML("In those areas where management is performed, monitoring surveys are organised before and after management to assess its impact. The crayfish data presents dummy data.")),
+               HTML("In those areas where management is performed, monitoring surveys are organised before and after management to assess its impact. After management surveys are anticipated to occur in 2026. Afterlife surveys in 2031.")),
              
              box(
                width = 12,
@@ -630,27 +707,6 @@ box(
                )#fluidRow
              )#mainPanel
            )
-           )
-           ,#sidebarlayout
-           box(
-             width = 12,
-             class = "custom-box2",
-           sidebarLayout(
-             sidebarPanel(
-               selectInput("Species_cpue", "Select a species:",
-                           choices = c( "Orconectes virilis",
-                                        "Procambarus clarkii",
-                                        "P. fallax")
-               )),
-             mainPanel(
-               fluidRow(
-                 box(
-                   title='Crayfish',
-                   plotOutput("CPUE")
-                 )#box
-               )#fluidRow
-             )#mainPanel
-           )#Sidebarlayout
            )
   )
   )
@@ -844,15 +900,15 @@ server <- function(input, output) {
     test5 <- dafor_monitoring[(dafor_monitoring$species == input$Species_dafor),]
     test5
   })
-  
+
   output$DAFOR <- renderPlot ({
     ggplot(dat_dafor(), 
            aes(fill=DAFOR, 
                y=count, 
                x=factor(Time_period,
-                        level = c('before management',
-                                  'after management (2026)',
-                                  'afterlife (2031)')))) + 
+                        levels = c('before management',
+                                 'after management',
+                                 'afterlife')))) + 
       geom_bar(position="stack", stat="identity")+
       labs(y='Number of sites')+
       labs(x='Time period')+
@@ -893,9 +949,10 @@ server <- function(input, output) {
   #) %>% lapply(htmltools::HTML)
   
   output$map_EEA_surveillance_effort <- renderLeaflet ({
-    leaflet(EEA_surveillance_effort) %>% 
-      addTiles() %>% 
-      addPolygons(color="#00a491", weight=1)
+    leaflet() %>% 
+      addProviderTiles(providers$CartoDB.Positron) %>% 
+      addPolygons(data = EEA_surveillance_effort, color= "#00a491")%>%
+      addPolylines(data = RBU_laag, color= "#00a491", opacity=1)
     
     
   })
@@ -1206,6 +1263,37 @@ server <- function(input, output) {
   ##Management####
   ###Summarizing_table####
   output$table_summarizing_management <- renderTable(table_summarizing_management)
+  
+  ##Management####
+  ##Managment map####
+  
+
+  
+  output$iAsset_maps  <- renderLeaflet({
+    
+    iAsset_sub <- subset(iAsset,
+                                 iAsset$Species %in%
+                                   input$Species_iAsset)
+    
+
+    leaflet() %>% 
+      addProviderTiles(providers$CartoDB.Positron) %>%
+      addPolygons(data=RBSU_laag, color="grey", fill= NA)%>%
+      addCircleMarkers(data = iAsset_sub,
+                       label = ~paste("Date:", Date.time.event, " Quantity:", Quantity, ' Unit:', Unit),
+                       color="#00a491")
+    
+  })
+  
+  center_mm <- reactive({
+    subset(centroid_per_RBSU, fullnameRBSU == input$RBSU_mm) 
+  })
+  
+  observe({
+    leafletProxy('iAsset_maps') %>% 
+      setView(lng =  center_mm()$longitude, lat = center_mm()$latitude, zoom = 11)
+  })
+  
   ###Level of invasion####
   ###Level of invasion baseline####
   output$map_level_of_invasion_baseline <- renderLeaflet({

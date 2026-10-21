@@ -1,5 +1,5 @@
 taxonKey,year,classKey.x,obs,cobs,ncells,c_ncells,canonicalName,scientificName,kingdomKey,kingdom,classKey.y,class
-2227289,2013,229,1,1,1,1,Procambarus acutus,"Procambarus acutus (Girard, 1852)",1,Animalia,229,Malacostraca
+2227289,2013,229,1,0,1,0,Procambarus acutus,"Procambarus acutus (Girard, 1852)",1,Animalia,229,Malacostraca
 2227289,2014,229,0,0,0,0,Procambarus acutus,"Procambarus acutus (Girard, 1852)",1,Animalia,229,Malacostraca
 2227289,2015,229,0,0,0,0,Procambarus acutus,"Procambarus acutus (Girard, 1852)",1,Animalia,229,Malacostraca
 2227289,2016,229,0,0,0,0,Procambarus acutus,"Procambarus acutus (Girard, 1852)",1,Animalia,229,Malacostraca
@@ -10,140 +10,129 @@ taxonKey,year,classKey.x,obs,cobs,ncells,c_ncells,canonicalName,scientificName,k
 2227289,2021,229,0,0,0,0,Procambarus acutus,"Procambarus acutus (Girard, 1852)",1,Animalia,229,Malacostraca
 2227289,2022,229,0,0,0,0,Procambarus acutus,"Procambarus acutus (Girard, 1852)",1,Animalia,229,Malacostraca
 2227289,2023,229,0,0,0,0,Procambarus acutus,"Procambarus acutus (Girard, 1852)",1,Animalia,229,Malacostraca
-2227300,2009,229,2,-1,1,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
+2227289,2024,229,0,0,0,0,Procambarus acutus,"Procambarus acutus (Girard, 1852)",1,Animalia,229,Malacostraca
+2227289,2025,229,0,0,0,0,Procambarus acutus,"Procambarus acutus (Girard, 1852)",1,Animalia,229,Malacostraca
+2227300,2009,229,3,0,1,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
 2227300,2010,229,2,0,2,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
-2227300,2011,229,3,-1,1,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
+2227300,2011,229,3,0,1,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
 2227300,2012,229,1,0,1,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
-2227300,2013,229,5,0,2,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
+2227300,2013,229,5,2,2,1,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
 2227300,2014,229,0,0,0,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
 2227300,2015,229,2,0,2,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
-2227300,2016,229,24,2,7,2,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
+2227300,2016,229,24,11,7,4,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
 2227300,2017,229,1,0,1,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
 2227300,2018,229,1,0,1,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
 2227300,2019,229,4,0,3,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
-2227300,2020,229,15,1,5,1,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
-2227300,2021,229,8,0,5,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
-2227300,2022,229,33,0,9,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
-2227300,2023,229,0,0,0,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
-2703231,2021,196,1,0,1,0,Zizania latifolia,Zizania latifolia (Griseb.) Stapf,6,Plantae,196,Liliopsida
-2703231,2022,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Stapf,6,Plantae,196,Liliopsida
-2703231,2023,196,1,0,1,0,Zizania latifolia,Zizania latifolia (Griseb.) Stapf,6,Plantae,196,Liliopsida
-2766030,2010,196,1,1,1,1,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2227300,2020,229,15,0,5,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
+2227300,2021,229,21,0,12,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
+2227300,2022,229,35,19,9,3,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
+2227300,2023,229,16,-1,10,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
+2227300,2024,229,33,1,14,3,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
+2227300,2025,229,0,0,0,0,Procambarus clarkii,"Procambarus clarkii (Girard, 1852)",1,Animalia,229,Malacostraca
+2766030,2010,196,1,0,1,0,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
 2766030,2011,196,0,0,0,0,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
-2766030,2012,196,2,3,2,2,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
-2766030,2013,196,4,11,2,2,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
-2766030,2014,196,2,1,1,1,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
-2766030,2015,196,1,3,1,1,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
-2766030,2016,196,1,2,1,1,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
-2766030,2017,196,1,2,1,1,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
-2766030,2018,196,2,11,2,2,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
-2766030,2019,196,2,7,2,2,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2766030,2012,196,2,1,2,1,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2766030,2013,196,4,8,2,2,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2766030,2014,196,2,2,1,1,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2766030,2015,196,1,6,1,1,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2766030,2016,196,1,0,1,0,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2766030,2017,196,1,3,1,1,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2766030,2018,196,2,13,2,2,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2766030,2019,196,2,3,2,1,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
 2766030,2020,196,2,0,2,0,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
-2766030,2021,196,24,-2,17,0,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
-2766030,2022,196,23,0,20,0,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
-2766030,2023,196,1,0,1,0,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
-2865565,2016,196,1,16,1,1,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
+2766030,2021,196,24,2,17,2,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2766030,2022,196,22,12,19,6,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2766030,2023,196,23,13,15,6,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2766030,2024,196,3,11,3,1,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2766030,2025,196,0,0,0,0,Pontederia cordata,Pontederia cordata L.,6,Plantae,196,Liliopsida
+2865565,2016,196,1,17,1,1,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
 2865565,2017,196,0,0,0,0,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
 2865565,2018,196,0,0,0,0,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
 2865565,2019,196,0,0,0,0,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
-2865565,2020,196,1,0,1,0,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
-2865565,2021,196,1,0,1,0,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
-2865565,2022,196,3,0,3,0,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
-2865565,2023,196,0,0,0,0,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
+2865565,2020,196,0,0,0,0,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
+2865565,2021,196,1,1,1,1,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
+2865565,2022,196,3,1,3,1,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
+2865565,2023,196,1,0,1,0,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
+2865565,2024,196,0,0,0,0,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
+2865565,2025,196,0,0,0,0,Lagarosiphon major,Lagarosiphon major (Ridl.) Moss,6,Plantae,196,Liliopsida
 2869311,2009,196,1,0,1,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
-2869311,2010,196,1,0,1,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
+2869311,2010,196,2,0,2,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
 2869311,2011,196,0,0,0,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
 2869311,2012,196,0,0,0,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
-2869311,2013,196,2,0,1,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
+2869311,2013,196,2,3,1,1,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
 2869311,2014,196,0,0,0,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
 2869311,2015,196,1,0,1,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
 2869311,2016,196,0,0,0,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
-2869311,2017,196,4,211,4,2,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
+2869311,2017,196,4,226,4,3,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
 2869311,2018,196,0,0,0,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
-2869311,2019,196,4,33,4,3,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
-2869311,2020,196,6,15,5,3,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
-2869311,2021,196,18,21,12,5,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
-2869311,2022,196,12,0,10,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
-2869311,2023,196,0,0,0,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
-2891770,2000,220,15,947,14,14,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2001,220,15,654,15,14,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2002,220,35,1624,30,29,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2003,220,21,1437,18,18,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2004,220,22,1567,22,22,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2005,220,39,686,31,21,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2006,220,35,532,27,14,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2007,220,49,915,36,21,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2008,220,1409,853,221,26,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2009,220,31,956,29,28,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2010,220,51,1072,45,41,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2011,220,50,1707,44,42,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2012,220,77,1406,64,62,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2013,220,45,1257,37,35,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2014,220,64,1585,54,51,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2015,220,100,1811,58,55,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2016,220,93,2451,74,64,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2017,220,100,2825,68,65,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2018,220,286,14344,98,94,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2019,220,174,3310,102,101,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2020,220,259,4173,133,132,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2021,220,480,2734,197,154,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2022,220,1952,0,384,0,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-2891770,2023,220,0,0,0,0,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
-3034613,2000,220,1,15,1,1,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2001,220,2,6,2,1,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2002,220,0,0,0,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2003,220,1,66,1,1,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2004,220,1,0,1,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2005,220,6,-1,3,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2006,220,11,-1,6,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2007,220,7,33,5,3,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2008,220,1,0,1,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2009,220,1,1,1,1,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2010,220,6,202,5,4,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2011,220,18,23,2,1,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2012,220,19,50,6,1,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2013,220,1,0,1,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2014,220,7,142,6,4,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2015,220,8,63,3,3,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2016,220,20,52,9,5,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2017,220,2,79,2,2,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2018,220,5,536,4,4,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2019,220,15,255,10,10,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2020,220,2,24,2,2,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2021,220,15,80,9,6,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2022,220,24,0,19,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034613,2023,220,2,0,2,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.f.,6,Plantae,220,Magnoliopsida
-3034825,2000,220,17,950,17,17,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2001,220,11,488,10,10,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2002,220,32,2297,32,31,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2003,220,29,2199,29,29,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2004,220,39,3470,37,37,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2005,220,16,549,16,16,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2006,220,11,375,9,8,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2007,220,14,865,11,8,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2008,220,42,421,26,14,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2009,220,26,359,20,18,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2010,220,40,761,30,27,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2011,220,28,806,21,17,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2012,220,50,1035,39,37,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2013,220,57,887,46,45,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2014,220,54,1057,41,41,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2015,220,96,2012,54,53,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2016,220,95,3107,57,57,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2017,220,149,6370,69,68,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2018,220,112,5664,52,52,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2019,220,98,3061,60,60,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2020,220,208,6305,91,91,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2021,220,360,2106,176,117,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2022,220,393,0,159,0,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3034825,2023,220,0,0,0,0,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
-3088310,2018,220,1,1,1,1,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
-3088310,2019,220,2,36,2,2,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
-3088310,2020,220,6,211,4,4,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
-3088310,2021,220,5,30,5,4,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
-3088310,2022,220,6,0,4,0,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
-3088310,2023,220,0,0,0,0,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
-5328593,2006,196,1,0,1,0,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
+2869311,2019,196,4,28,4,4,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
+2869311,2020,196,6,9,5,3,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
+2869311,2021,196,18,64,12,8,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
+2869311,2022,196,12,84,10,7,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
+2869311,2023,196,13,4,10,1,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
+2869311,2024,196,3,22,2,2,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
+2869311,2025,196,0,0,0,0,Lysichiton americanus,Lysichiton americanus Hultén & H.St.John,6,Plantae,196,Liliopsida
+2891770,2000,220,14,870,14,14,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2001,220,15,611,15,14,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2002,220,41,1685,35,29,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2003,220,23,1406,20,18,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2004,220,23,1591,23,22,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2005,220,47,690,36,29,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2006,220,36,619,28,24,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2007,220,51,1136,38,37,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2008,220,33,973,28,20,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2009,220,377,1162,99,57,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2010,220,53,1119,47,37,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2011,220,52,1776,46,43,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2012,220,77,1462,64,61,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2013,220,45,1256,37,34,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2014,220,65,1610,55,52,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2015,220,99,1834,57,52,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2016,220,92,2433,74,64,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2017,220,100,2917,68,65,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2018,220,286,14032,98,93,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2019,220,209,4927,107,98,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2020,220,262,3022,134,131,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2021,220,483,7513,198,190,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2022,220,1968,13859,385,346,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2023,220,714,5190,238,185,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2024,220,452,3710,170,152,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+2891770,2025,220,0,0,0,0,Impatiens glandulifera,Impatiens glandulifera Royle,6,Plantae,220,Magnoliopsida
+3034825,2000,220,17,970,17,17,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2001,220,11,493,10,10,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2002,220,32,2272,32,31,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2003,220,29,2230,29,29,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2004,220,39,3497,37,37,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2005,220,17,560,17,17,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2006,220,11,381,9,9,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2007,220,14,922,11,10,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2008,220,42,437,26,17,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2009,220,60,446,38,31,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2010,220,40,753,30,26,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2011,220,30,767,23,16,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2012,220,50,1038,39,35,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2013,220,58,948,46,42,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2014,220,54,1001,41,39,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2015,220,112,2385,54,54,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2016,220,95,3089,57,57,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2017,220,149,6410,69,68,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2018,220,111,5317,51,51,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2019,220,106,3225,63,62,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2020,220,207,5189,90,89,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2021,220,362,7643,177,164,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2022,220,399,6008,161,160,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2023,220,381,3942,178,149,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2024,220,395,4359,155,152,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3034825,2025,220,0,0,0,0,Heracleum mantegazzianum,Heracleum mantegazzianum Sommier & Levier,6,Plantae,220,Magnoliopsida
+3088310,2018,220,1,0,1,0,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
+3088310,2019,220,2,6,2,2,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
+3088310,2020,220,6,139,4,4,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
+3088310,2021,220,5,188,5,5,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
+3088310,2022,220,7,105,5,5,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
+3088310,2023,220,2,85,2,1,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
+3088310,2024,220,0,0,0,0,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
+3088310,2025,220,0,0,0,0,Petasites japonicus,Petasites japonicus (Siebold & Zucc.) Maxim.,6,Plantae,220,Magnoliopsida
+5328593,2006,196,1,4,1,1,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
 5328593,2007,196,0,0,0,0,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
 5328593,2008,196,0,0,0,0,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
 5328593,2009,196,0,0,0,0,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
@@ -160,8 +149,10 @@ taxonKey,year,classKey.x,obs,cobs,ncells,c_ncells,canonicalName,scientificName,k
 5328593,2020,196,0,0,0,0,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
 5328593,2021,196,0,0,0,0,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
 5328593,2022,196,4,0,4,0,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
-5328593,2023,196,0,0,0,0,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
-5329263,2004,196,2,1,2,1,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5328593,2023,196,2,2,2,1,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
+5328593,2024,196,1,7,1,1,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
+5328593,2025,196,0,0,0,0,Aponogeton distachyos,Aponogeton distachyos L.f.,6,Plantae,196,Liliopsida
+5329263,2004,196,2,0,2,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
 5329263,2005,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
 5329263,2006,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
 5329263,2007,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
@@ -178,31 +169,35 @@ taxonKey,year,classKey.x,obs,cobs,ncells,c_ncells,canonicalName,scientificName,k
 5329263,2018,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
 5329263,2019,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
 5329263,2020,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
-5329263,2021,196,2,0,2,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2021,196,2,1,2,1,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
 5329263,2022,196,3,0,2,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
-5329263,2023,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
-5361785,2002,220,1,84,1,1,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2003,220,1,2,1,1,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2004,220,3,2,3,1,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2005,220,8,23,5,2,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2006,220,2,3,2,1,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2007,220,9,238,7,7,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2008,220,3,59,3,2,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2009,220,2,6,2,2,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2010,220,1,4,1,1,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2011,220,5,72,5,5,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2012,220,3,34,2,2,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2013,220,9,84,6,4,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2014,220,6,96,5,4,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2015,220,8,67,6,5,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2016,220,14,302,10,8,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2017,220,2,80,2,2,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2018,220,12,177,7,7,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2019,220,18,393,10,10,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2020,220,9,301,8,8,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2021,220,35,162,20,15,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2022,220,41,0,22,0,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
-5361785,2023,220,2,0,2,0,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5329263,2023,196,3,0,3,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2024,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5329263,2025,196,0,0,0,0,Elodea densa,Elodea densa (Planch.) Casp.,6,Plantae,196,Liliopsida
+5361785,2002,220,1,69,1,1,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2003,220,1,0,1,0,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2004,220,3,0,3,0,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2005,220,8,9,5,2,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2006,220,2,7,2,1,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2007,220,9,213,7,7,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2008,220,3,57,3,2,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2009,220,2,9,2,2,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2010,220,1,14,1,1,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2011,220,6,51,6,6,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2012,220,3,35,2,2,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2013,220,9,108,6,4,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2014,220,6,94,5,4,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2015,220,8,60,6,5,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2016,220,14,226,10,6,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2017,220,2,73,2,2,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2018,220,12,158,7,7,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2019,220,18,155,10,10,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2020,220,9,220,8,8,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2021,220,35,666,20,19,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2022,220,47,1226,22,21,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2023,220,41,311,19,15,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2024,220,13,305,7,6,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
+5361785,2025,220,0,0,0,0,Myriophyllum aquaticum,Myriophyllum aquaticum (Vell.) Verdc.,6,Plantae,220,Magnoliopsida
 5362054,2000,220,1,0,1,0,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
 5362054,2001,220,1,0,1,0,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
 5362054,2002,220,0,0,0,0,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
@@ -213,26 +208,28 @@ taxonKey,year,classKey.x,obs,cobs,ncells,c_ncells,canonicalName,scientificName,k
 5362054,2007,220,0,0,0,0,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
 5362054,2008,220,0,0,0,0,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
 5362054,2009,220,0,0,0,0,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2010,220,2,61,2,1,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2011,220,1,67,1,1,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2012,220,1,15,1,1,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2013,220,8,15,3,2,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2014,220,2,46,2,2,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2015,220,8,158,6,5,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2016,220,5,200,4,3,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2017,220,7,149,4,3,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2018,220,20,378,2,2,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2019,220,3,194,3,3,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2020,220,14,228,11,10,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2021,220,18,200,15,8,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2022,220,33,0,22,0,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
-5362054,2023,220,1,0,1,0,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2010,220,4,66,4,2,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2011,220,1,63,1,1,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2012,220,1,13,1,1,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2013,220,8,17,3,3,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2014,220,2,43,2,1,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2015,220,8,178,6,5,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2016,220,4,108,3,2,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2017,220,7,152,4,3,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2018,220,20,351,2,2,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2019,220,4,110,3,3,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2020,220,14,161,11,10,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2021,220,18,379,15,15,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2022,220,36,1825,22,20,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2023,220,30,479,16,13,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2024,220,16,403,7,7,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
+5362054,2025,220,0,0,0,0,Crassula helmsii,Crassula helmsii (Kirk) Cockayne,6,Plantae,220,Magnoliopsida
 5384931,2007,220,1,0,1,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
 5384931,2008,220,0,0,0,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
 5384931,2009,220,0,0,0,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
 5384931,2010,220,0,0,0,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
 5384931,2011,220,0,0,0,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
-5384931,2012,220,1,4,1,1,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
+5384931,2012,220,1,6,1,1,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
 5384931,2013,220,0,0,0,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
 5384931,2014,220,0,0,0,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
 5384931,2015,220,0,0,0,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
@@ -240,69 +237,124 @@ taxonKey,year,classKey.x,obs,cobs,ncells,c_ncells,canonicalName,scientificName,k
 5384931,2017,220,0,0,0,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
 5384931,2018,220,0,0,0,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
 5384931,2019,220,0,0,0,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
-5384931,2020,220,2,97,2,2,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
-5384931,2021,220,4,5,4,1,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
-5384931,2022,220,9,0,9,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
-5384931,2023,220,1,0,1,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
-5384932,2021,220,2,0,2,0,Saururus cernuus,Saururus cernuus L.,6,Plantae,220,Magnoliopsida
-5384932,2022,220,2,0,2,0,Saururus cernuus,Saururus cernuus L.,6,Plantae,220,Magnoliopsida
+5384931,2020,220,2,71,2,2,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
+5384931,2021,220,4,25,4,4,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
+5384931,2022,220,9,96,9,6,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
+5384931,2023,220,3,6,3,2,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
+5384931,2024,220,1,54,1,1,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
+5384931,2025,220,0,0,0,0,Houttuynia cordata,Houttuynia cordata Thunb.,6,Plantae,220,Magnoliopsida
+5384932,2021,220,2,6,2,2,Saururus cernuus,Saururus cernuus L.,6,Plantae,220,Magnoliopsida
+5384932,2022,220,2,117,2,2,Saururus cernuus,Saururus cernuus L.,6,Plantae,220,Magnoliopsida
 5384932,2023,220,0,0,0,0,Saururus cernuus,Saururus cernuus L.,6,Plantae,220,Magnoliopsida
-5420991,2022,220,1,0,1,0,Ludwigia peploides,Ludwigia peploides (Kunth) P.H.Raven,6,Plantae,220,Magnoliopsida
-5420991,2023,220,0,0,0,0,Ludwigia peploides,Ludwigia peploides (Kunth) P.H.Raven,6,Plantae,220,Magnoliopsida
-5421039,2002,220,1,63,1,1,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5384932,2024,220,0,0,0,0,Saururus cernuus,Saururus cernuus L.,6,Plantae,220,Magnoliopsida
+5384932,2025,220,0,0,0,0,Saururus cernuus,Saururus cernuus L.,6,Plantae,220,Magnoliopsida
+5420991,2022,220,1,17,1,1,Ludwigia peploides,Ludwigia peploides (Kunth) P.H.Raven,6,Plantae,220,Magnoliopsida
+5420991,2023,220,7,-4,2,0,Ludwigia peploides,Ludwigia peploides (Kunth) P.H.Raven,6,Plantae,220,Magnoliopsida
+5420991,2024,220,0,0,0,0,Ludwigia peploides,Ludwigia peploides (Kunth) P.H.Raven,6,Plantae,220,Magnoliopsida
+5420991,2025,220,0,0,0,0,Ludwigia peploides,Ludwigia peploides (Kunth) P.H.Raven,6,Plantae,220,Magnoliopsida
+5421039,2002,220,1,51,1,1,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
 5421039,2003,220,0,0,0,0,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
 5421039,2004,220,0,0,0,0,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
 5421039,2005,220,0,0,0,0,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
 5421039,2006,220,2,1,1,1,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
 5421039,2007,220,0,0,0,0,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
 5421039,2008,220,0,0,0,0,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2009,220,2,16,2,2,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2010,220,7,56,5,5,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2011,220,4,16,4,4,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2012,220,1,4,1,1,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2013,220,2,24,1,1,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2014,220,3,78,3,3,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2015,220,3,104,3,3,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2016,220,8,140,7,5,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2017,220,23,476,10,9,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2018,220,47,219,12,11,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2019,220,17,289,12,12,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2020,220,39,367,19,19,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2021,220,40,174,23,16,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2022,220,35,0,23,0,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-5421039,2023,220,2,0,2,0,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
-7346102,2001,220,3,61,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+5421039,2009,220,2,18,2,2,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2010,220,7,44,5,5,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2011,220,5,39,5,5,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2012,220,1,19,1,1,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2013,220,2,20,1,1,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2014,220,3,79,3,2,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2015,220,3,122,3,3,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2016,220,8,152,7,6,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2017,220,23,510,10,9,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2018,220,47,242,12,12,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2019,220,17,105,12,11,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2020,220,38,255,18,18,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2021,220,40,713,23,23,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2022,220,38,489,24,21,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2023,220,42,434,22,18,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2024,220,18,248,11,9,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+5421039,2025,220,0,0,0,0,Ludwigia grandiflora,Ludwigia grandiflora (Michx.) Greuter & Burdet,6,Plantae,220,Magnoliopsida
+7346102,2001,220,3,56,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
 7346102,2002,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2003,220,1,95,1,1,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2003,220,1,110,1,1,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
 7346102,2004,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
 7346102,2005,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
 7346102,2006,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
 7346102,2007,220,1,0,1,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2008,220,1,44,1,1,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2008,220,1,47,1,1,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
 7346102,2009,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
 7346102,2010,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2011,220,4,24,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2012,220,1,105,1,1,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2013,220,5,39,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2014,220,3,125,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2011,220,4,25,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2012,220,1,109,1,1,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2013,220,5,52,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2014,220,3,121,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
 7346102,2015,220,2,6,1,1,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2016,220,5,21,4,4,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2017,220,3,111,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2018,220,3,111,2,2,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2019,220,7,191,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2020,220,19,300,8,8,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2021,220,13,162,5,5,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2022,220,11,0,6,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-7346102,2023,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
-8848208,2019,220,1,92,1,1,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
-8848208,2020,220,1,97,1,1,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
-8848208,2021,220,1,48,1,1,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
-8848208,2022,220,0,0,0,0,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
-8848208,2023,220,0,0,0,0,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
-9442269,2017,229,1,0,1,0,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
-9442269,2018,229,1,0,1,0,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
-9442269,2019,229,2,1,1,1,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
-9442269,2020,229,8,-4,2,0,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
-9442269,2021,229,1,1,1,1,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
+7346102,2016,220,5,25,4,4,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2017,220,3,115,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2018,220,3,102,2,2,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2019,220,7,107,3,3,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2020,220,19,192,8,7,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2021,220,13,397,5,5,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2022,220,11,224,6,6,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2023,220,11,117,4,4,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2024,220,23,244,9,9,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7346102,2025,220,0,0,0,0,Erythranthe guttata,Erythranthe guttata (DC.) G.L.Nesom,6,Plantae,220,Magnoliopsida
+7978544,2000,220,1,17,1,1,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2001,220,2,10,2,1,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2002,220,0,0,0,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2003,220,1,51,1,1,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2004,220,1,0,1,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2005,220,6,-1,3,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2006,220,11,8,6,3,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2007,220,9,57,7,6,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2008,220,1,0,1,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2009,220,2,11,2,1,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2010,220,17,211,9,4,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2011,220,18,25,2,1,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2012,220,19,56,6,1,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2013,220,1,0,1,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2014,220,7,133,6,4,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2015,220,8,51,3,2,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2016,220,20,52,9,4,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2017,220,2,71,2,2,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2018,220,5,547,4,4,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2019,220,15,329,10,10,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2020,220,2,24,2,2,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2021,220,15,198,9,9,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2022,220,25,480,19,15,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2023,220,21,89,14,9,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2024,220,14,152,5,5,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+7978544,2025,220,0,0,0,0,Hydrocotyle ranunculoides,Hydrocotyle ranunculoides L.fil.,6,Plantae,220,Magnoliopsida
+8848208,2019,220,1,34,1,1,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
+8848208,2020,220,1,84,1,1,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
+8848208,2021,220,1,124,1,1,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
+8848208,2022,220,1,0,1,0,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
+8848208,2023,220,2,21,2,2,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
+8848208,2024,220,0,0,0,0,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
+8848208,2025,220,0,0,0,0,Koenigia polystachya,Koenigia polystachya (Wall. ex Meisn.) T.M.Schust. & Reveal,6,Plantae,220,Magnoliopsida
+9442269,2019,229,1,2,1,1,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
+9442269,2020,229,8,0,2,1,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
+9442269,2021,229,1,0,1,0,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
 9442269,2022,229,1,0,1,0,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
-9442269,2023,229,0,0,0,0,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
+9442269,2023,229,4,0,2,0,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
+9442269,2024,229,12,3,2,1,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
+9442269,2025,229,0,0,0,0,Procambarus virginalis,"Procambarus virginalis Lyko, 2017",1,Animalia,229,Malacostraca
+10919373,2009,196,1,0,1,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2010,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2011,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2012,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2013,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2014,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2015,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2016,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2017,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2018,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2019,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2020,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2021,196,1,8,1,1,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2022,196,18,11,2,1,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2023,196,9,4,5,2,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2024,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
+10919373,2025,196,0,0,0,0,Zizania latifolia,Zizania latifolia (Griseb.) Hance ex F.Muell.,6,Plantae,196,Liliopsida
