@@ -22,10 +22,10 @@ riparias_checklist <- rgbif::name_usage(
   datasetKey = "fd004d9a-2ea4-4244-bb60-0df508d20a15", 
 )
 
-gbif_backbone_keys <- 
-  riparias_checklist$data %>%
-  dplyr::filter(origin == "SOURCE") %>%
-  pull(.data$nubKey)
+gbif_backbone_keys <- riparias_checklist$data %>%
+  dplyr::filter(origin == "SOURCE", !is.na(nubKey)) %>%
+  dplyr::pull(nubKey) %>%
+  unique()
 
 gbif_backbone_keys
 ```
@@ -34,19 +34,20 @@ gbif_backbone_keys
 #download occurences from species from GBIF
 
 #add username, email and password of GBIF account to R.environ en herstart Rstudio
-install.packages("usethis")
-usethis::edit_r_environ("~/GitHub/riparias-prep/.Renviron")
 
+
+readRenviron("~/GitHub/riparias-prep/.Renviron")
 
 gbif_download <- occ_download(
-  pred_in("taxonKey", gbif_backbone_keys),
-  pred_in("country", c("BE")),
+  pred_in("taxonKey", gbif_backbone_keys,
+          checklistKey = "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c"),  # GBIF Backbone
+  pred("country", "BE"),
   pred("hasCoordinate", TRUE),
   pred_gte("year", 2000)
-  )                              
-
-#occ_download_get(key= "")
+)
 occ_download_wait(gbif_download)
+
+
 
 write.csv(as.character(occ_download_meta(gbif_download)),
           paste0("gbif_download", Sys.Date(), ".csv"))
