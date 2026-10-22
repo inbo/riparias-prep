@@ -23,28 +23,59 @@ library(ggplot2)
 #import data
 monitoring_data <- read_sheet("19oivHE5ljX0F4W8KtxpfQM_cPobogOM0US1W6edtLHw",
                       sheet = "plants",
-                      col_types = "c")
+                      col_types = "c")%>%
+  mutate(DAFOR_2023 = `DAFOR 2023`,
+         DAFOR_2026 = `DAFOR 2026 (before management)`)
 
 monitoring_data <- monitoring_data%>%
   mutate(`Invasive species`= replace(`Invasive species`, `Invasive species`=="Reuzenbalsemien / Impatiens glandulifera", "Impatiens glandulifera"))%>%
   mutate(`Invasive species`= replace(`Invasive species`, `Invasive species`=="Reuzenberenklauw / Heracleum mantegazzianum", "Heracleum mantegazzianum"))%>%
   mutate(`Invasive species`= replace(`Invasive species`, `Invasive species`=="brede waterpest", "Elodea canadensis"))%>%
   mutate(`Invasive species`= replace(`Invasive species`, `Invasive species`=="smalle waterpest", "Elodea nuttallii"))%>%
-  mutate(DAFOR = replace(DAFOR, DAFOR=="O / Occasional / >5%", "Occasional (<5%)" ))%>%
-  mutate(DAFOR = replace(DAFOR, DAFOR=="F / Frequent / 5% - 25%", "Frequent (5-25%)"))%>%
-  mutate(DAFOR = replace(DAFOR, DAFOR=="A / Abundant/ 25% - 50%" , "Abundant (25-50%)"))%>%
-  mutate(DAFOR = replace(DAFOR, DAFOR=="D / Dominant / >50%" , "Dominant (> 50%)" ))%>%
-  mutate(DAFOR = replace(DAFOR, DAFOR=="Occasional (<5%)" , "Rare (<5%)" ))%>%
-  mutate(DAFOR = replace(DAFOR, DAFOR=="Abundant / Dominant (depending on quadrat)" , "Abundant (25-50%)" ))%>%
-  mutate(DAFOR = replace(DAFOR, DAFOR=="Frequent to Dominant" , "Abundant (25-50%)" ))%>%
-  mutate(DAFOR = factor(DAFOR, levels=c( 
-            "Absent", 
-            "Rare (<5%)" ,
-            "Frequent (5-25%)", 
-            "Abundant (25-50%)",
-            "Frequent to Dominant" ,
-            "Abundant / Dominant (depending on quadrat)", 
-            "Dominant (> 50%)" )))
+  mutate(DAFOR_2023 = replace(DAFOR_2023, DAFOR_2023=="O / Occasional / >5%", "Occasional (<5%)" ))%>%
+  mutate(DAFOR_2023 = replace(DAFOR_2023, DAFOR_2023=="F / Frequent / 5% - 25%", "Frequent (5-25%)"))%>%
+  mutate(DAFOR_2023 = replace(DAFOR_2023, DAFOR_2023=="F", "Frequent (5-25%)"))%>%
+  mutate(DAFOR_2023 = replace(DAFOR_2023, DAFOR_2023=="A / Abundant/ 25% - 50%" , "Abundant (25-50%)"))%>%
+  mutate(DAFOR_2023 = replace(DAFOR_2023, DAFOR_2023=="A" , "Abundant (25-50%)"))%>%
+  mutate(DAFOR_2023 = replace(DAFOR_2023, DAFOR_2023=="D / Dominant / >50%" , "Dominant (> 50%)" ))%>%
+  mutate(DAFOR_2023 = replace(DAFOR_2023, DAFOR_2023=="D" , "Dominant (> 50%)" ))%>%
+  mutate(DAFOR_2023 = replace(DAFOR_2023, DAFOR_2023=="Occasional (<5%)" , "Rare (<5%)" ))%>%
+  mutate(DAFOR_2023 = replace(DAFOR_2023, DAFOR_2023=="R" , "Rare (<5%)" ))%>%
+  mutate(DAFOR_2023 = replace(DAFOR_2023, DAFOR_2023=="Abundant / Dominant (depending on quadrat)" , "Abundant (25-50%)" ))%>%
+  mutate(DAFOR_2023 = replace(DAFOR_2023, DAFOR_2023=="Frequent to Dominant" , "Abundant (25-50%)" ))%>%
+  mutate(DAFOR_2026 = replace(DAFOR_2026, DAFOR_2026=="O / Occasional / >5%", "Occasional (<5%)" ))%>%
+  mutate(DAFOR_2026 = replace(DAFOR_2026, DAFOR_2026=="F / Frequent / 5% - 25%", "Frequent (5-25%)"))%>%
+  mutate(DAFOR_2026 = replace(DAFOR_2026, DAFOR_2026=="F", "Frequent (5-25%)"))%>%
+  mutate(DAFOR_2026 = replace(DAFOR_2026, DAFOR_2026=="A / Abundant/ 25% - 50%" , "Abundant (25-50%)"))%>%
+  mutate(DAFOR_2026 = replace(DAFOR_2026, DAFOR_2026=="A" , "Abundant (25-50%)"))%>%
+  mutate(DAFOR_2026 = replace(DAFOR_2026, DAFOR_2026=="D / Dominant / >50%" , "Dominant (> 50%)" ))%>%
+  mutate(DAFOR_2026 = replace(DAFOR_2026, DAFOR_2026=="D" , "Dominant (> 50%)" ))%>%
+  mutate(DAFOR_2026 = replace(DAFOR_2026, DAFOR_2026=="Occasional (<5%)" , "Rare (<5%)" ))%>%
+  mutate(DAFOR_2026 = replace(DAFOR_2026, DAFOR_2026=="R" , "Rare (<5%)" ))%>%
+  mutate(DAFOR_2026 = replace(DAFOR_2026, DAFOR_2026=="Abundant / Dominant (depending on quadrat)" , "Abundant (25-50%)" ))%>%
+  mutate(DAFOR_2026 = replace(DAFOR_2026, DAFOR_2026=="Frequent to Dominant" , "Abundant (25-50%)" ))%>%
+  mutate(DAFOR_2026 = replace(DAFOR_2026, DAFOR_2026=="X" , NA ))
+
+dafor_levels <- c("Absent", "Rare (<5%)", "Frequent (5-25%)",
+                  "Abundant (25-50%)", "Dominant (> 50%)")
+
+clean_dafor <- function(x) {
+  x <- stringr::str_squish(as.character(x))
+  x <- dplyr::case_when(
+    x %in% c("R", "O", "O / Occasional / >5%", "Occasional (<5%)") ~ "Rare (<5%)",
+    x %in% c("F", "F / Frequent / 5% - 25%") ~ "Frequent (5-25%)",
+    x %in% c("A", "A / Abundant/ 25% - 50%",
+             "Abundant / Dominant (depending on quadrat)",
+             "Frequent to Dominant") ~ "Abundant (25-50%)",
+    x %in% c("D", "D / Dominant / >50%") ~ "Dominant (> 50%)",
+    x == "X" ~ NA_character_,
+    TRUE ~ x
+  )
+  factor(x, levels = dafor_levels)
+}
+
+monitoring_clean <- monitoring_data %>%
+  mutate(across(c(DAFOR_2023, DAFOR_2026), clean_dafor))
   
 
 #check data

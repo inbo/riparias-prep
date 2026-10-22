@@ -1,23 +1,43 @@
 "Time_period","species","DAFOR","count"
-"before management","Elodea canadensis","Frequent (5-25%)",1
-"before management","Elodea nuttallii","Frequent (5-25%)",1
-"before management","Heracleum mantegazzianum","Rare (<5%)",7
-"before management","Heracleum mantegazzianum","Abundant (25-50%)",3
-"before management","Heracleum mantegazzianum","Dominant (> 50%)",1
-"before management","Hydrocotyle ranunculoides","Rare (<5%)",3
-"before management","Hydrocotyle ranunculoides","Frequent (5-25%)",2
-"before management","Hydrocotyle ranunculoides","Abundant (25-50%)",2
-"before management","Hydrocotyle ranunculoides","Dominant (> 50%)",4
-"before management","Impatiens glandulifera","Rare (<5%)",101
-"before management","Impatiens glandulifera","Frequent (5-25%)",187
-"before management","Impatiens glandulifera","Abundant (25-50%)",155
-"before management","Impatiens glandulifera","Dominant (> 50%)",82
-"before management","Ludwigia grandiflora","Rare (<5%)",1
-"before management","Ludwigia grandiflora","Frequent (5-25%)",1
-"before management","Ludwigia peploides","Rare (<5%)",1
-"before management","Myriophyllum aquaticum","Rare (<5%)",1
-"before management","Myriophyllum aquaticum","Frequent (5-25%)",2
-"before management","Myriophyllum aquaticum","Abundant (25-50%)",1
-"before management","Myriophyllum aquaticum","Dominant (> 50%)",4
-"before management","Zizania latifolia","Rare (<5%)",2
-"before management","Zizania latifolia","Dominant (> 50%)",1
+"2023","Elodea canadensis","Frequent (5-25%)",1
+"2023","Elodea nuttallii","Frequent (5-25%)",1
+"2023","Heracleum mantegazzianum","Rare (<5%)",7
+"2023","Heracleum mantegazzianum","Abundant (25-50%)",3
+"2023","Heracleum mantegazzianum","Dominant (> 50%)",1
+"2023","Hydrocotyle ranunculoides","Rare (<5%)",3
+"2023","Hydrocotyle ranunculoides","Frequent (5-25%)",2
+"2023","Hydrocotyle ranunculoides","Abundant (25-50%)",2
+"2023","Hydrocotyle ranunculoides","Dominant (> 50%)",4
+"2023","Impatiens glandulifera","Rare (<5%)",101
+"2023","Impatiens glandulifera","Frequent (5-25%)",187
+"2023","Impatiens glandulifera","Abundant (25-50%)",155
+"2023","Impatiens glandulifera","Dominant (> 50%)",82
+"2023","Ludwigia grandiflora","Rare (<5%)",1
+"2023","Ludwigia grandiflora","Frequent (5-25%)",1
+"2023","Ludwigia peploides","Rare (<5%)",1
+"2023","Myriophyllum aquaticum","Rare (<5%)",1
+"2023","Myriophyllum aquaticum","Frequent (5-25%)",2
+"2023","Myriophyllum aquaticum","Abundant (25-50%)",1
+"2023","Myriophyllum aquaticum","Dominant (> 50%)",4
+"2023","Zizania latifolia","Rare (<5%)",2
+"2023","Zizania latifolia","Dominant (> 50%)",1
+"2026","Elodea canadensis",NA,1
+"2026","Elodea nuttallii",NA,1
+"2026","Heracleum mantegazzianum","Absent",3
+"2026","Heracleum mantegazzianum","Rare (<5%)",7
+"2026","Heracleum mantegazzianum","Frequent (5-25%)",1
+"2026","Hydrocotyle ranunculoides","Absent",7
+"2026","Hydrocotyle ranunculoides","Rare (<5%)",3
+"2026","Hydrocotyle ranunculoides","Frequent (5-25%)",1
+"2026","Impatiens glandulifera","Absent",253
+"2026","Impatiens glandulifera","Rare (<5%)",139
+"2026","Impatiens glandulifera","Frequent (5-25%)",66
+"2026","Impatiens glandulifera","Abundant (25-50%)",42
+"2026","Impatiens glandulifera","Dominant (> 50%)",21
+"2026","Impatiens glandulifera",NA,4
+"2026","Ludwigia grandiflora","Rare (<5%)",1
+"2026","Ludwigia grandiflora",NA,1
+"2026","Ludwigia peploides","Rare (<5%)",1
+"2026","Myriophyllum aquaticum","Absent",6
+"2026","Myriophyllum aquaticum",NA,2
+"2026","Zizania latifolia",NA,3
