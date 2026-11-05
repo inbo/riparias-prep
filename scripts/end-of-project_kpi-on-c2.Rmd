@@ -47,7 +47,7 @@ dms_to_decimal <- function(dms) {
 # DATA
 
 ```{r read data}
-file <- "./data/input/C2 RapidResponseActionsLog_asof26-08-28.xlsx" # most recent version
+file <- "./data/input/C2 RapidResponseActionsLog_asof26-11-05.xlsx" # most recent version
 
 raw.pop <- read_excel(file, sheet = 2, skip = 1)
 raw.act <- read_excel(file, sheet = 3, skip = 1)
@@ -105,7 +105,8 @@ ggplot() +
     legend.title = element_blank()
     )
 
-# ggsave(paste0("./data/output/KPI_pop-locs_plot_", Sys.Date(), ".jpg"))
+ggsave(paste0("./data/output/KPI_pop-locs_plot_", Sys.Date(), ".jpg"),
+       width = 14, height = 8, units = "cm")
 ```
 
 ```{r leaflet}

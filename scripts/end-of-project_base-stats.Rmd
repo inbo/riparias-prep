@@ -67,7 +67,7 @@ data <- data.raw %>%
   # take what you need
   select(gbifID,
          # datasetID, datasetName,
-         # eventDate,
+         eventDate,
          year,
          species,
          decimalLatitude, decimalLongitude,
@@ -129,7 +129,7 @@ Analyse van het aantal hokken dat jaarlijks nieuw was, i.e. dat nog in geen enke
 
 ```{r}
   spdata <- grid.data %>% 
-  filter(year < 2026) %>% 
+  filter(year <= 2026) %>% 
   st_drop_geometry()
   
   spdata.21 <- spdata %>% filter(year == 2021) %>% select(CELLCODE) %>% distinct()
@@ -137,6 +137,7 @@ Analyse van het aantal hokken dat jaarlijks nieuw was, i.e. dat nog in geen enke
   spdata.23 <- spdata %>% filter(year == 2023) %>% select(CELLCODE) %>% distinct()
   spdata.24 <- spdata %>% filter(year == 2024) %>% select(CELLCODE) %>% distinct()
   spdata.25 <- spdata %>% filter(year == 2025) %>% select(CELLCODE) %>% distinct()
+  spdata.26 <- spdata %>% filter(year == 2026) %>% select(CELLCODE) %>% distinct()
   
   spdata.new.21 <- spdata.21
   spdata.new.22 <- anti_join(spdata.22, rbind(spdata.21))
@@ -149,6 +150,11 @@ Analyse van het aantal hokken dat jaarlijks nieuw was, i.e. dat nog in geen enke
                                             spdata.new.22,
                                             spdata.new.23,
                                             spdata.new.24))
+  spdata.new.26 <- anti_join(spdata.26, rbind(spdata.new.21,
+                                              spdata.new.22,
+                                              spdata.new.23,
+                                              spdata.new.24,
+                                              spdata.new.25))
   cells <- spdata %>%
     group_by(year) %>%
     summarize(nr_cells = n_distinct(CELLCODE)) %>%
@@ -158,23 +164,26 @@ Analyse van het aantal hokken dat jaarlijks nieuw was, i.e. dat nog in geen enke
                      nrow(spdata.new.22),
                      nrow(spdata.new.23),
                      nrow(spdata.new.24),
-                     nrow(spdata.new.25))
+                     nrow(spdata.new.25),
+                     nrow(spdata.new.26))
 ```
 
 Check : n_distinct(spdata$CELLCODE) moet gelijk zijn aan sum(cells$new)
 
 ```{r}
 ggplot(data = cells, aes(x = year)) +
-  geom_col(aes(y = new), color = "grey", fill = "grey") +
-  geom_line(aes(y = nr_cells), color = "red") +
-  geom_point(aes(y = nr_cells), color = "red", size = 3) +
-  ggtitle("all species", "line = all locations, bars = new locations") +
-  labs(x = NULL, y = NULL) +
+  geom_col(aes(y = new), color = "black", fill = "#00C0A5") +
+  geom_line(aes(y = nr_cells), color = "#00A58F") +
+  geom_point(aes(y = nr_cells), color = "#00A58F", size = 3) +
+  scale_x_continuous(breaks = seq(min(cells$year), max(cells$year), by = 1)) +
+  # ggtitle("all species", "line = all locations, bars = new locations") +
+  labs(x = NULL, y = "# locations") +
   theme_bw()
 ```
 
 ```{r}
-ggsave(paste0("./data/output/newpops_", "all-species", "_", Sys.Date(), ".png"))
+ggsave(paste0("./data/output/newpops_", "all-species", "_", Sys.Date(), ".png"),
+       width = 10, height = 6, units = "cm")
 ```
 
 # NEW CELLCODEs (per species)
