@@ -43,7 +43,7 @@ gbif_download <- occ_download(
           checklistKey = "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c"),  # GBIF Backbone
   pred("country", "BE"),
   pred("hasCoordinate", TRUE),
-  pred_gte("year", 2000)
+  pred_gte("year", 2015)
 )
 occ_download_wait(gbif_download)
 
@@ -118,12 +118,12 @@ leaflet(points_in_perimeter) %>%
 ```{r export baseline shapes}
 baseline_state_plants <- points_in_perimeter_sel %>%
     filter(kingdomKey==6)%>%
-    filter(year<2023)%>%
+    filter(year<2021)%>%
     filter(occurrenceStatus!='ABSENT')
 
 baseline_state_animals <- points_in_perimeter_sel%>%
     filter(kingdomKey==1)%>%
-    filter(year<2016)%>%
+    filter(year<2021)%>%
     filter(occurrenceStatus!='ABSENT')
 
 baseline_state <- rbind(baseline_state_animals,
@@ -140,12 +140,12 @@ st_write(baseline_state,  "~/GitHub/riparias-prep/data/spatial/baseline/baseline
 ```{r export update shapes}
 current_state_plants <- points_in_perimeter_sel %>%
     filter(kingdomKey==6)%>%
-    filter(year>=2023)%>%
+    filter(year>=2021)%>%
     filter(occurrenceStatus!='ABSENT')
 
 current_state_animals <- points_in_perimeter_sel%>%
     filter(kingdomKey==1)%>%
-    filter(year>=2016)%>%
+    filter(year>=2021)%>%
     filter(occurrenceStatus!='ABSENT')
 
 current_state <- rbind(current_state_animals,
