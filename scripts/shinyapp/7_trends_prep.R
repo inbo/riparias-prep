@@ -7,16 +7,14 @@ library(progress) # To add progress bars
 library(here) # To find files
 library(lubridate) # To work with dates
 library(sf)
-library(rgdal)
 library(rgbif)
 library(trias)
 
-## CRS ####
-crs_wgs <- CRS("+proj=longlat +datum=WGS84 +no_defs")
+
 
 # Read data ####
 #read in input data####
-branch <- "74_fixes_dashboard"
+branch <- "80_final_update"
 
 current_state <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/", 
                                 branch,
@@ -29,7 +27,7 @@ baseline <- st_read(paste0("https://github.com/inbo/riparias-prep/raw/",
 points_in_perimeter <- rbind(current_state, baseline)
 
 EEA_1km <- st_read("data/spatial/Riparias_subunits/EEA_1km_Riparias.geojson") %>% 
-  st_transform(crs_wgs) %>% 
+  st_transform(crs=4326) %>% 
   dplyr::select(CELLCODE, geometry)
 
 # trias prep ####

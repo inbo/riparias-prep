@@ -17,7 +17,7 @@ library(readxl)
 repo <- "https://github.com/inbo/riparias-prep/raw/"
 repo_raw <- "https://raw.githubusercontent.com/inbo/riparias-prep/refs/heads/"
 repo_test <- "https://github.com/inbo/riparias-prep/tree/"
-branch <- "74_fixes_dashboard"
+branch <- "80_final_update"
 
 # Function to check if URL is reachable
 is_url_reachable <- function(url) {
@@ -105,7 +105,7 @@ bbox <- st_bbox(RBU_laag)
 
 ## Management - iAsset
 iAsset <- read.csv2(paste0(repo, branch,
-                         "/data/input/iAsset_2_2_2025.csv"))
+                         "/data/input/iAsset_22_11_2026.csv"))
 
 iAsset$longitude = as.numeric(sub("POINT\\(([^ ]+) .*", "\\1", iAsset$GPS))
 
@@ -779,7 +779,7 @@ server <- function(input, output) {
                        levels = c("ABSENT", "PRESENT", NA))
     
     leaflet(all_pointdata_2000_sub) %>% 
-      addProviderTiles(providers$CartoDB.Positron) %>% 
+      leaflet::addProviderTiles("Esri.WorldGrayCanvas") %>%
       addPolylines(data = RBU_laag, color= "#00a491", opacity=1) %>% 
       addCircleMarkers(data = all_pointdata_2000_sub,
                        popup = all_pointdata_2000_sub$species,
@@ -906,9 +906,7 @@ server <- function(input, output) {
            aes(fill=DAFOR, 
                y=count, 
                x=factor(Time_period,
-                        levels = c('before management',
-                                 'after management',
-                                 'afterlife')))) + 
+                        level = c('2023','2026'))))+ 
       geom_bar(position="stack", stat="identity")+
       labs(y='Number of sites')+
       labs(x='Time period')+
@@ -950,7 +948,7 @@ server <- function(input, output) {
   
   output$map_EEA_surveillance_effort <- renderLeaflet ({
     leaflet() %>% 
-      addProviderTiles(providers$CartoDB.Positron) %>% 
+      leaflet::addProviderTiles("Esri.WorldGrayCanvas") %>%
       addPolygons(data = EEA_surveillance_effort, color= "#00a491")%>%
       addPolylines(data = RBU_laag, color= "#00a491", opacity=1)
     
@@ -1277,7 +1275,7 @@ server <- function(input, output) {
     
 
     leaflet() %>% 
-      addProviderTiles(providers$CartoDB.Positron) %>%
+      leaflet::addProviderTiles("Esri.WorldGrayCanvas") %>%
       addPolygons(data=RBSU_laag, color="grey", fill= NA)%>%
       addCircleMarkers(data = iAsset_sub,
                        label = ~paste("Date:", Date.time.event, " Quantity:", Quantity, ' Unit:', Unit),
@@ -1307,7 +1305,7 @@ server <- function(input, output) {
                        levels = c( "scattered occurrences only", "weakly invaded", "heavily invaded", NA))
     
     leaflet(level_of_invasion_RBSU_baseline)%>%
-      addTiles()%>%
+      leaflet::addProviderTiles("Esri.WorldGrayCanvas") %>%
       addPolygons(
         fillColor = ~pal(level_of_invasion_color_baseline[,str_replace(input$Species_loi, ' ', '.')]),
         weight = 2,
@@ -1346,7 +1344,7 @@ server <- function(input, output) {
                        levels = c( "scattered occurrences only", "weakly invaded", "heavily invaded", NA))
     
     leaflet(level_of_invasion_RBSU_current)%>%
-      addTiles()%>%
+      leaflet::addProviderTiles("Esri.WorldGrayCanvas") %>%
       addPolygons(
         fillColor = ~pal(level_of_invasion_color_current[,str_replace(input$Species_loi, ' ', '.')]),
         weight = 2,
@@ -1386,7 +1384,7 @@ server <- function(input, output) {
                                            EEA_per_species_baseline$species %in%
                                              input$Species_loi)
     leaflet() %>% 
-      addTiles() %>% 
+      leaflet::addProviderTiles("Esri.WorldGrayCanvas") %>%
       addPolylines(data = RBSU_laag, color="grey") %>%
       addPolygons(data = EEA_per_species_baseline_sub, color="grey") %>%
       addCircleMarkers(data = baseline_state_sub,
@@ -1408,7 +1406,7 @@ server <- function(input, output) {
                                             input$Species_loi)
     
     leaflet() %>% 
-      addTiles() %>% 
+      leaflet::addProviderTiles("Esri.WorldGrayCanvas") %>%
       addPolylines(data = RBSU_laag, color="grey") %>%
       addPolygons(data = EEA_per_species_current_sub, color="grey") %>%
       addCircleMarkers(data = current_state_sub,
