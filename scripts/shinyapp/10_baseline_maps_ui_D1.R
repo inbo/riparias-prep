@@ -326,7 +326,7 @@ ui <- navbarPage(
                         sidebarLayout(
                           sidebarPanel(
                             sliderInput("slider", "Years", 
-                                        2000, lubridate::year(Sys.Date()), 1,
+                                        2015, lubridate::year(Sys.Date()), 1,
                                         value = c(2021, lubridate::year(Sys.Date())),
                                         # default: from project start to now
                                         dragRange = TRUE),
@@ -360,10 +360,8 @@ tabPanel(
       HTML("<p>The number of <b>observations</b> per species. Presence as well as absence. 
             Divided between periods.</p>
             <p>
-            <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2022</b>. 
-            <i>Current</i> period from <b>2023-present</b>.</li>
-            <li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>. 
-            <i>Current</i> period from <b>2016-present</b>.</li>
+            <li><i>Baseline</i> period from <b>2015-2020</b>.
+            <i>Current</i> period from <b>2021-2026</b>.</li>
             </p>")
     ),
     # First sidebar layout for river basin in a custom box
@@ -413,10 +411,8 @@ tabPanel(
                         width = 12,
                         class = "custom-box",
                         HTML("<p><b>Occupancy</b>, or: the number of grid cells with observations of the species (<a href=https://www.eea.europa.eu/data-and-maps/figures/eea-reference-grids>EEA</a> 1-km² grid). Expressed as the <b>absolute</b> number of occupied cells, or <b>relative</b> to the number of cells in the river basin. Divided between periods.</p><p>
-<li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2022</b>. 
-<i>Current</i> period from <b>2023-present</b>.</li>
-<li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>.
-<i>Current</i> period from <b>2016-present</b>.</li>
+    <li><i>Baseline</i> period from <b>2015-2020</b>.
+    <i>Current</i> period from <b>2021-2026</b>.</li>
      </p>")
                       ),
                       
@@ -471,14 +467,12 @@ tabPanel('Level of invasion',
            HTML('
 <div class="custom-box">
   <!-- Introductory text -->
-  <p>Level of invasion is based on relative occupancy (the number of grid cells with observations of the species (<a href=https://www.eea.europa.eu/data-and-maps/figures/eea-reference-grids>EEA</a> 1-km² grid), relative</b> to the number of cells in the river basin or river basin subunit. Level of invasion is scale dependent (at river basin or river basin subunit level). Baseline and current period differ between plants and crayfish.</p>
+  <p>Level of invasion is based on relative occupancy (the number of grid cells with observations of the species (<a href=https://www.eea.europa.eu/data-and-maps/figures/eea-reference-grids>EEA</a> 1-km² grid), relative</b> to the number of cells in the river basin or river basin subunit. Level of invasion is scale dependent (at river basin or river basin subunit level). </p>
   
-  <!-- Periods for plants and crayfish -->
+  <!-- Periods -->
   <ul>
-    <li>For <b>plants</b>: <i>baseline</i> period from <b>2000-2022</b>. 
-    <i>Current</i> period from <b>2023-present</b>.</li>
-    <li>For <b>crayfish</b>: <i>baseline</i> period from <b>2000-2015</b>. 
-    <i>Current</i> period from <b>2016-present</b>.</li>
+    <li><i>Baseline</i> period from <b>2015-2020</b>.
+    <i>Current</i> period from <b>2021-2026</b>.</li>
   </ul>
   
   <!-- Flex container for the additional columns -->
@@ -776,7 +770,7 @@ server <- function(input, output) {
       filter(species%in%input$species)
     
     pal <- colorFactor(palette = c("#00a491", "#d95f02", "#636363"),
-                       levels = c("ABSENT", "PRESENT", NA))
+                       levels = c("NOT_DETECTED", "DETECTED", NA))
     
     leaflet(all_pointdata_2000_sub) %>% 
       leaflet::addProviderTiles("Esri.WorldGrayCanvas") %>%
@@ -788,7 +782,7 @@ server <- function(input, output) {
                        fillColor = ~pal(all_pointdata_2000_sub$occurrenceStatus)) %>% 
       addLegend(data = all_pointdata_2000_sub,
                 title = "occurrence Status",
-                values = c("ABSENT", "PRESENT", NA),
+                values = c("DETECTED", "NOT_DETECTED", NA),
                 pal = pal) %>% 
       setMaxBounds(lng1 = bbox[1], 
                    lat1 = bbox[2], 
