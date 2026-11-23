@@ -17,6 +17,7 @@
 #!REMARK!: manually remove files "./data/interim/level_of_invasion_RBU.geojson" and "./data/interim/level_of_invasion_RBSU.geojson" before running this script.
 
 rm(list=ls())
+
 gc()
 
 
