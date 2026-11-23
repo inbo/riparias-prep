@@ -119,12 +119,12 @@ leaflet(points_in_perimeter) %>%
 baseline_state_plants <- points_in_perimeter_sel %>%
     filter(kingdomKey==6)%>%
     filter(year<2021)%>%
-    filter(occurrenceStatus!='ABSENT')
+    filter(occurrenceStatus=="DETECTED")
 
 baseline_state_animals <- points_in_perimeter_sel%>%
     filter(kingdomKey==1)%>%
     filter(year<2021)%>%
-    filter(occurrenceStatus!='ABSENT')
+    filter(occurrenceStatus=="DETECTED")
 
 baseline_state <- rbind(baseline_state_animals,
                        baseline_state_plants)
@@ -141,12 +141,12 @@ st_write(baseline_state,  "~/GitHub/riparias-prep/data/spatial/baseline/baseline
 current_state_plants <- points_in_perimeter_sel %>%
     filter(kingdomKey==6)%>%
     filter(year>=2021)%>%
-    filter(occurrenceStatus!='ABSENT')
+    filter(occurrenceStatus=='DETECTED')
 
 current_state_animals <- points_in_perimeter_sel%>%
     filter(kingdomKey==1)%>%
     filter(year>=2021)%>%
-    filter(occurrenceStatus!='ABSENT')
+    filter(occurrenceStatus=='DETECTED')
 
 current_state <- rbind(current_state_animals,
                        current_state_plants)
