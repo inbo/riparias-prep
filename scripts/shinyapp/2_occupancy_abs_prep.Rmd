@@ -181,6 +181,7 @@ current_per_RBU_EEA <- current_in_RBU_EEA_data %>%
 current_per_RBU_EEA$state <- 'current'
 
 gc()
+
 #intersect of current state occurences with RBSU####
 current_in_RBSU <- st_intersection(current_state, RBSU)
 
