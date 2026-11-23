@@ -43,7 +43,7 @@ map <- leaflet()%>%
   addPolygons(data=EEA_high_search_effort)%>%
   addPolygons(data=RBU)
 
-st_write(EEA_high_search_effort, "~/Github/riparias-prep/data/interim/EEA_high_search_effort.geojson")
+st_write(EEA_high_search_effort, "~/Github/riparias-prep/data/interim/EEA_high_search_effort.geojson", delete_dsn = TRUE)
 
 #calculate number of cells with high surveillance effort per RBSU
 EEA_searched_per_RBSU <- st_intersection(EEA_high_search_effort, RBSU)%>%
