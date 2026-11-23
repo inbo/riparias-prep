@@ -27,6 +27,7 @@ baseline <- st_read('~/Github/riparias-prep/data/spatial/baseline/baseline.geojs
 
 RBU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBU_RIPARIAS_12_02_2021.geojson")
 
+
 RBSU <- st_read("~/Github/riparias-prep/data/spatial/Riparias_subunits/RBSU_RIPARIAS_12_02_2021.geojson")
 
 ##read in observations####
@@ -200,7 +201,7 @@ for (species_name in unique(current_in_RBSU$species)){
     print(paste(species_name,RBSU_level, dim(selection)))
     if (a==0)
       {current_in_RBSU_EEA_data <- temp} else (
-     current_in_RBSU_EEA_data <- rbind(baseline_in_RBSU_EEA_data, temp)
+     current_in_RBSU_EEA_data <- rbind(current_in_RBSU_EEA_data, temp)
       )
  
   a<- a+1

@@ -42,7 +42,7 @@ occupancy_RBSU <- read.csv(paste0("~/Github/riparias-prep/data/interim/occupancy
 occupancy_RBU <- occupancy_RBU %>%
   mutate(
   level_of_invasion = case_when(
-    Occupancy_rel == 0 ~ "not recorded",
+    is.na(Occupancy_rel) ~ "not recorded",
     Occupancy_rel <= 0.01 ~ "scattered occurrences only",
     Occupancy_rel <= 0.05 ~ "weakly invaded",
     Occupancy_rel > 0.05 ~ "heavily invaded")
@@ -51,7 +51,7 @@ occupancy_RBU <- occupancy_RBU %>%
 occupancy_RBSU <- occupancy_RBSU %>%
   mutate(
     level_of_invasion = case_when(
-      Occupancy_rel == 0 ~ "not recorded",
+      is.na(Occupancy_rel) ~ "not recorded",
       Occupancy_rel <= 0.10 ~ "scattered occurrences only",
       Occupancy_rel <= 0.20 ~ "weakly invaded",
       Occupancy_rel > 0.20 ~ "heavily invaded")
