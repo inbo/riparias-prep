@@ -19,6 +19,7 @@
 rm(list=ls())
 gc()
 
+
 #import libraries####
 library(leaflet)
 library(sf)
@@ -68,8 +69,8 @@ occupancy_RBU_wider <- occupancy_RBU_temp %>% pivot_wider(names_from= "species",
 level_of_invasion_RBU <- merge(RBU, occupancy_RBU_wider, by.x='RBU', by.y="RBU")
 
 #export output
-st_write(level_of_invasion_RBSU,"~/Github/riparias-prep/data/interim/level_of_invasion_RBSU.geojson", append=FALSE)
-st_write(level_of_invasion_RBU, "~/Github/riparias-prep/data/interim/level_of_invasion_RBU.geojson", append=FALSE)
+st_write(level_of_invasion_RBSU,"~/Github/riparias-prep/data/interim/level_of_invasion_RBSU.geojson", delete_dsn = TRUE)
+st_write(level_of_invasion_RBU, "~/Github/riparias-prep/data/interim/level_of_invasion_RBU.geojson", delete_dsn = TRUE)
 
 write.csv(occupancy_RBU, '~/Github/riparias-prep/data/interim/level_of_invasion_RBU.csv', row.names=FALSE)
 write.csv(occupancy_RBSU, '~/Github/riparias-prep/data/interim/level_of_invasion_RBSU.csv', row.names=FALSE)
