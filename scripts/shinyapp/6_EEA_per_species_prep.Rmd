@@ -51,7 +51,7 @@ species_EEA_baseline <- baseline_EEA %>%
 EEA_1km_baseline <- merge(EEA_1km_Riparias, species_EEA_baseline, by="CELLCODE")
 
 #manually remove the file first before running this line of code
-st_write(EEA_1km_baseline, "~/Github/riparias-prep/data/interim/EEA_per_species_baseline.geojson")
+st_write(EEA_1km_baseline, "~/Github/riparias-prep/data/interim/EEA_per_species_baseline.geojson", delete_dsn = TRUE)
 
 
 #intersect of current occurences with EEA####
@@ -83,5 +83,5 @@ species_EEA_current <- current_EEA %>%
 
 EEA_1km_current <- merge(EEA_1km_Riparias, species_EEA_current, by="CELLCODE")
 
-st_write(EEA_1km_current, "~/Github/riparias-prep/data/interim/EEA_per_species_current.geojson")
+st_write(EEA_1km_current, "~/Github/riparias-prep/data/interim/EEA_per_species_current.geojson", delete_dsn = TRUE)
 ```
